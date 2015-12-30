@@ -1,0 +1,128 @@
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Montserrat-Regular'), url(https://themes.googleusercontent.com/static/fonts/montserrat/v4/zhcz-_WihjSQC0oHJ9TCYL3hpw3pgy2gAi-Ip7WPMi0.woff) format('woff');
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4 {
+  font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h5, .h5 {
+    font-size: 16px;
+}
+
+body {
+  background-color: #f6f6f6;
+  color: #323539;
+  line-height: 1.7;
+  font-size: 16px;
+  padding-top: 20px;
+}
+
+footer {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+html, body {
+    height:100%;
+    margin:0;
+    padding:0
+}
+
+.site-wrapper {
+    height:100%;
+    display:table;
+    width: 100%;
+    padding: 0;
+    background: url(../img/bg.png) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-color: #3d3d38;
+}
+
+.site-wrapper-body {
+    float: none;
+    margin: 0 auto;
+    max-width: 500px;
+    border-color: #ac1527;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 10px;
+    padding: 50px;
+    font-weight: bold;
+}
+
+.site-wrapper-row {
+    height: 100%;
+    display:table-cell;
+    vertical-align: middle;
+}
+
+.row {
+    margin-right: -5px;
+    margin-left: -5px;
+}
+
+.container {
+    max-width: 1280px;
+}
+
+hr {
+  border-color: #ddd;
+}
+
+.hr-landingpage {
+    border-bottom: 1px solid #454543;
+    border-top: 1px solid #2b2b2a;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+pre {
+  background-color: #fff;
+}
+
+.btn-success {
+    background-color: #57945c;
+    border-color: #57945c;
+}
+
+.navbar {
+  border: none;
+}
+
+.navbar-inverse {
+  background-color: #3d3d38;
+  border-color: transparent;
+  font-weight: 200;
+}
+
+.navbar-inverse .navbar-brand,
+.navbar-inverse .nav > li > a {
+  color: #fff;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+    color: #fff;
+    background-color: transparent;
+    font-weight: bold;
+}
+
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus {
+    color: #fff;
+    background-color: transparent;
+    font-weight: bold;
+}
+
+a {
+    color: #57945c;
+    text-decoration: none;
+}
