@@ -1,0 +1,13 @@
+# ignore dockerfiles
+.dockerignore
+Dockerfile
+Dockerfile_armv6l
+Dockerfile_armv7l
+.git
+.editorconfig
+.gitignore
+docs
+node_modules
+bin
+db
+src/webserver/public/lib/*

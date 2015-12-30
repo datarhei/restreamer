@@ -1,0 +1,49 @@
+{
+    "name": "live",
+    "jsondb": "db/v1",
+    "auth": {
+        "username": "admin",
+        "password": "datarhei"
+    },
+    "ffmpeg": {
+        "options": {
+            "native_h264":[
+                "-c copy",
+                "-map_metadata -1",
+                "-metadata application=datarhei/ReStreamer",
+                "-metadata server=NGINX(RTMP-Module)",
+                "-f flv"
+            ],
+            "native_h264_soundless_aac":[
+                "-ar 44100",
+                "-ac 2",
+                "-acodec pcm_s16le",
+                "-f s16le",
+                "-ac 2",
+                "-i /dev/zero",
+                "-c:v copy",
+                "-acodec aac",
+                "-ab 128k",
+                "-map_metadata -1",
+                "-metadata application=datarhei/ReStreamer",
+                "-metadata server=NGINX(RTMP-Module)",
+                "-f flv"
+            ],
+            "snapshot": "-vframes 1"
+        },
+        "monitor": {
+            "restart_wait": "6000",
+            "retries": 10
+        }
+    },
+    "nginx": {
+        "exec": "/usr/local/nginx/sbin/nginx -c /restreamer/conf/nginx.conf",
+        "streaming": {
+            "ip": "127.0.0.1",
+            "rtmp_port": "1935",
+            "rtmp_path": "/live/",
+            "hls_port": "8080",
+            "hls_path": "/hls/"
+        }
+    }
+}

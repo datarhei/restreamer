@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://jsonschema.net",
+  "type": "object",
+  "properties": {
+    "addresses": {
+      "id": "http://jsonschema.net/addresses",
+      "type": "object",
+      "properties": {
+        "srcAddress": {
+          "id": "http://jsonschema.net/addresses/srcAddress",
+          "type": "string"
+        },
+        "optionalOutputAddress": {
+          "id": "http://jsonschema.net/addresses/optionalOutputAddress",
+          "type": "string"
+        }
+      },
+      "required": [
+        "srcAddress",
+        "optionalOutputAddress"
+      ]
+    },
+    "states": {
+      "id": "http://jsonschema.net/states",
+      "type": "object",
+      "properties": {
+        "repeatToLocalNginx": {
+          "id": "http://jsonschema.net/states/repeatToLocalNginx",
+          "type": "object",
+          "properties": {
+            "type": {
+              "id": "http://jsonschema.net/states/repeatToLocalNginx/type",
+              "type": "string"
+            }
+          }
+        },
+        "repeatToOptionalOutput": {
+          "id": "http://jsonschema.net/states/repeatToOptionalOutput",
+          "type": "object",
+          "properties": {
+            "type": {
+              "id": "http://jsonschema.net/states/repeatToOptionalOutput/type",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "userActions": {
+      "id": "http://jsonschema.net/userActions",
+      "type": "object",
+      "properties": {
+        "repeatToLocalNginx": {
+          "id": "http://jsonschema.net/userActions/repeatToLocalNginx",
+          "type": "string"
+        },
+        "repeatToOptionalOutput": {
+          "id": "http://jsonschema.net/userActions/repeatToOptionalOutput",
+          "type": "string"
+        }
+      }
+    },
+    "progresses": {
+      "id": "http://jsonschema.net/progresses",
+      "type": "object",
+      "properties": {
+        "repeatToLocalNginx": {
+          "id": "http://jsonschema.net/progresses/repeatToLocalNginx",
+          "type": "object",
+          "properties": {}
+        },
+        "repeatToOptionalOutput": {
+          "id": "http://jsonschema.net/progresses/repeatToOptionalOutput",
+          "type": "object",
+          "properties": {}
+        }
+      }
+    }
+  },
+  "required": [
+    "addresses",
+    "states",
+    "userActions",
+    "progresses"
+  ]
+}
