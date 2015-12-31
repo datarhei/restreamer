@@ -5,7 +5,7 @@
  * @license Apache-2.0
  */
 
-datarheiApp.controller('languageCtrl',['$scope','$translate', function($scope, $translate) {
+window.datarheiApp.controller('languageCtrl',['$scope','$translate', function($scope, $translate) {
     $scope.currentLocale = $translate.preferredLanguage();
     $scope.switchLanguage = function(locale){
         $scope.currentLocale = locale;

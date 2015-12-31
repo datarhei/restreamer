@@ -5,7 +5,7 @@
  * @license Apache-2.0
  */
 
-datarheiApp.factory('alertService', function($rootScope) {
+window.datarheiApp.factory('alertService', function($rootScope) {
     var alertService = {};
     $rootScope.alerts = [];
     alertService.add = function(alertObject) {

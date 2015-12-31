@@ -1,4 +1,9 @@
 {
     "esnext": true,
-    "node": true
+    "node": true,
+    "curly": true,
+    "eqeqeq": true,
+    "notypeof": true,
+    "undef": true,
+    "predef": ["angular", "io", "window", "Clappr"]
 }

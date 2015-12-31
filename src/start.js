@@ -212,7 +212,7 @@ startNginxRTMPServer()
         return restoreFFMPEGProcesses();
     })
     .catch(function(error){
-        logger.error("error starting webserver and nginx for applicatoin: " + error);
+        logger.error("error starting webserver and nginx for application: " + error);
         setTimeout(()=> {
             process.exit();
         }, 500);

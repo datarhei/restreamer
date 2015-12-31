@@ -9,7 +9,7 @@
 
 'use strict';
 
-datarheiApp.factory('ws', [ '$rootScope', 'alertService', function ($rootScope, alertService) {
+window.datarheiApp.factory('ws', [ '$rootScope', 'alertService', function ($rootScope, alertService) {
     var ws = function(namespace){
         var wsHandler = {};
 

@@ -97,7 +97,7 @@ var checkForAppUpdates = function(){
     logger.debug("checking app for updates...");
     const url = 'http://datarhei.org/apps.json';
     request(url, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
+        if (!error && response.statusCode === 200) {
             var updateCheck = JSON.parse(body);
             var updateAvailable = false;
             if (updateCheck.restreamer.version === packageJson.version){

@@ -11,7 +11,7 @@
  controlls the restreamer workflow
  */
 
-datarheiApp.controller('mainCtrl',['ws', '$scope', '$location', '$rootScope', '$translate', function(ws, $scope, $location, $rootScope, $translate) {
+window.datarheiApp.controller('mainCtrl',['ws', '$scope', '$location', '$rootScope', '$translate', function(ws, $scope, $location, $rootScope, $translate) {
     //binding just once
     var setup = false;
     $translate.use("en_US");
