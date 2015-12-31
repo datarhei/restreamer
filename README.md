@@ -3,7 +3,7 @@ Datarhei/Restreamer allows smart free video streaming in real time. Stream H.264
 
 ## Features
 
-- User-Interface incl. Basic-Auth
+- User-Interface including login-security
 - JSON / HTTP-API
 - [FFmpeg](http://ffmpeg.org/) streamig/encoding the video/camera-stream, creating snapshots or pushing to a external streaming-endpoint
 - [NGINX](http://nginx.org/) incl. [RTMP-Module](https://github.com/arut/nginx-rtmp-module) as streaming-backend and hls server
