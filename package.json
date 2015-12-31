@@ -22,7 +22,7 @@
     "exec": "^0.2.1",
     "express": "4.13.3",
     "express-session": "^1.12.1",
-    "fluent-ffmpeg": "git://github.com/christophjohannsdotter/node-fluent-ffmpeg#master",
+    "fluent-ffmpeg": "git://github.com/christophjohannsdotter/node-fluent-ffmpeg#FIX_stderr-variable_of_infinite_growth",
     "i18n": "0.5.0",
     "jsonschema": "^1.0.2",
     "moment-timezone": "^0.4.1",
