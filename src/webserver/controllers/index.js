@@ -1,5 +1,5 @@
 /*
- * @name ReStreamer
+ * @name Restreamer
  * @namespace https://github.com/datarhei/restreamer
  * @copyright 2015 datarhei.org
  * @license Apache-2.0
@@ -7,7 +7,7 @@
 
 const express = require("express");
 const path = require("path");
-const ReStreamer = require("../../classes/ReStreamer");
+const Restreamer = require("../../classes/Restreamer");
 module.exports = (app, passport) => {
 
     //static paths
@@ -43,14 +43,14 @@ module.exports = (app, passport) => {
     });
     //small get.api
     app.get("/v1/states", (req, res)=>{
-        var states = ReStreamer.data.states;
+        var states = Restreamer.data.states;
         res.json({
             repeat_to_local_nginx: states.repeatToLocalNginx,
             repeat_to_optional_output: states.repeatToOptionalOutput
         });
     });
     app.get("/v1/progresses", (req, res)=>{
-        var progresses = ReStreamer.data.progresses;
+        var progresses = Restreamer.data.progresses;
         res.json({
             repeat_to_local_nginx: {
                 frames: progresses.repeatToLocalNginx.frames,

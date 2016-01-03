@@ -1,5 +1,5 @@
 /*
- * @name ReStreamer
+ * @name Restreamer
  * @namespace https://github.com/datarhei/restreamer
  * @copyright 2015 datarhei.org
  * @license Apache-2.0
@@ -38,7 +38,7 @@ logger.info(" / _  |/ _  | __/ _  |  __|  _  |/  _ | |", false);
 logger.info("| (_| | (_| | || (_| | |  | | | |  __/| |", false);
 logger.info("|_____|_____|_||_____|_|  |_| |_|____||_|", false);
 logger.info("", false);
-logger.info("ReStreamer v" + packageJson.version, false);
+logger.info("Restreamer v" + packageJson.version, false);
 logger.info("", false);
 logger.info("ENVIRONMENTS", false);
 logger.info("More informations in our Docs", false);
@@ -174,7 +174,7 @@ public ip
 const getPublicIp = function(){
     logger.info("Getting public ip...", "start.publicip");
     var exec = require("child_process").exec;
-    exec("public-ip", (err, stdout, stderr)=>{
+    exec("public-ip", (err, stdout, stderr)=> {
         if (err){
             console.log(err);
         }
@@ -188,8 +188,8 @@ Restore ffmpeg processes after an applicatoin restart or stuff
 const restoreFFMPEGProcesses = function(){
     logger.info("Restoring ffmpeg processes...", "start.restore");
     var deferred = Q.defer();
-    const ReStreamer = require("./classes/ReStreamer");
-    ReStreamer.restoreFFMpegProcesses();
+    const Restreamer = require("./classes/Restreamer");
+    Restreamer.restoreFFMpegProcesses();
     deferred.resolve();
     return deferred.promise;
 };

@@ -10,7 +10,7 @@
             "native_h264":[
                 "-c copy",
                 "-map_metadata -1",
-                "-metadata application=datarhei/ReStreamer",
+                "-metadata application=datarhei/Restreamer",
                 "-metadata server=NGINX(RTMP-Module)",
                 "-f flv"
             ],
@@ -25,7 +25,7 @@
                 "-acodec aac",
                 "-ab 128k",
                 "-map_metadata -1",
-                "-metadata application=datarhei/ReStreamer",
+                "-metadata application=datarhei/Restreamer",
                 "-metadata server=NGINX(RTMP-Module)",
                 "-f flv"
             ],
