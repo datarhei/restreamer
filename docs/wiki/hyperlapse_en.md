@@ -1,4 +1,0 @@
----
-title: hyperlapse
----
-#Hyperlapse
