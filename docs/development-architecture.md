@@ -4,12 +4,14 @@ title: Architecture
 
 # Architecture
 
-Der Datarhei/Restreamer besteht grundlegend aus vier verschiedenen Applikationen:
+The Datarhei/Restreamer basically consists of four different applications:
 
-* Frontend basierend auf Angular und Node.js für das Prozessmanagement
-* NGINX inkl. dem RTMP-Modul
-* ffmpeg als universeller Video-Prozessor
-* clappr als Video-Player
+* Frontend with Angular and Node.js for process management
+* NGINX web server with the RTMP-Module
+* FFmpeg as swiss army knife for video processing
+* Clappr video player
+
+
 
 ---
 
@@ -17,16 +19,15 @@ Der Datarhei/Restreamer besteht grundlegend aus vier verschiedenen Applikationen
 
 ---
 
-### Prozesse:
+### Processes:
 
-1. die Applikation stellt das User-Interface/HTTP-API bereit und startet den NGINX-Webserver mit der mitgelieferten Config (/restreamer/config/nginx.conf)
-2. ffmpeg holt den Kamera-Stream und leitet ihn weiter an den lokalen NGINX-RTMP-Server auf rtmp://127.0.0.1:1935/live/live.stream und rtmp://127.0.0.1:1935/hls/live.stream.m3u8
-3. ab jetzt stellt der NGINX-RTMP den Stream unter der Adressen http://...:8080/live/live.stream.m3u8 bereit
-4. der clappr-Player ruft den Stream per HTTP (HLS) ab
-5. zusätzlich wird, sofern konfiguriert, per ffmpeg den am lokalen NGINX-RTMP anliegenden Kamera-Stream von rtmp://127.0.0.1:1935/live/live.stream ab und leitet diesen zu der eingetragenen Adresse weiter
+1. The application provides the user interface / HTTP API and starts the NGINX web server using the supplied config  (/restreamer/config/nginx.conf)  
+2. FFmpeg fetches the camera stream and forwards it to the local running NGINX RTMP servers rtmp://127.0.0.1:1935/live/live.stream and rtmp://127.0.0.1:1935/hls/live.stream.m3u8  
+3. NGINX-RTMP delivers the camera stream to the address: http://...:8080/live/live.stream.m3u8
+4. Clappr videoplayer calls the camera stream via HTTP (HLS)
+5. Additonally, FFmpeg takes the local NGINX-RTMP video stream rtmp://127.0.0.1:1935/live/live.stream and pushes the source to 
+the registered favourite address
 
 ---
 
-Want to talk to us? Write email open@datarhei.org, go to [Support](../support.html) or choose a nickname and join us on <a target= "_blank" href="https://webchat.freenode.net/?channels=datarhei">#datarhei webchat on freenode</a>.
-
-If you're having a weird problem while developing, see [Known Issues](https://github.com/datarhei/small-restreamer-internal/issues/). 
+Want to talk to us? Write an email to <a href="mailto:open@datarhei.org?subject=Datarhei/Restreamer">open@datarhei.org</a>, go to [Support](../support.html) or choose a nickname speak to us in IRC: <a href="irc://irc.freenode.net#piwik">irc.freenode.net/#datarhei</a> (<a target= "_blank" href="https://webchat.freenode.net/?channels=datarhei">webchat</a>). You could ask a question in our (<a target= "_blank" href="https://groups.google.com/forum/#!forum/datarhei">Forum</a>) on Google Groups, too. If you're having a problem while developing, see <a target= "_blank" href="https://github.com/datarhei/restreamer/issues">Known Issues</a>.  

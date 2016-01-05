@@ -1,7 +1,7 @@
 ---
 title: dynamicdns_en
 ---
-######[General Instructions](/restreamer/wiki/general_instructions_en.html) > Dynamic DNS
+######[General Instructions](../restreamer/wiki/general_instructions_en.html) > Dynamic DNS
 #Dynamic DNS
 Dynamic DNS (DDNS or DynDNS) is a method of automatically updating a name server in the Domain Name System (DNS), often in Not Real Time, with the active DDNS configuration of its configured hostnames, addresses or other information.  
 The term is used to describe two different concepts. The first is "dynamic DNS updating" which refers to systems that are used to update traditional DNS records without manual editing. These mechanisms are explained in RFC 2136, and use the TSIG mechanism to provide security. The second kind of dynamic DNS permits lightweight and immediate updates often using an update client, which do not use the RFC2136 standard for updating DNS records. These clients provide a persistent addressing method for devices that change their location, configuration or IP address frequently. <a href="https://en.wikipedia.org/wiki/Dynamic_DNS" target="_blank">Wikipedia</a> 

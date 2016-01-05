@@ -1,7 +1,7 @@
 ---
 title: findrtspurl_en
 ---
-######[General Instructions](/restreamer/wiki/general_instructions_en.html) > Find RTSP URL
+######[General Instructions](../restreamer/wiki/general_instructions_en.html) > Find RTSP URL
 #Find RTSP URL
 How to find the RTSP/RTP URL of your IP camera. First move to the following website and pick up your cam manufacturer and navigate to your camera model: <a href="http://www.soleratec.com/support/rtsp/rtsp_listing" target="_blank">http://www.soleratec.com/support/rtsp/rtsp_listing</a>  
 

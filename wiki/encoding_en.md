@@ -1,7 +1,7 @@
 ---
 title: encoding_en
 ---
-######[Camera](/restreamer/wiki/cameratechnology_en.html) > Encoding
+######[Camera](../restreamer/wiki/cameratechnology_en.html) > Encoding
 #Encoding
 In connection with "Video" "Encoding" means a process in which an existing video format is converted into another. Normaly , a video encoder hardware or software is used.  
 

@@ -2,7 +2,7 @@
 Title: guide-buy-hardware
 ---
 #Hardware Buying Guide
-#####1. [Raspberry Pi](/wiki/guide-buy-pi.html)
+#####1. [Raspberry Pi](/wiki/buy-hardware-raspi.html)
 #####2. [USB-Camera](wiki/guide-buy-usb-cam.html) - The entry in your streaming experience! 
 #####3. [WiFi-Camera](/wiki/guide-buy-wifi-cam.htm)  - Indoor Network Cameras with wireless LAN.
 #####4. [Indoor Static](/wiki/guide-buy-in-static.html) - The entry into the network camera world.

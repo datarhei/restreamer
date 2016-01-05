@@ -3,9 +3,9 @@ title: videocompression_en
 ---
 ######[Camera](/restreamer/wiki/cameratechnology_en.html) > Videocompression
 #Videocompression
-Imagine a green meadow against a cloudless blue sky. On this meadow is a cow and moves. If the cow is moving quite simply transfer the image of the cow often. Meadow and sky do not change so often in the frames and so data can be saved. Very simple principle.
+Imagine a green meadow against a cloudless blue sky. On this meadow there is  a cow thatmoves. If the cow is moving, quite simply transfer the image of the cow often. Meadow and sky do not change so often in the frames and so data can be saved. Very simple principle.  
 
-This means that if a lot of moving objects or even large areas of water in the picture are often requires high bandwidth. Even at night, it can lead to increased bandwidth, but this usually is not further bad, as night due to lack of light is nothing to see and the least viewers are awake at night!
+This means that a lot of moving objects or even large areas of water in the picture often require high bandwidth. Even at night, it can  use more bandwidth, but this usually is not too bad, as the camera does hardly show anything due to the lack of light and, luckily, most viewers are not awake at night!  
 
 **What can cause more bandwidth?**  
 Large water surfaces, sea, lakes, rivers  
@@ -14,7 +14,7 @@ Large crowds
 Busy streets  
 Night pictures  
 
-**Datarhei Hint** ☺ ► These are empirical values from 10 years live streaming, it can always happen anyway that a stream much more or less uplaod needed (usually more!).  
+**Datarhei Hint** ☺ ► This are empirical values from 10 years live streaming, it can always happen anyway that a stream much more or less uplaod needed (usually more!).  
 
 **Scenarios**  
 Rooftops / Still Life / No Movment - less bandwidth  
@@ -35,7 +35,7 @@ Event → 0.5 kbit/s -3 Mbit/s
 
 **At 450 p or 420p you have about 1/2 less data volume - expected 2-4 times more data volume at 1080p.  **
 
-**Datarhei Hint** ☺ ► Rule of thumb is to have at least 1 Mbit/s upload available for a static network camera with 720p Stream. 1080p playing in live streaming currently no major role since the audience side is often (even on mobile devices via mobile network) to cope with the high bandwidths. For PTZ cameras, we recommend you at least. 1-2 Mbit/s upload to have available.  
+**Datarhei Hint** ☺ ► As a rule of thumb, have at least 1 Mbit/s upload available for a static network camera with 720p stream. 1080p currently plays no major role in live streaming since the user equipment (even on mobile devices via mobile network) often can’t cope with the high bandwidths. For PTZ cameras, we recommend that you have at least 1-2 Mbit/s upload available.  
 
 For the more interested of you information on 
 <a href="https://en.wikipedia.org/wiki/Video_coding_format" target="_blank">Wikipedia</a>

@@ -1,7 +1,7 @@
 ---
 title: autofocus_en
 ---
-######[Camera](/restreamer/wiki/cameratechnology_en.html) > Autofocus
+######[Camera](../restreamer/wiki/cameratechnology_en.html) > Autofocus
 #Autofocus
 An autofocus (or AF) optical system uses a sensor, a control system and a motor or tunable optical element to focus automatically or on a manually selected point or area. An electronic rangefinder has a display instead of the motor; the adjustment of the optical system has to be done manually until indication. Autofocus methods are distinguished by their type as being either active, passive or hybrid variants. <a href="https://en.wikipedia.org/wiki/Autofocus" target="_blank">Wikipedia</a>  
 

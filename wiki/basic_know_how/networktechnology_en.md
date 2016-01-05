@@ -5,9 +5,9 @@ title: networktechnology_en
 Who operates with live video streaming will will get in contact with of hardware and misc IT technologies. We have put the main parts together for you: 
 
 ##### 1. Hardware
-* [IP Camera](/restreamer/wiki/ipcamera_en.html)  
-* [USB-Camera](/restreamer/wiki/usbcamera_en.html)
-* [POE](/restreamer/wiki/poe_en.html)
+* [IP Camera](../restreamer/wiki/ipcamera_en.html)  
+* [USB-Camera](../restreamer/wiki/usbcamera_en.html)
+* [POE](../restreamer/wiki/poe_en.html)
 * [Network Power Socket](/restreamer/wiki/networkpowersocket_en.html)  
 * [SMS Power Socket](/restreamer/wiki/smspowersocket_en.html)
 * [Router](/restreamer/wiki/router_en.html)

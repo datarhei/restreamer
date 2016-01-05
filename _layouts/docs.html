@@ -4,21 +4,21 @@ layout: pages
 
 <div class="row">
   <div class="col-sm-3">
-    <h5>Getting Started</h5>
+    <h5>Installation</h5>
     <ul class="list-unstyled">
       <li>
-        <a href="{{ site.baseurl }}/docs/">
-          Welcome
+        <a href="{{ site.baseurl }}/docs/installation-osx-windows.html">
+          OSX / Windows
         </a>
       </li>
       <li>
-        <a href="{{ site.baseurl }}/docs/docker-setup.html">
-          Easy setup with Docker
+        <a href="{{ site.baseurl }}/docs/installation-linux-64.html">
+          Linux 64bit
         </a>
       </li>
       <li>
-        <a href="{{ site.baseurl }}/docs/hints.html">
-          Hints
+        <a href="{{ site.baseurl }}/docs/installation-linux-arm.html">
+          Linux ARM v6/v7
         </a>
       </li>
     </ul>
@@ -26,38 +26,23 @@ layout: pages
     <h5>Guides</h5>
     <ul class="list-unstyled">
       <li>
-        <a href="{{ site.baseurl }}/docs/guides-setup-video-device.html">
-          Setup Video Device
+        <a href="{{ site.baseurl }}/docs/guides-embed-upon-your-website.html">
+          Embed upon your Website
         </a>
       </li>
       <li>
-        <a href="{{ site.baseurl }}/docs/guides-embed-player.html">
-          Embed Player
-        </a>
-      </li>
-      <li>
-        <a href="{{ site.baseurl }}/docs/guides-embed-snapshot.html">
-          Embed Snapshot
-        </a>
-      </li>
-      <li>
-        <a href="{{ site.baseurl }}/docs/guides-snapshot-interval.html">
-           Modify Snapshotinterval
-        </a>
-      </li>
-        <li>
         <a href="{{ site.baseurl }}/docs/guides-usb-camera.html">
-           USB-Camera 
-        </a>
-      </li>
-        <li>
-        <a href="{{ site.baseurl }}/docs/guides-raspicam.html">
-           Raspberry Pi-Camera
+          USB-Camera
         </a>
       </li>
       <li>
-        <a href="{{ site.baseurl }}/docs/guides-optional-streaming.html">
-          Stream to external services
+        <a href="{{ site.baseurl }}/docs/guides-raspicam.html">
+          Raspberry Pi-Camera
+        </a>
+      </li>
+      <li>
+        <a href="{{ site.baseurl }}/docs/guides-push-to-wowza.html">
+          Push to Wowza (WSE)
         </a>
       </li>
     </ul>
@@ -66,7 +51,7 @@ layout: pages
     <ul class="list-unstyled">
       <li>
         <a href="{{ site.baseurl }}/docs/references-config.html">
-          Config
+          Configuration
         </a>
       </li>
       <li>
@@ -75,8 +60,18 @@ layout: pages
         </a>
       </li>
       <li>
+        <a href="{{ site.baseurl }}/docs/references-external-rtmp-streaming-server.html">
+          External RTMP-Streaming-Server
+        </a>
+      </li>
+      <li>
         <a href="{{ site.baseurl }}/docs/references-http-api.html">
           JSON / HTTP-API
+        </a>
+      </li>
+      <li>
+        <a href="{{ site.baseurl }}/docs/references-rtmp-rtsp-video-device.html">
+          RTSP/RTMP Video Source
         </a>
       </li>
     </ul>
@@ -92,13 +87,20 @@ layout: pages
     <hr>
     <h5>Contact</h5>
     <ul class="list-unstyled">
-      <li>
-        <a href="{{ site.baseurl }}/support.html">
-          Talk to us
-        </a>
+<li>
+          <a href="mailto:open@datarhei.org?subject=Datarhei/Restreamer">Email</a>
+          <br /> 
+          <a target= "_blank" href="https://webchat.freenode.net/?channels=datarhei">Webchat</a>
+          <br/>
+          <a target= "_blank" href="https://groups.google.com/forum/#!forum/datarhei">Forum</a>
+          <br />
+          <a target= "_blank" href="https://github.com/datarhei/restreamer/issues">Known Issues</a>
+          <br />
+          <a href="https://twitter.com/intent/user?screen_name=datarhei" target="_blank"><img src="http://datarhei.org/wiki/pic/twitterbutton_sm.png" width="103" height="21" border="0"></a>
+          <br />
+          <a href="https://flattr.com/submit/auto?user_id=datarhei&url=https%3A%2F%2Fgithub.com%2Fdatarhei%2F" target="_blank"><img src="http://datarhei.org/wiki/pic/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0"></a>
       </li>
-    </ul>
-
+      </ul>
     </div>
   <div class="col-sm-9">
     {{ content }}

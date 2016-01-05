@@ -1,7 +1,7 @@
 ---
 title: livestreaming_en
 ---
-######[Camera](/restreamer/wiki/cameratechnology_en.html) > Livestreaming
+######[Camera](../restreamer/wiki/cameratechnology_en.html) > Livestreaming
 #Livestreaming
 Streaming media is multimedia that is constantly received by and presented to an end-user while being delivered by a provider. The verb "to stream" refers to the process of delivering media in this manner; the term refers to the delivery method of the medium, rather than the medium itself, and is an alternative to downloading.  
 
