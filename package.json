@@ -1,6 +1,6 @@
 {
   "name": "Restreamer",
-  "version": "0.1.0-RC1",
+  "version": "0.1.0-RC2",
   "description": "simple re-streaming solution for network-cameras",
   "author": "datarhei.org",
   "license": "Apache-2.0",
