@@ -11,7 +11,7 @@
                 "-c copy",
                 "-map_metadata -1",
                 "-metadata application=datarhei/Restreamer",
-                "-metadata server=NGINX(RTMP-Module)",
+                "-metadata server=NGINX-RTMP",
                 "-f flv"
             ],
             "native_h264_soundless_aac":[
@@ -26,7 +26,7 @@
                 "-ab 128k",
                 "-map_metadata -1",
                 "-metadata application=datarhei/Restreamer",
-                "-metadata server=NGINX(RTMP-Module)",
+                "-metadata server=NGINX-RTMP",
                 "-f flv"
             ],
             "snapshot": "-vframes 1"

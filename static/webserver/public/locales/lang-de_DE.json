@@ -17,6 +17,6 @@
     "output_optional": "Zusätzlicher RTMP-Streaming-Server",
     "output_optional_example": "z.b. rtmp://live.youtube.com/channelId",
     "player_modal_help_titel": "Der iFrame-Code und ein Preview-Image zur Einbettung in der Webseite:",
-    "player_modal_help_content": "Zusätzlich muss der Port 8080 von dem Router auf die IP-Adresse des Rechners weitergeleitet werden",
+    "player_modal_help_content": "Zusätzlich muss der Port aus den Beispielen auf die IP-Adresse des Rechners weitergeleitet werden",
     "not_valid_rtmp": "Keine valide RTMP-Adresse"
 }
