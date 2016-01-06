@@ -1,7 +1,7 @@
 ---
-title: guides-setup-video-device 
+title: RTMP/RTSP Video Source
 ---
-# Set up your video device
+# RTMP/RTSP Video Source
 For the integration of an H.264 enabled network camera you need the address, at which you can retrieve the video livestream from the camera. Take a look at your camera manual and look for RTSP/RTP.  
 
 For this purpose, please read the manual of your camera and search for 0"RTSP". Alternatively you can find already many templates on the Soleratec company website: <a target= "_blank" href="https://www.soleratec.com/support/rtsp/rtsp_listing">https://www.soleratec.com/support/rtsp/rtsp_listing</a>  

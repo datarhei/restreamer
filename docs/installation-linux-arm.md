@@ -71,7 +71,7 @@ The default login (more [here](references-environment-vars.html#login-security))
   you can login into the container by typing "docker exec -it restreamer /bin/bash"
 * --restart always   
   the Docker-Daemon is monitoring your container and will start it it again, if it runs into errors. 
-* -e "RESTREAMER_USERNAME=..." -e "RESTREAMER_PASSWORD=..."   
+* -e `"RESTREAMER_USERNAME=..."` -e `"RESTREAMER_PASSWORD=..."`   
   set the login data as enviroment-variable (more [here](references-environment-vars.html#login-security))
 * -p 8080:8080   
   bind the device-port 8080 to the Restreamer-port 8080 (you can change it with "-p 31000:8080")

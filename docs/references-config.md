@@ -4,7 +4,7 @@ title: Configuration
 
 # Configuration
 
-The base configuration file is located on "/config/config.json". Please don't change its settings if you don't understand the architecture and the software components like NGINX and FFmpeg..
+The base configuration file is located on "/conf/live.json". Please don't change its settings if you don't understand the architecture and the software components like NGINX and FFmpeg..
 
 The user configurations are available at [Enviroment-Variables](references-environment-vars.html).
 
@@ -17,7 +17,7 @@ The user configurations are available at [Enviroment-Variables](references-envir
     "name": "live"
 }
 ```
-If you want to add more than one config.json, you have to change this name to "dev" or something you like and start the application with the env. "MODE=dev" to select the other one.
+If you want to add more than one config, you have to change this name to "dev" or something you like and start the application with the env. "MODE=dev" to select the other one.
 
 #### jsondb
 
@@ -69,7 +69,7 @@ Just a fallback for the login data if no env. is set. More about the env. [here]
 }
 ```
 
-If FFmpeg is initiated, Restreamer will try to check if your video stream has an audio channel or not. It will choose "nativeh264" if your stream has an audio and "nativeh264soundlessaac" if not. This is required if you want to stream a video to YouTube-Live without native audio. For the creation of a snapshot we select the "snapshot" options.
+If FFmpeg is initiated, Restreamer will try to check if your video stream has an audio channel or not. It will choose `"native_h264"` if your stream has an audio and `"native_h264_soundless_aac"` if not. This is required if you want to stream a video to YouTube-Live without native audio. For the creation of a snapshot we select the "snapshot" options.
         
 #### ffmpeg monitor
 
@@ -84,7 +84,7 @@ If FFmpeg is initiated, Restreamer will try to check if your video stream has an
 }
 ```
 
-If a FFmpeg-process dies, the monitor will try to restart it. "restart_wait" sets the time the monitor has to wait before retrying and "retries" is the count for the monitor to start the process again.
+If a FFmpeg-process dies, the monitor will try to restart it. `"restart_wait"` sets the time the monitor has to wait before retrying and `"retries"` is the count for the monitor to start the process again.
 
 #### nginx
 
@@ -105,12 +105,12 @@ If a FFmpeg-process dies, the monitor will try to restart it. "restart_wait" set
 
 These options are required if you want to use an external streaming server from our docker container. Warning: the player and a lot of other processes are currently static on the local NGINX. Actually it is not recommended to change it!  
 
-"exec" is the command the NodeJS-Application of Restreamer will execute on startup to launch the NGINX-instance.   
-"ip" sets the IP to the NGINX-RTMP server   
-"rtmp_port" set the rtmp port   
-"rtmp_path" set the path to the rtmp-application   
-"hls_port" set the hls port   
-"hls_path" set the path to the hls-application   
+`"exec"` is the command the NodeJS-Application of Restreamer will execute on startup to launch the NGINX-instance.   
+`"ip"` sets the IP to the NGINX-RTMP server   
+`"rtmp_port"` set the rtmp port   
+`"rtmp_path"` set the path to the rtmp-application   
+`"hls_port"` set the hls port   
+`"hls_path"` set the path to the hls-application   
 
 ---
 Want to talk to us? Write an email to <a href="mailto:open@datarhei.org?subject=Datarhei/Restreamer">open@datarhei.org</a>, go to [Support](../support.html) or choose a nickname speak to us in IRC: <a href="irc://irc.freenode.net#piwik">irc.freenode.net/#datarhei</a> (<a target= "_blank" href="https://webchat.freenode.net/?channels=datarhei">webchat</a>). You could ask a question in our (<a target= "_blank" href="https://groups.google.com/forum/#!forum/datarhei">Forum</a>) on Google Groups, too. If you're having a problem while developing, see <a target= "_blank" href="https://github.com/datarhei/restreamer/issues">Known Issues</a>.

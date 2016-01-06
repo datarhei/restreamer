@@ -20,7 +20,7 @@ To embed the Player and/or the Snapshot follow the next steps:
 
 ## Get the Player-Code
 
-1. The HTML snippet for the video iframe code will be generated under the video player (marked red in screenshot). Add your own dynamic IP address and put it on your own website. 
+1. The HTML snippet for the video iframe code will be generated under the video player. Add your own dynamic IP address and put it on your own website. 
    <img src="../img/guides-embed-upon-your-website-2.png" width="95%">
 1. Datarhei/Restreamer generates the html tag with your public internet IP address. You can add your own dynamic IP address like:   
    `scr="http://123.245.789.123:8008/player.html"`   

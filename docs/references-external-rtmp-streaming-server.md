@@ -1,7 +1,7 @@
 ---
-title: guides-optional-streaming
+title: External RTMP-Streaming-Server
 ---
-# Stream to external services
+# External RTMP-Streaming-Server
 ---
 To forward your videostream to an external video service provider or other external services like YouTube, you can use the field "Additional RTMP streaming server". The check box is accessible once the connection to your camera is established.  
 
@@ -19,6 +19,8 @@ Prerequisite is a registration or a channel with the providers, you will also re
 Next, add the destination address in your Datarhei/Restreamer:  
 
 <img src="../img/references-external-rtmp-streaming-server.png" width="95%">
+
+Last step: Start process
 
 Once the process has been successfully established, the stream should also be seen at the external video provider (e.g. YouTube-Live). It can sometimes take a couple of seconds - be patient.
 

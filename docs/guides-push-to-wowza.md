@@ -14,9 +14,7 @@ In both cases you have to
 
 1. connect Restreamer with your Camera
 2. put the address of your streaming server into the "Additional RTMP streaming server" field   
-   `rtmp://[server-address]:1935/[application-name]/live.stream`   
-   or if you are using the "ModuleSecureURLParams", take   
-   `rtmp://[server-address]:1935/[application-name]?doPublish=[secure-url-param]/live.stream`
+   `rtmp://[server-address]:1935/[application-name]/live.stream`
 
 Thant's it!
 
