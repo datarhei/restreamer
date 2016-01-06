@@ -2,7 +2,7 @@
     Repeat to local nginxt
 -->
 <div class="form-group">
-    <label>{{'input_titel' | translate}} (<a href="https://datarhei.github.io/restreamer/docs/guides-setup-video-device.html", target="_blank">{{'help_titel' | translate}}</a>):</label>
+    <label>{{'input_titel' | translate}} (<a href="https://datarhei.github.io/restreamer/docs/references-rtmp-rtsp-video-source.html", target="_blank">{{'help_titel' | translate}}</a>):</label>
     <input type="text" class="form-control input" id="input_uri" placeholder="{{'input_example' | translate}}" ng-model="reStreamerData.addresses.srcAddress"  ng-disabled="nginxRepeatStreamConnecting() || nginxRepeatStreamConnected()">
 </div>
 <div class="jumbotron progress-bar-info progress-bar-striped" ng-if="nginxRepeatStreamConnecting()">{{'process_init' | translate}}</div>
@@ -29,7 +29,7 @@
 <h4>Optional:</h4>
 <div class="checkbox">
     <label>
-        <input type="checkbox" ng-model="activateOptionalOutput"> {{'output_optional' | translate}} (<a href="https://datarhei.github.io/restreamer/docs/guides-optional-streaming.html", target="_blank">{{'help_titel' | translate}}</a>)
+        <input type="checkbox" ng-model="activateOptionalOutput"> {{'output_optional' | translate}} (<a href="https://datarhei.github.io/restreamer/docs/references-external-rtmp-streaming-server.html", target="_blank">{{'help_titel' | translate}}</a>)
     </label>
 </div>
 <div>

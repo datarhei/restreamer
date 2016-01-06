@@ -1,7 +1,7 @@
 {
   "name": "Restreamer",
-  "version": "0.1.0-RC2",
-  "description": "simple re-streaming solution for network-cameras",
+  "version": "0.1.0-RC3",
+  "description": "Allows you to do h.264 real-time video streaming on your website without a streaming provider",
   "author": "datarhei.org",
   "license": "Apache-2.0",
   "scripts": {
@@ -17,7 +17,7 @@
     "connect-flash": "^0.1.1",
     "cookie-parser": "1.4.0",
     "debug": "2.2.0",
-    "dockerode": "2.2.7",
+    "dockerode": "2.2.8",
     "ejs": "2.3.4",
     "exec": "^0.2.1",
     "express": "4.13.3",
@@ -25,7 +25,7 @@
     "fluent-ffmpeg": "git://github.com/christophjohannsdotter/node-fluent-ffmpeg#FIX_stderr-variable_of_infinite_growth",
     "i18n": "0.5.0",
     "jsonschema": "^1.0.2",
-    "moment-timezone": "^0.4.1",
+    "moment-timezone": "^0.5.0",
     "morgan": "1.6.1",
     "node-json-db": "^0.5.1",
     "passport": "^0.3.2",
@@ -36,7 +36,7 @@
     "sequent": "0.1.2",
     "serve-favicon": "2.3.0",
     "shortid": "2.2.4",
-    "socket.io": "1.3.7"
+    "socket.io": "1.4.0"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.1.2",
@@ -56,6 +56,6 @@
     "grunt-nw-builder": "^2.0.0",
     "grunt-shell": "^1.1.2",
     "jshint-stylish": "^2.0.0",
-    "load-grunt-tasks": "~3.3.0"
+    "load-grunt-tasks": "~3.4.0"
   }
 }

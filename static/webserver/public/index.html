@@ -51,7 +51,7 @@
                 <span class="version">
                     v{{version}}
                 </span>
-                <a href="https://datarhei.github.io/restreamer/docs/update.html" target="_blank" class="btn btn-xs btn-success ng-binding ng-scope" ng-if="checkForAppUpdatesResult != false">{{'update_btn' | translate}}</a>
+                <a href="https://datarhei.github.io/restreamer/docs/references-updates.html" target="_blank" class="btn btn-xs btn-success ng-binding ng-scope" ng-if="checkForAppUpdatesResult != false">{{'update_btn' | translate}}</a>
                 <p class="pull-right"><a href="https://github.com/datarhei/restreamer/issues/new" target="_blank">{{'issue_tracker' | translate}}</a> <a href="https://github.com/datarhei/restreamer" target="_blank" style="padding-left:10px">{{'project_page' | translate}}</a></p>
             </div>
         </div>
@@ -70,10 +70,10 @@
                 <div class="embed-responsive embed-responsive-16by9">
                     <div id="player" class="embed-responsive-item"></div>
                 </div>
-                <h4>{{'player_modal_help_titel' | translate}}</h4>
+                <h4>{{'player_modal_help_titel' | translate}} (<a href="https://datarhei.github.io/restreamer/docs/guides-embed-upon-your-website.html" target="_blank" style="color:#3daa48;text-decoration:underline">{{'help_titel' | translate}}</a>)</h4>
                 <pre>&lt;iframe src="http://{{publicIp}}:{{windowLocationPort}}/player.html" name="restreamer-player" width="800" height="450" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"&gt;&lt;/iframe&gt;</pre>
                 <pre>&lt;img src="http://{{publicIp}}:{{windowLocationPort}}/images/live.jpg" width="800" height="450"&gt;</pre>
-                <p>{{'player_modal_help_content' | translate}} (<a href="https://datarhei.github.io/restreamer/wiki/portforwarding_en.html" target="_blank" style="text-decoration:underline"">{{'help_titel' | translate}}</a>).</p>
+                <p>{{'player_modal_help_content' | translate}} (<a href="https://datarhei.github.io/restreamer/wiki/portforwarding_en.html" target="_blank" style="text-decoration:underline">{{'help_titel' | translate}}</a>).</p>
             </div>
         </div>
     </div>
