@@ -27,9 +27,10 @@ const compression = require("compression");
 const path = require('path');
 const Q = require("q");
 const request = require("request");
+const crypto = require("crypto");
 
 /*
-    modules
+ modules
  */
 const packageJson = require("../../package.json");
 const Logger = require("../classes/Logger");
@@ -40,8 +41,11 @@ const expressLogger = require("./middlewares/expressLogger");
 //create express app
 const app = express();
 
+//generate random key
+const secretKey = crypto.randomBytes(64).toString('hex');
+
 app.use(session({
-    secret: 'keyboard cat',
+    secret: secretKey,
     resave: false,
     saveUninitialized: true})); // session secret
 
