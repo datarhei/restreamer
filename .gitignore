@@ -1,2 +1,5 @@
 _site/
-
+bin
+node_modules
+npm-debug.log
+.idea
