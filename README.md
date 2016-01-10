@@ -22,7 +22,7 @@ If you have problems or found a bug feel free to create a new issue upon the [Gi
 Need personal help or want to talk to us? Write email open@datarhei.org, go to [Support](http://datarhei.org/restreamer/support.html) or choose a nickname and join us on #datarhei webchat on freenode.
 
 ## Authors
-The Datarhei/Restreamer was created by [Julius Eitzen](https://github.com/ennitje), [Sven Erbeck](https://github.com/svenerbeck), [Christoph Johannsdotter](https://github.com/christophjohannsdotter) and [Jan Stabenow](https://github.com/jstabenow).
+The Datarhei/Restreamer was created by [Julius Eitzen](https://github.com/jeitzen), [Sven Erbeck](https://github.com/svenerbeck), [Christoph Johannsdotter](https://github.com/christophjohannsdotter) and [Jan Stabenow](https://github.com/jstabenow).
 
 ## Copyright
 Code released under the [Apache license](LICENSE). Images are copyrighted by datarhei.org
