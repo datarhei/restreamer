@@ -1,44 +1,35 @@
-# ReStreamer Docs and Website
+# Restreamer docs and website
 
 ## Setup
 
-1. Clone the ReStreamer repository
+1. Clone the Restreamer repository:   
+   
+        $ git clone git@github.com:datarhei/restreamer.git gh-pages
 
-2. Change into the "docs" directory where docs live
+2. Change into the directory where docs live
 
-        $ cd docs
+        $ cd /path/to/gh-pages
 
-3. Build the Dockerfile
+3. Start the web server
 
-        $ docker build -t rs-docs .
+        $ docker run -d -p 4000:4000 -v $PWD:/restreamer datarhei/jekyll:latest
 
-4. Start the web server
-
-        $ docker run -d -p 4000:4000 -v $PWD:/restreamer rs-docs
-
-5. Visit the site at
+4. Visit the site at
    http://docker-host-ip:4000/restreamer/
 
 ## Deployment
 
-1. Clone a separate copy of the ReStreamer repo as a sibling of your normal
-   ReStreamer project directory and name it "restreamer-gh-pages".
+1. Clone a separate copy of the Restreamer repo as a sibling of your normal
+   Restreamer project directory and name it "gh-pages".
 
-        $ git clone git@github.com:datarhei/restreamer.git restreamer-gh-pages
+        $ git clone git@github.com:datarhei/restreamer.git gh-pages
 
 2. Check out the "gh-pages" branch.
 
-        $ cd /path/to/restreamer-gh-pages
+        $ cd /path/to/gh-pages
         $ git checkout gh-pages
 
-3. Copy the contents of the "docs" directory in master to the root of your
-   restreamer-gh-pages directory.
+3. Commit and push the changes
 
-        $ cd /path/to/restreamer
-        $ cp -r docs/** ../restreamer-gh-pages
-
-4. Change to the small-restreamer-gh-pages directory, commit, and push the changes
-
-        $ cd /path/to/restreamer-gh-pages
-        $ git commit . -m "Syncing docs with master branch"
-        $ git push
+        $ git commit . -m "Syncing with gh-pages branch"
+        $ git push origin gh-pages
