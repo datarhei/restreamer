@@ -1,28 +1,32 @@
-# Restreamer
-Datarhei/Restreamer allows smart free video streaming in real time. Stream H.264 video of IP cameras live to your website. Pump your live video to [YouTube-Live](https://www.youtube.com/), [Ustream](http://www.ustream.tv/), [Twitch](http://www.twitch.tv/), [Livestream.com](http://livestream.com/) or any other streaming-solutions e.g. [Wowza-Streaming-Engine](https://www.wowza.com/). Our [Docker-Image](https://hub.docker.com/search/?q=restreamer&page=1&isAutomated=0&isOfficial=0&starCount=0&pullCount=0) is easy to install and runs on Linux, MacOS and Windows. Datarhei/Restreamer can be perfectly combined with single-board computers like [Raspberry Pi](https://www.raspberrypi.org/) and [Odroid](http://www.hardkernel.com/main/main.php).
+#Restreamer
+Datarhei/Restreamer offers smart free video streaming in real time. Stream H.264 video of IP cameras live to your website. Upload your live video on [YouTube-Live](https://www.youtube.com/), [Ustream](http://www.ustream.tv/), [Twitch](http://www.twitch.tv/), [Livestream.com](http://livestream.com/) or any other streaming solutions e.g. [Wowza-Streaming-Engine](https://www.wowza.com/). Our [Docker-Image](https://hub.docker.com/search/?q=restreamer&page=1&isAutomated=0&isOfficial=0&starCount=0&pullCount=0) is easy to install and runs on Linux, MacOS and Windows. Datarhei/Restreamer can be perfectly combined with single-board computers like [Raspberry Pi](https://www.raspberrypi.org/) and [Odroid](http://www.hardkernel.com/main/main.php). It is free (licensed under Apache 2.0) and you can use it for any purpose, private or commercial.  
 
-## Features
-
+##Features
 - User-Interface including login-security
 - JSON / HTTP-API
-- [FFmpeg](http://ffmpeg.org/) streamig/encoding the video/camera-stream, creating snapshots or pushing to a external streaming-endpoint
-- [NGINX](http://nginx.org/) incl. [RTMP-Module](https://github.com/arut/nginx-rtmp-module) as streaming-backend and hls server
-- [Clappr-Player](https://github.com/clappr/clappr) to embed your stream on your website
-- [Docker](https://www.docker.com/) and [Kitematic](https://kitematic.com/) optimizations and very easy installation
+- <a target= "_blank" href="http://ffmpeg.org/">FFmpeg</a> streaming/encoding the video/camera-stream, creating snapshots or pushing to a external streaming-endpoint
+- <a target= "_blank" href="http://nginx.org/">NGINX</a> incl. <a target= "_blank" href="https://github.com/arut/nginx-rtmp-module">RTMP-Module</a> as streaming-backend and hls server
+- <a target= "_blank" href="https://github.com/clappr/clappr">Clappr-Player</a> to embed your stream on your website
+- <a target= "_blank" href="https://www.docker.com/">Docker</a> and <a target= "_blank" href="https://kitematic.com/">Kitematic (Docker-Toolbox)</a> optimizations and very easy installation
 
-## Documentation
-The documentation is available on the [Datarhei/Restreamer GitHub pages site](https://datarhei.github.io/restreamer/).
+##Roadmap
+- code optimizations next saturday (1.16.2016)
+- optimization of input-process
+- validation of input fields
+
+##Documentation
+Documentation is available on [Datarhei/Restreamer GitHub pages](https://datarhei.github.io/restreamer/).
 We give you a lot of of informations from setting up a camera, embedding your player upon your website and streaming to services like e.g. YouTube-Live, Ustream and Livestream.com and many more things. 
 
 More additional informations about streaming, cameras and so on you can find in our [Wiki](https://datarhei.github.com/restreamer/wiki). 
 
-## Help / Bugs
-If you have problems or found a bug feel free to create a new issue upon the [Github issue management](https://github.com/datarhei/restreamer/issues). 
+##Help / Bugs
+If you have problems or found a bug feel free to create a new issue upon the <a target= "_blank" href="https://github.com/datarhei/restreamer/issues">Github issue management</a>.
 
-Need personal help or want to talk to us? Write email open@datarhei.org, go to [Support](http://datarhei.org/restreamer/support.html) or choose a nickname and join us on #datarhei webchat on freenode.
+Want to talk to us? Write an email to <a href="mailto:open@datarhei.org?subject=Datarhei/Restreamer">open@datarhei.org</a>, go to [Support](../support.html) or choose a nickname speak to us in IRC: <a href="irc://irc.freenode.net#piwik">irc.freenode.net/#datarhei</a> (<a target= "_blank" href="https://webchat.freenode.net/?channels=datarhei">webchat</a>). You could ask a question in our (<a target= "_blank" href="https://groups.google.com/forum/#!forum/datarhei">Forum</a>) on Google Groups, too.
 
-## Authors
+##Authors
 The Datarhei/Restreamer was created by [Julius Eitzen](https://github.com/jeitzen), [Sven Erbeck](https://github.com/svenerbeck), [Christoph Johannsdotter](https://github.com/christophjohannsdotter) and [Jan Stabenow](https://github.com/jstabenow).
 
-## Copyright
+##Copyright
 Code released under the [Apache license](LICENSE). Images are copyrighted by datarhei.org
