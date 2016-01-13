@@ -11,7 +11,7 @@ The following basic data should be a function in your camera:
 
 **Datarhei Hint** ☺ ► 720p (1280x720 px) resolution is a good measure of streaming video on the internet. YouTube & Ustream accept any video live streams at 720p or higher.
 
-#####Camera hardware list and equipment for your Datarhei/Restreamer project in the [Datarhei/Restreamer wiki](../wiki/guide-buy-hardware.html). 
+#### A list with Raspberry Pi stuff, network cameras (USB, Indoor/Outdoor-Wifi, Static Indoor/Outdoor, Outdoor-PTZ) and accessories for your Datarhei/Restreamer camera project could be found [here](../wiki/guide-buy-hardware.html). 
 
 **Build your own DIY IP-Camera with Datarhei/Restreamer**  
 If you like to be a part of the global DIY community try building your own ip-camera with a Raspberry PI and Datarhei/Restreamer. [Some great tutorials could be found here.](../wiki/diy-stuff.html)  
