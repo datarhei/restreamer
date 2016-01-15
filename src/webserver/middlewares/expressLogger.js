@@ -1,6 +1,6 @@
-/*
- * @name Restreamer
- * @namespace https://github.com/datarhei/restreamer
+/**
+ * @file express logger, that logs in the format of the Restreamer logger
+ * @link https://github.com/datarhei/restreamer
  * @copyright 2015 datarhei.org
  * @license Apache-2.0
  */

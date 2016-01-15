@@ -1,31 +1,20 @@
-/*
- * @name Restreamer
- * @namespace https://github.com/datarhei/restreamer
+/**
+ * @file holds the code for the class Logger
+ * @link https://github.com/datarhei/restreamer
  * @copyright 2015 datarhei.org
  * @license Apache-2.0
  */
 
 'use strict';
 
-/*
-Requirements
- */
 const moment = require("moment-timezone");
 require("colors");
 
-/*
-global vars
- */
-const LEVEL_ERROR = 1;
-const LEVEL_WARN = 2;
-const LEVEL_INFO = 3;
-const LEVEL_DEBUG = 4;
-
-//set default timezone
+//set default timezone to use the timezone before the default values are
 process.env.TIMEZONE = process.env.TIMEZONE ? process.env.TIMEZONE : "Europe/Berlin";
 
 /**
- * Class representing a logger
+ * Class for logger
  */
 class Logger {
 
@@ -151,9 +140,10 @@ class Logger {
     }
 }
 
-Logger.LEVEL_ERROR = LEVEL_ERROR;
-Logger.LEVEL_WARN = LEVEL_WARN;
-Logger.LEVEL_INFO = LEVEL_INFO;
-Logger.LEVEL_DEBUG = LEVEL_DEBUG;
+//define loglevels in logger class
+Logger.LEVEL_ERROR = 1;
+Logger.LEVEL_WARN = 2;
+Logger.LEVEL_INFO = 3;
+Logger.LEVEL_DEBUG = 4;
 
 module.exports = Logger;

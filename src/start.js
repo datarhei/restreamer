@@ -1,6 +1,6 @@
-/*
- * @name Restreamer
- * @namespace https://github.com/datarhei/restreamer
+/**
+ * @file this file is loaded on application start and inits the application
+ * @link https://github.com/datarhei/restreamer
  * @copyright 2015 datarhei.org
  * @license Apache-2.0
  */
@@ -74,8 +74,9 @@ if(killProcess === true){
 }
 logger.info("", false);
 
-/*
- checking jsondb
+/**
+ * check if the data from jsondb is valid against the Restreamer jsondb schema
+ * @returns {promise}
  */
 const checkJsonDb = function(){
     logger.info("checking jsondb file...");
@@ -138,8 +139,9 @@ const checkJsonDb = function(){
     return deferred.promise;
 };
 
-/*
- nginx rtmp server
+/**
+ * start the nginx rtmp server (systemcall)
+ * @returns {promise}
  */
 const startNginxRTMPServer = function startNginxRTMPServer(){
     logger.info("starting nginx server....", "start.nginx");
@@ -151,8 +153,9 @@ const startNginxRTMPServer = function startNginxRTMPServer(){
     return deferred.promise;
 };
 
-/*
- webserver
+/**
+ * start the express webserver
+ * @returns {promise}
  */
 const startWebserver = function startWebserver(){
     logger.info("starting webserver...");
@@ -163,13 +166,14 @@ const startWebserver = function startWebserver(){
         app.set("io", require('socket.io')(server));
         app.set("server", server.address());
         app.get("websocketsReady").resolve(app.get("io")); //promise to determine if the webserver has been started to avoid ws binding before
+        logger.info("Webserver running on port " + process.env.NODEJS_PORT, "start.webserver");
         deferred.resolve(server.address().port);
     });
     return deferred.promise;
 };
 
-/*
-public ip
+/**
+ * get the public ip of the server, on that the Restreamer is running
  */
 const getPublicIp = function(){
     logger.info("Getting public ip...", "start.publicip");
@@ -182,8 +186,9 @@ const getPublicIp = function(){
     });
 };
 
-/*
-Restore ffmpeg processes after an applicatoin restart or stuff
+/**
+ * Restores FFmpeg processes, that have been spawned i.E. on the last app-start (stored on jsondb)
+ * @returns {promise}
  */
 const restoreFFMPEGProcesses = function(){
     logger.info("Restoring ffmpeg processes...", "start.restore");
@@ -194,23 +199,15 @@ const restoreFFMPEGProcesses = function(){
     return deferred.promise;
 };
 
-/*
-Init
+/**
+ * let's do it
  */
 startNginxRTMPServer()
-    .then(function(){
-        return checkJsonDb();
-    })
-    .then(function(){
-        return startWebserver();
-    })
-    .then(function(port){
-        logger.info("Webserver running on port " + process.env.NODEJS_PORT, "start.webserver");
-    })
-    .then(function(){
-        getPublicIp();
-        return restoreFFMPEGProcesses();
-    })
+    .then(checkJsonDb)
+    .then(startWebserver)
+    .then(checkJsonDb)
+    .then(restoreFFMPEGProcesses)
+    .then(getPublicIp)
     .catch(function(error){
         logger.error("error starting webserver and nginx for application: " + error);
         setTimeout(()=> {

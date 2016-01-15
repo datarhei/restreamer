@@ -1,6 +1,6 @@
-/*
- * @name Restreamer
- * @namespace https://github.com/datarhei/restreamer
+/**
+ * @file holds the code for the class Restreamer
+ * @link https://github.com/datarhei/restreamer
  * @copyright 2015 datarhei.org
  * @license Apache-2.0
  */
@@ -46,10 +46,11 @@ class Restreamer{
 
     /**
      * receive snapshot by using first frame of repeated video
+     * @param {boolean} firstSnapshot
      */
     static fetchSnapshot(firstSnapshot){
+
         if (Restreamer.data.states.repeatToLocalNginx.type === 'connected' || firstSnapshot){
-            logger.debug("updating snapshot");
             var command = new FfmpegCommand(Restreamer.generateOutputRTMPPath());
             command.output(Restreamer.generateSnapshotPath());
             command.outputOption(config.ffmpeg.options.snapshot);
@@ -68,6 +69,7 @@ class Restreamer{
 
     /**
      * stop stream
+     * @param {string} processName
      */
     static stopStream(processName){
         logger.info("stopStream " + processName);
@@ -136,7 +138,7 @@ class Restreamer{
      * add output to ffmpeg command
      * @param {FfmpegCommand} ffmpegCommand
      * @param {string} outputAddress
-     * @return {Promise}
+     * @return {promise}
      */
     static addOutput(ffmpegCommand, outputAddress){
         ffmpegCommand.output(outputAddress);
@@ -146,7 +148,7 @@ class Restreamer{
     /**
      * append the ffmpeg options of the config file to an output
      * @param {FfmpegCommand} ffmpegCommand
-     * @return {Promise}
+     * @return {promise}
      */
     static appendOutputOptionFromConfig(ffmpegCommand){
         var deferred = Q.defer();
@@ -172,10 +174,11 @@ class Restreamer{
     }
 
     /**
-     *
+     * update the state of the stream
      * @param {string} processName
      * @param {string} state
      * @param {string} message
+     * @return {string} name of the new state
      */
     static updateState(processName, state, message){
         logger.debug("Update state of '" + processName + "' from state '" + Restreamer.data.states[processName].type + "' to state '" + state + "'");
@@ -185,63 +188,85 @@ class Restreamer{
         };
         Restreamer.writeToDB();
         Restreamer.updateStreamDataOnGui();
+        return state;
     }
 
     /**
-     *
+     * update the last submitted useraction (like click on stop stream, click on start stream)
      * @param {string} processName
      * @param {string} action useraction
+     * @return {string} name of the new user action
      */
-    static setUserAction(processName, action){
+    static updateUserAction(processName, action){
         logger.debug("Set useraction of '" + processName + "' from '" + Restreamer.data.userActions[processName] + "' to '" + action + "'");
         Restreamer.data.userActions[processName] = action;
         Restreamer.writeToDB();
         Restreamer.updateStreamDataOnGui();
+        return action;
     }
 
+
     /**
-     * repeat stream from src to local nginx server (hls and rtmp)
-     * @param {string} src
+     *
+     * @param {string} src src-address of the ffmpeg stream
      * @param {string} streamType repeatToOptionalOutput or repeatToLocalNginx
+     * @param {string} optionalOutput address of the optional output
+     * @param {string} retryCounter current value of the retry counter (startStream retries automatically if anything fails)
      */
     static startStream(src, streamType, optionalOutput, retryCounter){
         logger.info("start stream " + streamType);
+
+        //update the retry counter for the streamType
         Restreamer.data.retryCounter[streamType] = typeof retryCounter === 'undefined' ? 0 : retryCounter;
+
+        /** @var {FfmpegCommand} instance of FFmpeg command of module fluent-ffmpeg*/
+        var command;
+
+        /** @var {Promise} Promise to make sure, the add output process has been finished */
+        var addOutputPromise;
+
+        /** @var {Boolean} */
+        const repeatToLocalNginx = streamType === 'repeatToLocalNginx';
+
+        /** @var {Boolean} */
+        const repeatToOptionalOutput = streamType === 'repeatToOptionalOutput';
+
+        // check if the user has clicked 'stop' meanwhile, so the startStream process has to be skipped
         if (Restreamer.data.userActions[streamType] === 'stop'){
             logger.debug("skipping 'startStream' since 'stopped' has been clicked");
             return;
         }
 
-        var command;
-
-        //booleans for easier to read code-structure
-        var repeatToLocalNginx = streamType === 'repeatToLocalNginx';
-        var repeatToOptionalOutput = streamType === 'repeatToOptionalOutput';
-
-        var addOutputsPromise;
+        // update the state on the frontend
         Restreamer.updateState(streamType, "connecting");
+
+
         //repeat to local nginx server
         if (repeatToLocalNginx){
             command = new FfmpegCommand(src, {
                 outputLineLimit: 50
             });
-            addOutputsPromise = Restreamer.addOutput(command, Restreamer.generateOutputRTMPPath())
+
+            //add outputs to the ffmpeg stream
+            addOutputPromise = Restreamer.addOutput(command, Restreamer.generateOutputRTMPPath())
             .then(function(){
                 return Restreamer.addOutput(command, Restreamer.generateOutputHLSPath());
             })
             .catch(function(error){
                 logger.error("error adding one or more outputs: " + error.toString);
             });
+
         //repeat to optional output
         }else if (repeatToOptionalOutput){
             command = new FfmpegCommand(Restreamer.generateOutputRTMPPath(src, {
                 outputLineLimit: 50
             }));
             Restreamer.data.addresses.optionalOutputAddress = optionalOutput;
-            addOutputsPromise = Restreamer.addOutput(command, optionalOutput);
+            addOutputPromise = Restreamer.addOutput(command, optionalOutput);
         }
 
-        addOutputsPromise.then(function(){
+        //after adding outputs, define events on the new Ffmpeg stream
+        addOutputPromise.then(function(){
             command
                 /*
                  STREAMING STARTED
@@ -335,11 +360,11 @@ class Restreamer{
     static bindWebsocketEvents(){
         WebsocketsController.addOnConnectionEventToNamespace("/", function(socket){
             socket.on("startStream", (options)=> {
-                Restreamer.setUserAction(options.streamType, "start");
+                Restreamer.updateUserAction(options.streamType, "start");
                 Restreamer.startStream(options.src, options.streamType, options.optionalOutput);
             });
             socket.on("stopStream", (streamType)=>{
-                Restreamer.setUserAction(streamType, "stop");
+                Restreamer.updateUserAction(streamType, "stop");
                 Restreamer.stopStream(streamType);
             });
             socket.on("checkForAppUpdates", ()=>{

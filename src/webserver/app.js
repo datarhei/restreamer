@@ -42,7 +42,7 @@ const expressLogger = require("./middlewares/expressLogger");
 const app = express();
 
 //generate random key
-const secretKey = crypto.randomBytes(64).toString('hex');
+const secretKey = crypto.randomBytes(16).toString('hex');
 
 app.use(session({
     secret: secretKey,
