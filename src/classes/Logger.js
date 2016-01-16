@@ -10,6 +10,11 @@
 const moment = require("moment-timezone");
 require("colors");
 
+const LEVEL_ERROR = 1;
+const LEVEL_WARN = 2;
+const LEVEL_INFO = 3;
+const LEVEL_DEBUG = 4;
+
 //set default timezone to use the timezone before the default values are
 process.env.TIMEZONE = process.env.TIMEZONE ? process.env.TIMEZONE : "Europe/Berlin";
 
