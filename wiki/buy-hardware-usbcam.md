@@ -3,7 +3,7 @@ title: buy-hardware-usbcam
 ---
 ######[Hardware Buying Guide](../wiki/guide-buy-hardware.html) > Buy USB Camera
 #Buy USB Camera
-####A USB camera offers the cheapest entry into the world of streaming. We have a few cameras linked suitable for Datarhei. If your favorite camera is not present or you already have a USB webcam and want a quick test you can check compatibility with Datarhei on the <a target= "_blank" href="http: //www.ideasonboard.org/uvc/#devices">UVC website</a> .  
+####A USB camera offers the cheapest entry into the world of streaming. We have a few cameras linked suitable for Datarhei. If your favorite camera is not present or you already have a USB webcam and want a quick test you can check compatibility with Datarhei on the <a target= "_blank" href="http://www.ideasonboard.org/uvc/#devices">UVC website</a> .  
 
 **CAUTION: Indoor cameras are not waterproof or heated and therefore not suitable for outdoor use.**
 

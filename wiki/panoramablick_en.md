@@ -1,3 +1,0 @@
----
-title: panoramablick_en
----
