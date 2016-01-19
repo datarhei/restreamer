@@ -10,9 +10,14 @@ Datarhei/Restreamer offers smart free video streaming in real time. Stream H.264
 - <a target= "_blank" href="https://www.docker.com/">Docker</a> and <a target= "_blank" href="https://kitematic.com/">Kitematic (Docker-Toolbox)</a> optimizations and very easy installation
 
 ##Roadmap
-- code optimizations next saturday (1.16.2016)
-- optimization of input-process
-- validation of input fields
+- RC4 (planned 1.25.2016)
+  - refactoring ffmpeg-fluent integration
+  - nginx process monitor
+  - cleanup packages
+  - optimizing ui (jsonDB processing, input-validation, clappr-integration)
+- RC5 (planned 2.1.2016)
+  - code optimizations (full ecma6, lint, jsdocs)
+  - start restructuring code
 
 ##Documentation
 Documentation is available on [Datarhei/Restreamer GitHub pages](https://datarhei.github.io/restreamer/).
