@@ -10,3 +10,4 @@ node_modules
 bin
 db
 src/webserver/public/lib/*
+checkDeployment.sh
