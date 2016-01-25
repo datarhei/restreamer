@@ -7,16 +7,14 @@
 
 'use strict';
 
-const moment = require("moment-timezone");
-require("colors");
-
+const moment = require('moment-timezone');
 const LEVEL_ERROR = 1;
 const LEVEL_WARN = 2;
 const LEVEL_INFO = 3;
 const LEVEL_DEBUG = 4;
 
 //set default timezone to use the timezone before the default values are
-process.env.TIMEZONE = process.env.TIMEZONE ? process.env.TIMEZONE : "Europe/Berlin";
+process.env.TIMEZONE = process.env.TIMEZONE ? process.env.TIMEZONE : 'Europe/Berlin';
 
 /**
  * Class for logger
@@ -51,11 +49,11 @@ class Logger {
             return;
         }
         if (context === false){
-            context = "";
+            context = '';
         }else{
-            context = "(" + context + ")";
+            context = '(' + context + ')';
         }
-        var str = "[" + (moment().tz(process.env.TIMEZONE).format('DD-MM-YYYY HH:mm:ss.SSS')) + "] [" + type + "] " + message + " " + context;
+        var str = '[' + (moment().tz(process.env.TIMEZONE).format('DD-MM-YYYY HH:mm:ss.SSS')) + '] [' + type + '] ' + message + ' ' + context;
         if (process.env.LOGGER_LEVEL === '4') {
             console.log(str[color]);
         } else {
@@ -76,7 +74,7 @@ class Logger {
             alertGui = false;
         }
         if (process.env.LOGGER_LEVEL >= LEVEL_INFO) {
-            return this.stdout(message, context, "INFO", "blue");
+            return this.stdout(message, context, 'INFO', 'blue');
         }
         if (alertGui){
             //todo: if alertGui is activated on frontend and websocketcontroller, insert emit here
@@ -96,9 +94,9 @@ class Logger {
             alertGui = false;
         }
         if (process.env.LOGGER_LEVEL >= LEVEL_WARN) {
-            return this.stdout(message, context, "WARN", "orange");
+            return this.stdout(message, context, 'WARN', 'orange');
         }
-       if (alertGui){
+        if (alertGui) {
             //todo: if alertGui is activated on frontend and websocketcontroller, insert emit here
         }
     }
@@ -116,7 +114,7 @@ class Logger {
             alertGui = false;
         }
         if (process.env.LOGGER_LEVEL >= LEVEL_DEBUG) {
-            return this.stdout(message, context, "DEBUG", "yellow");
+            return this.stdout(message, context, 'DEBUG', 'yellow');
         }
         if (alertGui){
             //todo: if alertGui is activated on frontend and websocketcontroller, insert emit here
@@ -137,7 +135,7 @@ class Logger {
             alertGui = false;
         }
         if (process.env.LOGGER_LEVEL >= LEVEL_ERROR) {
-            return this.stdout(message, context, "ERROR", "red");
+            return this.stdout(message, context, 'ERROR', 'red');
         }
         if (alertGui){
             //todo: if alertGui is activated on frontend and websocketcontroller, insert emit here

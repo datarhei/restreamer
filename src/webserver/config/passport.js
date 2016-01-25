@@ -6,7 +6,7 @@
  */
 
 var LocalStrategy   = require('passport-local').Strategy;
-var auth = require("../../../conf/live.json").auth;
+var auth = require('../../../conf/live.json').auth;
 
 if (process.env.RESTREAMER_USERNAME) {
     var username = process.env.RESTREAMER_USERNAME;
@@ -30,19 +30,19 @@ module.exports = (passport) => {
         done(null, user);
     });
     passport.use('local-login', new LocalStrategy({
-            usernameField : 'user',
-            passwordField : 'pass',
-            passReqToCallback : true // allows us to pass back the entire request to the callback
-        },
-        function(req, user, pass, done) { // callback with user and pass from our form
-            if (user === username && pass === password){
-                //login success
-                /*
-                WEBSOCKET SECURITY HERE
-                */
-                done(null, auth);
-            }else{
-                done(null, false, req.flash("wrong password or wrong user"));
-            }
-        }));
+        usernameField: 'user',
+        passwordField: 'pass',
+        passReqToCallback: true // allows us to pass back the entire request to the callback
+    },
+    function(req, user, pass, done) { // callback with user and pass from our form
+        if (user === username && pass === password){
+            //login success
+            /*
+            WEBSOCKET SECURITY HERE
+            */
+            done(null, auth);
+        }else{
+            done(null, false, req.flash('wrong password or wrong user'));
+        }
+    }));
 };

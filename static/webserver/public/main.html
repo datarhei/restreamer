@@ -1,5 +1,5 @@
 <!--
-    Repeat to local nginxt
+    Repeat to local nginx
 -->
 <div class="form-group">
     <label>{{'input_titel' | translate}} (<a href="https://datarhei.github.io/restreamer/docs/references-rtmp-rtsp-video-source.html", target="_blank">{{'help_titel' | translate}}</a>):</label>
@@ -16,7 +16,11 @@
 </div>
 <div class="jumbotron progress-bar-danger progress-bar-striped" ng-if="nginxRepeatStreamError()">{{'process_failed' | translate}}</div>
 <div class="form group" >
-    <p class="player-link" ng-if="nginxRepeatStreamConnected()"><a href="#" style="text-decoration:underline" data-toggle="modal" data-target=".player-modal">{{'player_link_titel' | translate}}</a></p>
+    <p class="player-link" ng-if="nginxRepeatStreamConnected()">
+        <a href="#" style="text-decoration:underline" ng-click="openPlayer()">
+            {{'player_link_titel' | translate}}
+        </a>
+    </p>
     <div class="text-right">
         <button type="button" class="btn btn-success" ng-if="showStartButton('repeatToLocalNginx')" ng-click="startStream('repeatToLocalNginx')">{{'button_start' | translate}}</button>
         <button type="button" class="btn btn-danger" ng-if="showStopButton('repeatToLocalNginx')" ng-click="stopStream('repeatToLocalNginx')">{{'button_stop' | translate}}</button>

@@ -14,109 +14,133 @@
 window.datarheiApp.controller('mainCtrl',['ws', '$scope', '$location', '$rootScope', '$translate', function(ws, $scope, $location, $rootScope, $translate) {
     //binding just once
     var setup = false;
-    $translate.use("en_US");
+    var player = null;
+
+    const initClappr = function() {
+            player = new Clappr.Player({
+            source: "http://" + window.location.hostname + ":" + window.location.port + "/hls/live.stream.m3u8",
+            parentId: "#player",
+            baseUrl: '/libs/clappr/dist/',
+            poster: "images/live.jpg",
+            mediacontrol: {seekbar: "#3daa48", buttons: "#3daa48"},
+            height: "100%",
+            width: "100%"
+        });
+    };
+
+    $translate.use('en_US');
 
     $scope.reStreamerData = {
-      states: {
-          repeatToLocalNginx: {
-              type: ""
-          },
-          repeatToOptionalOutput: {
-              type: ""
-          }
-      },
-      userActions: {
-          repeatToLocalNginx: "",
-          repeatToOptionalOutput: ""
-      },
-      addresses: {
-          optionalOutputAddress: "",
-          srcAddress: ""
-      }
+        states: {
+            repeatToLocalNginx: {
+                type: ''
+            },
+            repeatToOptionalOutput: {
+                type: ''
+            }
+        },
+        userActions: {
+            repeatToLocalNginx: '',
+            repeatToOptionalOutput: ''
+        },
+        addresses: {
+            optionalOutputAddress: '',
+            srcAddress: ''
+        }
     };
 
     $rootScope.windowLocationPort = $location.port();
 
-    $scope.optionalOutput = "";
+    $scope.optionalOutput = '';
 
     $scope.showStopButton = function(streamType){
-        return $scope.reStreamerData.userActions[streamType] === "start";
+        return $scope.reStreamerData.userActions[streamType] === 'start';
     };
 
     $scope.showStartButton = function(streamType){
-        return $scope.reStreamerData.userActions[streamType] === "stop";
+        return $scope.reStreamerData.userActions[streamType] === 'stop';
     };
 
     $scope.nginxRepeatStreamConnecting = function(){
-        return $scope.reStreamerData.states.repeatToLocalNginx.type  === "connecting";
+        return $scope.reStreamerData.states.repeatToLocalNginx.type  === 'connecting';
     };
 
     $scope.nginxRepeatStreamConnected = function(){
-        return $scope.reStreamerData.states.repeatToLocalNginx.type === "connected";
+        return $scope.reStreamerData.states.repeatToLocalNginx.type === 'connected';
     };
 
     $scope.nginxRepeatStreamError = function(){
-        return  $scope.reStreamerData.states.repeatToLocalNginx.type === "error";
+        return  $scope.reStreamerData.states.repeatToLocalNginx.type === 'error';
     };
 
     $scope.optionalOutputConnecting = function(){
-        return $scope.reStreamerData.states.repeatToOptionalOutput.type  === "connecting";
+        return $scope.reStreamerData.states.repeatToOptionalOutput.type  === 'connecting';
     };
 
     $scope.optionalOutputConnected = function(){
-        return $scope.reStreamerData.states.repeatToOptionalOutput.type === "connected";
+        return $scope.reStreamerData.states.repeatToOptionalOutput.type === 'connected';
     };
 
     $scope.optionalOutputError = function(){
-        return  $scope.reStreamerData.states.repeatToOptionalOutput.type === "error";
+        return  $scope.reStreamerData.states.repeatToOptionalOutput.type === 'error';
     };
+
+    $scope.openPlayer = function(){
+        if (player === null) {
+            initClappr();
+        }
+        $("#player-modal").modal("show");
+        $('#player-modal').on('hide.bs.modal', function (e) {
+            player.stop();
+            $('#player-modal').off('hide.bs.modal');
+            $("#player-modal").modal("hide");
+            return e.preventDefault();
+        })
+    };
+
+
+
 
     /*
      Configure Websockets
      */
 
     //connect to namespace /
-    ws = ws("/");
+    ws = ws('/');
 
-    ws.emit('testConnection');
+    ws.emit("getVersion");
 
     //check states of hls and rtmp stream
     ws.emit('checkStates');
 
+    //check for app updates
     ws.emit('checkForAppUpdates');
 
     //prohibit double binding of events
     if (!setup) {
+
         /**
          * test websockets connection (should print below message to browser console if it works)
          */
-        ws.on("connection", function (version) {
+        ws.on('version', function (version) {
             $rootScope.version = version;
-            window.Logger.log("INFO", "Datarhei " + version + " websockets connected");
-            var player = new Clappr.Player({
-                source: "http://" + window.location.hostname + ":" + window.location.port + "/hls/live.stream.m3u8",
-                parentId: "#player",
-                baseUrl: '/libs/clappr/dist/',
-                poster: "images/live.jpg",
-                mediacontrol: {seekbar: "#3daa48", buttons: "#3daa48"},
-                height: "100%",
-                width: "100%"
-            });
+            window.Logger.log('INFO', 'Datarhei ' + version + ' websockets connected');
         });
 
-        ws.on("updateProgress", function(progresses){
-          $scope.reStreamerData.progresses = progresses;
+
+        ws.on('updateProgress', function(progresses){
+            $scope.reStreamerData.progresses = progresses;
         });
-        ws.on("publicIp", function(publicIp){
+        ws.on('publicIp', function(publicIp){
             $rootScope.publicIp = publicIp;
         });
-        ws.on("updateStreamData", function(reStreamerData) {
+        ws.on('updateStreamData', function(reStreamerData) {
             $scope.reStreamerData = reStreamerData;
             if ($scope.showStopButton('repeatToOptionalOutput')) {
                 $scope.activateOptionalOutput = true; //checkbox;
             }
         });
-        ws.on("checkForAppUpdatesResult", function(result){
+        ws.on('checkForAppUpdatesResult', function(result){
             $rootScope.checkForAppUpdatesResult = result;
         });
     }
@@ -126,14 +150,14 @@ window.datarheiApp.controller('mainCtrl',['ws', '$scope', '$location', '$rootSco
         if($scope.activateOptionalOutput === true){
             optionalOutput = $scope.reStreamerData.addresses.optionalOutputAddress;
         }
-        ws.emit("startStream", {
-           src: $scope.reStreamerData.addresses.srcAddress,
-           streamType: streamType,
-           optionalOutput: optionalOutput
+        ws.emit('startStream', {
+            src: $scope.reStreamerData.addresses.srcAddress,
+            streamType: streamType,
+            optionalOutput: optionalOutput
         });
     };
 
     $scope.stopStream = function(streamType){
-        ws.emit("stopStream", streamType);
+        ws.emit('stopStream', streamType);
     };
 }]);

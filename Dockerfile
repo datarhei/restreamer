@@ -1,17 +1,18 @@
-FROM node:4.2.3-slim
+FROM node:4.2.6-slim
 
 MAINTAINER datarhei <info@datarhei.org>
 
 ENV FFMPEG_VERSION 2.8.1
 ENV YASM_VERSION 1.3.0
-ENV LAME_VERSION 3.99.5
+ENV LAME_VERSION 3_99_5
 ENV NGINX_VERSION 1.8.0
+ENV NGINX_RTMP_VERSION 1.1.7
 
 ENV SRC /usr/local
 ENV LD_LIBRARY_PATH ${SRC}/lib
 ENV PKG_CONFIG_PATH ${SRC}/lib/pkgconfig
 
-ENV BUILDDEPS "autoconf automake gcc g++ libtool make nasm zlib1g-dev libssl-dev xz-utils cmake perl build-essential libpcre3-dev unzip"
+ENV BUILDDEPS "autoconf automake gcc g++ libtool make nasm zlib1g-dev libssl-dev xz-utils cmake perl build-essential libpcre3-dev"
 
 RUN rm -rf /var/lib/apt/lists/* && \
     apt-get update && \
@@ -19,8 +20,8 @@ RUN rm -rf /var/lib/apt/lists/* && \
 
 # yasm
 RUN DIR=$(mktemp -d) && cd ${DIR} && \
-    curl -Os http://www.tortall.net/projects/yasm/releases/yasm-${YASM_VERSION}.tar.gz && \
-    tar xzvf yasm-${YASM_VERSION}.tar.gz && \
+    curl -LOks https://www.tortall.net/projects/yasm/releases/yasm-${YASM_VERSION}.tar.gz && \
+      tar xzvf yasm-${YASM_VERSION}.tar.gz && \
     cd yasm-${YASM_VERSION} && \
     ./configure --prefix="$SRC" --bindir="${SRC}/bin" && \
     make && \
@@ -40,9 +41,9 @@ RUN DIR=$(mktemp -d) && cd ${DIR} && \
 
 # libmp3lame
 RUN DIR=$(mktemp -d) && cd ${DIR} && \
-    curl -L -Os http://downloads.sourceforge.net/project/lame/lame/${LAME_VERSION%.*}/lame-${LAME_VERSION}.tar.gz  && \
-    tar xzvf lame-${LAME_VERSION}.tar.gz  && \
-    cd lame-${LAME_VERSION} && \
+    curl -LOks https://github.com/rbrito/lame/archive/RELEASE__${LAME_VERSION}.tar.gz && \
+      tar xzvf RELEASE__${LAME_VERSION}.tar.gz && \
+    cd lame-RELEASE__${LAME_VERSION} && \
     ./configure --prefix="${SRC}" --bindir="${SRC}/bin" --disable-shared --enable-nasm && \
     make && \
     make install && \
@@ -51,12 +52,12 @@ RUN DIR=$(mktemp -d) && cd ${DIR} && \
 
 # ffmpeg
 RUN DIR=$(mktemp -d) && cd ${DIR} && \
-    curl -Os http://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz && \
-    tar xzvf ffmpeg-${FFMPEG_VERSION}.tar.gz && \
+    curl -LOks https://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz && \
+      tar xzvf ffmpeg-${FFMPEG_VERSION}.tar.gz && \
     cd ffmpeg-${FFMPEG_VERSION} && \
     ./configure --prefix="${SRC}" --extra-cflags="-I${SRC}/include" --extra-ldflags="-L${SRC}/lib" --bindir="${SRC}/bin" \
-    --extra-libs=-ldl --enable-version3 --enable-libmp3lame --enable-libx264 --enable-gpl \
-    --enable-postproc --enable-nonfree --enable-avresample --disable-debug --enable-small --enable-openssl && \
+      --extra-libs=-ldl --enable-version3 --enable-libmp3lame --enable-libx264 --enable-gpl \
+      --enable-postproc --enable-nonfree --enable-avresample --disable-debug --enable-small --enable-openssl && \
     make && \
     make install && \
     make distclean && \
@@ -70,13 +71,12 @@ RUN ffmpeg -buildconf
 
 # nginx-rtmp
 RUN DIR=$(mktemp -d) && cd ${DIR} && \
-    curl -LOks http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz && \
-      tar -zxvf nginx-${NGINX_VERSION}.tar.gz && \
-    curl -LOks https://github.com/arut/nginx-rtmp-module/archive/master.zip && \
-      unzip master.zip && \
-      rm master.zip && \
-    cd nginx-${NGINX_VERSION} && \
-    ./configure --with-http_ssl_module --add-module=../nginx-rtmp-module-master && \
+    curl -LOks https://github.com/nginx/nginx/archive/release-${NGINX_VERSION}.tar.gz && \
+      tar xzvf release-${NGINX_VERSION}.tar.gz && \
+    curl -LOks https://github.com/arut/nginx-rtmp-module/archive/v${NGINX_RTMP_VERSION}.tar.gz && \
+      tar xzvf v${NGINX_RTMP_VERSION}.tar.gz && \
+    cd nginx-release-${NGINX_VERSION} && \
+    auto/configure --with-http_ssl_module --add-module=../nginx-rtmp-module-${NGINX_RTMP_VERSION} && \
     make && \
     make install && \
     rm -rf ${DIR}

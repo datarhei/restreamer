@@ -17,12 +17,12 @@ datarheiApp.config(function ($translateProvider) {
     });
 
     $translateProvider.useSanitizeValueStrategy('escape');
-    $translateProvider.preferredLanguage("en_US");
+    $translateProvider.preferredLanguage('en_US');
 });
 
 datarheiApp.config(function($stateProvider, $urlRouterProvider){
     // For any unmatched url, redirect to /
-    $urlRouterProvider.otherwise("/");
+    $urlRouterProvider.otherwise('/');
 
     $stateProvider
     .state('main',{
@@ -43,7 +43,7 @@ datarheiApp.config(function($stateProvider, $urlRouterProvider){
 datarheiApp.filter('inArray', function($filter){
     return function(list, arrayFilter, element){
         if(arrayFilter){
-            return $filter("filter")(list, function(listItem){
+            return $filter('filter')(list, function(listItem){
                 return arrayFilter.indexOf(listItem[element]) !== -1;
             });
         }

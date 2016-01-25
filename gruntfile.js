@@ -6,7 +6,7 @@ module.exports = function(grunt) {
         compiledFrontendJS: ['bin/webserver/public/scripts/**/*.js', 'bin/executors/**/gui/js/*.js'],
         es6Src: ['**/*.js'],
         stylesheets: ['static/webserver/public/css/*.css']
-	};
+    };
     // find all node modules
     var modules = [];
     var pck = require('./package.json')
@@ -19,8 +19,8 @@ module.exports = function(grunt) {
                 return './node_modules/' + m + '/**/*'
             });
     }
-	// Project Configuration
-	grunt.initConfig({
+    // Project Configuration
+    grunt.initConfig({
         watch: {
             scripts: {
                 files: ['src/**/*.js'],
@@ -63,7 +63,7 @@ module.exports = function(grunt) {
             },
             //temp workaround - https://github.com/clappr/clappr/issues/709
             clappr: {
-                command: 'git clone https://github.com/clappr/clappr.git bin/webserver/public/libs/clappr'
+                command: 'git clone https://github.com/clappr/clappr bin/webserver/public/libs/clappr'
             }
         },
         babel: {
@@ -82,101 +82,85 @@ module.exports = function(grunt) {
                 ]
             }
         },
-		pkg: grunt.file.readJSON('package.json'),
-        jshint: {
-            all: {
-                src: [
-                    'src/*.js',
-                    'src/classes/*.js',
-                    'src/webserver/*.js',
-                    'src/webserver/**/*.js',
-                    'src/webserver/**/**/*.js',
-                    'src/webserver/**/**/**/*.js'
-                ],
+        pkg: grunt.file.readJSON('package.json'),
+        eslint: {
+            all: ['src/**/*.js'],
+            options: {
+                configFile: '.eslintrc.json'
+            }
+        },
+        csslint: {
+            options: {
+                csslintrc: '.csslintrc'
+                },
+                all: {
+                src: ['static/webserver/public/css/*.css']
+            }
+        },
+        uglify: {
+            production: {
                 options: {
-                    jshintrc: '.jshintrc'
+                    mangle: true
+                },
+                files: {
+                    'bin/webserver/public/dist/application.min.js': 'bin/webserver/public/dist/application.js'
                 }
             }
         },
-		csslint: {
-			options: {
-				csslintrc: '.csslintrc'
-			},
-			all: {
-				src: ['static/webserver/public/css/*.css']
-			}
-		},
-		uglify: {
-			production: {
-				options: {
-					mangle: true
-				},
-				files: {
-					'bin/webserver/public/dist/application.min.js': 'bin/webserver/public/dist/application.js'
-				}
-			}
-		},
-		cssmin: {
-			combine: {
-				files: {
-					'bin/webserver/public/css/restreamer.min.css': '<%= stylesheets %>'
-				}
-			}
-		},
-		ngAnnotate: {
-			production: {
-				files: {
-					'bin/webserver/public/dist/application.js': '<%= compiledFrontendJS %>'
-				}
-			}
-		},
-		env: {
-			test: {
-				NODE_ENV: 'test'
-			},
-			secure: {
-				NODE_ENV: 'secure'
-			}
-		}
-	});
+        cssmin: {
+            combine: {
+                files: {
+                    'bin/webserver/public/css/restreamer.min.css': '<%= stylesheets %>'
+                }
+            }
+        },
+        ngAnnotate: {
+            production: {
+                files: {
+                    'bin/webserver/public/dist/application.js': '<%= compiledFrontendJS %>'
+                }
+            }
+            },
+        });
 
-	// Load NPM tasks
-	require('load-grunt-tasks')(grunt);
+    /*
+     Load NPM tasks
+     */
+    require('load-grunt-tasks')(grunt);
     grunt.task.registerTask('loadConfig', 'Task that loads the config into a grunt option.', function() {
         grunt.config.set('es6Src', files.es6Src);
         grunt.config.set('compiledFrontendJS', files.compiledFrontendJS);
         grunt.config.set('stylesheets', files.stylesheets);
     });
     grunt.loadNpmTasks('grunt-shell');
-    grunt.loadNpmTasks('grunt-contrib-copy')
-    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('gruntify-eslint');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     /*
      Helper tasks to keep overview
-      */
-    //css lint
-	grunt.registerTask('lint', ['csslint', 'jshint']);
-    //clear old bin folder and create new one
+     */
+    // lint
+    grunt.registerTask('lint', ['csslint', 'eslint']);
+    // clear old bin folder and create new one
     grunt.registerTask('clearOldBuild', ['shell:removeOldBinFolder', 'shell:createBinFolder']);
-    //install frontendlibraries (atm through bower)
+    // install frontendlibraries (atm through bower)
     grunt.registerTask('installFrontendLibraries', ['shell:bower', 'shell:clappr']);
-    //minify the frontend files
+    // minify the frontend files
     grunt.registerTask('minifyFrontendFiles', ['cssmin', 'ngAnnotate', 'uglify']);
 
-	/*
-	Build Tasks
-	 */
+    /*
+    Build Tasks
+     */
     grunt.registerTask('build', ['loadConfig','clearOldBuild', 'shell:copyStatics', 'babel', 'minifyFrontendFiles', 'installFrontendLibraries']);
     grunt.registerTask('build-code', ['loadConfig', 'shell:copyStatics', 'babel', 'minifyFrontendFiles']);
 
     /*
     Run Tasks
      */
-    //run current build in /bin
+    // run current build in /bin
     grunt.registerTask('run', ['shell:start']);
-    //rebuild and run
+    // rebuild and run
     grunt.registerTask('run-clean', ['build', 'run']);
-    //update code and run
-    grunt.registerTask("run-update-code", ['loadConfig','babel','shell:copyStatics', 'minifyFrontendFiles', 'run'])
+    // update code and run
+    grunt.registerTask('run-update-code', ['loadConfig','babel','shell:copyStatics', 'minifyFrontendFiles', 'run'])
 };

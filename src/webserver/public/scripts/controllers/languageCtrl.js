@@ -10,9 +10,9 @@ window.datarheiApp.controller('languageCtrl',['$scope','$translate', function($s
     $scope.switchLanguage = function(locale){
         $scope.currentLocale = locale;
         $translate.use(locale).then(function(){
-            window.Logger.log("INFO", "Switched language to " + locale);
+            window.Logger.log('INFO', 'Switched language to ' + locale);
         }, function(error){
-            window.Logger.error("INFO", "Switching language to " + locale + " failed: " + error);
+            window.Logger.error('INFO', 'Switching language to ' + locale + ' failed: ' + error);
         });
     };
     $scope.langIs = function(locale){

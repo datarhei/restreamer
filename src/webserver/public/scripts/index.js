@@ -16,6 +16,6 @@ window.Logger = {
         WEBSOCKETS_NAMESPACE: 'color: #00BF00; font-weight: bold'
     },
     log: function(level, message){
-        console.log("%c " +"[" + level + "]  " + message, this.level[level]);
+        console.log('%c ' +'[' + level + ']  ' + message, this.level[level]);
     }
 };
