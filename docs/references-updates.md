@@ -29,15 +29,29 @@ That's it!
 
 ## Linux
 
-1. stop and remove the running Restreamer:   
+1.
+  stop and remove the running Restreamer:   
+  
    ```
    # docker stop restreamer && docker rm restreamer
    ```
-2. download the new image (please add the right arm-tag if used):   
+
+2.
+  download the new image. Please do not forget to add the right arm-tag if used.
+  
    ```
-   # docker pull datarhei/restreamer:latest
+   # docker pull datarhei/restreamer:latest  
    ```
-3. start the Restreamer again (please remember to modify if you have your own configuration):   
+   ```
+   # docker pull datarhei/restreamer-armv6l:latest (use for Pi1)  
+   ```
+   ```
+   # docker pull datarhei/restreamer-armv7l:latest (use for Pi2)  
+   ```
+
+3.
+  start the Restreamer again (please remember to modify if you have your own configuration):   
+   
    ```
    # docker run -d --name restreamer --restart always -e "RESTREAMER_USERNAME=YOUR-USERNAME" -e "RESTREAMER_PASSWORD=YOUR-PASSWORD" -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db datarhei/restreamer:latest
    ```

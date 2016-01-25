@@ -38,7 +38,9 @@ Default-Value: 3000
 
 #### Logger level
 
-Set the logging level of the application. The values are "1" for error, "2" for error and warnings, "3" for error, warnings and info or "4" for error, warnings, info and debug.
+Logs are shipped to stdout / stderr. With Kitematic click on the running container on the left sidebar or if you are using the shell, run "docker logs restreamer" to get it directly.
+
+The env. "LOGGER_LEVEL" set the logging level of the application. The values are "1" for error, "2" for error and warnings, "3" for error, warnings and info or "4" for error, warnings, info and debug.
 
 Example:   
 

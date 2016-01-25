@@ -8,20 +8,19 @@ If your private ISP has´nt enough bandwith it is obvious to deploy the Restream
 
 **Ready to deploy solutions:**
 
-* [sloppy.io](http://sloppy.io/) - beta-testing
-* [TECTONIC](https://tectonic.com/) - beta-testing
-* [dotCloud](https://www.dotcloud.com/)
-* [tutum](https://www.tutum.co/)
+* <a target= "_blank" href="http://sloppy.io/">sloppy.io</a>
+* <a target= "_blank" href="https://tectonic.com/">TECTONIC</a>
+* <a target= "_blank" href="https://www.dotcloud.com/">dotCloud</a>
+* <a target= "_blank" href="https://www.tutum.co/">tutum</a>
 
 **Cloud solutions:**
 
-* [Amazon EC2](https://docs.docker.com/engine/installation/amazon/)
-* [Google Cloud Platform](https://docs.docker.com/engine/installation/google/)
-* [IBM SoftLayer](https://docs.docker.com/engine/installation/softlayer/)
-* [Microsoft Azure](https://docs.docker.com/engine/installation/azure/)
-* [Rackspace Cloud](https://docs.docker.com/engine/installation/rackspace/)
-* [Rackspace Cloud](https://docs.docker.com/engine/installation/rackspace/)
-* [Joyent’s Triton Elastic Container Service](https://docs.docker.com/engine/installation/joyent/)
+* <a target= "_blank" href="https://docs.docker.com/engine/installation/amazon/">Amazon EC2</a>
+* <a target= "_blank" href="https://docs.docker.com/engine/installation/google/">Google Cloud Platform]</a>
+* <a target= "_blank" href="https://docs.docker.com/engine/installation/softlayer/">IBM SoftLayer</a>
+* <a target= "_blank" href="https://docs.docker.com/engine/installation/azure/">Microsoft Azure</a>
+* <a target= "_blank" href="https://docs.docker.com/engine/installation/rackspace/">Rackspace Cloud</a>
+* <a target= "_blank" href="https://docs.docker.com/engine/installation/joyent/">Joyent’s Triton Elastic Container Service</a>
 
 ### Deployment
 
