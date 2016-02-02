@@ -4,31 +4,16 @@
  * @copyright 2015 datarhei.org
  * @license Apache-2.0
  */
-
-'use strict';
-
-/*
-requirements
- */
-const Logger = require('./classes/Logger');
-const logger = new Logger('start');
+const logger = require('./classes/Logger')('start');
 const EnvVar = require('./classes/EnvVar');
 const packageJson = require('../package.json');
 const app = require('./webserver/app');
 const config = require('../conf/live.json');
+const nginxrtmp = require('./classes/Nginxrtmp')(config);
 const Q = require('q');
-
-if(process.env.CREATE_HEAPDUMPS === 'true'){
-    const heapdump = require('heapdump');
-    setInterval(function(){
-        logger.info(`CREATE HEAPDUMP`);
-        heapdump.writeSnapshot('/restreamer/heapdump/' + Date.now() + '.heapsnapshot');
-    }, 60000);
-}
-
-if (typeof process.env.LOGGER_LEVEL === 'undefined'){
-    process.env.LOGGER_LEVEL = '3';
-}
+const Validator = require('jsonschema').Validator;
+const fs = require('fs');
+const path = require('path');
 
 /*
 init simple_streamer with environments
@@ -47,6 +32,7 @@ logger.info('', false);
 
 // define environment variables
 var env_vars = [];
+
 env_vars.push(new EnvVar('NODEJS_PORT', false, 3000, 'Webserver port of application'));
 env_vars.push(new EnvVar('LOGGER_LEVEL', true, '3', 'Logger level to defined, what should be logged'));
 env_vars.push(new EnvVar('TIMEZONE', true, 'Europe/Berlin', 'Set the timezone'));
@@ -55,20 +41,21 @@ env_vars.push(new EnvVar('CREATE_HEAPDUMPS', false, 'false', 'Create Heapdumps o
 
 // manage all environments
 var killProcess = false;
-for (let e of env_vars){
-    if(typeof process.env[e.name] !== 'undefined'){
+
+for (let e of env_vars) {
+    if (typeof process.env[e.name] !== 'undefined') {
         logger.info(`ENV "${e.name}=${process.env[e.name]}"`, e.description);
-    }else if(e.required === true){
+    } else if (e.required === true) {
         logger.error(`No value set for env "${e.name}", but it is required`);
         killProcess = true;
-    }else{
+    } else {
         process.env[e.name] = e.defaultValue;
         logger.info(`ENV "${e.name}=${process.env[e.name]}", set to default-value!`, e.description);
     }
 }
 
 // kill process after a short delay to log the error message to console
-if(killProcess === true){
+if (killProcess === true) {
     setTimeout(()=> {
         process.exit();
     }, 500);
@@ -79,11 +66,8 @@ logger.info('', false);
  * check if the data from jsondb is valid against the Restreamer jsondb schema
  * @returns {promise}
  */
-const checkJsonDb = function(){
-    logger.info(`Checking jsondb file...`);
-    var Validator = require('jsonschema').Validator;
-    var fs = require('fs');
-    var path = require('path');
+const checkJsonDb = function () {
+    logger.info('Checking jsondb file...');
 
     var schemadata;
     var dbdata;
@@ -93,24 +77,25 @@ const checkJsonDb = function(){
     var readDBFile = Q.nfcall(fs.readFile, path.join(__dirname, '../', 'db', 'v1.json'));
 
     readSchema
-    .then(function(s){
+    .then((s)=> {
         schemadata = JSON.parse(s.toString('utf8'));
         return readDBFile;
     })
-    .then(function(d){
+    .then((d)=> {
         dbdata = JSON.parse(d.toString('utf8'));
-        var v = new Validator();
-        var instance = dbdata;
-        var schema = schemadata;
-        var validateResult = v.validate(instance, schema);
-        if (validateResult.errors.length > 0){
+        let v = new Validator();
+        let instance = dbdata;
+        let schema = schemadata;
+        let validateResult = v.validate(instance, schema);
+
+        if (validateResult.errors.length > 0) {
             logger.debug(`Validation error of v1.db: ${JSON.stringify(validateResult.errors)}`);
             throw new Error(JSON.stringify(validateResult.errors));
-        }else{
-            logger.debug(`"v1.db" is valid`);
+        } else {
+            logger.debug('"v1.db" is valid');
             deferred.resolve();
         }
-    }).catch(function(error){
+    }).catch(function (error) {
         logger.debug(`Error reading "v1.db": ${error.toString()}`);
         var defaultStructure = {
             addresses: {
@@ -125,65 +110,54 @@ const checkJsonDb = function(){
                     type: 'stopped'
                 }
             },
-            userActions:{
+            userActions: {
                 repeatToLocalNginx: 'stop',
                 repeatToOptionalOutput: 'stop'
-            },
-            progresses: {
-                repeatToLocalNginx: {},
-                repeatToOptionalOutput: {}
             }
         };
+
         fs.writeFileSync(path.join(__dirname, '../', 'db', 'v1.json'), JSON.stringify(defaultStructure));
         deferred.resolve();
     });
     return deferred.promise;
 };
 
-/**
- * start the nginx rtmp server (systemcall)
- * @returns {promise}
- */
-const startNginxRTMPServer = function startNginxRTMPServer(){
-    logger.info(`Starting nginx server...`, 'start.nginx');
-    var deferred = Q.defer();
-    const command = config.nginx.exec;
-    const  spawn = require('child_process').spawn;
-    spawn('sh', ['-c', command], { stdio: 'inherit' });
-    deferred.resolve();
-    return deferred.promise;
-};
 
 /**
  * start the express webserver
  * @returns {promise}
  */
-const startWebserver = function startWebserver(){
-    logger.info(`Starting webserver...`);
+const startWebserver = function startWebserver () {
     var deferred = Q.defer();
+
+    logger.info('Starting webserver...');
     app.set('port', process.env.NODEJS_PORT);
     var server = app.listen(app.get('port'), function () {
         require('./classes/WebsocketController').bindDefaultEvents();
         app.set('io', require('socket.io')(server));
         app.set('server', server.address());
-        app.get('websocketsReady').resolve(app.get('io')); //promise to determine if the webserver has been started to avoid ws binding before
+
+        // promise to determine if the webserver has been started to avoid ws binding before
+        app.get('websocketsReady').resolve(app.get('io'));
         logger.info(`Webserver running on port ${process.env.NODEJS_PORT}`, 'start.webserver');
         deferred.resolve(server.address().port);
     });
+
     return deferred.promise;
 };
 
 /**
  * get the public ip of the server, on that the Restreamer is running
  */
-const getPublicIp = function(){
-    logger.info(`Getting public ip...`, 'start.publicip');
+const getPublicIp = function () {
+    logger.info('Getting public ip...', 'start.publicip');
     var exec = require('child_process').exec;
+
     exec('public-ip', (err, stdout, stderr)=> {
-        if (err){
+        if (err) {
             logger.error(err);
         }
-        app.set('publicIp', stdout.split('\n')[0] );
+        app.set('publicIp', stdout.split('\n')[0]);
     });
 };
 
@@ -191,10 +165,11 @@ const getPublicIp = function(){
  * Restores FFmpeg processes, that have been spawned i.E. on the last app-start (stored on jsondb)
  * @returns {promise}
  */
-const restoreFFMPEGProcesses = function(){
-    logger.info(`Restoring FFmpeg processes...`, 'start.restore');
+const restoreFFMPEGProcesses = function () {
     var deferred = Q.defer();
     const Restreamer = require('./classes/Restreamer');
+
+    logger.info('Restoring FFmpeg processes...', 'start.restore');
     Restreamer.restoreFFMpegProcesses();
     deferred.resolve();
     return deferred.promise;
@@ -203,13 +178,14 @@ const restoreFFMPEGProcesses = function(){
 /**
  * let's do it
  */
-startNginxRTMPServer()
+
+nginxrtmp.init()
     .then(checkJsonDb)
     .then(startWebserver)
     .then(checkJsonDb)
     .then(restoreFFMPEGProcesses)
     .then(getPublicIp)
-    .catch(function(error){
+    .catch(function (error) {
         logger.error(`Error starting webserver and nginx for application: ${error}`);
         setTimeout(()=> {
             process.exit();

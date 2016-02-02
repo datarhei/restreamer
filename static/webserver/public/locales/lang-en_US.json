@@ -10,12 +10,14 @@
     "button_stop": "Stop",
     "input_titel": "RTMP/RTSP Video Source",
     "input_example": "e.g. rtsp://192.168.57.100/media.amp",
-    "player_link_titel": "Open player",
-    "process_success": "The streaming is successfully initiated.",
-    "process_failed": "The stream isn't running. Please check you video device",
-    "process_init": "The streaming-process is initiating. Please wait...",
+    "process_input_invalid": "Invalid stream address, please check your input",
+    "process_success": "Streaming is successfully initiated.",
+    "process_failed": "Your stream wasn‘t accessable.",
+    "process_failed_retry": "Retry count",
+    "process_init": "Streaming process is initiating. Please wait...",
     "output_optional": "External RTMP-Streaming-Server",
     "output_optional_example": "e.g. rtmp://live.youtube.com/channelId",
+    "player_link_titel": "Open player",
     "player_modal_help_titel": "iFrame code and preview of image to embed in website:",
     "player_modal_help_content": "In addition the port of the examples have to be forwarded from the router to IP address of the computer"
 }

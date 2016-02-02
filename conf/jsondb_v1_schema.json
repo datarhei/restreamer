@@ -60,28 +60,11 @@
           "type": "string"
         }
       }
-    },
-    "progresses": {
-      "id": "http://jsonschema.net/progresses",
-      "type": "object",
-      "properties": {
-        "repeatToLocalNginx": {
-          "id": "http://jsonschema.net/progresses/repeatToLocalNginx",
-          "type": "object",
-          "properties": {}
-        },
-        "repeatToOptionalOutput": {
-          "id": "http://jsonschema.net/progresses/repeatToOptionalOutput",
-          "type": "object",
-          "properties": {}
-        }
-      }
     }
   },
   "required": [
     "addresses",
     "states",
-    "userActions",
-    "progresses"
+    "userActions"
   ]
 }

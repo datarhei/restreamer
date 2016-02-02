@@ -1,3 +1,17 @@
+## Changes from 0.1.0-RC4.1 to 0.1.0-RC5
+
+* updated NPM packages, NGINX to 1.9.9 and FFmpeg to 2.8.5
+* restructed frontend (WebsocketService, more ECMA6, ServiceFactory, logger as Angular-Service)
+* cleanup NPM dep.
+* expanded ESLint ruleset and first code optimizations
+* added NGINX process monitoring
+* cleanup JSONDB
+* implemented input-field validation for RTSP/RTMP addresses
+
+## Changes from 0.1.0-RC4 to 0.1.0-RC4.1
+
+* added missing config of v0.1.0-RC4
+
 ## Changes from 0.1.0-RC3 to 0.1.0-RC4
 
 * added https sources to Dockerfiles (thx @ [nodiscc](https://github.com/nodiscc))

@@ -1,12 +1,10 @@
-/*
- * @name Restreamer
- * @namespace https://github.com/datarhei/restreamer
+/**
+ * @link https://github.com/datarhei/restreamer
  * @copyright 2015 datarhei.org
  * @license Apache-2.0
  */
 
 window.Logger = {
-
     level: {
         INFO: 'color: #0000FF; font-weight: bold',
         DEBUG: 'color: #AABBCC; font-weight: bold',
@@ -15,7 +13,7 @@ window.Logger = {
         WEBSOCKETS_OUT: 'color: #00BF00; font-weight: bold',
         WEBSOCKETS_NAMESPACE: 'color: #00BF00; font-weight: bold'
     },
-    log: function(level, message){
+    log: function (level, message) {
         console.log('%c ' +'[' + level + ']  ' + message, this.level[level]);
     }
 };

@@ -133,6 +133,12 @@ a:hover, a:active, a:focus {
     border: 2px solid #434341;
 }
 
+.input-danger {
+    color: #fff;
+    background-color: #ad5544;
+    border: 2px solid #b96e5f;
+}
+
 .input:hover, .input:active, .input:active:hover, .input:active:focus, .input:link, .input:focus {
     border-color: #3daa48;
 }

@@ -10,13 +10,14 @@
     "button_stop": "Stop",
     "input_titel": "RTMP/RTSP Video Quelle",
     "input_example": "z.B. rtsp://192.168.57.100/media.amp",
-    "player_link_titel": "Player öffnen",
+    "process_input_invalid": "Die Stream-Adresse ist nicht valide. Bitte überprüfe die Eingabe",
     "process_success": "Das Streaming wurde erfolgreich aufgebaut.",
-    "process_failed": "Der Stream konnte nicht aufgebaut werden. Bitte prüfen Sie Ihren Video-Quelle.",
+    "process_failed": "Auf den Stream konnte nicht zugegriffen werden.",
+    "process_failed_retry": "Versuch",
     "process_init": "Der Streaming-Prozess wird erstellt. Bitte warten...",
-    "output_optional": "Zusätzlicher RTMP-Streaming-Server",
+    "output_optional": "Externer RTMP-Streaming-Server",
     "output_optional_example": "z.b. rtmp://live.youtube.com/channelId",
+    "player_link_titel": "Player öffnen",
     "player_modal_help_titel": "Der iFrame-Code und ein Preview-Image zur Einbettung in der Webseite:",
-    "player_modal_help_content": "Zusätzlich muss der Port aus den Beispielen auf die IP-Adresse des Rechners weitergeleitet werden",
-    "not_valid_rtmp": "Keine valide RTMP-Adresse"
+    "player_modal_help_content": "Zusätzlich muss der Port aus den Beispielen auf die IP-Adresse des Rechners weitergeleitet werden"
 }

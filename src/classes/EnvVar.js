@@ -5,7 +5,6 @@
  * @license Apache-2.0
  */
 
-'use strict';
 /**
  * Class for environment variables with default values
  */
@@ -18,7 +17,7 @@ class EnvVar {
      * @param {string} defaultValue
      * @param {string} description
      */
-    constructor(name, required, defaultValue, description) {
+    constructor (name, required, defaultValue, description) {
         this.name = name;
         this.required = required;
         this.defaultValue = defaultValue;

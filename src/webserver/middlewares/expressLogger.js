@@ -5,9 +5,6 @@
  * @license Apache-2.0
  */
 
-'use strict';
-
-const bytes = require('bytes');
 const Logger = require('../../classes/Logger');
 const logger = new Logger('webserver');
 
@@ -16,16 +13,19 @@ module.exports = (req, res, next)=>{
     var log = () =>{
         var code = res.statusCode;
         var len = parseInt(res.getHeader('Content-Length'), 10);
+
         if (isNaN(len)) {
             len = '';
-        }else {
-            len = ' - ' + bytes(len);
+        } else {
+            len = ' - ' + len;
         }
         var duration = ('new Date' - 'req._startTime');
         var url = (req.originalUrl || req.url);
         var method = req.method;
-        logger.debug(method + ' \'' + url + '\' ' + code + ' ' + duration + ' '  + req.ip + ' ' + len, 'Webserver');
+
+        logger.debug(method + ' \'' + url + '\' ' + code + ' ' + duration + ' ' + req.ip + ' ' + len, 'Webserver');
     };
+
     res.on('finish', log);
     res.on('close', log);
     next();

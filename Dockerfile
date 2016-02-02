@@ -2,10 +2,10 @@ FROM node:4.2.6-slim
 
 MAINTAINER datarhei <info@datarhei.org>
 
-ENV FFMPEG_VERSION 2.8.1
+ENV FFMPEG_VERSION 2.8.5
 ENV YASM_VERSION 1.3.0
 ENV LAME_VERSION 3_99_5
-ENV NGINX_VERSION 1.8.0
+ENV NGINX_VERSION 1.9.9
 ENV NGINX_RTMP_VERSION 1.1.7
 
 ENV SRC /usr/local
@@ -16,7 +16,7 @@ ENV BUILDDEPS "autoconf automake gcc g++ libtool make nasm zlib1g-dev libssl-dev
 
 RUN rm -rf /var/lib/apt/lists/* && \
     apt-get update && \
-    apt-get install -y curl wget git libpcre3 tar ${BUILDDEPS}
+    apt-get install -y --force-yes curl wget git libpcre3 tar ${BUILDDEPS}
 
 # yasm
 RUN DIR=$(mktemp -d) && cd ${DIR} && \
@@ -57,7 +57,8 @@ RUN DIR=$(mktemp -d) && cd ${DIR} && \
     cd ffmpeg-${FFMPEG_VERSION} && \
     ./configure --prefix="${SRC}" --extra-cflags="-I${SRC}/include" --extra-ldflags="-L${SRC}/lib" --bindir="${SRC}/bin" \
       --extra-libs=-ldl --enable-version3 --enable-libmp3lame --enable-libx264 --enable-gpl \
-      --enable-postproc --enable-nonfree --enable-avresample --disable-debug --enable-small --enable-openssl && \
+      --enable-postproc --enable-nonfree --enable-avresample --disable-debug --enable-small --enable-openssl \
+      --disable-doc --disable-ffserver && \
     make && \
     make install && \
     make distclean && \
@@ -82,15 +83,16 @@ RUN DIR=$(mktemp -d) && cd ${DIR} && \
     rm -rf ${DIR}
 
 RUN apt-get purge -y --auto-remove ${BUILDDEPS} && \
-    apt-get install -y git && \
+    apt-get install -y --force-yes git && \
     rm -rf /tmp/*
 
 COPY . /restreamer
 WORKDIR /restreamer
 
-RUN npm install -g bower grunt-bower grunt-cli public-ip && \
+RUN npm install -g bower grunt-cli public-ip eslint@v2.0.0-beta.3 && \
     npm install && \
-    grunt build
+    grunt build && \
+    npm prune --production
 
 ENV RESTREAMER_USERNAME admin
 ENV RESTREAMER_PASSWORD datarhei

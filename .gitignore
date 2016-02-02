@@ -66,5 +66,3 @@ static/webserver/public/libs/**
 db/**
 heapdump
 *.map
-docs
-_site

@@ -5,16 +5,17 @@
  * @license Apache-2.0
  */
 
-'use strict';
-
 const moment = require('moment-timezone');
 const LEVEL_ERROR = 1;
 const LEVEL_WARN = 2;
 const LEVEL_INFO = 3;
 const LEVEL_DEBUG = 4;
 
-//set default timezone to use the timezone before the default values are
+// set default timezone to use the timezone before the default values are
 process.env.TIMEZONE = process.env.TIMEZONE ? process.env.TIMEZONE : 'Europe/Berlin';
+if (typeof process.env.LOGGER_LEVEL === 'undefined') {
+    process.env.LOGGER_LEVEL = '3';
+}
 
 /**
  * Class for logger
@@ -25,7 +26,7 @@ class Logger {
      * check if the logger is muted
      * @returns {boolean}
      */
-    static isMuted() {
+    static isMuted () {
         return !!process.env.LOGGER_MUTED;
     }
 
@@ -33,7 +34,7 @@ class Logger {
      * construct a logger object
      * @param {string} context context of the log message (classname.methodname)
      */
-    constructor(context) {
+    constructor (context) {
         this.context = context;
     }
 
@@ -42,23 +43,19 @@ class Logger {
      * @param {string} message
      * @param {string} context
      * @param {string} type
-     * @param {string} color
      */
-    stdout(message, context, type, color) {
+    stdout (message, context, type) {
         if (Logger.isMuted()) {
             return;
         }
-        if (context === false){
+        if (context === false) {
             context = '';
-        }else{
+        } else {
             context = '(' + context + ')';
         }
         var str = '[' + (moment().tz(process.env.TIMEZONE).format('DD-MM-YYYY HH:mm:ss.SSS')) + '] [' + type + '] ' + message + ' ' + context;
-        if (process.env.LOGGER_LEVEL === '4') {
-            console.log(str[color]);
-        } else {
-            console.log(str);
-        }
+
+        console.log(str);
     }
 
     /**
@@ -66,7 +63,7 @@ class Logger {
      * @param {string} message
      * @param {string} context
      */
-    info(message, context, alertGui) {
+    info (message, context, alertGui) {
         if (typeof context === 'undefined') {
             context = this.context;
         }
@@ -74,10 +71,10 @@ class Logger {
             alertGui = false;
         }
         if (process.env.LOGGER_LEVEL >= LEVEL_INFO) {
-            return this.stdout(message, context, 'INFO', 'blue');
+            return this.stdout(message, context, 'INFO');
         }
-        if (alertGui){
-            //todo: if alertGui is activated on frontend and websocketcontroller, insert emit here
+        if (alertGui) {
+            // todo: if alertGui is activated on frontend and websocketcontroller, insert emit here
         }
     }
 
@@ -86,7 +83,7 @@ class Logger {
      * @param {string} message
      * @param {string} context
      */
-    warn(message, context, alertGui) {
+    warn (message, context, alertGui) {
         if (typeof context === 'undefined') {
             context = this.context;
         }
@@ -94,10 +91,10 @@ class Logger {
             alertGui = false;
         }
         if (process.env.LOGGER_LEVEL >= LEVEL_WARN) {
-            return this.stdout(message, context, 'WARN', 'orange');
+            return this.stdout(message, context, 'WARN');
         }
         if (alertGui) {
-            //todo: if alertGui is activated on frontend and websocketcontroller, insert emit here
+            // todo: if alertGui is activated on frontend and websocketcontroller, insert emit here
         }
     }
 
@@ -106,7 +103,7 @@ class Logger {
      * @param {string} message
      * @param {string} context
      */
-    debug(message, context, alertGui) {
+    debug (message, context, alertGui) {
         if (typeof context === 'undefined') {
             context = this.context;
         }
@@ -114,10 +111,10 @@ class Logger {
             alertGui = false;
         }
         if (process.env.LOGGER_LEVEL >= LEVEL_DEBUG) {
-            return this.stdout(message, context, 'DEBUG', 'yellow');
+            return this.stdout(message, context, 'DEBUG');
         }
-        if (alertGui){
-            //todo: if alertGui is activated on frontend and websocketcontroller, insert emit here
+        if (alertGui) {
+            // todo: if alertGui is activated on frontend and websocketcontroller, insert emit here
         }
     }
 
@@ -127,7 +124,7 @@ class Logger {
      * @param {string} message
      * @param {string} context
      */
-    error(message, context, alertGui) {
+    error (message, context, alertGui) {
         if (typeof context === 'undefined') {
             context = this.context;
         }
@@ -135,18 +132,20 @@ class Logger {
             alertGui = false;
         }
         if (process.env.LOGGER_LEVEL >= LEVEL_ERROR) {
-            return this.stdout(message, context, 'ERROR', 'red');
+            return this.stdout(message, context, 'ERROR');
         }
-        if (alertGui){
-            //todo: if alertGui is activated on frontend and websocketcontroller, insert emit here
+        if (alertGui) {
+            // todo: if alertGui is activated on frontend and websocketcontroller, insert emit here
         }
     }
 }
 
-//define loglevels in logger class
-Logger.LEVEL_ERROR = 1;
-Logger.LEVEL_WARN = 2;
-Logger.LEVEL_INFO = 3;
-Logger.LEVEL_DEBUG = 4;
+// define loglevels in logger class
+Logger.LEVEL_ERROR = LEVEL_ERROR;
+Logger.LEVEL_WARN = LEVEL_WARN;
+Logger.LEVEL_INFO = LEVEL_INFO;
+Logger.LEVEL_DEBUG = LEVEL_DEBUG;
 
-module.exports = Logger;
+module.exports = (context)=>{
+    return new Logger(context);
+};

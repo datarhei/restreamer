@@ -7,24 +7,17 @@ module.exports = function(grunt) {
         es6Src: ['**/*.js'],
         stylesheets: ['static/webserver/public/css/*.css']
     };
-    // find all node modules
-    var modules = [];
-    var pck = require('./package.json')
-    if (!!pck.dependencies) {
-        modules = Object.keys(pck.dependencies)
-            .filter(function (m) {
-                return m != 'nodewebkit'
-            })
-            .map(function (m) {
-                return './node_modules/' + m + '/**/*'
-            });
-    }
+
     // Project Configuration
     grunt.initConfig({
+
+        /*
+            Watcher config with livereload
+        */
         watch: {
             scripts: {
                 files: ['src/**/*.js'],
-                tasks: ['loadConfig','babel', 'minifyFrontendFiles'],
+                tasks: ['compile-code'],
                 options: {
                     interrupt: true,
                     livereload: {
@@ -35,7 +28,7 @@ module.exports = function(grunt) {
             },
             statics: {
                 files: ['static/**/*.html'],
-                tasks: ['loadConfig','shell:copyStatics'],
+                tasks: ['copy-statics'],
                 options: {
                     interrupt: true,
                     livereload: {
@@ -45,6 +38,10 @@ module.exports = function(grunt) {
                 }
             }
         },
+
+        /*
+            Config for shell commands
+        */
         shell: {
             start: {
                 command: 'npm start'
@@ -61,11 +58,18 @@ module.exports = function(grunt) {
             bower: {
                 command: 'bower install --allow-root'
             },
+            eslint: {
+                command: 'eslint src/*'
+            },
             //temp workaround - https://github.com/clappr/clappr/issues/709
             clappr: {
-                command: 'git clone https://github.com/clappr/clappr bin/webserver/public/libs/clappr'
+                command: 'curl -LOks https://github.com/clappr/clappr/archive/master.tar.gz && tar xzvf master.tar.gz && rm master.tar.gz && mv clappr-master bin/webserver/public/libs/clappr'
             }
         },
+
+        /*
+            Config for Babel compiling
+        */
         babel: {
             options: {
                 sourceMap: true,
@@ -82,13 +86,20 @@ module.exports = function(grunt) {
                 ]
             }
         },
-        pkg: grunt.file.readJSON('package.json'),
+
+        /*
+            Config for eslinter
+        */
         eslint: {
             all: ['src/**/*.js'],
             options: {
                 configFile: '.eslintrc.json'
             }
         },
+
+        /*
+            config for css linter
+         */
         csslint: {
             options: {
                 csslintrc: '.csslintrc'
@@ -97,6 +108,10 @@ module.exports = function(grunt) {
                 src: ['static/webserver/public/css/*.css']
             }
         },
+
+        /*
+            uglify and minify frontend javascript
+         */
         uglify: {
             production: {
                 options: {
@@ -107,6 +122,10 @@ module.exports = function(grunt) {
                 }
             }
         },
+
+        /*
+            minify css files
+         */
         cssmin: {
             combine: {
                 files: {
@@ -114,13 +133,17 @@ module.exports = function(grunt) {
                 }
             }
         },
+
+        /*
+            produces one file from all fontend javascript bewaring DI naming of angular
+         */
         ngAnnotate: {
             production: {
                 files: {
                     'bin/webserver/public/dist/application.js': '<%= compiledFrontendJS %>'
                 }
             }
-            },
+            }
         });
 
     /*
@@ -133,14 +156,13 @@ module.exports = function(grunt) {
         grunt.config.set('stylesheets', files.stylesheets);
     });
     grunt.loadNpmTasks('grunt-shell');
-    grunt.loadNpmTasks('gruntify-eslint');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     /*
      Helper tasks to keep overview
      */
     // lint
-    grunt.registerTask('lint', ['csslint', 'eslint']);
+    grunt.registerTask('lint', ['csslint', 'shell:eslint']);
     // clear old bin folder and create new one
     grunt.registerTask('clearOldBuild', ['shell:removeOldBinFolder', 'shell:createBinFolder']);
     // install frontendlibraries (atm through bower)
@@ -152,7 +174,8 @@ module.exports = function(grunt) {
     Build Tasks
      */
     grunt.registerTask('build', ['loadConfig','clearOldBuild', 'shell:copyStatics', 'babel', 'minifyFrontendFiles', 'installFrontendLibraries']);
-    grunt.registerTask('build-code', ['loadConfig', 'shell:copyStatics', 'babel', 'minifyFrontendFiles']);
+    grunt.registerTask('compile-code', ['loadConfig','babel', 'shell:copyStatics', 'minifyFrontendFiles']);
+    grunt.registerTask('copy-statics', ['loadConfig', 'shell:copyStatics']);
 
     /*
     Run Tasks

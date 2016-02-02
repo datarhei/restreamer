@@ -6,6 +6,7 @@ Dockerfile_armv7l
 .git
 .editorconfig
 .gitignore
+docs
 node_modules
 bin
 db

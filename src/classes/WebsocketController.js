@@ -5,10 +5,7 @@
  * @license Apache-2.0
  */
 
-'use strict';
-const Logger = require('../classes/Logger');
-const logger = new Logger('WebsocketsController');
-
+const logger = require('../classes/Logger')('WebsocketsController');
 
 /**
  * static class websocket controller, that helps communicating through websockets to different namespaces and ensures
@@ -23,10 +20,11 @@ class WebsocketsController {
      * @param {string} event name of the event
      * @param {object} data data to emit to the client event listener
      */
-    static emitToNamespace(namespace, event, data) {
+    static emitToNamespace (namespace, event, data) {
         var app = require('../webserver/app');
+
         app.get('websocketsReady').promise.then(function (io) {
-            logger.debug('websocket got event ' + event + ' to namespace ' + namespace + '','Websockets');
+            logger.debug('websocket got event ' + event + ' to namespace ' + namespace + '', 'Websockets');
             io.of(namespace).emit(event, data);
         });
     }
@@ -36,10 +34,12 @@ class WebsocketsController {
      * @param {string} namespace
      * @param {function} callback
      */
-    static addOnConnectionEventToNamespace(namespace, callback) {
+    static addOnConnectionEventToNamespace (namespace, callback) {
         var app = require('../webserver/app');
+
         app.get('websocketsReady').promise.then(function (io) {
             var nsp = io.of(namespace);
+
             nsp.on('connection', function (socket) {
                 callback(socket);
             });
@@ -49,13 +49,15 @@ class WebsocketsController {
     /**
      * bind default events of all classes that are using websocketevents
      */
-    static bindDefaultEvents() {
+    static bindDefaultEvents () {
         WebsocketsController.addOnConnectionEventToNamespace('/', function (socket) {
             socket.on('getVersion', (options)=> {
                 var packageJson = require('../../package.json');
+
                 socket.emit('version', packageJson.version);
             });
             var app = require('../webserver/app');
+
             socket.emit('publicIp', app.get('publicIp'));
         });
         require('./Restreamer').bindWebsocketEvents();

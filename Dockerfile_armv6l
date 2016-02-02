@@ -5,10 +5,10 @@ MAINTAINER datarhei <info@datarhei.org>
 ENV NODE_VERSION 4.2.6
 ENV NPM_VERSION 2.14.12
 
-ENV FFMPEG_VERSION 2.8.1
+ENV FFMPEG_VERSION 2.8.5
 ENV YASM_VERSION 1.3.0
 ENV LAME_VERSION 3_99_5
-ENV NGINX_VERSION 1.8.0
+ENV NGINX_VERSION 1.9.9
 ENV NGINX_RTMP_VERSION 1.1.7
 
 ENV SRC /usr/local
@@ -70,7 +70,8 @@ RUN DIR=$(mktemp -d) && cd ${DIR} && \
     cd ffmpeg-${FFMPEG_VERSION} && \
     ./configure --prefix="${SRC}" --extra-cflags="-I${SRC}/include" --extra-ldflags="-L${SRC}/lib" --bindir="${SRC}/bin" \
       --extra-libs=-ldl --enable-version3 --enable-libmp3lame --enable-libx264 --enable-gpl \
-      --enable-postproc --enable-nonfree --enable-avresample --disable-debug --enable-small --enable-openssl && \
+      --enable-postproc --enable-nonfree --enable-avresample --disable-debug --enable-small --enable-openssl \
+      --disable-doc --disable-ffserver && \
     make && \
     make install && \
     make distclean && \
@@ -105,7 +106,8 @@ WORKDIR /restreamer
 
 RUN npm install -g bower grunt-bower grunt-cli public-ip && \
     npm install && \
-    grunt build
+    grunt build && \
+    npm prune --production
 
 ENV RESTREAMER_USERNAME admin
 ENV RESTREAMER_PASSWORD datarhei
