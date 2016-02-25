@@ -1,7 +1,7 @@
 ---
 title: buy-hardware-accessories
 ---
-######[Hardware Buying Guide](../wiki/guide-buy-hardware.html) > Accessories
+######[Buy Hardware](../wiki/buy-hardware-index.html) > Accessories
 #Buy Accessories
 #### Usefull things for your camera installation project.  
 
@@ -38,7 +38,7 @@ The configuration is simple - setting - screwing - forget! <a target= "_blank" r
 
 **
 ###The Swiss army knife for every situation! :) 
-<a target= "_blank" rel="nofollow" href="http://www.amazon.de/gp/offer-listing/B000R0JDSI/ref=as_li_tl?ie=UTF8&camp=1638&creative=6742&creativeASIN=B000R0JDSI&linkCode=am2&tag=httpwwwdatarh-21">Wenger Swiss Army Knife</a><img src="http://ir-de.amazon-adsystem.com/e/ir?t=httpwwwdatarh-21&l=am2&o=3&a=B000R0JDSI" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> Be prepared for all installation situations and your holw life!  
+<a target= "_blank" rel="nofollow" href="http://www.amazon.de/gp/offer-listing/B000R0JDSI/ref=as_li_tl?ie=UTF8&camp=1638&creative=6742&creativeASIN=B000R0JDSI&linkCode=am2&tag=httpwwwdatarh-21">Wenger Swiss Army Knife</a><img src="http://ir-de.amazon-adsystem.com/e/ir?t=httpwwwdatarh-21&l=am2&o=3&a=B000R0JDSI" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> Be prepared for all installation situations and your whole life and safe the universe too!  
 
 <a target= "_blank" rel="nofollow" href="http://www.amazon.de/gp/offer-listing/B000R0JDSI/ref=as_li_tl?ie=UTF8&camp=1638&creative=6742&creativeASIN=B000R0JDSI&linkCode=am2&tag=httpwwwdatarh-21"><img border="0" src="http://ws-eu.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B000R0JDSI&Format=_SL250_&ID=AsinImage&MarketPlace=DE&ServiceVersion=20070822&WS=1&tag=httpwwwdatarh-21" ></a><img src="http://ir-de.amazon-adsystem.com/e/ir?t=httpwwwdatarh-21&l=am2&o=3&a=B000R0JDSI" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
 ***

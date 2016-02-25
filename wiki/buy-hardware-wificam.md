@@ -1,10 +1,13 @@
 ---
 title: buy-hardware-wificam
 ---
-######[Hardware Buying Guide](../wiki/guide-buy-hardware.html) > Buy Indoor WiFi Camera
+######[Buy Hardware](../wiki/buy-hardware-index.html) > Buy Indoor WiFi Camera
 #Buy Indoor WiFi Camera
-#### Basically a network cable is always preferable to a wireless LAN connection. If a cable embarrassed but is too laborious, a Wi-Fi camera can be useful in an emergency. 
-**CAUTION: Indoor cameras are not waterproof or heated and therefore not suitable for outdoor use**
+#### Basically a network cable is always preferable to a wireless LAN connection. If a cable embarrassed but is too laborious, a Wi-Fi camera can be useful in an emergency.
+
+```sh
+CAUTION: Indoor cameras are not waterproof or heated and therefore not suitable for outdoor use.
+```
 
 ***
 <a target= "_blank" rel="nofollow" href="http://www.amazon.de/gp/offer-listing/B00VWKWJF6/ref=as_li_tl?ie=UTF8&camp=1638&creative=6742&creativeASIN=B00VWKWJF6&linkCode=am2&tag=httpwwwdatarh-21">HiKam S5 mini wirelesss IP camera, 720p Resolution (price about 50 EUR)</a><img src="http://ir-de.amazon-adsystem.com/e/ir?t=httpwwwdatarh-21&l=am2&o=3&a=B00VWKWJF6" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />  

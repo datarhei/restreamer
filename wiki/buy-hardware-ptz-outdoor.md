@@ -1,7 +1,7 @@
 ---
 title: buy-hardware-ptz-outdoor
 ---
-######[Hardware Buying Guide](../wiki/guide-buy-hardware.html) > Buy Outdoor PTZ Camera
+######[Buy Hardware](../wiki/buy-hardware-index.html) > Buy Outdoor PTZ Camera
 #Buy Outdoor PTZ Camera
 #### The Champions League of network cameras. Pan, tilt, zoom. Create camera movements (guard tours), almost everything is possible with these cameras. Dome cameras are not suitable for permanent panning, the producers stop for technical reasons, permanent movements with a time block. For continuous operation, you should use speed dome technology.
 

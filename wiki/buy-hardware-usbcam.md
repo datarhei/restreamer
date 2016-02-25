@@ -1,11 +1,13 @@
 ---
 title: buy-hardware-usbcam
 ---
-######[Hardware Buying Guide](../wiki/guide-buy-hardware.html) > Buy USB Camera
+######[Buy Hardware](../wiki/buy-hardware-index.html) > Buy USB Camera
 #Buy USB Camera
 ####A USB camera offers the cheapest entry into the world of streaming. We have a few cameras linked suitable for Datarhei. If your favorite camera is not present or you already have a USB webcam and want a quick test you can check compatibility with Datarhei on the <a target= "_blank" href="http://www.ideasonboard.org/uvc/#devices">UVC website</a> .  
 
-**CAUTION: Indoor cameras are not waterproof or heated and therefore not suitable for outdoor use.**
+```sh
+CAUTION: Indoor cameras are not waterproof or heated and therefore not suitable for outdoor use.
+```
 
 ****
 <a target= "_blank" rel="nofollow" href="http://www.amazon.de/gp/offer-listing/B003PAOAWG/ref=as_li_tl?ie=UTF8&camp=1638&creative=6742&creativeASIN=B003PAOAWG&linkCode=am2&tag=httpwwwdatarh-21">Logitech C270</a><img src="http://ir-de.amazon-adsystem.com/e/ir?t=httpwwwdatarh-21&l=am2&o=3&a=B003PAOAWG" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> - 720p Resolution (price about 25 EUR)   

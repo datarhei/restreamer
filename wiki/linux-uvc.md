@@ -9,4 +9,7 @@ href="http://www.ideasonboard.org/uvc/#devices" target="_blank">List of supporte
 
 Projectpage: <a href="http://www.ideasonboard.org/uvc/" target="_blank">http://www.ideasonboard.org/uvc/</a>  
 
+---
 **Datarhei Hint** ☺ ► If you are using a USB Webcam with Datarhei BE SURE if your camera is supported by UVC. If a USB camera Linux be able this is a good sign for functionality with Datarhei. 
+
+---

@@ -1,7 +1,7 @@
 ---
 title: buy-hardware-raspi
 ---
-######[Hardware Buying Guide](../wiki/guide-buy-hardware.html) > Buy Raspberry Pi
+######[Buy Hardware](../wiki/buy-hardware-index.html) > Buy Raspberry Pi
 #Buy Raspberry Pi
 #### Everything you need to get started with Datarhei is included in this package.  
 

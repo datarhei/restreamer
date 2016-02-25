@@ -1,10 +1,10 @@
 ---
-title: camera-buyers-guide
+title: requirements
 ---
-#Camera Buyers Guide
-You want to buy you a network camera and want to know what is recommended for operation with Datarhei/Restreamer.  
+#Requirements
+You want to buy you a network camera and need to know what is recommended for operation with Datarhei/Restreamer.  
 
-##The following basic data should be a function in your camera:  
+##The following basic requirements are needed:  
 **1. [RTSP](../wiki/rtsp-camera-buyers-guide.html) protocol**  
 **2. [H.264](../wiki/h264-camera-buyers-guide.html) video output**  
 **3. Network connection via WiFi/LAN/3G/4G/WAN**  

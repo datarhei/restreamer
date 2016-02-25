@@ -9,4 +9,7 @@ There are in addition to the auto-iris still: Fixed Iris, Manual Iris and P-Iris
 
 <a href="https://www.videosurveillance.com/tech/camera-iris.asp" target="_blank">Nice article about Iris control.</a>
 
+---
 **Datarhei Hint** ☺ ► Only Auto-Iris allows camera using a in outdoor areas. Without this feature, a camera is not suitable for all light conditions and not for perfect outdoor use.
+
+---

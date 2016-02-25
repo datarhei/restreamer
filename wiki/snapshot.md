@@ -8,4 +8,7 @@ In Screenshottet snapshots ot of videos the generated image looks sometimes spon
 
 You should always be trying to use the API function of the camera manufacturer, as the quality of the snapshot is higher.
 
-**Datarhei Hint ☺** ► Datarhei/Restreamer offers automatic snapshot. How this works is explained here [How2 embedd your Snapshot](../wiki/embedd-snapshot.html) .
+---
+**Datarhei Hint ☺** ► Datarhei/Restreamer offers automatic snapshot. How this works is explained in our Docs/Guides about [Snapshots](../docs/guides-snapshot.html).
+
+---

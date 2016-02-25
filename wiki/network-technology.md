@@ -4,7 +4,7 @@ title: network-technology
 #Network
 Who operates with live video streaming will will get in contact with of hardware and misc IT technologies. We have put the main parts together for you: 
 
-##### 1. Hardware
+## 1. Hardware
 * [IP Camera](../wiki/ip-camera.html)  
 * [USB-Camera](../wiki/usb-camera.html)
 * [POE](../wiki/poe.html)
@@ -13,7 +13,7 @@ Who operates with live video streaming will will get in contact with of hardware
 * [Router](../wiki/router.html)
 * [Network Switch](../wiki/network-switch.html)   
 
-##### 2. Internet Access
+## 2. Internet Access
 * [Firewall](firewall.html)
 * [Port 1935](../wiki/port-1935.html)
 * [Port 554](../wiki/port-554.html)
@@ -26,18 +26,15 @@ Who operates with live video streaming will will get in contact with of hardware
 * [Upload](../wiki/upload.html)
 * [Download](../wiki/download.html)  
 
-##### 3. Server  
+## 3. Server  
 * [Web-Hosting](../wiki/web-hosting.html)  
 * [Root-Server](../wiki/root-server.html)
    
-##### 4. Software Development  
+## 4. Software Development  
 * [Node.js](../wiki/nodejs.html)
 * [Docker](../wiki/docker.html)
 
-##### 5. Miscellaneous
+## 5. Miscellaneous
 * [Dynamic DNS](../wiki/dynamic-dns.html) 
 * [Dynamic IP (DHCP)](../wiki/dynamic-ip.html)  
 * [Static IP](../wiki/static-ip.html)
-
----
-Want to talk to us? Write an email to <a href="mailto:open@datarhei.org?subject=Datarhei/Restreamer">open@datarhei.org</a>, go to [Support](../support.html) or choose a nickname speak to us in IRC: <a href="irc://irc.freenode.net#piwik">irc.freenode.net/#datarhei</a> (<a target= "_blank" href="https://webchat.freenode.net/?channels=datarhei">webchat</a>). You could ask a question in our (<a target= "_blank" href="https://groups.google.com/forum/#!forum/datarhei">Forum</a>) on Google Groups, too. If you're having a problem while developing, see <a target= "_blank" href="https://github.com/datarhei/restreamer/issues">Known Issues</a>.

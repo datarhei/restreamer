@@ -1,7 +1,7 @@
 ---
 title: buy-hardware-static-outdoor
 ---
-######[Hardware Buying Guide](../wiki/guide-buy-hardware.html) > Buy Static Outdoor Camera
+######[Buy Hardware](../wiki/buy-hardware-index.html) > Buy Static Outdoor Camera
 #Buy Static Outdoor Camera
 #### Static outdoor cameras are suitable for most scenarios for outdoor use. Partially equipped with motorized zoom (Varifocal) different presets can be zoomed in the image. They are relatively inconspicuous and do not generate pressure monitoring at the neighbors! 
 
