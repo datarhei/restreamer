@@ -304,6 +304,8 @@ class Restreamer {
                                     Restreamer.startStream(src, streamType, optionalOutput, Restreamer.data.retryCounter[streamType].current);
                                 });
                             }
+                        } else {
+                            Restreamer.updateState(streamType, 'error', error.toString());
                         }
                     }
                 })
