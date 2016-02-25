@@ -1,0 +1,61 @@
+<!--
+    Repeat to local nginx
+-->
+<div class="form-group">
+    <label>{{'input_titel' | translate}} <a href="https://datarhei.github.io/restreamer/docs/references-rtmp-rtsp-video-source.html", target="_blank"><span class="glyphicon glyphicon-question-sign" style="font-size: 16px;" aria-hidden="true"></span></a></label>
+    <input type="text" class="form-control input" id="input_uri" placeholder="{{'input_example' | translate}}" ng-model="reStreamerData.addresses.srcAddress"  ng-disabled="nginxRepeatStreamConnecting() || nginxRepeatStreamConnected()">
+</div>
+<div class="jumbotron progress-bar-info progress-bar-striped" ng-if="nginxRepeatStreamConnecting()">{{'process_init' | translate}}</div>
+<div class="jumbotron progress-bar-success progress-bar-striped" ng-if="nginxRepeatStreamConnected()">
+    {{'process_success' | translate}}
+    <div ng-if="reStreamerData.progresses.repeatToLocalNginx.currentFps > 0">
+        <span class="ffmpeg-progress fps">{{reStreamerData.progresses.repeatToLocalNginx.currentFps}}fps </span>
+        /
+        <span class="ffmpeg-progress kbps">{{reStreamerData.progresses.repeatToLocalNginx.currentKbps}}Kb/s</span>
+    </div>
+</div>
+<div class="jumbotron progress-bar-danger progress-bar-striped" ng-show="nginxRepeatStreamInputInvalid">{{'process_input_invalid' | translate}}</div>
+<div class="jumbotron progress-bar-danger progress-bar-striped" ng-if="nginxRepeatStreamError()">{{'process_failed' | translate}} {{'process_failed_retry' | translate}} {{reStreamerData.progresses.repeatToLocalNginx.retryCount}}/{{reStreamerData.progresses.repeatToLocalNginx.retryMax}}</div>
+<div class="form group" >
+    <p class="player-link" ng-if="nginxRepeatStreamConnected()">
+        <a href="#" style="text-decoration:underline" ng-click="openPlayer()">
+            {{'player_link_titel' | translate}}
+        </a>
+    </p>
+    <div class="text-right">
+        <button type="button" class="btn btn-success" ng-if="showStartButton('repeatToLocalNginx')" ng-click="startStream('repeatToLocalNginx')">{{'button_start' | translate}}</button>
+        <button type="button" class="btn btn-danger" ng-if="showStopButton('repeatToLocalNginx')" ng-click="stopStream('repeatToLocalNginx')">{{'button_stop' | translate}}</button>
+    </div>
+</div>
+<hr/>
+<!--
+    Repeat to optional Output
+-->
+<h4>Optional:</h4>
+<div class="checkbox">
+    <label>
+        <input type="checkbox" ng-model="activateOptionalOutput"> {{'output_optional' | translate}} <a href="https://datarhei.github.io/restreamer/docs/references-external-rtmp-streaming-server.html", target="_blank"><span class="glyphicon glyphicon-question-sign" style="font-size: 14px;" aria-hidden="true"></span></a>
+    </label>
+</div>
+<div>
+    <div class="form-group" ng-show="activateOptionalOutput === true">
+        <input type="text" class="form-control input" id="output_optional_uri" placeholder="{{'output_optional_example' | translate}}" ng-model="reStreamerData.addresses.optionalOutputAddress" ng-disabled="optionalOutputConnected()">
+    </div>
+</div>
+<div class="jumbotron progress-bar-info progress-bar-striped" ng-if="optionalOutputConnecting()">{{'process_init' | translate}}</div>
+<div class="jumbotron progress-bar-success progress-bar-striped" ng-if="optionalOutputConnected()">
+    {{'process_success' | translate}}
+    <div ng-if="reStreamerData.progresses.repeatToOptionalOutput.currentFps > 0">
+        <span class="ffmpeg-progress fps">{{reStreamerData.progresses.repeatToOptionalOutput.currentFps}}fps </span>
+        /
+        <span class="ffmpeg-progress kbps">{{reStreamerData.progresses.repeatToOptionalOutput.currentKbps}}Kb/s</span>
+    </div>
+</div>
+<div class="jumbotron progress-bar-danger progress-bar-striped" ng-show="optionalOutputInputInvalid">{{'process_input_invalid' | translate}}</div>
+<div class="jumbotron progress-bar-danger progress-bar-striped" ng-if="optionalOutputError()">{{'process_failed' | translate}} {{'process_failed_retry' | translate}} {{reStreamerData.progresses.repeatToOptionalOutput.retryCount}}/{{reStreamerData.progresses.repeatToOptionalOutput.retryMax}}</div>
+<div class="text-right">
+    <div class="btn btn-danger" ng-click="stopStream('repeatToOptionalOutput')" ng-if="showStopButton('repeatToOptionalOutput')">{{'button_stop' | translate}}</div>
+    <div ng-show="activateOptionalOutput === true">
+        <div class="btn btn-success" ng-click="startStream('repeatToOptionalOutput')" ng-if="showStartButton('repeatToOptionalOutput')">{{'button_start' | translate}}</div>
+    </div>
+</div>

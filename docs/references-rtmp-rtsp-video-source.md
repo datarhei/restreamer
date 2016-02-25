@@ -1,7 +1,8 @@
 ---
 title: RTMP/RTSP Video Source
 ---
-# RTMP/RTSP Video Source
+######[User Guides](../docs/guides-index.html) > RTMP/RTSP Video Source 
+# RTMP/RTSP Video Source (IP camera)
 For the integration of an H.264 enabled network camera you need the address, at which you can retrieve the video livestream from the camera. Take a look at your camera manual and look for RTSP/RTP.  
 
 For this purpose, please read the manual of your camera and search for 0"RTSP". Alternatively you can find already many templates on the Soleratec company website: <a target= "_blank" href="https://www.soleratec.com/support/rtsp/rtsp_listing">https://www.soleratec.com/support/rtsp/rtsp_listing</a>  
@@ -21,4 +22,3 @@ Last step: Start process
 Once the process has been successfully established, you can open the Datarhei/Restramer player and, if necessary, forward the stream to an external provider of the player.    
 
 ---
-Want to talk to us? Write an email to <a href="mailto:open@datarhei.org?subject=Datarhei/Restreamer">open@datarhei.org</a>, go to [Support](../support.html) or choose a nickname speak to us in IRC: <a href="irc://irc.freenode.net#datarhei">irc.freenode.net/#datarhei</a> (<a target= "_blank" href="https://webchat.freenode.net/?channels=datarhei">webchat</a>). You could ask a question in our (<a target= "_blank" href="https://groups.google.com/forum/#!forum/datarhei">Forum</a>) on Google Groups, too. If you're having a problem while developing, see <a target= "_blank" href="https://github.com/datarhei/restreamer/issues">Known Issues</a>.

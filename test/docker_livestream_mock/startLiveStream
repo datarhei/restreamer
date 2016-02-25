@@ -1,0 +1,5 @@
+#!/bin/bash
+
+/usr/local/nginx/sbin/nginx -c /video/nginx.conf
+
+ffmpeg -re -f concat -i loop.txt -c copy -f flv rtmp://localhost:1935/live

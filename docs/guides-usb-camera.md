@@ -1,8 +1,11 @@
 ---
 title: USB-Cameras
 ---
+######[User Guides](../docs/guides-index.html) > USB-Camera
+## USB-Camera
 
-## USB-Cameras
+**Datarhei Hint ☺ ►** for ARMv6l / ARMv7l (e.g. Raspberry Pi)
+It works with USB but it is not funny on ARM CPU cause of very low FPS rates. On other systems it is working much better with higher FPS.  
 
 1. Connect you USB-Camera
 2. Show the running Docker image by name and ID   
@@ -21,4 +24,3 @@ title: USB-Cameras
 The first Restreamer start will take a while because he has to install some packages for the usb-driver
 
 ---
-Want to talk to us? Write an email to <a href="mailto:open@datarhei.org?subject=Datarhei/Restreamer">open@datarhei.org</a>, go to [Support](../support.html) or choose a nickname speak to us in IRC: <a href="irc://irc.freenode.net#datarhei">irc.freenode.net/#datarhei</a> (<a target= "_blank" href="https://webchat.freenode.net/?channels=datarhei">webchat</a>). You could ask a question in our (<a target= "_blank" href="https://groups.google.com/forum/#!forum/datarhei">Forum</a>) on Google Groups, too. If you're having a problem while developing, see <a target= "_blank" href="https://github.com/datarhei/restreamer/issues">Known Issues</a>.

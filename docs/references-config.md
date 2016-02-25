@@ -1,7 +1,7 @@
 ---
-title: Configuration
+title: references-config
 ---
-
+######[References](../docs/references-index.html) > Configuration
 # Configuration
 
 The base configuration file is located on "/conf/live.json". Please don't change its settings if you don't understand the architecture and the software components like NGINX and FFmpeg..
@@ -113,4 +113,3 @@ These options are required if you want to use an external streaming server from 
 `"hls_path"` set the path to the hls-application   
 
 ---
-Want to talk to us? Write an email to <a href="mailto:open@datarhei.org?subject=Datarhei/Restreamer">open@datarhei.org</a>, go to [Support](../support.html) or choose a nickname speak to us in IRC: <a href="irc://irc.freenode.net#datarhei">irc.freenode.net/#datarhei</a> (<a target= "_blank" href="https://webchat.freenode.net/?channels=datarhei">webchat</a>). You could ask a question in our (<a target= "_blank" href="https://groups.google.com/forum/#!forum/datarhei">Forum</a>) on Google Groups, too. If you're having a problem while developing, see <a target= "_blank" href="https://github.com/datarhei/restreamer/issues">Known Issues</a>.

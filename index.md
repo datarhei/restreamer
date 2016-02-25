@@ -18,7 +18,7 @@ title: Restreamer
         <p class="btn-row">
             <a class="btn btn-lg btn-success" href="docs/installation-osx-windows.html">OSX/Windows Setup</a>                    
             <a class="btn btn-lg btn-success" href="docs/installation-linux-64.html">Linux 64bit Setup</a>
-            <a class="btn btn-lg btn-success" href="docs/installation-linux-arm.html">Linux ARMv6/v7 Setup</a>
+            <a class="btn btn-lg btn-success" href="docs/nstallation-linux-arm.html">Linux ARMv6/v7 Setup</a>
         </p>
         <hr class="hr-landingpage" />
         <h3>Powered by...</h3>

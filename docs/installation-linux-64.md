@@ -1,8 +1,8 @@
 ---
-title: Installation under Linux 64bit
+title: installation-linux-64
 ---
-
-# Installation Linux 64bit
+######[Installation](../docs/installation-index.html) > Installation Linux 64bit
+#Installation Linux 64bit
 
 **Requirements:**
 
@@ -10,7 +10,7 @@ title: Installation under Linux 64bit
 
 ---
 
-## Installation
+##Installation
 
 1. Download and install Docker-Engine. It's available for: <a target= "_blank" href="https://docs.docker.com/engine/installation/ubuntulinux/">Ubuntu</a>, <a target= "_blank" href="https://docs.docker.com/engine/installation/ubuntulinux/">Red Hat Enterprise Linux</a>,  <a target= "_blank" href="https://docs.docker.com/engine/installation/centos/">CentOS</a>, <a target= "_blank" href="https://docs.docker.com/engine/installation/fedora/">Fedora</a>, <a target= "_blank" href="https://docs.docker.com/engine/installation/debian/">Debian</a>, <a target= "_blank" href="https://docs.docker.com/engine/installation/archlinux/">Arch Linux</a>, <a target= "_blank" href="https://docs.docker.com/engine/installation/cruxlinux/">CRUX Linux</a>, <a target= "_blank" href="https://docs.docker.com/engine/installation/frugalware/">FrugalWare</a>, <a target= "_blank" href="https://docs.docker.com/engine/installation/gentoolinux/">Gentoo</a>, <a target= "_blank" href="https://docs.docker.com/engine/installation/oracle/">Oracle Linux</a>, <a target= "_blank" href="https://docs.docker.com/engine/installation/SUSE/">openSUSE or SUSE Linux</a>
 2. Start the Restreamer:    
@@ -40,4 +40,3 @@ The default login (more [here](references-environment-vars.html#login-security))
   Save and export the Restreamer-DB on your device-filesystem under /mnt/restreamer
 
 ---
-Want to talk to us? Write an email to <a href="mailto:open@datarhei.org?subject=Datarhei/Restreamer">open@datarhei.org</a>, go to [Support](../support.html) or choose a nickname speak to us in IRC: <a href="irc://irc.freenode.net#datarhei">irc.freenode.net/#datarhei</a> (<a target= "_blank" href="https://webchat.freenode.net/?channels=datarhei">webchat</a>). You could ask a question in our (<a target= "_blank" href="https://groups.google.com/forum/#!forum/datarhei">Forum</a>) on Google Groups, too. If you're having a problem while developing, see <a target= "_blank" href="https://github.com/datarhei/restreamer/issues">Known Issues</a>.
