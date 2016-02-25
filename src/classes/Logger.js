@@ -61,7 +61,8 @@ class Logger {
     /**
      * print an info message if LOG_LEVEL >= LEVEL_INFO
      * @param {string} message
-     * @param {string} context
+     * @param {string=} context
+     * @param {boolean=} alertGui
      */
     info (message, context, alertGui) {
         if (typeof context === 'undefined') {
@@ -81,7 +82,8 @@ class Logger {
     /**
      * print a warning message if LOG_LEVEL >= LEVEL_WARN
      * @param {string} message
-     * @param {string} context
+     * @param {string=} context
+     * @param {boolean=} alertGui
      */
     warn (message, context, alertGui) {
         if (typeof context === 'undefined') {
@@ -101,7 +103,8 @@ class Logger {
     /**
      * print a debug message if LOG_LEVEL >= LEVEL_DEBUG
      * @param {string} message
-     * @param {string} context
+     * @param {string=} context
+     * @param {boolean=} alertGui
      */
     debug (message, context, alertGui) {
         if (typeof context === 'undefined') {
@@ -122,7 +125,8 @@ class Logger {
      * print a debug message if LOG_LEVEL >= LEVEL_ERROR
      * sends a string to
      * @param {string} message
-     * @param {string} context
+     * @param {string=} context
+     * @param {boolean=} alertGui
      */
     error (message, context, alertGui) {
         if (typeof context === 'undefined') {
@@ -140,7 +144,7 @@ class Logger {
     }
 }
 
-// define loglevels in logger class
+// define log levels in logger class
 Logger.LEVEL_ERROR = LEVEL_ERROR;
 Logger.LEVEL_WARN = LEVEL_WARN;
 Logger.LEVEL_INFO = LEVEL_INFO;

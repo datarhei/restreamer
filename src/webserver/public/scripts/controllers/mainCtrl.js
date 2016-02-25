@@ -13,7 +13,7 @@ window.app.controller('mainCtrl', [ 'ws', '$scope', '$location', '$rootScope', '
 
     const initClappr = function () {
         player = new Clappr.Player({
-            source: 'http://' + window.location.hostname + ':' + window.location.port + '/hls/live.stream.m3u8',
+            source: ("https:" === window.location.protocol ? "https:" : "http:") + "//" + window.location.hostname + ':' + window.location.port + '/hls/live.stream.m3u8',
             parentId: '#player',
             baseUrl: '/libs/clappr/dist/',
             poster: 'images/live.jpg',
@@ -24,6 +24,8 @@ window.app.controller('mainCtrl', [ 'ws', '$scope', '$location', '$rootScope', '
     };
 
     $translate.use('en_US');
+
+    $rootScope.loggedIn = false;
 
     $scope.optionalOutputInputInvalid = false;
     $scope.nginxRepeatStreamInputInvalid = false;
@@ -75,6 +77,10 @@ window.app.controller('mainCtrl', [ 'ws', '$scope', '$location', '$rootScope', '
         return $scope.reStreamerData.states.repeatToLocalNginx.type === 'error';
     };
 
+    $scope.nginxRepeatReachedRetryLimit = function () {
+        return $scope.reStreamerData.retryCounter.repeatToLocalNginx.current > $scope.reStreamerData.retryCounter.repeatToLocalNginx.max;
+    };
+
     $scope.optionalOutputConnecting = function () {
         return $scope.reStreamerData.states.repeatToOptionalOutput.type === 'connecting';
     };
@@ -87,15 +93,18 @@ window.app.controller('mainCtrl', [ 'ws', '$scope', '$location', '$rootScope', '
         return $scope.reStreamerData.states.repeatToOptionalOutput.type === 'error';
     };
 
+    $scope.optionalOutputReachedRetryLimit = function () {
+        return $scope.reStreamerData.retryCounter.repeatToOptionalOutput.current > $scope.reStreamerData.retryCounter.repeatToOptionalOutput.max;
+    };
+
     $scope.openPlayer = function () {
         if (player === null) {
             initClappr();
         }
-        $('#player-modal').modal('show');
-        $('#player-modal').on('hide.bs.modal', function (e) {
+        var modal = $('#player-modal');
+        modal.modal('show').on('hide.bs.modal', function (e) {
             player.stop();
-            $('#player-modal').off('hide.bs.modal');
-            $('#player-modal').modal('hide');
+            modal.off('hide.bs.modal').modal('hide');
             return e.preventDefault();
         });
     };

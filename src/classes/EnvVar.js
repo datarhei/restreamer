@@ -11,10 +11,10 @@
 class EnvVar {
 
     /**
-     * constructs an envvar
+     * constructs an EnvVar
      * @param {string} name
-     * @param {string} required
-     * @param {string} defaultValue
+     * @param {boolean} required
+     * @param defaultValue
      * @param {string} description
      */
     constructor (name, required, defaultValue, description) {

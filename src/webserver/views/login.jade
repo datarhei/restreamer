@@ -1,0 +1,9 @@
+form(action='/login', method='POST')
+    if login_message.length > 0
+        .jumbotron.progress-bar-danger.progress-bar-striped {{'#{login_message}' | translate}}
+    .form-group.ng-scope
+            input#input_username.form-control.input.ng-pristine.ng-untouched.ng-valid(type='text', name='user', placeholder='{{"login_username" | translate}}')
+        .form-group.ng-scope
+            input#input_password.form-control.input.ng-pristine.ng-untouched.ng-valid(type='password', name='pass', placeholder='{{"login_password" | translate}}')
+        .text-right
+            button.btn.btn-success.ng-binding.ng-scope(type='submit') {{'login_btn' | translate}}
