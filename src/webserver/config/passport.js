@@ -52,7 +52,7 @@ module.exports = (passport) => {
              */
             done(null, auth);
         } else {
-            done(null, false, req.flash('wrong password or wrong user'));
+            done(null, false, req.flash('login_message', 'login_invalid'));
         }
     }));
 };
