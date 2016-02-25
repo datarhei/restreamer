@@ -10,7 +10,8 @@
     <link href="{{ site.baseurl }}/css/style.css" rel="stylesheet">
   </head>
   <body>
-          <div class="navbar navbar-default navbar-inverse" role="navigation">
+      <div class="site-wrapper">
+          <div class="navbar navbar-default navbar-inverse" style="background-color: transparent;" role="navigation">
             <div class="container">
               <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
@@ -24,7 +25,7 @@
               <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav">
                   <li {% if page.tab == "docs" %}class="active"{% endif %}>
-                    <a href="{{ site.baseurl }}/features.html">Features</a>
+                    <a href="{{ site.baseurl }}/docs/learn-more-features.html">Features</a>
                   </li>
                   <li {% if page.tab == "docs" %}class="active"{% endif %}>
                     <a href="{{ site.baseurl }}/docs/">Docs</a>
@@ -38,27 +39,31 @@
                   <li {% if page.tab == "wiki" %}class="active"{% endif %}>
                     <a href="{{ site.baseurl }}/wiki/">Wiki</a>
                   </li>
-                     <li {% if page.tab == "contact" %}class="active"{% endif %}>
+                    <li {% if page.tab == "contact" %}class="active"{% endif %}>
                     <a href="{{ site.baseurl }}/contact.html">Contact</a>
                   </li>
+
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                 <li><a href="https://github.com/datarhei/restreamer">GitHub</a></li>
+                  <li><a href="https://github.com/datarhei/restreamer">GitHub</a>
+                    </li>
                     <li><span style="padding-bottom: 15px; padding-top: 15px; display:block;"><a href="https://twitter.com/datarhei" class="twitter-follow-button" data-show-count="false" >Follow @datarhei</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></span></li>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></span>
+                    </li>
                 </ul>
               </div>
             </div>
           </div>
         <div class="container">
-        <div class="row">
-          {{content}}
-          <footer>
-            <p class="text-muted">
-              &copy; 2016 <a class="text-muted" href="http://datarhei.org">datarhei.org</a>
-            </p>
-          </footer>
-            </div></div>
+            <div class="row">
+              {{content}}
+              <footer>
+                <p class="text-muted text-right">
+                  &copy; 2016 <a class="text-muted" href="https://datarhei.org">datarhei.org</a>
+                </p>
+              </footer>
+            </div>
+        </div>
     </div>
     <script src="//cdn.jsdelivr.net/jquery/2.1.1/jquery.min.js"></script>
     <script src="//cdn.jsdelivr.net/bootstrap/3.2.0/js/bootstrap.min.js"></script>
@@ -74,4 +79,3 @@
     </script>
   </body>
 </html>
-

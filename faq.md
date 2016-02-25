@@ -24,25 +24,25 @@ title: faq
 ###8. What kind of hardware is supported by Datarhei/Restreamer?
 ► Datarhei/Restreamer has been tested with single board computers like Raspberry Pi1, Pi2, and ODROID. Windows, MacOS and Linux works with Docker. More information about [Hardware](Coming).  
 ###9. I do not know wich hardware i should buy?  
-► You can find out about camera requirements for Datarhei/Restreamer in our [Requirements-Guide](../wiki/requirements.html).  
+► You can find out about camera requirements for Datarhei/Restreamer in our [Requirements-Guide](../restreamer/wiki/requirements.html).  
 ###10. How much data upload is needed to produce a proper video live stream?  
 ► Find a rule of thumb for required upload and data volume of your video streams in the wiki chapter about [video compression](../wiki/videocompression.html).  
 ###11. Works Datarhei/Restreamer with UMTS/G3 or LTE/G4?  
 ► Yes - but consider your bandwidth carefully. An HD live stream can quickly consume over 1 GB of data PER DAY(!). If you host yourself, we recommend that you use a DSL or better VDSL connection with flatrate.  
 ###12. Where can I find a suitable network camera from?
-► We prepared a [suiteable selection of network cameras](..wiki/buy-hardware-index.html) for you on Amazon.
+► We prepared a [suiteable selection of network cameras](../restreamer/wiki/buy-hardware-index.html) for you on Amazon.
 ###13. How do I set a dynamic DNS?  
-► For more information about Dynamic DNS take a look [in the Wiki](../wiki/dynamicdns.html).
+► For more information about Dynamic DNS take a look [in the Wiki](../wiki/dynamic-dns.html.html).
 ###14. Is streaming on Apple iOS devices and Android possible?  
 ► Yes - Datarhei/Restreamer supports iPod Touch, iPhone, iPad and Android devices, too.
 ###15. Is a professional use of Datarhei/Restreamer possible?  
 ► Yes - You should definitely get in touch with us and let us advise you on what steps you have to take to realise your project.  
 ###16. Wich browsers are supported?  
-► You will find a list of supported browser [here](../docs/learn-more-features.html#supported-browser)
+► You will find a list of supported browser [here](../features.html#supported-browser)
 ###17. What about simultaneous running with third party tools like WeeWX or Zoneminder?  
-► Simultaneous running third party tools is possible check an overview in our [feature list](../docs/learn-more-features.html#simultaneous-running-third-party-tools)
+► Simultaneous running third party tools is possible and tested but not docomented yet...
 ###18. Where can i get Help for my project?  
-► There are several ways to get help. [More here](../docs/learn-more-features.html#support)
+► There are several ways to get help. [More here](../restreamer/docs/learn-more-features.html#support)
 ###19. What about audio?  
 ► Datahrei/Restreamer is supporting video streaming with audio
 ###20. Icecast  

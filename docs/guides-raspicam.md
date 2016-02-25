@@ -5,6 +5,7 @@ title: guides-raspicam
 ######[User Guides](../docs/guides-index.html) > Raspicam 
 ## Raspicam
 
+---
 **Datarhei Hint ☺ ►**  for Hypriot-Users   
 The Hypriot-Image has no raspi-config to activate the camera. You have to install this first:
 
