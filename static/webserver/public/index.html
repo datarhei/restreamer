@@ -51,7 +51,11 @@
                     v{{version}}
                 </span>
                 <a href="https://datarhei.github.io/restreamer/docs/references-updates.html" target="_blank" class="btn btn-xs btn-success ng-binding ng-scope" ng-if="checkForAppUpdatesResult != false">{{'update_btn' | translate}}</a>
-                <p class="pull-right"><a href="https://github.com/datarhei/restreamer/issues/new" target="_blank">{{'issue_tracker' | translate}}</a> <a href="https://github.com/datarhei/restreamer" target="_blank" style="padding-left:10px">{{'project_page' | translate}}</a></p>
+                <p class="pull-right links">
+                    <a href="https://github.com/datarhei/restreamer/issues/new" target="_blank">{{'issue_tracker' | translate}}</a>
+                    <a href="https://github.com/datarhei/restreamer" target="_blank">{{'project_page' | translate}}</a>
+                    <a ng-if="loggedIn" href="/logout">{{'logout' | translate}}</a>
+                </p>
             </div>
         </div>
     </div>

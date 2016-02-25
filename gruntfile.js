@@ -55,6 +55,9 @@ module.exports = function(grunt) {
             copyStatics: {
                 command: 'cp -R static/* bin'
             },
+            copyTemplates: {
+                command: 'cp -R src/webserver/views/. bin/webserver/views'
+            },
             bower: {
                 command: 'bower install --allow-root'
             },
@@ -173,9 +176,10 @@ module.exports = function(grunt) {
     /*
     Build Tasks
      */
-    grunt.registerTask('build', ['loadConfig','clearOldBuild', 'shell:copyStatics', 'babel', 'minifyFrontendFiles', 'installFrontendLibraries']);
-    grunt.registerTask('compile-code', ['loadConfig','babel', 'shell:copyStatics', 'minifyFrontendFiles']);
+    grunt.registerTask('build', ['loadConfig','clearOldBuild', 'shell:copyStatics', 'shell:copyTemplates', 'babel', 'minifyFrontendFiles', 'installFrontendLibraries']);
+    grunt.registerTask('compile-code', ['loadConfig','babel', 'shell:copyStatics', 'shell:copyTemplates', 'minifyFrontendFiles']);
     grunt.registerTask('copy-statics', ['loadConfig', 'shell:copyStatics']);
+    grunt.registerTask('copy-templates', ['loadConfig', 'shell:copyTemplates']);
 
     /*
     Run Tasks
@@ -185,5 +189,5 @@ module.exports = function(grunt) {
     // rebuild and run
     grunt.registerTask('run-clean', ['build', 'run']);
     // update code and run
-    grunt.registerTask('run-update-code', ['loadConfig','babel','shell:copyStatics', 'minifyFrontendFiles', 'run'])
+    grunt.registerTask('run-update-code', ['loadConfig','babel','shell:copyStatics', 'shell:copyTemplates', 'minifyFrontendFiles', 'run'])
 };

@@ -224,3 +224,7 @@ pre {
 .jwplayer:focus, .jwplayer:active {
     outline: 0;
 }
+
+#footer .links a {
+    margin-left: 10px;
+}

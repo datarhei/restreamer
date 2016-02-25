@@ -6,6 +6,7 @@
  */
 
 const express = require('express');
+const flash = require('connect-flash');
 const path = require('path');
 const Restreamer = require('../../classes/Restreamer');
 
@@ -24,7 +25,7 @@ module.exports = (app, passport) => {
         if (req.isAuthenticated()) {
             res.sendFile(path.join(__dirname, '../', 'public', 'main.html'));
         } else {
-            res.sendFile(path.join(__dirname, '../', 'public', 'login.html'));
+            res.render('login', {login_message: req.flash('login_message')});
         }
     });
     app.get('/', (req, res)=>{
@@ -35,8 +36,7 @@ module.exports = (app, passport) => {
     app.post('/login',
         passport.authenticate('local-login', {
             successRedirect: '/',
-            failureRedirect: '/',
-            failureFlash : true
+            failureRedirect: '/'
         })
     );
     app.get('/logout', (req, res)=>{
