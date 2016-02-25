@@ -30,8 +30,8 @@ const crypto = require('crypto');
 const packageJson = require('../../package.json');
 const logger = require('../classes/Logger')('Webserver');
 
-// middlewares
-const expressLogger = require('./middlewares/expressLogger');
+// middleware
+const expressLogger = require('./middleware/expressLogger');
 
 // create express app
 const app = express();
