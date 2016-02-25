@@ -16,12 +16,12 @@ const WEBSOCKETS_NAMESPACE = 'color: #00BF00; font-weight: bold';
 
 class loggerService {
 
-    /*
+    /**
      * no further dependencies needed
      */
     constructor () {}
 
-    /*
+    /**
      * log an info message
      * @param {string} message
      */
@@ -29,7 +29,7 @@ class loggerService {
         this.log(INFO, message, 'INFO');
     }
 
-    /*
+    /**
      * log an info message
      * @param {string} message
      */
@@ -37,7 +37,7 @@ class loggerService {
         this.log(DEBUG, message, 'DEBUG');
     }
 
-    /*
+    /**
      * log an info message
      * @param {string} message
      */
@@ -45,7 +45,7 @@ class loggerService {
         this.log(ERROR, message, 'ERROR');
     }
 
-    /*
+    /**
      * log an info message
      * @param {string} message
      */
@@ -53,7 +53,7 @@ class loggerService {
         this.log(WEBSOCKETS_IN, message, 'WS_IN');
     }
 
-    /*
+    /**
      * log an info message
      * @param {string} message
      */
@@ -61,7 +61,7 @@ class loggerService {
         this.log(WEBSOCKETS_OUT, message, 'WS_OUT');
     }
 
-    /*
+    /**
      * log an info message
      * @param {string} message
      */
@@ -69,7 +69,7 @@ class loggerService {
         this.log(WEBSOCKETS_NAMESPACE, message, 'WS_CONNECT');
     }
 
-    /*
+    /**
      * log a message with style
      * @param {string} style
      * @param {string} message
@@ -80,7 +80,7 @@ class loggerService {
 }
 
 /*
- * configure loggerService as angulerjs Service
+ * configure loggerService as AngularJS Service
  */
 window.app.factory('loggerService', function () {
     return new loggerService();

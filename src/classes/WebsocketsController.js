@@ -9,8 +9,8 @@ const logger = require('../classes/Logger')('WebsocketsController');
 
 /**
  * static class websocket controller, that helps communicating through websockets to different namespaces and ensures
- * that websocket events are binded, if the websocket server has been initialized (through promise made on app start)
- * @todo since currently the restream is a singlepage application, there is no need to use different namespaces
+ * that websocket events are bound, if the websocket server has been initialized (through promise made on app start)
+ * @todo since currently the Restream is a single-page application, there is no need to use different namespaces
  */
 class WebsocketsController {
 

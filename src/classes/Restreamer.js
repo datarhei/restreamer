@@ -7,7 +7,7 @@
 
 const config = require('../../conf/live.json');
 const logger = require('./Logger')('Restreamer');
-const WebsocketsController = require('./WebsocketController');
+const WebsocketsController = require('./WebsocketsController');
 const FfmpegCommand = require('fluent-ffmpeg');
 const Q = require('q');
 
@@ -78,7 +78,7 @@ class Restreamer {
 
     /**
      * restore the ffmpeg processes from jsondb (called on app start to restore ffmpeg processes
-     * after the applicatoin has been killed or stuff
+     * after the application has been killed or stuff
      */
     static restoreFFMpegProcesses () {
         var JsonDB = require('node-json-db');
@@ -108,7 +108,7 @@ class Restreamer {
     }
 
     /**
-     * write JSON file for persistency
+     * write JSON file for persistence
      */
     static writeToDB () {
         var JsonDB = require('node-json-db');
@@ -135,7 +135,7 @@ class Restreamer {
      * add output to ffmpeg command
      * @param {FfmpegCommand} ffmpegCommand
      * @param {string} outputAddress
-     * @return {promise}
+     * @return {Promise}
      */
     static addOutput (ffmpegCommand, outputAddress) {
         ffmpegCommand.output(outputAddress);
@@ -176,7 +176,7 @@ class Restreamer {
      * update the state of the stream
      * @param {string} processName
      * @param {string} state
-     * @param {string} message
+     * @param {string=} message
      * @return {string} name of the new state
      */
     static updateState (processName, state, message) {
@@ -208,8 +208,8 @@ class Restreamer {
      *
      * @param {string} src src-address of the ffmpeg stream
      * @param {string} streamType repeatToOptionalOutput or repeatToLocalNginx
-     * @param {string} optionalOutput address of the optional output
-     * @param {string} retryCounter current value of the retry counter (startStream retries automatically if anything fails)
+     * @param {string=} optionalOutput address of the optional output
+     * @param {number=} retryCounter current value of the retry counter (startStream retries automatically if anything fails)
      */
     static startStream (src, streamType, optionalOutput, retryCounter) {
         logger.info(`Start stream "${streamType}"`);

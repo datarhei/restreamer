@@ -1,5 +1,5 @@
 /**
- * @file this file is loaded on application start and inits the application
+ * @file this file is loaded on application start and initializes the application
  * @link https://github.com/datarhei/restreamer
  * @copyright 2015 datarhei.org
  * @license Apache-2.0
@@ -27,7 +27,7 @@ logger.info('', false);
 logger.info('Restreamer v' + packageJson.version, false);
 logger.info('', false);
 logger.info('ENVIRONMENTS', false);
-logger.info('More informations in our Docs', false);
+logger.info('More information in our Docs', false);
 logger.info('', false);
 
 // define environment variables
@@ -133,7 +133,7 @@ const startWebserver = function startWebserver () {
     logger.info('Starting webserver...');
     app.set('port', process.env.NODEJS_PORT);
     var server = app.listen(app.get('port'), function () {
-        require('./classes/WebsocketController').bindDefaultEvents();
+        require('./classes/WebsocketsController').bindDefaultEvents();
         app.set('io', require('socket.io')(server));
         app.set('server', server.address());
 

@@ -11,7 +11,7 @@ const spawn = require('child_process').spawn;
 const logger = require('./Logger')('Nginxrtmp');
 
 /**
- * class to watch and controll the nginx rtmpserver process
+ * class to watch and control the nginx rtmp server process
  */
 class Nginxrtmp {
 
@@ -41,7 +41,7 @@ class Nginxrtmp {
                     break;
 
                 case 'running':
-                    this.logger.info('NGINX allready started...');
+                    this.logger.info('NGINX already started...');
                     break;
                 default:
                     throw new Error('state could not be detected');
