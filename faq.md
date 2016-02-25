@@ -26,7 +26,7 @@ title: faq
 ###9. I do not know wich hardware i should buy?  
 ► You can find out about camera requirements for Datarhei/Restreamer in our [Requirements-Guide](../restreamer/wiki/requirements.html).  
 ###10. How much data upload is needed to produce a proper video live stream?  
-► Find a rule of thumb for required upload and data volume of your video streams in the wiki chapter about [video compression](../restreamer/wiki/videocompression.html).  
+► Find a rule of thumb for required upload and data volume of your video streams in the wiki chapter about [video compression](../restreamer/wiki/video-compression.html).  
 ###11. Works Datarhei/Restreamer with UMTS/G3 or LTE/G4?  
 ► Yes - but consider your bandwidth carefully. An HD live stream can quickly consume over 1 GB of data PER DAY(!). If you host yourself, we recommend that you use a DSL or better VDSL connection with flatrate.  
 ###12. Where can I find a suitable network camera from?
