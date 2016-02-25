@@ -76,9 +76,9 @@ Datarhei/Restreamer is using <a target= "_blank" href="http://clappr.io">Clappr.
 
 | Feature                       |   | Explanation                                                 |
 |-------------------------------|---|-------------------------------------------------------------|
-| HTML5                         | ✓ | HTML5 W3C Link                                              |
+| HTML5                         | ✓ |                                                             |
 | High Resolution 4k Video      | ✓ | All resolutions are supported even 4k                       |
-| Responsive                    | ✓ | Yes it is                                                   |
+| Responsive                    | ✓ |                                                             |
 | Audio                         | ✓ |                                                             |
 | Watermark                     | ✓ | Put you own corporate Logo in the Player                    |
 | Branding                      | ✓ | Cutomize control bar to your company colours                |
