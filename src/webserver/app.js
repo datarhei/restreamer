@@ -105,7 +105,7 @@ var checkForAppUpdates = function () {
                     updateAvailable = updateCheck.restreamer.version;
                     logger.debug(`Checking app for updates successful. Update is available (remote: ${updateCheck.restreamer.version}, local: ${packageJson.version})`);
                 }
-                logger.info('Checking app for updates successfull');
+                logger.info('Checking app for updates successful');
                 app.set('updateAvailable', updateAvailable);
             });
         } else {
