@@ -12,7 +12,6 @@ title: learn-more-features
 * [Output external RTMP](#output-external-rtmp-live-video)  
 * [Video player](#video-player)  
 * [Supported browser](#supported-browser)  
-* [Third party tools simultaneous running](#simultaneous-running-third-party-tools)  
 * [Support](#support)    
 
 
