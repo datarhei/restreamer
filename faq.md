@@ -22,8 +22,8 @@ title: faq
 ---
 ## Datarhei/Restreamer Basics
 ###8. What kind of hardware is supported by Datarhei/Restreamer?
-► Datarhei/Restreamer has been tested with single board computers like Raspberry Pi1, Pi2, and ODROID. Windows, MacOS and Linux works with Docker. More information about [Hardware](Coming).  
-###9. I do not know wich hardware i should buy?  
+► Datarhei/Restreamer has been tested with single board computers like Raspberry Pi1, Pi2, and ODROID. Windows, MacOS and Linux works with Docker.  
+###9. Wich camera hardware i should buy?  
 ► You can find out about camera requirements for Datarhei/Restreamer in our [Requirements-Guide](../restreamer/wiki/requirements.html).  
 ###10. How much data upload is needed to produce a proper video live stream?  
 ► Find a rule of thumb for required upload and data volume of your video streams in the wiki chapter about [video compression](../restreamer/wiki/video-compression.html).  
@@ -32,7 +32,7 @@ title: faq
 ###12. Where can I find a suitable network camera from?
 ► We prepared a [suiteable selection of network cameras](../restreamer/wiki/buy-hardware-index.html) for you on Amazon.
 ###13. How do I set a dynamic DNS?  
-► For more information about Dynamic DNS take a look [in the Wiki](../restreamer/wiki/dynamic-dns.html.html).
+► For more information about Dynamic DNS take a look [in the Wiki](../restreamer/wiki/dynamic-dns.html).
 ###14. Is streaming on Apple iOS devices and Android possible?  
 ► Yes - Datarhei/Restreamer supports iPod Touch, iPhone, iPad and Android devices, too.
 ###15. Is a professional use of Datarhei/Restreamer possible?  

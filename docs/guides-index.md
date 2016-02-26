@@ -23,7 +23,7 @@ Easy embedding on your website with HTML iframe snippet.
 Stream to YouTube-Live.
 
 ---
-###[External RTMP](../docs/guides-youtube.html)  
+###[External RTMP](../docs/guides-external-rtmp.html)  
 Streaming to external RTMP services (Livestream, Usteram, Twitch, etc)
 
 ---
