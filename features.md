@@ -33,7 +33,7 @@ title: learn-more-features
 | Audio                         | ✓ | Audio is supported                                |
 | Password protection           | ✓ | Default username:password datarhei:restreamer     |
 | Browser User Interface        | ✓ | Configure Datarhei/Restreamer in your browser     |
-| Snapshot                      | ✓ | Automatic generated and customize frequenzy       |
+| Snapshot                      | ✓ | Automatic generated and customized frequency      |
 | HTTP-API                      | ✓ | Start developing your own applications on GitHub  |
 | 100% Data control             | ✓ | Datarhei/Restreamer guarantees full control of your video data|
 | **Installation:**                                                                     |
