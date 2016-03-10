@@ -1,0 +1,14 @@
+<div class="footer">
+    <span class="version">
+        v{{version}}
+    </span>
+    <a class="btn btn-xs btn-success ng-binding ng-scope"
+       ng-if="checkForAppUpdatesResult != false" href="{{config.urls.updatePage}}" target="_blank">
+        {{'update_btn' | translate}}
+    </a>
+    <p class="pull-right links">
+        <a href="{{config.urls.issueTracker}}" target="_blank">{{'issue_tracker' | translate}}</a>
+        <a href="{{config.urls.projectPage}}" target="_blank">{{'project_page' | translate}}</a>
+        <a ng-if="loggedIn" href="/logout">{{'logout' | translate}}</a>
+    </p>
+</div>

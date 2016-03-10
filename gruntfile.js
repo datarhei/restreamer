@@ -1,59 +1,58 @@
 'use strict';
 
-module.exports = function(grunt) {
-    // files for this project
-    var files = {
-        compiledFrontendJS: ['bin/webserver/public/scripts/**/*.js', 'bin/executors/**/gui/js/*.js'],
-        es6Src: ['**/*.js'],
-        stylesheets: ['static/webserver/public/css/*.css']
-    };
+// path to store the transpiled es6 files
+const transpiledPath = "src/webserver/transpiled/";
+
+const files = {
+    //workaround to keep correct order
+    transpiledFrontendJs: [
+        `${transpiledPath}/webserver/public/scripts/App.js`,
+        `${transpiledPath}/webserver/public/scripts/App.Config.js`,
+
+        `${transpiledPath}/webserver/public/scripts/Main/MainModule.js`,
+        `${transpiledPath}/webserver/public/scripts/Main/MainController.js`,
+
+        `${transpiledPath}/webserver/public/scripts/Login/LoginModule.js`,
+        `${transpiledPath}/webserver/public/scripts/Login/LoginController.js`,
+
+        `${transpiledPath}/webserver/public/scripts/Header/HeaderModule.js`,
+        `${transpiledPath}/webserver/public/scripts/Header/HeaderController.js`,
+        `${transpiledPath}/webserver/public/scripts/Header/HeaderDirective.js`,
+
+        `${transpiledPath}/webserver/public/scripts/Footer/FooterModule.js`,
+        `${transpiledPath}/webserver/public/scripts/Footer/FooterController.js`,
+        `${transpiledPath}/webserver/public/scripts/Footer/FooterDirective.js`,
+
+        `${transpiledPath}/webserver/public/scripts/StreamingInterface/StreamingInterfaceModule.js`,
+        `${transpiledPath}/webserver/public/scripts/StreamingInterface/StreamingStatusController.js`,
+        `${transpiledPath}/webserver/public/scripts/StreamingInterface/StreamingStatusDirective.js`,
+
+        `${transpiledPath}/webserver/public/scripts/Shared/LoggerService.js`,
+        `${transpiledPath}/webserver/public/scripts/Shared/WebsocketsService.js`
+    ],
+    es6Src: [
+        'webserver/public/scripts/**/*.js'
+    ],
+    stylesheets: ['src/webserver/public/css/*.css']
+};
+
+module.exports = function (grunt) {
 
     // Project Configuration
     grunt.initConfig({
 
         /*
-            Watcher config with livereload
-        */
-        watch: {
-            scripts: {
-                files: ['src/**/*.js'],
-                tasks: ['compile-code'],
-                options: {
-                    interrupt: true,
-                    livereload: {
-                        host: 'localhost',
-                        port: 5000
-                    }
-                }
-            },
-            statics: {
-                files: ['static/**/*.html'],
-                tasks: ['copy-statics'],
-                options: {
-                    interrupt: true,
-                    livereload: {
-                        host: 'localhost',
-                        port: 5000
-                    }
-                }
-            }
-        },
-
-        /*
-            Config for shell commands
-        */
+         Config for shell commands
+         */
         shell: {
             start: {
                 command: 'npm start'
             },
-            removeOldBinFolder: {
-                command: 'rm -Rf bin/'
+            removeTempTranspilingFolder: {
+                command: `rm -Rf ${transpiledPath}`
             },
-            createBinFolder: {
-                command: 'mkdir bin/'
-            },
-            copyStatics: {
-                command: 'cp -R static/* bin'
+            createTempTranspilingFolder: {
+                command: `mkdir ${transpiledPath}`
             },
             bower: {
                 command: 'bower install --allow-root'
@@ -63,13 +62,13 @@ module.exports = function(grunt) {
             },
             //temp workaround - https://github.com/clappr/clappr/issues/709
             clappr: {
-                command: 'curl -LOks https://github.com/clappr/clappr/archive/master.tar.gz && tar xzvf master.tar.gz && rm master.tar.gz && mv clappr-master bin/webserver/public/libs/clappr'
+                command: 'rm -rf src/webserver/public/libs/clappr && git clone --depth 1 git://github.com/clappr/clappr src/webserver/public/libs/clappr'
             }
         },
 
         /*
-            Config for Babel compiling
-        */
+         Config for Babel compiling
+         */
         babel: {
             options: {
                 sourceMap: true,
@@ -80,16 +79,16 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         cwd: 'src/',
-                        src:'<%= es6Src %>',
-                        dest: 'bin/'
+                        src: '<%= es6Src %>',
+                        dest: transpiledPath
                     }
                 ]
             }
         },
 
         /*
-            Config for eslinter
-        */
+         Config for eslinter
+         */
         eslint: {
             all: ['src/**/*.js'],
             options: {
@@ -98,19 +97,19 @@ module.exports = function(grunt) {
         },
 
         /*
-            config for css linter
+         config for css linter
          */
         csslint: {
             options: {
                 csslintrc: '.csslintrc'
-                },
-                all: {
-                src: ['static/webserver/public/css/*.css']
+            },
+            all: {
+                src: ['src/webserver/public/css/*.css']
             }
         },
 
         /*
-            uglify and minify frontend javascript
+         uglify and minify frontend javascript
          */
         uglify: {
             production: {
@@ -118,41 +117,41 @@ module.exports = function(grunt) {
                     mangle: true
                 },
                 files: {
-                    'bin/webserver/public/dist/application.min.js': 'bin/webserver/public/dist/application.js'
+                    'src/webserver/public/dist/application.min.js': 'src/webserver/public/dist/application.js'
                 }
             }
         },
 
         /*
-            minify css files
+         minify css files
          */
         cssmin: {
             combine: {
                 files: {
-                    'bin/webserver/public/css/restreamer.min.css': '<%= stylesheets %>'
+                    'src/webserver/public/css/restreamer.min.css': '<%= stylesheets %>'
                 }
             }
         },
 
         /*
-            produces one file from all fontend javascript bewaring DI naming of angular
+         produces one file from all fontend javascript bewaring DI naming of angular
          */
         ngAnnotate: {
             production: {
                 files: {
-                    'bin/webserver/public/dist/application.js': '<%= compiledFrontendJS %>'
+                    'src/webserver/public/dist/application.js': '<%= transpiledFrontendJs %>'
                 }
             }
-            }
-        });
+        }
+    });
 
     /*
      Load NPM tasks
      */
     require('load-grunt-tasks')(grunt);
-    grunt.task.registerTask('loadConfig', 'Task that loads the config into a grunt option.', function() {
+    grunt.task.registerTask('loadConfig', 'Task that loads the config into a grunt option.', function () {
         grunt.config.set('es6Src', files.es6Src);
-        grunt.config.set('compiledFrontendJS', files.compiledFrontendJS);
+        grunt.config.set('transpiledFrontendJs', files.transpiledFrontendJs);
         grunt.config.set('stylesheets', files.stylesheets);
     });
     grunt.loadNpmTasks('grunt-shell');
@@ -163,27 +162,26 @@ module.exports = function(grunt) {
      */
     // lint
     grunt.registerTask('lint', ['csslint', 'shell:eslint']);
-    // clear old bin folder and create new one
-    grunt.registerTask('clearOldBuild', ['shell:removeOldBinFolder', 'shell:createBinFolder']);
+    // clear old transpile folder and create new one
+    grunt.registerTask('clearOldBuild', ['shell:removeTempTranspilingFolder', 'shell:createTempTranspilingFolder']);
     // install frontendlibraries (atm through bower)
     grunt.registerTask('installFrontendLibraries', ['shell:bower', 'shell:clappr']);
     // minify the frontend files
     grunt.registerTask('minifyFrontendFiles', ['cssmin', 'ngAnnotate', 'uglify']);
 
     /*
-    Build Tasks
+     Build Tasks
      */
-    grunt.registerTask('build', ['loadConfig','clearOldBuild', 'shell:copyStatics', 'babel', 'minifyFrontendFiles', 'installFrontendLibraries']);
-    grunt.registerTask('compile-code', ['loadConfig','babel', 'shell:copyStatics', 'minifyFrontendFiles']);
-    grunt.registerTask('copy-statics', ['loadConfig', 'shell:copyStatics']);
+    grunt.registerTask('build', ['loadConfig', 'clearOldBuild', 'babel', 'minifyFrontendFiles', 'installFrontendLibraries', 'shell:removeTempTranspilingFolder']);
 
     /*
-    Run Tasks
+     Just Compile
      */
-    // run current build in /bin
+    grunt.registerTask('compile', ['loadConfig', 'clearOldBuild', 'babel', 'minifyFrontendFiles']);
+
+    /*
+     Run Tasks
+     */
     grunt.registerTask('run', ['shell:start']);
-    // rebuild and run
-    grunt.registerTask('run-clean', ['build', 'run']);
-    // update code and run
-    grunt.registerTask('run-update-code', ['loadConfig','babel','shell:copyStatics', 'minifyFrontendFiles', 'run'])
+
 };

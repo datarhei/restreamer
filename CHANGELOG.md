@@ -1,3 +1,29 @@
+## Changes from 0.1.0-RC5 to 0.1.0-RC6
+
+* updated NPM/Bower packages
+* updated FFmpeg to 2.8.6
+* switched to a NGINX-RTMP fork of [Sergey Dryabzhinsky](https://github.com/sergey-dryabzhinsky/nginx-rtmp-module)
+* added ECMA6 development mode (RS_NODE_ENV=dev) and updated NodeJS to 5.7
+* refactored frontend structure
+* finished ECMA6 frontend remodeling
+* started backend refactoring
+* optimized fake audio process (resolved NGINX error "hls: force fragment split")
+* added FFmpeg patch of [Andrew Shulgin](https://github.com/andrew-shulgin) (Ignore invalid sprop-parameter-sets missing PPS)
+* renamed environment variables (old environment variables are still supported but will be deprecated in the future)
+  * RS_NODE_PORT
+  * RS_NODE_ENV
+  * RS_LOGGER_LEVEL
+  * RS_TIMEZONE
+  * RS_SNAPSHOT_REFRESH_INTERVAL
+  * RS_CREATE_HEAPDUMPS
+  * RS_USERNAME
+  * RS_PASSWORD
+* several small bugfixes and improvements 
+
+#### Team enlargement
+
+* [Andrew Shulgin](https://github.com/andrew-shulgin) - Many thanks for your support and welcome to our team!
+
 ## Changes from 0.1.0-RC4.1 to 0.1.0-RC5
 
 * updated NPM packages, NGINX to 1.9.9 and FFmpeg to 2.8.5

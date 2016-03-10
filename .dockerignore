@@ -10,5 +10,5 @@ docs
 node_modules
 bin
 db
-src/webserver/public/lib/*
+src/webserver/public/libs
 checkDeployment.sh

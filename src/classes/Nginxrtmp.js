@@ -4,6 +4,7 @@
  * @copyright 2016 datarhei.org
  * @license Apache-2.0
  */
+'use strict';
 
 const Q = require('q');
 const psFind = require('ps-find');
@@ -11,7 +12,7 @@ const spawn = require('child_process').spawn;
 const logger = require('./Logger')('Nginxrtmp');
 
 /**
- * class to watch and controll the nginx rtmpserver process
+ * class to watch and control the NGINX RTMP server process
  */
 class Nginxrtmp {
 
@@ -30,24 +31,19 @@ class Nginxrtmp {
      * @returns {string}
      */
     init () {
-        let promise = null;
-
-        promise = this.getState()
-            .then((state)=>{
-                switch(state) {
-
-                case 'not_running':
-                    this.start();
-                    break;
-
-                case 'running':
-                    this.logger.info('NGINX allready started...');
-                    break;
-                default:
-                    throw new Error('state could not be detected');
-                }
-            });
-        return promise;
+        return this.getState()
+                   .then((state) => {
+                       switch (state) {
+                           case 'not_running':
+                               this.start();
+                               break;
+                           case 'running':
+                               this.logger.info('NGINX already started');
+                               break;
+                           default:
+                               throw new Error('NGINX state could not be detected');
+                       }
+                   });
     }
 
     /**
@@ -66,16 +62,16 @@ class Nginxrtmp {
             .then((state)=> {
                 switch (state) {
 
-                case 'not_running':
-                    this.logger.info('NGINX could not be started');
-                    break;
+                    case 'not_running':
+                        this.logger.info('NGINX could not be started');
+                        break;
 
-                case 'running':
-                    this.logger.info('NGINX successfully started');
-                    break;
+                    case 'running':
+                        this.logger.info('NGINX successfully started');
+                        break;
 
-                default:
-                    throw new Error('NGINX state could not be detected');
+                    default:
+                        throw new Error('NGINX state could not be detected');
                 }
             });
     }
@@ -86,15 +82,15 @@ class Nginxrtmp {
      */
     bindNginxProcessEvents (process) {
         process.stdout.on('data', (data) => {
-            this.logger.info(`The NGINX rtmp process created an output: ${data}`);
+            this.logger.info(`The NGINX RTMP process created an output: ${data}`);
         });
 
         process.stderr.on('data', (data) => {
-            this.logger.error(`The NGINX rtmp process created an error output: ${data}`);
+            this.logger.error(`The NGINX RTMP process created an error output: ${data}`);
         });
 
         process.stderr.on('close', (code) => {
-            this.logger.error(`The NGINX rtmp process closed with code: ${code}`);
+            this.logger.error(`The NGINX RTMP process exited with code: ${code}`);
             this.start();
         });
     }
@@ -110,26 +106,23 @@ class Nginxrtmp {
         let deferred = Q.defer();
 
         // delay the state detection if waiting for process is needed
-        Q
-            .delay(delay)
-            .then(()=> {
-                return Q.nfcall(psFind.find, nginxProcessString);
-            })
-            .then(()=>{
-                state = 'running';
-        })
-
-        // ps-find throws exception in case of 'not found' so we have to handle that
-        .catch(()=>{
-            state = 'not_running';
-        })
-        .finally(()=>{
-            deferred.resolve(state);
-        });
+        Q.delay(delay)
+         .then(()=> {
+             return Q.nfcall(psFind.find, nginxProcessString);
+         })
+         .then(()=> {
+             state = 'running';
+         })
+         .catch(()=> { // ps-find throws exception in case of 'not found' so we have to handle that
+             state = 'not_running';
+         })
+         .finally(()=> {
+             deferred.resolve(state);
+         });
         return deferred.promise;
     }
 }
 
-module.exports = (config)=>{
+module.exports = (config)=> {
     return new Nginxrtmp(config);
 };

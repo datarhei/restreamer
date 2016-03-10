@@ -7,23 +7,21 @@
     },
     "ffmpeg": {
         "options": {
-            "native_h264":[
-                "-c copy",
+            "native_h264": [
+                "-codec copy",
                 "-map_metadata -1",
                 "-metadata application=datarhei/Restreamer",
                 "-metadata server=NGINX-RTMP",
                 "-f flv"
             ],
-            "native_h264_soundless_aac":[
-                "-ar 44100",
-                "-ac 2",
-                "-acodec pcm_s16le",
-                "-f s16le",
-                "-ac 2",
-                "-i /dev/zero",
-                "-c:v copy",
+            "native_h264_soundless_aac": [
+                "-f lavfi",
+                "-i aevalsrc=0",
+                "-vcodec copy",
                 "-acodec aac",
-                "-ab 128k",
+                "-map 0:0",
+                "-map 1:0",
+                "-shortest",
                 "-map_metadata -1",
                 "-metadata application=datarhei/Restreamer",
                 "-metadata server=NGINX-RTMP",
@@ -43,5 +41,71 @@
             "rtmp_port": "1935",
             "rtmp_hls_path": "/hls/"
         }
-    }
+    },
+    "envVars": [
+        {
+            "name": "RS_NODE_PORT",
+            "alias": "NODEJS_PORT",
+            "type": "int",
+            "defaultValue": "3000",
+            "required": false,
+            "description": "Webserver port of application"
+        },
+        {
+            "name": "RS_NODE_ENV",
+            "alias": "NODE_ENV",
+            "type": "string",
+            "defaultValue": "prod",
+            "required": false,
+            "description": "Nodejs Environment"
+        },
+        {
+            "name": "RS_LOGGER_LEVEL",
+            "alias": "LOGGER_LEVEL",
+            "type": "int",
+            "defaultValue": "3",
+            "required": true,
+            "description": "Logger level to defined, what should be logged"
+        },
+        {
+            "name": "RS_TIMEZONE",
+            "alias": "TIMEZONE",
+            "type": "string",
+            "defaultValue": "Europe/Berlin",
+            "required": true,
+            "description": "Set the timezone"
+        },
+        {
+            "name": "RS_SNAPSHOT_REFRESH_INTERVAL",
+            "alias": "SNAPSHOT_REFRESH_INTERVAL",
+            "type": "string",
+            "defaultValue": "1m",
+            "required": false,
+            "description": "Interval to create a new Snapshot (in minutes)"
+        },
+        {
+            "name": "RS_CREATE_HEAPDUMPS",
+            "alias": "CREATE_HEAPDUMPS",
+            "type": "bool",
+            "defaultValue": "false",
+            "required": false,
+            "description": "Create Heapdumps of application"
+        },
+        {
+            "name": "RS_USERNAME",
+            "alias": "RESTREAMER_USERNAME",
+            "type": "string",
+            "defaultValue": "admin",
+            "required": false,
+            "description": "Backend user name"
+        },
+        {
+            "name": "RS_PASSWORD",
+            "alias": "RESTREAMER_PASSWORD",
+            "type": "string",
+            "defaultValue": "datarhei",
+            "required": false,
+            "description": "Backend login password"
+        }
+    ]
 }
