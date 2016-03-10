@@ -65,8 +65,8 @@ RUN DIR="$(mktemp -d)" && cd "${DIR}" && \
 RUN DIR="$(mktemp -d)" && cd "${DIR}" && \
     curl -LOks "https://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz" && \
     tar xzvf "ffmpeg-${FFMPEG_VERSION}.tar.gz" && \
-    curl -Lks "https://github.com/FFmpeg/FFmpeg/commit/1c7e2cf9d33968375ee4025d2279c937e147dae2.patch" | patch -p1 && \
     cd "ffmpeg-${FFMPEG_VERSION}" && \
+    curl -Lks "https://github.com/FFmpeg/FFmpeg/commit/1c7e2cf9d33968375ee4025d2279c937e147dae2.patch" | patch -p1 && \
     ./configure \
         --prefix="${SRC}" \
         --bindir="${SRC}/bin" \
