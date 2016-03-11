@@ -1,6 +1,6 @@
 {
     "name": "Restreamer",
-    "version": "0.1.0-RC6",
+    "version": "0.1.0-RC6.1",
     "license": "Apache-2.0",
     "dependencies": {
         "bootstrap": "3.3.6",

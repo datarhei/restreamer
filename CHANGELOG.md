@@ -1,3 +1,7 @@
+## Changes from 0.1.0-RC6 to 0.1.0-RC6.1
+
+* fixed external streaming with RTSP over TCP input option
+
 ## Changes from 0.1.0-RC5 to 0.1.0-RC6
 
 * updated NPM/Bower packages

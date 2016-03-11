@@ -167,9 +167,11 @@ class Restreamer {
         return Restreamer.appendOutputOptionFromConfig(ffmpegCommand);
     }
 
-    static applyOptions (ffmpegCommand) {
-        if (Restreamer.data.options.rtspTcp && Restreamer.data.addresses.srcAddress.indexOf('rtsp') === 0) {
-            ffmpegCommand.inputOptions('-rtsp_transport tcp');
+    static applyOptions (ffmpegCommand, streamType) {
+        if (streamType === 'repeatToLocalNginx') {
+            if (Restreamer.data.options.rtspTcp && Restreamer.data.addresses.srcAddress.indexOf('rtsp') === 0) {
+                ffmpegCommand.inputOptions('-rtsp_transport tcp');
+            }
         }
     }
 
@@ -311,7 +313,7 @@ class Restreamer {
                 Restreamer.updateProgressOnGui();
                 command.removeAllListeners('progress');
             };
-            Restreamer.applyOptions(command);
+            Restreamer.applyOptions(command, streamType);
             command
                 // stream started
                 .on('start', (commandLine) => {
