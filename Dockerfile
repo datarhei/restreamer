@@ -1,25 +1,25 @@
-FROM node:5.7.1-slim
+FROM node:5.9.0-slim
 
 MAINTAINER datarhei <info@datarhei.org>
 
-ENV FFMPEG_VERSION 2.8.6
-ENV YASM_VERSION 1.3.0
-ENV LAME_VERSION 3_99_5
-ENV NGINX_VERSION 1.9.9
-ENV NGINX_RTMP_VERSION 1.1.7.10
+ENV FFMPEG_VERSION=2.8.6 \
+    YASM_VERSION=1.3.0 \
+    LAME_VERSION=3_99_5 \
+    NGINX_VERSION=1.9.9 \
+    NGINX_RTMP_VERSION=1.1.7.10 \
 
-ENV SRC "/usr/local"
-ENV LD_LIBRARY_PATH "${SRC}/lib"
-ENV PKG_CONFIG_PATH "${SRC}/lib/pkgconfig"
+    SRC="/usr/local" \
+    LD_LIBRARY_PATH="${SRC}/lib" \
+    PKG_CONFIG_PATH="${SRC}/lib/pkgconfig" \
 
-ENV BUILDDEPS "autoconf automake gcc g++ libtool make nasm zlib1g-dev libssl-dev xz-utils cmake build-essential libpcre3-dev"
+    BUILDDEPS="autoconf automake gcc g++ libtool make nasm zlib1g-dev libssl-dev xz-utils cmake build-essential libpcre3-dev"
 
 RUN rm -rf /var/lib/apt/lists/* && \
     apt-get update && \
-    apt-get install -y --force-yes curl git libpcre3 tar perl ca-certificates ${BUILDDEPS}
+    apt-get install -y --force-yes curl git libpcre3 tar perl ca-certificates ${BUILDDEPS} && \
 
-# yasm
-RUN DIR="$(mktemp -d)" && cd "${DIR}" && \
+    # yasm
+    DIR="$(mktemp -d)" && cd "${DIR}" && \
     curl -LOks "https://www.tortall.net/projects/yasm/releases/yasm-${YASM_VERSION}.tar.gz" && \
     tar xzvf "yasm-${YASM_VERSION}.tar.gz" && \
     cd "yasm-${YASM_VERSION}" && \
@@ -29,10 +29,10 @@ RUN DIR="$(mktemp -d)" && cd "${DIR}" && \
     make -j"$(nproc)" && \
     make install && \
     make distclean && \
-    rm -rf "${DIR}"
+    rm -rf "${DIR}" && \
 
-# x264
-RUN DIR="$(mktemp -d)" && cd "${DIR}" && \
+    # x264
+    DIR="$(mktemp -d)" && cd "${DIR}" && \
     git clone --depth 1 "git://git.videolan.org/x264" && \
     cd x264 && \
     ./configure \
@@ -43,10 +43,10 @@ RUN DIR="$(mktemp -d)" && cd "${DIR}" && \
     make -j"$(nproc)" && \
     make install && \
     make distclean && \
-    rm -rf "${DIR}"
+    rm -rf "${DIR}" && \
 
-# libmp3lame
-RUN DIR="$(mktemp -d)" && cd "${DIR}" && \
+    # libmp3lame
+    DIR="$(mktemp -d)" && cd "${DIR}" && \
     curl -LOks "https://github.com/rbrito/lame/archive/RELEASE__${LAME_VERSION}.tar.gz" && \
     tar xzvf "RELEASE__${LAME_VERSION}.tar.gz" && \
     cd "lame-RELEASE__${LAME_VERSION}" && \
@@ -58,11 +58,11 @@ RUN DIR="$(mktemp -d)" && cd "${DIR}" && \
     make -j"$(nproc)" && \
     make install && \
     make distclean && \
-    rm -rf "${DIR}"
+    rm -rf "${DIR}" && \
 
-# ffmpeg
-# patch: andrew-shulgin Ignore invalid sprop-parameter-sets missing PPS
-RUN DIR="$(mktemp -d)" && cd "${DIR}" && \
+    # ffmpeg
+    # patch: andrew-shulgin Ignore invalid sprop-parameter-sets missing PPS
+    DIR="$(mktemp -d)" && cd "${DIR}" && \
     curl -LOks "https://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz" && \
     tar xzvf "ffmpeg-${FFMPEG_VERSION}.tar.gz" && \
     cd "ffmpeg-${FFMPEG_VERSION}" && \
@@ -92,12 +92,12 @@ RUN DIR="$(mktemp -d)" && cd "${DIR}" && \
     cd tools && \
     make qt-faststart && \
     cp qt-faststart "${SRC}/bin" && \
-    rm -rf "${DIR}"
-RUN echo "${SRC}/lib" > "/etc/ld.so.conf.d/libc.conf"
-RUN ffmpeg -buildconf
+    rm -rf "${DIR}" && \
+    echo "${SRC}/lib" > "/etc/ld.so.conf.d/libc.conf" && \
+    ffmpeg -buildconf && \
 
-# nginx-rtmp
-RUN DIR="$(mktemp -d)" && cd "${DIR}" && \
+    # nginx-rtmp
+    DIR="$(mktemp -d)" && cd "${DIR}" && \
     curl -LOks "https://github.com/nginx/nginx/archive/release-${NGINX_VERSION}.tar.gz" && \
     tar xzvf "release-${NGINX_VERSION}.tar.gz" && \
     curl -LOks "https://github.com/sergey-dryabzhinsky/nginx-rtmp-module/archive/v${NGINX_RTMP_VERSION}.tar.gz" && \
@@ -108,9 +108,9 @@ RUN DIR="$(mktemp -d)" && cd "${DIR}" && \
         --add-module="../nginx-rtmp-module-${NGINX_RTMP_VERSION}" && \
     make -j"$(nproc)" && \
     make install && \
-    rm -rf "${DIR}"
+    rm -rf "${DIR}" && \
 
-RUN apt-get purge -y --auto-remove ${BUILDDEPS} && \
+    apt-get purge -y --auto-remove ${BUILDDEPS} && \
     rm -rf /tmp/*
 
 COPY . /restreamer
@@ -123,8 +123,8 @@ RUN npm install -g bower grunt grunt-cli nodemon public-ip eslint && \
     npm cache clean && \
     bower cache clean --allow-root
 
-ENV RS_USERNAME admin
-ENV RS_PASSWORD datarhei
+ENV RS_USERNAME admin \
+    RS_PASSWORD datarhei
 
 EXPOSE 8080
 VOLUME ["/restreamer/db"]

@@ -5,5 +5,4 @@
  */
 'use strict';
 
-// create new angular module
 window.angular.module('Login', []);

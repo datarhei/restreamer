@@ -19,7 +19,6 @@ const nginxrtmp = require('./classes/Nginxrtmp')(config);
 const Q = require('q');
 const Restreamer = require('./classes/Restreamer');
 const RestreamerData = require('./classes/RestreamerData');
-const WebsocketsController = require('./classes/WebsocketsController');
 const restreamerApp = require('./webserver/app');
 
 // show start message
@@ -38,27 +37,19 @@ logger.info('', false);
 // setup environment vars
 EnvVar.init(config);
 
-// check for app updates
-restreamerApp.checkForRestreamerUpdates();
-// Check for updates each 12 hours
-setInterval(restreamerApp.checkForRestreamerUpdates, 12 * 3600 * 1000);
-
-// add default websocket events, @todo this will be removed, when the new websocket workflow is implemented
-WebsocketsController.bindDefaultEvents();
-
 // start the app
 nginxrtmp.init()
-         .then(()=> {
+         .then(() => {
              return RestreamerData.checkJSONDb();
          })
-         .then(()=> {
+         .then(() => {
+             Restreamer.checkForUpdates();
+             Restreamer.getPublicIp();
+             Restreamer.bindWebsocketEvents();
              return restreamerApp.startWebserver();
          })
          .then(() => {
              return Q.fcall(Restreamer.restoreFFMpegProcesses);
-         })
-         .then(()=> {
-             restreamerApp.getPublicIp();
          })
          .catch((error)=> {
              let errorMessage = `Error starting webserver and nginx for application: ${error}`;

@@ -8,22 +8,32 @@
 /* eslint no-undef: 0*/
 'use strict';
 
-const WebsocketsService = function websockeService ($rootScope, loggerService) {
+const WebsocketsService = function websocketsService ($rootScope, loggerService) {
     this.$rootScope = $rootScope;
     this.loggerService = loggerService;
-    this.socket = io.connect();
-    this.loggerService.websocketsNamespace('websockets connected');
+    this.socket = null;
 
+    $rootScope.$watch('loggedIn', (loggedIn) => {
+        if (loggedIn) {
+            this.socket = io.connect();
+            this.loggerService.websocketsNamespace('WS connected');
+        } else if (this.socket !== null) {
+            this.socket.disconnect();
+            this.loggerService.websocketsNamespace('WS disconnected');
+        }
+    });
 
     /**
      * emit an event to socket
      * @param event
      * @param data
-     * @returns {WebsocketsService}
+     * @returns {websocketsService}
      */
     this.emit = (event, data) => {
-        this.loggerService.websocketsOut(`emit event "${event}"`);
-        this.socket.emit(event, data);
+        if (this.socket) {
+            this.loggerService.websocketsOut(`emit event "${event}"`);
+            this.socket.emit(event, data);
+        }
         return this;
     };
 
@@ -31,17 +41,19 @@ const WebsocketsService = function websockeService ($rootScope, loggerService) {
      * react on an event to socket with callback
      * @param event
      * @param {function} callback
-     * @returns {WebsocketsService}
+     * @returns {websocketsService}
      */
     this.on = (event, callback) => {
         var self = this;
-        this.loggerService.websocketsIn(`got event "${event}"`);
-        this.socket.on(event, function woEvent () {
-            var args = arguments;
-            self.$rootScope.$apply(function weApply () {
-                callback.apply(null, args);
+        if (this.socket) {
+            this.loggerService.websocketsIn(`got event "${event}"`);
+            this.socket.on(event, function woEvent () {
+                var args = arguments;
+                self.$rootScope.$apply(function weApply () {
+                    callback.apply(null, args);
+                });
             });
-        });
+        }
         return this;
     };
 
@@ -51,7 +63,9 @@ const WebsocketsService = function websockeService ($rootScope, loggerService) {
      * @param callback
      */
     this.off = (event, callback) => {
-        this.socket.removeListener(event, callback);
+        if (this.socket) {
+            this.socket.removeListener(event, callback);
+        }
     };
 };
 

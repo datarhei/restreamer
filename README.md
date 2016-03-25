@@ -13,14 +13,14 @@ Datarhei/Restreamer offers smart free video streaming in real time. Stream H.264
 
 ## Upcomming releases
 
-- RC7 (tba)
+- rc.8 (next 14 days)
 
 ## Roadmap
 
-- optimizing FFmpeg handling
 - backend refactoring 
 - full REST API
-- security improvements
+- optimizing FFmpeg handling
+- debugging features
 
 ##Documentation
 

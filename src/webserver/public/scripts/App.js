@@ -11,28 +11,30 @@ var app = window.angular.module('app', [
     'pascalprecht.translate',
     'Footer',
     'Header',
+    'Login',
     'Main',
-    'StreamingInterface',
-    'Login']);
+    'StreamingInterface'
+]);
 
-
-app.config(($stateProvider, $urlRouterProvider) => {
-    $urlRouterProvider.otherwise('/');
+app.config(($stateProvider) => {
     $stateProvider
-        .state('main', {
-            'templateUrl': 'main.html',
-            'url': '/:error',
-            'controller': 'mainController'
-
+        .state('login', {
+            'controller': 'loginController',
+            'templateUrl': 'views/login.html'
         })
-        .state('helpSource', {
-            'templateUrl': 'help/source.html',
-            'url': '/help/source'
-        })
-        .state('helpOptionalOutput', {
-            'templateUrl': 'help/optionalOutput.html',
-            'url': '/help/optionalOutput'
+        .state('logged-in', {
+            'controller': 'mainController',
+            'templateUrl': 'views/main.html'
         });
 });
 
-
+app.controller('appController',
+    ['$rootScope', '$state', '$http', ($rootScope, $state, $http) => {
+        $http.get('/authenticated').then((response) => {
+            $rootScope.loggedIn = response.data;
+        });
+        $rootScope.$watch('loggedIn', (value) => {
+            $state.go(value ? 'logged-in' : 'login');
+        });
+    }]
+);

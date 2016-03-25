@@ -6,6 +6,7 @@
  */
 'use strict';
 const logger = require('./Logger')('EnvVar');
+const logBlacklist = ['RS_PASSWORD'];
 
 /**
  * Class for environment variables with default values
@@ -19,15 +20,14 @@ class EnvVar {
                 process.env[envVar.name] = process.env[envVar.alias];
                 delete process.env[envVar.alias];
             }
-
             if (typeof process.env[envVar.name] !== 'undefined') {
-                logger.info(`ENV "${envVar.name} = ${process.env[envVar.name]}"`, envVar.description);
+                logger.info(`ENV "${envVar.name} = ${(logBlacklist.indexOf(envVar.name) === -1 ? process.env[envVar.name] : '[hidden]')}"`, envVar.description);
             } else if (envVar.required === true) {
                 logger.error(`No value set for env "${envVar.name}", but it is required`);
                 killProcess = true;
             } else {
                 process.env[envVar.name] = envVar.defaultValue;
-                logger.info(`ENV "${envVar.name} = ${process.env[envVar.name]}", set to default value`, envVar.description);
+                logger.info(`ENV "${envVar.name} = ${(logBlacklist.indexOf(envVar.name) === -1 ? process.env[envVar.name] : '[hidden]')}", set to default value`, envVar.description);
             }
 
             if (typeof process.env[envVar.name] !== 'undefined') {

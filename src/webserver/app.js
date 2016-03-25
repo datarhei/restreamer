@@ -5,26 +5,20 @@
  */
 'use strict';
 
-// auth stuff
-const passport = require('passport');
-const passportConfig = require('./config/passport');
-
 // express
 const express = require('express');
 const session = require('express-session');
+const cookie = require('cookie');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const compression = require('compression');
-const https = require('https');
 
 // other
 const path = require('path');
 const Q = require('q');
 const crypto = require('crypto');
-const exec = require('child_process').exec;
 
 // modules
-const packageJson = require(path.join(global.__base, 'package.json'));
 const logger = require.main.require('./classes/Logger')('RestreamerExpressApp');
 const indexRouter = require('./controllers/index');
 const apiV1 = require('./controllers/api/v1');
@@ -43,6 +37,8 @@ class RestreamerExpressApp {
     constructor () {
         this.app = express();
         this.secretKey = crypto.randomBytes(16).toString('hex');
+        this.sessionKey = 'restreamer-session';
+        this.sessionStore = new session.MemoryStore();
 
         if (process.env.RS_NODE_ENV === 'dev') {
             this.initDev();
@@ -56,33 +52,20 @@ class RestreamerExpressApp {
      */
     useSessions () {
         this.app.use(session({
+            'resave': true,
+            'saveUninitialized': false,
+            'key': this.sessionKey,
             'secret': this.secretKey,
-            'resave': false,
-            'saveUninitialized': true // session secret
+            'unset': 'destroy',
+            'store': this.sessionStore
         }));
     }
-
-    /**
-     * use passport auth
-     */
-    useAuth () {
-        // add passport auth
-        this.app.use(passport.initialize());
-
-        // persistent login sessions
-        this.app.use(passport.session());
-
-        // add config to passport
-        passportConfig(passport);
-    }
-
 
     /**
      * add automatic parsers for the body
      */
     addParsers () {
         this.app.use(bodyParser.json());
-        this.app.use(bodyParser.urlencoded({'extended': true}));
         this.app.use(cookieParser());
     }
 
@@ -118,7 +101,7 @@ class RestreamerExpressApp {
      * add the restreamer routes
      */
     addRoutes () {
-        indexRouter(this.app, passport);
+        indexRouter(this.app);
         this.app.use('/v1', apiV1);
     }
 
@@ -148,44 +131,21 @@ class RestreamerExpressApp {
     }
 
     /**
-     * check for app updates
+     * enable websocket session validation
      */
-    checkForRestreamerUpdates () {
-        const url = {'host': 'datarhei.org', 'path': '/apps.json'};
-        logger.debug('Checking app for updates...');
-        https.get(url, (response)=> {
-            if (response.statusCode === 200) {
-                response.on('data', (body)=> {
-                    var updateCheck = JSON.parse(body);
-                    var updateAvailable = false;
-                    if (updateCheck.restreamer.version === packageJson.version) {
-                        updateAvailable = false;
-                        logger.debug(`Checking app for updates successful. Update is not available (remote: ${updateCheck.restreamer.version}, local: ${packageJson.version})`);
-                    } else {
-                        updateAvailable = updateCheck.restreamer.version;
-                        logger.debug(`Checking app for updates successful. Update is available (remote: ${updateCheck.restreamer.version}, local: ${packageJson.version})`);
+    secureSockets () {
+        this.app.get('io').set('authorization', (handshakeData, accept) => {
+            if (handshakeData.headers.cookie) {
+                this.sessionStore.get(cookieParser.signedCookie(
+                    cookie.parse(handshakeData.headers.cookie)[this.sessionKey], this.secretKey
+                ), (err, s) => {
+                    if (!err && s && s.authenticated) {
+                        return accept(null, true);
                     }
-                    logger.info('Checking app for updates successful');
-                    this.app.set('updateAvailable', updateAvailable);
                 });
             } else {
-                logger.info('Update check failed', false);
+                return accept(null, false);
             }
-        }).on('error', () => {
-            logger.info('Update check failed', false);
-        });
-    }
-
-    /**
-     * get public ip of the app
-     */
-    getPublicIp () {
-        logger.info('Getting public ip...', 'start.publicip');
-        exec('public-ip', (err, stdout, stderr) => {
-            if (err) {
-                logger.error(err);
-            }
-            this.app.set('publicIp', stdout.split('\n')[0]);
         });
     }
 
@@ -201,9 +161,10 @@ class RestreamerExpressApp {
         this.app.set('port', process.env.RS_NODE_PORT);
         server = this.app.listen(this.app.get('port'), ()=> {
             this.app.set('io', require('socket.io')(server));
+            this.secureSockets();
             this.app.set('server', server.address());
 
-            // promise to determine if the webserver has been started to avoid ws binding before
+            // promise to avoid ws binding before the webserver has been started
             this.app.get('websocketsReady').resolve(this.app.get('io'));
             logger.info(`Webserver running on port ${process.env.RS_NODE_PORT}`);
             deferred.resolve(server.address().port);
@@ -217,7 +178,6 @@ class RestreamerExpressApp {
      */
     initAlways () {
         this.useSessions();
-        this.useAuth();
         this.addParsers();
         this.addCompression();
         this.addExpressLogger();
@@ -233,7 +193,7 @@ class RestreamerExpressApp {
         logger.debug('init webserver with PROD environment');
         this.initAlways();
         this.app.get('/', (req, res)=> {
-            res.sendFile(path.join(global.__public, 'index.html'));
+            res.sendFile(path.join(global.__public, 'index.prod.html'));
         });
         this.add404ErrorHandling();
         this.add500ErrorHandling();
@@ -246,7 +206,7 @@ class RestreamerExpressApp {
         logger.debug('init webserver with DEV environment');
         this.initAlways();
         this.app.get('/', (req, res)=> {
-            res.sendFile(path.join(global.__public, 'index-dev.html'));
+            res.sendFile(path.join(global.__public, 'index.dev.html'));
         });
         this.add404ErrorHandling();
         this.add500ErrorHandling();

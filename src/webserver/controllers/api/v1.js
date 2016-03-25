@@ -8,9 +8,19 @@
 
 const express = require('express');
 const router = new express.Router();
+const version = require(require('path').join(global.__base, 'package.json')).version;
 
 // TODO: solve the circular dependency problem and place Restreamer require here
 
+router.get('/version', (req, res) => {
+    res.json({
+        'version': version,
+        'update': require.main.require('./classes/Restreamer').data.updateAvailable
+    });
+});
+router.get('/ip', (req, res) => {
+    res.end(require.main.require('./classes/Restreamer').data.publicIp);
+});
 router.get('/states', (req, res) => {
     const states = require.main.require('./classes/Restreamer').data.states;
 

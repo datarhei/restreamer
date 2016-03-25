@@ -1,3 +1,13 @@
+## Changes from 0.1.0-RC6.1 to 0.1.0-rc.7
+
+* security improvements
+* FFmpeg and NGINX optimizations
+* fixed update check
+* added semantic versioning 
+* several small bugfixes and improvements
+* updated dependencies
+* added Aarch64 Docker image and reduced Docker layers
+
 ## Changes from 0.1.0-RC6 to 0.1.0-RC6.1
 
 * fixed external streaming with RTSP over TCP input option

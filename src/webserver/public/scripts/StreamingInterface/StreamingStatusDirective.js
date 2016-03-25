@@ -13,7 +13,7 @@ window.angular.module('StreamingInterface').directive('streamingStatus', () => {
         },
         'restrict': 'E',
         'replace': true,
-        'templateUrl': '/scripts/StreamingInterface/_streamingStatus.html',
+        'templateUrl': '/views/status.html',
         'controller': 'streamingStatusController'
     };
 });

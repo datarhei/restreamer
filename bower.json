@@ -1,10 +1,10 @@
 {
     "name": "Restreamer",
-    "version": "0.1.0-RC6.1",
+    "version": "0.1.0-rc.7",
     "license": "Apache-2.0",
     "dependencies": {
         "bootstrap": "3.3.6",
-        "jquery": "2.2.1",
+        "jquery": "2.2.2",
         "html5shiv": "3.7.3",
         "respond": "1.4.2",
         "angular-bootstrap": "~0.14.3",
@@ -14,7 +14,6 @@
         "angular-translate-loader-static-files": "2.9.2"
     },
     "resolutions": {
-        "angular": "1.4.8",
-        "angular-bootstrap": "~0.14.3"
+        "angular": "1.5.0"
     }
 }

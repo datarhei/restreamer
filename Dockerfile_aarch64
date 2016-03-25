@@ -1,4 +1,4 @@
-FROM resin/rpi-raspbian:jessie
+FROM aarch64/debian:jessie
 
 MAINTAINER datarhei <info@datarhei.org>
 
@@ -24,8 +24,8 @@ RUN rm -rf /var/lib/apt/lists/* && \
     # node
     DIR="$(mktemp -d)" && cd "${DIR}" && \
     set -x && \
-    curl -LOks "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-armv6l.tar.gz" && \
-    tar xzvf "node-v${NODE_VERSION}-linux-armv6l.tar.gz" \
+    curl -LOks "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-arm64.tar.gz" && \
+    tar xzvf "node-v${NODE_VERSION}-linux-arm64.tar.gz" \
         -C "${SRC}" \
         --strip-components=1 && \
     npm install -g "npm@${NPM_VERSION}" --unsafe-perm && \
@@ -38,6 +38,7 @@ RUN rm -rf /var/lib/apt/lists/* && \
     curl -LOks "https://www.tortall.net/projects/yasm/releases/yasm-${YASM_VERSION}.tar.gz" && \
     tar xzvf "yasm-${YASM_VERSION}.tar.gz" && \
     cd "yasm-${YASM_VERSION}" && \
+    cp /usr/share/automake-1.14/config.guess config.guess && \
     ./configure \
         --prefix="${SRC}" \
         --bindir="${SRC}/bin" && \
@@ -65,6 +66,7 @@ RUN rm -rf /var/lib/apt/lists/* && \
     curl -LOks "https://github.com/rbrito/lame/archive/RELEASE__${LAME_VERSION}.tar.gz" && \
     tar xzvf "RELEASE__${LAME_VERSION}.tar.gz" && \
     cd "lame-RELEASE__${LAME_VERSION}" && \
+    cp /usr/share/automake-1.14/config.guess config.guess && \
     ./configure \
         --prefix="${SRC}" \
         --bindir="${SRC}/bin" \

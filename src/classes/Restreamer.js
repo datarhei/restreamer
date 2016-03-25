@@ -12,8 +12,10 @@ const logger = require('./Logger')('Restreamer');
 const WebsocketsController = require('./WebsocketsController');
 const FfmpegCommand = require('fluent-ffmpeg');
 const Q = require('q');
-const app = require.main.require('./webserver/app').app;
 const JsonDB = require('node-json-db');
+const exec = require('child_process').exec;
+const packageJson = require(path.join(global.__base, 'package.json'));
+const https = require('https');
 
 /**
  * class Restreamer creates and manages streams through ffmpeg
@@ -40,11 +42,10 @@ class Restreamer {
 
     /**
      * receive snapshot by using first frame of repeated video
-     * @param {boolean} firstSnapshot
      */
-    static fetchSnapshot (firstSnapshot) {
+    static fetchSnapshot () {
         var command = null;
-        if (Restreamer.data.states.repeatToLocalNginx.type === 'connected' || firstSnapshot) {
+        if (Restreamer.data.states.repeatToLocalNginx.type === 'connected') {
             command = new FfmpegCommand(Restreamer.generateOutputHLSPath());
 
             command.output(Restreamer.generateSnapshotPath());
@@ -53,9 +54,10 @@ class Restreamer {
                 logger.error('Error on fetching snapshot: ' + error.toString());
             });
             command.on('end', () => {
-                logger.info('updated snapshot');
+                logger.info('Updated snapshot');
+                WebsocketsController.emit('snapshot', null);
                 Q.delay(this.calculateSnapshotRefreshInterval()).then(() => {
-                    Restreamer.fetchSnapshot(false);
+                    Restreamer.fetchSnapshot();
                 });
             });
             command.exec();
@@ -70,7 +72,7 @@ class Restreamer {
             return snapshotRefreshInterval[1];
         } else if (snapshotRefreshInterval[2] === 'm') {
             return snapshotRefreshInterval[1] * 1000 * 60;
-        } else if (snapshotRefreshInterval[2] === 's' && snapshotRefreshInterval[1] > 30) {
+        } else if (snapshotRefreshInterval[2] === 's' && snapshotRefreshInterval[1] >= 10) {
             return snapshotRefreshInterval[1] * 1000;
         }
 
@@ -86,6 +88,7 @@ class Restreamer {
 
         Restreamer.updateState(processName, 'stopped');
         logger.info('stopStream ' + processName);
+        clearTimeout(Restreamer.data.retryTimeouts[processName]);
         if (processHasBeenSpawned) {
             Restreamer.data.processes[processName].kill();
             Restreamer.data.processes[processName] = {
@@ -146,14 +149,14 @@ class Restreamer {
      * send websocket event to GUI to update the state of the streams
      */
     static updateStreamDataOnGui () {
-        WebsocketsController.emitToNamespace('/', 'updateStreamData', Restreamer.extractDataOfStreams());
+        WebsocketsController.emit('updateStreamData', Restreamer.extractDataOfStreams());
     }
 
     /**
      * send websocket event to GUI to update the state of the streams
      */
     static updateProgressOnGui () {
-        WebsocketsController.emitToNamespace('/', 'updateProgress', Restreamer.data.progresses);
+        WebsocketsController.emit('updateProgress', Restreamer.data.progresses);
     }
 
     /**
@@ -168,6 +171,7 @@ class Restreamer {
     }
 
     static applyOptions (ffmpegCommand, streamType) {
+        ffmpegCommand.native(); // add -re
         if (streamType === 'repeatToLocalNginx') {
             if (Restreamer.data.options.rtspTcp && Restreamer.data.addresses.srcAddress.indexOf('rtsp') === 0) {
                 ffmpegCommand.inputOptions('-rtsp_transport tcp');
@@ -217,6 +221,9 @@ class Restreamer {
             'type': state,
             'message': message
         };
+        if (processName === 'repeatToLocalNginx' && state === 'connected') {
+            Restreamer.fetchSnapshot();
+        }
         Restreamer.writeToDB();
         Restreamer.updateStreamDataOnGui();
         return state;
@@ -315,7 +322,6 @@ class Restreamer {
             };
             Restreamer.applyOptions(command, streamType);
             command
-                // stream started
                 .on('start', (commandLine) => {
                     if (Restreamer.data.userActions[streamType] === 'stop') {
                         logger.debug('Skipping on "start" event of FFmpeg command since "stopped" has been clicked');
@@ -323,11 +329,6 @@ class Restreamer {
                     }
                     logger.debug(`FFmpeg spawned: ${commandLine}`);
                     Restreamer.data.processes[streamType] = command;
-
-                    // fetch snapshot only, if repeated to local nginx
-                    if (repeatToLocalNginx) {
-                        Restreamer.fetchSnapshot(true);
-                    }
                 })
 
                 // stream ended
@@ -340,10 +341,10 @@ class Restreamer {
                             return;
                         }
                         logger.info(`Retrying FFmpeg connection to "${src}" after "${config.ffmpeg.monitor.restart_wait}" ms`);
-                        Q.delay(config.ffmpeg.monitor.restart_wait).then(() => {
+                        Restreamer.data.retryTimeouts[streamType] = setTimeout(() => {
                             logger.info(`Retry FFmpeg connection to "${src}" retry counter: ${Restreamer.data.retryCounter[streamType].current}`);
                             Restreamer.startStream(src, streamType, optionalOutput, Restreamer.data.retryCounter[streamType].current);
-                        });
+                        }, config.ffmpeg.monitor.restart_wait);
                     }
                 })
 
@@ -362,10 +363,10 @@ class Restreamer {
                             Restreamer.updateState(streamType, 'error', error.toString());
                             logger.error(`Error on stream ${streamType}: ${error.toString()}`);
                             logger.info(`Retrying FFmpeg connection to "${src}" after "${config.ffmpeg.monitor.restart_wait}" ms`);
-                            Q.delay(config.ffmpeg.monitor.restart_wait).then(() => {
+                            Restreamer.data.retryTimeouts[streamType] = setTimeout(() => {
                                 logger.info(`Retry FFmpeg connection to "${src}" retry counter: ${Restreamer.data.retryCounter[streamType].current}`);
                                 Restreamer.startStream(src, streamType, optionalOutput, Restreamer.data.retryCounter[streamType].current);
-                            });
+                            }, config.ffmpeg.monitor.restart_wait);
                         } else {
                             Restreamer.updateState(streamType, 'error', error.toString());
                         }
@@ -388,7 +389,8 @@ class Restreamer {
      * bind websocket events on application start
      */
     static bindWebsocketEvents () {
-        WebsocketsController.addOnConnectionEventToNamespace('/', (socket) => {
+        WebsocketsController.setConnectCallback((socket) => {
+            socket.emit('publicIp', Restreamer.data.publicIp);
             socket.on('startStream', (options)=> {
                 Restreamer.updateUserAction(options.streamType, 'start');
                 Restreamer.updateOptions(options.options);
@@ -397,9 +399,6 @@ class Restreamer {
             socket.on('stopStream', (streamType)=> {
                 Restreamer.updateUserAction(streamType, 'stop');
                 Restreamer.stopStream(streamType);
-            });
-            socket.on('checkForAppUpdates', ()=> {
-                socket.emit('checkForAppUpdatesResult', app.get('updateAvailable'));
             });
             socket.on('checkStates', Restreamer.updateStreamDataOnGui);
         });
@@ -432,6 +431,44 @@ class Restreamer {
             'states': Restreamer.data.states
         };
     }
+
+    /**
+     * check for updates
+     */
+    static checkForUpdates () {
+        const url = {'host': 'datarhei.org', 'path': '/apps.json'};
+        logger.debug('Checking for updates...');
+        https.get(url, (response) => {
+            if (response.statusCode === 200) {
+                response.on('data', (body) => {
+                    var updateCheck = JSON.parse(body);
+                    var updateAvailable = require('semver').lt(packageJson.version, updateCheck.restreamer.version);
+                    logger.info(`Update checking succeeded. ${updateAvailable ? 'Update' : 'No updates'} available`, 'checkForUpdates');
+                    logger.debug(`local: ${packageJson.version}; remote: ${updateCheck.restreamer.version}`, 'checkForUpdates');
+                    Restreamer.data.updateAvailable = updateAvailable;
+                    WebsocketsController.emit('update', updateAvailable);
+                });
+            } else {
+                logger.warn(`Got ${String(response.statusCode)} status while trying to fetch update info`, 'checkForUpdates');
+            }
+        }).on('error', () => {
+            logger.warn('Failed fetching update info', 'checkForUpdates');
+        });
+        setTimeout(Restreamer.checkForUpdates, 12 * 3600 * 1000);
+    }
+
+    /**
+     * get public ip
+     */
+    static getPublicIp () {
+        logger.info('Getting public ip...', 'start.publicip');
+        exec('public-ip', (err, stdout, stderr) => {
+            if (err) {
+                logger.error(err);
+            }
+            Restreamer.data.publicIp = stdout.split('\n')[0];
+        });
+    }
 }
 
 /*
@@ -447,6 +484,10 @@ Restreamer.data = {
             'current': 0,
             'max': config.ffmpeg.monitor.retries
         }
+    },
+    'retryTimeouts': {
+        'repeatToLocalNginx': null,
+        'repeatToOptionalOutput': null
     },
     'options': {
         'rtspTcp': false
@@ -488,7 +529,9 @@ Restreamer.data = {
     'addresses': {
         'srcAddress': '',
         'optionalOutputAddress': ''
-    }
+    },
+    'updateAvailable': false,
+    'publicIp': '127.0.0.1'
 };
 
 module.exports = Restreamer;

@@ -8,7 +8,7 @@
 /**
  * Streaming Status Controller
  *
- * controlls the display of the streaming status (fps, status)
+ * controls the display of the streaming status (fps, status)
  */
 window.angular.module('StreamingInterface').controller('streamingStatusController',
     ['$scope', ($scope) => {

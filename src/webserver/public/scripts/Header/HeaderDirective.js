@@ -9,7 +9,7 @@ window.angular.module('Header').directive('header', () => {
     return {
         'restrict': 'A',
         'replace': true,
-        'templateUrl': '/scripts/Header/_header.html',
+        'templateUrl': '/views/header.html',
         'controller': 'headerController'
     };
 });

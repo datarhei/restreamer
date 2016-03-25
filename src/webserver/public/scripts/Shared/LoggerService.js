@@ -10,7 +10,7 @@
 // styles of the logging output
 const INFO = 'color: #0000FF; font-weight: bold';
 const DEBUG = 'color: #AABBCC; font-weight: bold';
-const ERROR = 'color: #FF0011d; font-weight: bold';
+const ERROR = 'color: #FF0011; font-weight: bold';
 const WEBSOCKETS_IN = 'color: #00BFFF; font-weight: bold';
 const WEBSOCKETS_OUT = 'color: #00BF00; font-weight: bold';
 const WEBSOCKETS_NAMESPACE = 'color: #00BF00; font-weight: bold';
@@ -71,7 +71,7 @@ const LoggerService = function loggerService () {
      * @param {string} type
      */
     this.log = (style, message, type) => {
-        console.log('%c [' + type + ']' + message, style);
+        console.log('%c [' + type + '] ' + message, style);
     };
 };
 
