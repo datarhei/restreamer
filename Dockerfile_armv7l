@@ -138,8 +138,8 @@ RUN npm install -g bower grunt grunt-cli nodemon public-ip && \
     npm cache clean && \
     bower cache clean --allow-root
 
-ENV RS_USERNAME=admin \
-    RS_PASSWORD=datarhei
+ENV RS_USERNAME admin
+ENV RS_PASSWORD datarhei
 
 EXPOSE 8080
 VOLUME ["/restreamer/db"]
