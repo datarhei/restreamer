@@ -1,3 +1,7 @@
+## Changes from 0.1.0-rc7 to 0.1.0-rc.7.1
+
+* fixed Kitematic auth failure
+
 ## Changes from 0.1.0-RC6.1 to 0.1.0-rc.7
 
 * security improvements
