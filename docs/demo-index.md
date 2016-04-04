@@ -2,7 +2,7 @@
 title: demo-index
 ---
 #Demo 
-###[Live Demos](../docs/demo-live.html)  
+###Live Demos]
 
 Some live samples with running Datarhei/Systems. Live Streaming in direct streaming mode to iframe and YouTube. 
 Raspberry Pi camera board and IP cameras are in use.  
@@ -12,10 +12,9 @@ You are seeing test systems they may be offline sometimes. Thank you for your pa
 
 ##Direct Streaming
 ####Zurich / Switzerland 
-Coming soon....  
 
-<iframe src="http://89.166.150.96:8080/player.html" name="restreamer-player" width="640" height="360" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"></iframe> 
-Raspberry Pi2 with Raspicam NOIR streaming direct to iframe.
+<iframe src="http://stromgeruch.zapto.org:8080/player.html" name="restreamer-player" width="640" height="480" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"></iframe>  
+Raspberry Pi2 with Raspicam NOIR streaming direct to iframe. Internet connection 20 Mbit/s upload
 
 ---
 ##YouTube-Live
