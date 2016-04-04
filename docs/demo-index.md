@@ -14,7 +14,7 @@ You are seeing test systems they may be offline sometimes. Thank you for your pa
 ####Zurich / Switzerland 
 
 <iframe width="640" height="360" src="https://f136fb70-2695-4de0-a2f7-a7f0068ba466.pub.cloud.scaleway.com/?stream=raspicam" name="restreamer-player" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"></iframe>  
-Datarhei/Edge streaming Raspberry Pi2 with Raspicam NOIR streaming via oceancloud.com (DVR activated) . 
+Datarhei/Edge streaming Raspberry Pi2 with Raspicam NOIR streaming via scaleway.com (DVR activated) . 
 
 ---
 ##YouTube-Live
