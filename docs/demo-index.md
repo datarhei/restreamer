@@ -13,7 +13,7 @@ You are seeing test systems they may be offline sometimes. Thank you for your pa
 ##Direct Streaming
 ####Zurich / Switzerland 
 
-<iframe src="http://stromgeruch.zapto.org:8080/player.html" name="restreamer-player" width="640" height="480" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"></iframe>  
+<iframe width="640" height="480" src="http://stromgeruch.zapto.org:8080/player.html" name="restreamer-player" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"></iframe>  
 Raspberry Pi2 with Raspicam NOIR streaming direct to iframe. Internet connection 20 Mbit/s upload
 
 ---
