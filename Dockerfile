@@ -8,15 +8,16 @@ ENV FFMPEG_VERSION=2.8.6 \
     NGINX_VERSION=1.9.9 \
     NGINX_RTMP_VERSION=1.1.7.10 \
 
-    SRC="/usr/local" \
-    LD_LIBRARY_PATH="${SRC}/lib" \
+    SRC="/usr/local"
+
+ENV LD_LIBRARY_PATH="${SRC}/lib" \
     PKG_CONFIG_PATH="${SRC}/lib/pkgconfig" \
 
     BUILDDEPS="autoconf automake gcc g++ libtool make nasm zlib1g-dev libssl-dev xz-utils cmake build-essential libpcre3-dev"
 
-RUN rm -rf /var/lib/apt/lists/* && \
-    apt-get update && \
-    apt-get install -y --force-yes curl git libpcre3 tar perl ca-certificates ${BUILDDEPS} && \
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes curl git libpcre3 tar perl ca-certificates ${BUILDDEPS} && \
+    rm -rf /var/lib/apt/lists/* && \
 
     # yasm
     DIR="$(mktemp -d)" && cd "${DIR}" && \
