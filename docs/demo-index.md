@@ -11,7 +11,7 @@ Raspberry Pi camera board and IP cameras are in use.
 You are seeing test systems they may be offline sometimes. Thank you for your patience.
 
 ##Direct Streaming
-####Zurich / Switzerland 
+####Zurich / Switzerland #TempOffline
 
 <iframe width="640" height="360" src="https://f136fb70-2695-4de0-a2f7-a7f0068ba466.pub.cloud.scaleway.com/?stream=raspicam" name="restreamer-player" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"></iframe>  
 Datarhei/Edge streaming Raspberry Pi2 with Raspicam NOIR streaming via scaleway.com (DVR activated) . 
@@ -20,14 +20,21 @@ Datarhei/Edge streaming Raspberry Pi2 with Raspicam NOIR streaming via scaleway.
 ##YouTube-Live
 ####Wiehen Hills/Lower Saxony/Germany
 
-<iframe width="640" height="360" src="https://www.youtube.com/embed/U__iee7INLE" frameborder="0" allowfullscreen></iframe> 
+<iframe width="640" height="360" src="https://www.youtube.com/embed/_12xyp3FOBE" frameborder="0" allowfullscreen></iframe> 
 Raspberry Pi2 (ARMv7l) with static IP camera streaming to YouTube. Internet connection 1 Mbit/s upload)  
 
 ---
 ####Melle/Lower Saxony/Germany 
 
-<iframe width="640" height="360" src="https://www.youtube.com/embed/PhHtIWnub_I" frameborder="0" allowfullscreen></iframe>
+<iframe width="640" height="360" src="https://www.youtube.com/embed/J-19uwcI2kw" frameborder="0" allowfullscreen></iframe>
 Raspberry Pi2 (ARMv7l) with static IP camera. Internet connection 10 Mbit/s upload)  
+
+---
+##Self Streaming
+####Some beautiful place one planet earth
+
+<iframe src="http://178.196.106.202:8080/player.html" name="restreamer-player" width="640" height="360" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"></iframe> 
+Raspberry Pi1 (ARMv6l) with static IP camera. Internet connection 10 Mbit/s upload)  
 
 ---
 ## Showroom HTML Theme
