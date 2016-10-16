@@ -20,20 +20,20 @@ Datarhei/Edge streaming Raspberry Pi2 with Raspicam NOIR streaming via scaleway.
 ##YouTube-Live
 ####Wiehen Hills/Lower Saxony/Germany
 
-<iframe width="640" height="360" src="https://www.youtube.com/embed/_12xyp3FOBE" frameborder="0" allowfullscreen></iframe> 
+<iframe width="640" height="360" src="https://www.youtube.com/embed/_12xyp3FOBE" frameborder="0" allowfullscreen></iframe>  
 Raspberry Pi2 (ARMv7l) with static IP camera streaming to YouTube. Internet connection 1 Mbit/s upload)  
 
 ---
 ####Melle/Lower Saxony/Germany 
 
-<iframe width="640" height="360" src="https://www.youtube.com/embed/J-19uwcI2kw" frameborder="0" allowfullscreen></iframe>
+<iframe width="640" height="360" src="https://www.youtube.com/embed/J-19uwcI2kw" frameborder="0" allowfullscreen></iframe>  
 Raspberry Pi2 (ARMv7l) with static IP camera. Internet connection 10 Mbit/s upload)  
 
 ---
-##Self Streaming
 ####A beautiful place on planet earth
 
-<iframe width="640" height="360" src="https://www.youtube.com/embed/3htFkx7-hfM" frameborder="0" allowfullscreen></iframe>Raspberry Pi1 (ARMv6l) with static IP camera. Internet connection 10 Mbit/s upload  
+<iframe width="640" height="360" src="https://www.youtube.com/embed/3htFkx7-hfM" frameborder="0" allowfullscreen></iframe>  
+Raspberry Pi1 (ARMv6l) with static IP camera. Internet connection 10 Mbit/s upload  
 
 ---
 ## Showroom HTML Theme
