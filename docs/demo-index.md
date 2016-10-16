@@ -32,7 +32,7 @@ Raspberry Pi2 (ARMv7l) with static IP camera. Internet connection 10 Mbit/s uplo
 ---
 ####A beautiful place on planet earth
 
-<iframe width="640" height="360" src="https://www.youtube.com/embed/3htFkx7-hfM" frameborder="0" allowfullscreen></iframe>  
+<iframe width="640" height="360" src="https://www.youtube.com/embed/uzwV8xoQdFk" frameborder="0" allowfullscreen></iframe>  
 Raspberry Pi1 (ARMv6l) with static IP camera. Internet connection 10 Mbit/s upload  
 
 ---
