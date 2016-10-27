@@ -20,21 +20,27 @@ Datarhei/Edge streaming Raspberry Pi2 with Raspicam NOIR streaming via scaleway.
 ##YouTube-Live
 ####Wiehen Hills/Lower Saxony/Germany
 
-<iframe width="640" height="360" src="https://www.youtube.com/embed/_12xyp3FOBE" frameborder="0" allowfullscreen></iframe>  
+<iframe width="640" height="360" src="https://www.youtube.com/embed/2thkGfAZ4gE" frameborder="0" allowfullscreen></iframe> 
 Raspberry Pi2 (ARMv7l) with static IP camera streaming to YouTube. Internet connection 1 Mbit/s upload)  
 
 ---
 ####Melle/Lower Saxony/Germany 
 
-<iframe width="640" height="360" src="https://www.youtube.com/embed/J-19uwcI2kw" frameborder="0" allowfullscreen></iframe>  
+<iframe width="640" height="360" src="https://www.youtube.com/embed/2thkGfAZ4gE" frameborder="0" allowfullscreen></iframe>
 Raspberry Pi2 (ARMv7l) with static IP camera. Internet connection 10 Mbit/s upload)  
 
 ---
-####A beautiful place on planet earth
+####A beautiful place at the sea side
 
-<iframe width="640" height="360" src="https://www.youtube.com/embed/uzwV8xoQdFk" frameborder="0" allowfullscreen></iframe>  
-Raspberry Pi1 (ARMv6l) with static IP camera. Internet connection 10 Mbit/s upload  
+<iframe width="640" height="360" src="https://www.youtube.com/embed/Eqr9RQWkTBs" frameborder="0" allowfullscreen></iframe>
+Raspberry Pi2 (ARMv7l) with static IP camera. Internet connection 5 Mbit/s upload)  
 
+---
+##Self Streaming
+####A beautiful place on planet earth #TempOffline
+
+<iframe src="http://178.196.106.202:8080/player.html" name="restreamer-player" width="640" height="360" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"></iframe> 
+Raspberry Pi1 (ARMv6l) with static IP camera. Internet connection 10 Mbit/s upload)  
 ---
 ## Showroom HTML Theme
 ### Download your own Datarhei/Restreamer HTML Theme
