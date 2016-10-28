@@ -30,10 +30,10 @@ Raspberry Pi2 (ARMv7l) with static IP camera streaming to YouTube. Internet conn
 Raspberry Pi2 (ARMv7l) with static IP camera. Internet connection 10 Mbit/s upload)  
 
 ---
-####A beautiful place at the sea side
+####A beautiful place at the sea side (Atlantic Ocean/US)
 
 <iframe width="640" height="360" src="https://www.youtube.com/embed/Eqr9RQWkTBs" frameborder="0" allowfullscreen></iframe>
-Raspberry Pi2 (ARMv7l) with static IP camera. Internet connection 5 Mbit/s upload)  
+Raspberry Pi2 (ARMv7l) with PTZ IP camera. Internet connection 5 Mbit/s upload)  
 
 ---
 ##Self Streaming
