@@ -37,10 +37,13 @@ Raspberry Pi2 (ARMv7l) with PTZ IP camera. Internet connection 5 Mbit/s upload)
 
 ---
 ##Self Streaming
-####A meteorological videostream with self streaming (thank you http://wetter-siegen.de)
+####Two meteorological videostreams (thank you http://wetter-siegen.de)
 
-<iframe src="http://siegen-wetter.zapto.org:8080/player.html" name="restreamer-player" width="640" height="360" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"></iframe> 
-Raspberry Pi1 (ARMv6l) with static IP camera. Internet connection 10 Mbit/s upload)  
+<iframe width="640" height="480" src="https://www.youtube.com/embed/U1LNaZ9EILI" frameborder="0" allowfullscreen></iframe>
+Raspberry Pi3 (ARMv8l) with static IP camera. Internet connection 20 Mbit/s upload)   
+
+<iframe width="640" height="480" src="https://www.youtube.com/embed/GUp5HJYs6aA" frameborder="0" allowfullscreen></iframe>  
+
 ---
 ## Showroom HTML Theme
 ### Download your own Datarhei/Restreamer HTML Theme
