@@ -39,10 +39,10 @@ Raspberry Pi2 (ARMv7l) with PTZ IP camera. Internet connection 5 Mbit/s upload)
 ##Self Streaming
 ####Two meteorological videostreams (thank you http://wetter-siegen.de)
 
-<iframe width="640" height="480" src="https://www.youtube.com/embed/U1LNaZ9EILI" frameborder="0" allowfullscreen></iframe>
+<iframe width="640" height="360" src="https://www.youtube.com/embed/U1LNaZ9EILI" frameborder="0" allowfullscreen></iframe>
 Raspberry Pi3 (ARMv8l) with static IP camera. Internet connection 20 Mbit/s upload)   
 
-<iframe width="640" height="480" src="https://www.youtube.com/embed/GUp5HJYs6aA" frameborder="0" allowfullscreen></iframe>  
+<iframe width="640" height="360" src="https://www.youtube.com/embed/GUp5HJYs6aA" frameborder="0" allowfullscreen></iframe>  
 
 ---
 ## Showroom HTML Theme
