@@ -37,9 +37,9 @@ Raspberry Pi2 (ARMv7l) with PTZ IP camera. Internet connection 5 Mbit/s upload)
 
 ---
 ##Self Streaming
-####A beautiful place on planet earth #TempOffline
+####A meteorological videostream with self streaming (thank you http://wetter-siegen.de)
 
-<iframe src="http://178.196.106.202:8080/player.html" name="restreamer-player" width="640" height="360" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"></iframe> 
+<iframe src="http://siegen-wetter.zapto.org:8080/player.html" name="restreamer-player" width="640" height="360" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"></iframe> 
 Raspberry Pi1 (ARMv6l) with static IP camera. Internet connection 10 Mbit/s upload)  
 ---
 ## Showroom HTML Theme
