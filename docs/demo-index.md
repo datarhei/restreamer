@@ -24,7 +24,7 @@ Datarhei/Edge streaming Raspberry Pi2 with Raspicam NOIR streaming via scaleway.
 Raspberry Pi2 (ARMv7l) with static IP camera streaming to YouTube. Internet connection 1 Mbit/s upload)  
 
 ---
-####Melle/Lower Saxony/Germany 
+####Melle/Lower Saxony/Germany #SorryTempOffline
 
 <iframe width="640" height="360" src="https://www.youtube.com/embed/ZGpVkR1igHQ" frameborder="0" allowfullscreen></iframe>
 Raspberry Pi2 (ARMv7l) with static IP camera. Internet connection 10 Mbit/s upload)  
@@ -32,17 +32,15 @@ Raspberry Pi2 (ARMv7l) with static IP camera. Internet connection 10 Mbit/s uplo
 ---
 ####A beautiful place at the sea side (Atlantic Ocean/US)
 
-<iframe width="640" height="360" src="https://www.youtube.com/embed/Eqr9RQWkTBs" frameborder="0" allowfullscreen></iframe>
+<iframe width="640" height="360" src="https://www.youtube.com/embed/DnQQKyvG1Q" frameborder="0" allowfullscreen></iframe>
 Raspberry Pi2 (ARMv7l) with PTZ IP camera. Internet connection 5 Mbit/s upload)  
 
 ---
 ##Self Streaming
 ####Two meteorological videostreams (thank you http://wetter-siegen.de)
 
-<iframe width="640" height="360" src="https://www.youtube.com/embed/U1LNaZ9EILI" frameborder="0" allowfullscreen></iframe>
+<iframe width="640" height="360" src="https://youtube.com/embed/CAPzcviC7Zg" frameborder="0" allowfullscreen></iframe>
 Raspberry Pi3 (ARMv8l) with static IP camera. Internet connection 20 Mbit/s upload)   
-
-<iframe width="640" height="360" src="https://www.youtube.com/embed/GUp5HJYs6aA" frameborder="0" allowfullscreen></iframe>  
 
 ---
 ## Showroom HTML Theme
