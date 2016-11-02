@@ -41,9 +41,6 @@ Raspberry Pi2 (ARMv7l) with PTZ IP camera. Internet connection 5 Mbit/s upload)
 Self streaming modus live: http://www.siegen-wetter.de/webcam.htm
 
 ####YouTube-Live
-<iframe src="http://wetter-siegen.zapto.org:8080/player.html" name="restreamer-player" width="640" height="360" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"></iframe>
-Raspberry Pi3 (ARMv8l) with static IP camera. Internet connection 20 Mbit/s upload)   
-
 <iframe width="640" height="360" src="https://www.youtube.com/embed/CAPzcviC7Zg" frameborder="0" allowfullscreen></iframe>
 
 ---
