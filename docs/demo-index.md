@@ -37,7 +37,7 @@ Raspberry Pi2 (ARMv7l) with PTZ IP camera. Internet connection 5 Mbit/s upload)
 
 ---
 ##Self Streaming
-####Two meteorological sky camera 
+####Two meteorological sky cameras 
 Self streaming modus live: http://www.siegen-wetter.de/webcam.htm
 
 ####YouTube-Live
