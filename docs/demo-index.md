@@ -24,7 +24,7 @@ Datarhei/Edge streaming Raspberry Pi2 with Raspicam NOIR streaming via scaleway.
 Raspberry Pi2 (ARMv7l) with static IP camera streaming to YouTube. Internet connection 1 Mbit/s upload)  
 
 ---
-####Melle/Lower Saxony/Germany #SorryTempOffline
+####Melle/Lower Saxony/Germany  
 
 <iframe width="640" height="360" src="https://www.youtube.com/embed/ZtQ9E1Jp64s" frameborder="0" allowfullscreen></iframe>
 Raspberry Pi2 (ARMv7l) with static IP camera. Internet connection 10 Mbit/s upload)  
