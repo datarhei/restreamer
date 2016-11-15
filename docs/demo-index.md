@@ -26,7 +26,7 @@ Raspberry Pi2 (ARMv7l) with static IP camera streaming to YouTube. Internet conn
 ---
 ####Melle/Lower Saxony/Germany  
 
-<iframe width="640" height="360" src="https://www.youtube.com/embed/ZtQ9E1Jp64s" frameborder="0" allowfullscreen></iframe>
+<iframe width="640" height="360" src="https://www.youtube.com/embed/g3-CRvKAc_E" frameborder="0" allowfullscreen></iframe>
 Raspberry Pi2 (ARMv7l) with static IP camera. Internet connection 10 Mbit/s upload)  
 
 ---
