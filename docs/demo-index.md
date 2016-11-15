@@ -36,6 +36,12 @@ Raspberry Pi2 (ARMv7l) with static IP camera. Internet connection 10 Mbit/s uplo
 Raspberry Pi2 (ARMv7l) with PTZ IP camera. Internet connection 5 Mbit/s upload)  
 
 ---
+####A beautiful place at the river side (Moody Falls / Canada)
+
+<iframe width="640" height="360" src="https://www.youtube.com/embed/Aw3IC_1iUBo" frameborder="0" allowfullscreen></iframe>
+Raspberry Pi2 (ARMv7l) with PTZ IP camera. Internet connection 5 Mbit/s upload)  
+
+---
 ##Self Streaming
 ####Meteorological sky camera 
 Self streaming modus live: 
