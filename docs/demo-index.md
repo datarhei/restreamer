@@ -32,12 +32,12 @@ Raspberry Pi2 (ARMv7l) with static IP camera. Internet connection 10 Mbit/s uplo
 ---
 ####A beautiful place at the sea side (Atlantic Ocean/US)
 
-<iframe width="640" height="360" src="https://www.youtube.com/embed/Sv3Y20N1I0s" frameborder="0" allowfullscreen></iframe>
+<iframe width="640" height="360" src="https://www.youtube.com/embed/CI-TQYU5Z_c" frameborder="0" allowfullscreen></iframe>
 Raspberry Pi2 (ARMv7l) with PTZ IP camera. Internet connection 5 Mbit/s upload)  
 
 ---
 ##Self Streaming
-####Two meteorological sky cameras 
+####Meteorological sky camera 
 Self streaming modus live: 
 <a target= "_blank" rel="nofollow" href="http://www.siegen-wetter.de/webcam.htm">http://www.siegen-wetter.de</a>
 
