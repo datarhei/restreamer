@@ -1,3 +1,14 @@
+## Changes from 0.1.0-rc7 to 0.1.0
+
+* switched to Alpine-Linux
+* switched Mutlistage Dockerfiles for AMD64 and ARMHF (req. Docker 17.x)
+  * https://hub.docker.com/r/datarhei/ffmpeg/
+  * https://hub.docker.com/r/datarhei/nginx-rtmp/
+* updated to FFmpeg 3.1.10
+* updated NPM/Bower packages
+* fixed public-ip problem
+* disabled FFmpeg "error-detection" for a vlc-like feeling
+
 ## Changes from 0.1.0-rc7 to 0.1.0-rc.7.1
 
 * fixed Kitematic auth failure

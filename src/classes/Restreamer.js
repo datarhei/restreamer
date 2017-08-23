@@ -174,7 +174,9 @@ class Restreamer {
         ffmpegCommand.native(); // add -re
         if (streamType === 'repeatToLocalNginx') {
             if (Restreamer.data.options.rtspTcp && Restreamer.data.addresses.srcAddress.indexOf('rtsp') === 0) {
-                ffmpegCommand.inputOptions('-rtsp_transport tcp');
+                ffmpegCommand.inputOptions('-err_detect','ignore_err','-rtsp_transport','tcp');
+            } else {
+                ffmpegCommand.inputOptions('-err_detect','ignore_err');
             }
         }
     }

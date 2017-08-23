@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 CPU_TYPE=$(uname -m | cut -c 1-3)
 if [ "${MODE}" == "RASPICAM" ] && [ "$CPU_TYPE" == "arm" ];
 then
