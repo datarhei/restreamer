@@ -1,4 +1,4 @@
-FROM datarhei/nginx-rtmp:1.9.9-1.1.7.10-armhf as builder
+FROM datarhei/nginx-rtmp:1.13.4-dev-armhf as builder
 
 FROM resin/raspberry-pi-alpine-node:8.1-slim
 
@@ -6,9 +6,9 @@ MAINTAINER datarhei <info@datarhei.org>
 
 ENV RS_USERNAME=admin \
     RS_PASSWORD=datarhei \
-    SRC="/usr/local" \
-    LD_LIBRARY_PATH="/usr/local/lib" \
-    PKG_CONFIG_PATH="/usr/local/lib/pkgconfig"
+    SRC=/usr/local \
+    LD_LIBRARY_PATH=/usr/local/lib \
+    PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
 COPY --from=builder /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
 COPY --from=builder /usr/local/bin/ffprobe /usr/local/bin/ffprobe
@@ -27,7 +27,7 @@ RUN apk add --no-cache --update git libssl1.0 pcre && \
     npm uninstall -g bower grunt grunt-cli nodemon eslint && \
     npm prune --production && \
     npm cache clean --force && \
-    apk del --purge git && \
+    apk del --no-cache --purge git && \
     rm -rf /var/cache/apk/* && \
     rm -rf /tmp/*
 

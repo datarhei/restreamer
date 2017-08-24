@@ -3,7 +3,8 @@
     "jsondb": "db/v1",
     "auth": {
         "username": "admin",
-        "password": "datarhei"
+        "password": "datarhei",
+        "token": ""
     },
     "ffmpeg": {
         "options": {
@@ -31,7 +32,7 @@
         },
         "monitor": {
             "restart_wait": "6000",
-            "retries": 10
+            "retries": 100
         }
     },
     "nginx": {

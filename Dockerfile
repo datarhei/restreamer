@@ -1,4 +1,4 @@
-FROM datarhei/nginx-rtmp:1.9.9-1.1.7.10 as builder
+FROM datarhei/nginx-rtmp:1.13.4-dev as builder
 
 FROM node:8.1-alpine
 

@@ -28,8 +28,13 @@ class Restreamer {
      */
     static generateOutputHLSPath () {
         var nginx = config.nginx.streaming;
+        var token = process.env.RS_TOKEN || config.auth.token;
 
-        return 'rtmp://' + nginx.ip + ':' + nginx.rtmp_port + nginx.rtmp_hls_path + 'live.stream';
+        if (token != '') {
+            return 'rtmp://' + nginx.ip + ':' + nginx.rtmp_port + nginx.rtmp_hls_path + 'live.stream' + '?token=' + token;
+        } else {
+            return 'rtmp://' + nginx.ip + ':' + nginx.rtmp_port + nginx.rtmp_hls_path + 'live.stream';
+        }
     }
 
     /**
