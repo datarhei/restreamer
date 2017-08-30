@@ -18,6 +18,17 @@ We give you a lot of of informations from setting up a camera, embedding your pl
 
 More additional informations about streaming, cameras and so on you can find in our [Wiki](https://datarhei.github.com/restreamer/wiki). 
 
+## Development
+
+#### Building your own Docker-Image:
+
+```sh
+$ git clone https://github.com/datarhei/restreamer
+$ docker build -t restreamer .
+```
+
+*Required Docker version >= 17.x*
+
 ## Help / Bugs
 
 If you have problems or found a bug feel free to create a new issue upon the <a target= "_blank" href="https://github.com/datarhei/restreamer/issues">Github issue management</a>.
