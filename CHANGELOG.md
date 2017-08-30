@@ -10,6 +10,8 @@
 * disabled FFmpeg "error-detection" for a vlc-like feeling
 * added optional rtmp-token-authentification (default is without token. token can be set with env RS_TOKEN or in the live.json config.)
 * updated NGINX to 1.13.4 and RTMP-Module to latest dev-version
+* switched nginx-init-check to an http-call ("ps aux" on Alpine is problematic)
+* allowed http/https (hls) and rtmpt/rtmps addresses as video source 
 
 ## Changes from 0.1.0-rc7 to 0.1.0-rc.7.1
 
