@@ -27,7 +27,7 @@ $ git clone https://github.com/datarhei/restreamer
 $ docker build -t restreamer .
 ```
 
-*Required Docker version >= 17.x*
+*Required Docker version >= 17.05*
 
 ## Help / Bugs
 
