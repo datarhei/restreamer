@@ -176,14 +176,23 @@ class Restreamer {
     }
 
     static applyOptions (ffmpegCommand, streamType) {
-        ffmpegCommand.native(); // add -re
+        var ffmpegOptions = config.ffmpeg.options;
+
+        // reduces process data
+        ffmpegCommand.inputOptions('-hide_banner', '-stats', '-loglevel', 'quiet');
+
+        // for unclean rtsp-sources
+        ffmpegCommand.inputOptions('-err_detect', ffmpegOptions.err_detect);
+
+        // gui option
         if (streamType === 'repeatToLocalNginx') {
             if (Restreamer.data.options.rtspTcp && Restreamer.data.addresses.srcAddress.indexOf('rtsp') === 0) {
-                ffmpegCommand.inputOptions('-err_detect','ignore_err','-rtsp_transport','tcp');
-            } else {
-                ffmpegCommand.inputOptions('-err_detect','ignore_err');
+                ffmpegCommand.inputOptions('-rtsp_transport', 'tcp');
             }
         }
+
+        // read input at native frame rate (-re)
+        ffmpegCommand.native();
     }
 
     /**

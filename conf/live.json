@@ -28,7 +28,8 @@
                 "-metadata server=NGINX-RTMP",
                 "-f flv"
             ],
-            "snapshot": "-vframes 1"
+            "snapshot": "-vframes 1",
+            "err_detect": "ignore_err"
         },
         "monitor": {
             "restart_wait": "6000",
@@ -109,6 +110,14 @@
             "defaultValue": "datarhei",
             "required": false,
             "description": "Backend login password"
+        },
+        {
+            "name": "RS_FFMPEG_DEBUG",
+            "alias": "",
+            "type": "string",
+            "defaultValue": "false",
+            "required": false,
+            "description": "Enables FFmpeg reporting"
         }
     ]
 }

@@ -37,21 +37,26 @@ logger.info('', false);
 // setup environment vars
 EnvVar.init(config);
 
+// ffmpeg reporting
+if (process.env.RS_FFMPEG_DEBUG === 'true') {
+    process.env['FFREPORT'] = 'file=/restreamer/src/webserver/public/debug/%p-%t.log';
+}
+
 // start the app
 nginxrtmp.init()
-         .then(() => {
-             return RestreamerData.checkJSONDb();
-         })
-         .then(() => {
-             Restreamer.checkForUpdates();
-             Restreamer.getPublicIp();
-             Restreamer.bindWebsocketEvents();
-             return restreamerApp.startWebserver();
-         })
-         .then(() => {
-             return Q.fcall(Restreamer.restoreFFMpegProcesses);
-         })
-         .catch((error)=> {
-             let errorMessage = `Error starting webserver and nginx for application: ${error}`;
-             throw new Error(errorMessage);
-         });
+    .then(() => {
+        return RestreamerData.checkJSONDb();
+    })
+    .then(() => {
+        Restreamer.checkForUpdates();
+        Restreamer.getPublicIp();
+        Restreamer.bindWebsocketEvents();
+        return restreamerApp.startWebserver();
+    })
+    .then(() => {
+        return Q.fcall(Restreamer.restoreFFMpegProcesses);
+    })
+    .catch((error)=> {
+        let errorMessage = `Error starting webserver and nginx for application: ${error}`;
+        throw new Error(errorMessage);
+    });
