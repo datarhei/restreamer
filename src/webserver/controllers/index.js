@@ -37,4 +37,29 @@ module.exports = (app) => {
         req.session.destroy();
         res.end();
     });
+    /* Handle NGINX-RTMP token */
+    app.get('/token', (req, res) => {
+        var token = process.env.RS_TOKEN || auth.token;
+        if (token != '') {
+            if (req.query.token == token) {
+                res.writeHead(200, {
+                    'Content-Type': 'text/plain'
+                });
+                res.end('Authorized');
+            } else {
+                res.writeHead(401, {
+                    'Content-Type': 'text/plain'
+                });
+                res.end('Unauthorized');
+            }
+        } else {
+            res.writeHead(200, {
+                'Content-Type': 'text/plain'
+            });
+            res.end('Authorized');
+        }
+    });
 };
+
+
+

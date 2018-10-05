@@ -1,6 +1,6 @@
-FROM datarhei/nginx-rtmp:1.13.4-dev as builder
+FROM datarhei/nginx-rtmp:1.13.4-dev-aarch64 as builder
 
-FROM node:8.1-alpine
+FROM datarhei/node:8.1-aarch64
 
 MAINTAINER datarhei <info@datarhei.org>
 
@@ -20,6 +20,7 @@ WORKDIR /restreamer
 
 RUN apk add --no-cache --update git libssl1.0 pcre && \
     ffmpeg -buildconf && \
+    npm config set unsafe-perm true && \
     npm install -g bower grunt grunt-cli nodemon eslint && \
     npm install && \
     grunt build && \

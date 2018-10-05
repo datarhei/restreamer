@@ -3,7 +3,8 @@
     "jsondb": "db/v1",
     "auth": {
         "username": "admin",
-        "password": "datarhei"
+        "password": "datarhei",
+        "token": ""
     },
     "ffmpeg": {
         "options": {
@@ -27,11 +28,12 @@
                 "-metadata server=NGINX-RTMP",
                 "-f flv"
             ],
-            "snapshot": "-vframes 1"
+            "snapshot": "-vframes 1",
+            "err_detect": "ignore_err"
         },
         "monitor": {
             "restart_wait": "6000",
-            "retries": 10
+            "retries": 100
         }
     },
     "nginx": {
@@ -39,7 +41,9 @@
         "streaming": {
             "ip": "127.0.0.1",
             "rtmp_port": "1935",
-            "rtmp_hls_path": "/hls/"
+            "rtmp_hls_path": "/hls/",
+            "http_port": "8080",
+            "http_health_path": "/ping"
         }
     },
     "envVars": [
@@ -106,6 +110,14 @@
             "defaultValue": "datarhei",
             "required": false,
             "description": "Backend login password"
+        },
+        {
+            "name": "RS_FFMPEG_DEBUG",
+            "alias": "",
+            "type": "string",
+            "defaultValue": "false",
+            "required": false,
+            "description": "Enables FFmpeg reporting"
         }
     ]
 }

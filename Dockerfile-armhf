@@ -1,6 +1,6 @@
-FROM datarhei/nginx-rtmp:1.13.4-dev as builder
+FROM datarhei/nginx-rtmp:1.13.4-dev-armhf as builder
 
-FROM node:8.1-alpine
+FROM resin/raspberry-pi-alpine-node:8.1-slim
 
 MAINTAINER datarhei <info@datarhei.org>
 

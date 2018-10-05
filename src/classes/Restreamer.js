@@ -28,8 +28,13 @@ class Restreamer {
      */
     static generateOutputHLSPath () {
         var nginx = config.nginx.streaming;
+        var token = process.env.RS_TOKEN || config.auth.token;
 
-        return 'rtmp://' + nginx.ip + ':' + nginx.rtmp_port + nginx.rtmp_hls_path + 'live.stream';
+        if (token != '') {
+            return 'rtmp://' + nginx.ip + ':' + nginx.rtmp_port + nginx.rtmp_hls_path + 'live.stream' + '?token=' + token;
+        } else {
+            return 'rtmp://' + nginx.ip + ':' + nginx.rtmp_port + nginx.rtmp_hls_path + 'live.stream';
+        }
     }
 
     /**
@@ -171,12 +176,23 @@ class Restreamer {
     }
 
     static applyOptions (ffmpegCommand, streamType) {
-        ffmpegCommand.native(); // add -re
+        var ffmpegOptions = config.ffmpeg.options;
+
+        // reduces process data
+        ffmpegCommand.inputOptions('-hide_banner', '-stats', '-loglevel', 'quiet');
+
+        // for unclean rtsp-sources
+        ffmpegCommand.inputOptions('-err_detect', ffmpegOptions.err_detect);
+
+        // gui option
         if (streamType === 'repeatToLocalNginx') {
             if (Restreamer.data.options.rtspTcp && Restreamer.data.addresses.srcAddress.indexOf('rtsp') === 0) {
-                ffmpegCommand.inputOptions('-rtsp_transport tcp');
+                ffmpegCommand.inputOptions('-rtsp_transport', 'tcp');
             }
         }
+
+        // read input at native frame rate (-re)
+        ffmpegCommand.native();
     }
 
     /**
