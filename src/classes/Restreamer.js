@@ -73,12 +73,18 @@ class Restreamer {
         let fallbackRefreshInterval = 60000;
         let snapshotRefreshInterval = process.env.RS_SNAPSHOT_REFRESH_INTERVAL.match(/([0-9]+)([a-z]{1,2})?/);
 
-        if (typeof snapshotRefreshInterval[2] === 'undefined' && snapshotRefreshInterval[1] > 30000) {
-            return snapshotRefreshInterval[1];
+        let refreshInterval = fallbackRefreshInterval;
+
+        if (typeof snapshotRefreshInterval[2] === 'undefined' || snapshotRefreshInterval[2] === 'ms') {
+            refreshInterval = snapshotRefreshInterval[1];
+        } else if (snapshotRefreshInterval[2] === 's') {
+            refreshInterval = snapshotRefreshInterval[1] * 1000;
         } else if (snapshotRefreshInterval[2] === 'm') {
-            return snapshotRefreshInterval[1] * 1000 * 60;
-        } else if (snapshotRefreshInterval[2] === 's' && snapshotRefreshInterval[1] >= 10) {
-            return snapshotRefreshInterval[1] * 1000;
+            refreshInterval = snapshotRefreshInterval[1] * 1000 * 60;
+        }
+
+        if (refreshInterval >= 10000) {
+            return refreshInterval;
         }
 
         return fallbackRefreshInterval;
