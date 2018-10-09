@@ -13,6 +13,7 @@ const WebsocketsController = require('./WebsocketsController');
 const FfmpegCommand = require('fluent-ffmpeg');
 const Q = require('q');
 const JsonDB = require('node-json-db');
+const publicIp = require('public-ip');
 const exec = require('child_process').exec;
 const packageJson = require(path.join(global.__base, 'package.json'));
 const https = require('https');
@@ -528,12 +529,13 @@ class Restreamer {
      * get public ip
      */
     static getPublicIp () {
-        logger.info('Getting public ip...', 'start.publicip');
-        exec('public-ip', (err, stdout, stderr) => {
-            if (err) {
-                logger.error(err);
-            }
-            Restreamer.data.publicIp = stdout.split('\n')[0];
+        logger.info('Getting public IP ...', 'start.publicip');
+        publicIp.v4().then(ip => {
+            Restreamer.data.publicIp = ip;
+            logger.info('Found public IP: ' + ip, 'start.publicip');
+        }).catch(err => {
+            logger.warn('Failed to get public IP', 'start.publicip');
+            Restreamer.data.publicIp = '127.0.0.1';
         });
     }
 }
