@@ -1,38 +1,140 @@
-FROM datarhei/nginx-rtmp:1.13.4-dev-armhf as builder
+FROM FROM arm32v7/debian:stretch-slim
 
-FROM resin/raspberry-pi-alpine-node:8.1-slim
+FROM $IMAGE as builder
 
 MAINTAINER datarhei <info@datarhei.org>
 
-ENV RS_USERNAME=admin \
-    RS_PASSWORD=datarhei \
-    SRC=/usr/local \
-    LD_LIBRARY_PATH=/usr/local/lib \
-    PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+ARG LAME_VERSION=3.100
+# x264 versions from August 2018 onward (> Core 152) seem to have a bug that cuts performance by 50%
+ARG X264_VERSION=20180717-2245-stable
+ARG FFMPEG_VERSION=4.0.2
+ARG NGINX_VERSION=1.14.0
+ARG NGINXRTMP_VERSION=1.2.1
+ARG NODE_VERSION=8.12.0
 
-COPY --from=builder /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
-COPY --from=builder /usr/local/bin/ffprobe /usr/local/bin/ffprobe
-COPY --from=builder /usr/local/lib /usr/local/lib
+ENV SRC="/usr/local/" \
+    LD_LIBRARY_PATH="/usr/local/lib" \
+    PKG_CONFIG_PATH="/usr/local/lib/pkgconfig"
+
+RUN apt-get update && \
+    apt-get install -y \
+        pkg-config \
+        curl \
+        libpcre3-dev \
+        libtool \
+        libssl-dev \
+        zlib1g-dev \
+        build-essential 
+
+# x264
+RUN mkdir -p /dist && cd /dist && \
+    curl -OL "http://ftp.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-${X264_VERSION}.tar.bz2" && \
+    tar -xvj -f x264-snapshot-${X264_VERSION}.tar.bz2 && \
+    cd x264-snapshot-${X264_VERSION} && \
+    ./configure --prefix="${SRC}" --bindir="${SRC}/bin" --enable-shared && \
+    make -j$(nproc) && \
+    make install
+
+# libmp3lame
+RUN mkdir -p /dist && cd /dist && \
+    curl -OL "https://kent.dl.sourceforge.net/project/lame/lame/3.100/lame-${LAME_VERSION}.tar.gz" && \
+    tar -xvz -f lame-${LAME_VERSION}.tar.gz && \
+    cd lame-${LAME_VERSION} && \
+    ./configure --prefix="${SRC}" --bindir="${SRC}/bin" --disable-static --enable-nasm && \
+    make -j$(nproc) && \
+    make install
+
+# ffmpeg
+RUN mkdir -p /dist && cd /dist && \
+    curl -OL "https://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz" && \
+    tar -xvz -f ffmpeg-${FFMPEG_VERSION}.tar.gz && \
+    cd ffmpeg-${FFMPEG_VERSION} && \
+    ./configure \
+        --bindir="${SRC}/bin" \
+        --extra-cflags="-I${SRC}/include" \
+        --extra-ldflags="-L${SRC}/lib" \
+        --prefix="${SRC}" \
+        --enable-nonfree \
+        --enable-gpl \
+        --enable-version3 \
+        --enable-libmp3lame \
+        --enable-libx264 \
+        --enable-openssl \
+        --enable-postproc \
+        --enable-small \
+        --enable-static \
+        --disable-debug \
+        --disable-doc \
+        --disable-shared && \
+    make -j$(nproc) && \
+    make install
+
+# nginx-rtmp
+RUN mkdir -p /dist && cd /dist && \
+    curl -OL "https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" && \
+    tar -xvz -f "nginx-${NGINX_VERSION}.tar.gz" && \
+    curl -OL "https://github.com/arut/nginx-rtmp-module/archive/v${NGINXRTMP_VERSION}.tar.gz" && \
+    tar -xvz -f "v${NGINXRTMP_VERSION}.tar.gz" && \
+    cd nginx-${NGINX_VERSION} && \
+    ./configure --prefix=/usr/local/nginx --with-http_ssl_module --add-module=/dist/nginx-rtmp-module-${NGINXRTMP_VERSION} && \
+    make -j$(nproc) && \
+    make install
+
+# node.js
+RUN mkdir -p /dist && cd /dist && \
+    curl -OL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-armv7l.tar.xz" && \
+    tar -xvJ -f "node-v${NODE_VERSION}-linux-armv7l.tar.xz" && \
+    cd node-v${NODE_VERSION}-linux-armv7l && \
+    cp -R bin /usr/local && \
+    cp -R lib /usr/local
+
+RUN rm -r /dist && \
+    apt-get remove -y \
+        pkg-config \
+        curl \
+        libpcre3-dev \
+        libtool \
+        libssl-dev \
+        zlib1g-dev \
+        build-essential && \
+    apt autoremove -y
+
+FROM $IMAGE
+
+COPY --from=builder /usr/local/bin /usr/local/bin
 COPY --from=builder /usr/local/nginx /usr/local/nginx
+COPY --from=builder /usr/local/lib /usr/local/lib
+
+RUN apt-get update && \
+    apt-get install -y \
+        ca-certificates \
+        git \
+        procps \
+        libpcre3 \
+        libssl1.1 \
+        zlib1g
 
 COPY . /restreamer
 WORKDIR /restreamer
 
-RUN apk add --no-cache --update git libssl1.0 pcre && \
-    ffmpeg -buildconf && \
+RUN cd /restreamer && \
     npm install -g bower grunt grunt-cli nodemon eslint && \
     npm install && \
     grunt build && \
+    npm prune --production && \
+    npm cache verify && \
     bower cache clean --allow-root && \
     npm uninstall -g bower grunt grunt-cli nodemon eslint && \
     npm prune --production && \
-    npm cache clean --force && \
-    apk del --no-cache --purge git && \
-    rm -rf /var/cache/apk/* && \
-    rm -rf /tmp/*
+    apt-get remove -y \
+        git \
+        curl && \
+    apt autoremove -y
+
+ENV RS_USERNAME admin
+ENV RS_PASSWORD datarhei
 
 EXPOSE 8080
-
 VOLUME ["/restreamer/db"]
 
 CMD ["./run.sh"]
