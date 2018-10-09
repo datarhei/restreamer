@@ -39,7 +39,7 @@ if [ "${MODE}" = "RASPICAM" ] && [ "$CPU_TYPE" = "arm" ]; then
         RASPICAM_BITRATE=$RS_RASPICAM_BITRATE
     fi
 
-    /opt/vc/bin/raspivid -t 0 -w $RASPICAM_WIDTH -h $RASPICAM_HEIGHT -fps $RASPICAM_FPS -b $RASPICAM_BITRATE -o - | ffmpeg -i - -f lavfi -i aevalsrc=0 -vcodec copy -acodec aac -strict experimental -map 0:0 -map 1:0 -shortest -flags +global_header -f flv rtmp://127.0.0.1:1935/live/raspicam.stream > /dev/null 2>&1
+    /opt/vc/bin/raspivid -t 0 -w $RASPICAM_WIDTH -h $RASPICAM_HEIGHT -fps $RASPICAM_FPS -b $RASPICAM_BITRATE -o - | ffmpeg -i - -f lavfi -i anullsrc=r=44100:cl=mono -vcodec copy -acodec aac -b:a 0k -map 0:v -map 1:a -shortest -f flv rtmp://127.0.0.1:1935/live/raspicam.stream > /dev/null 2>&1
 elif [ "${MODE}" = "USBCAM" ]; then
     apt-get update && apt-get install -y v4l-utils libv4l-0
     npm start &
@@ -53,7 +53,7 @@ elif [ "${MODE}" = "USBCAM" ]; then
             sleep 5
         fi
     done
-    ffmpeg -f v4l2 -r 25 -s 1280x720 -i /dev/video0 -f lavfi -i aevalsrc=0 -vcodec copy -acodec aac -strict experimental -map 0:0 -map 1:0 -shortest -flags +global_header -f flv rtmp://127.0.0.1:1935/live/usb.stream > /dev/null 2>&1
+    ffmpeg -f v4l2 -r 25 -s 1280x720 -i /dev/video0 -f lavfi -i anullsrc=r=44100:cl=mono -vcodec copy -acodec aac -b:a 0k -map 0:v -map 1:a -shortest -f flv rtmp://127.0.0.1:1935/live/usb.stream > /dev/null 2>&1
 else
     npm start
 fi
