@@ -196,9 +196,6 @@ class Restreamer {
                 ffmpegCommand.inputOptions('-rtsp_transport', 'tcp');
             }
         }
-
-        // read input at native frame rate (-re)
-        ffmpegCommand.native();
     }
 
     /**
