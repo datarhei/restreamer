@@ -8,21 +8,54 @@
     },
     "ffmpeg": {
         "options": {
-            "native_h264": [
+            "native_h264_native_audio": [
                 "-codec copy",
+                "-map 0:v",
+                "-map 0:a",
                 "-map_metadata -1",
                 "-metadata application=datarhei/Restreamer",
                 "-metadata server=NGINX-RTMP",
                 "-f flv"
             ],
-            "native_h264_soundless_aac": [
+            "native_h264_no_audio": [
+                "-vcodec copy",
+                "-an",
+                "-map 0:v",
+                "-map_metadata -1",
+                "-metadata application=datarhei/Restreamer",
+                "-metadata server=NGINX-RTMP",
+                "-f flv"
+            ],
+            "native_h264_native_aac": [
+                "-codec copy",
+                "-map 0:v",
+                "-map 0:a",
+                "-bsf:a aac_adtstoasc",
+                "-map_metadata -1",
+                "-metadata application=datarhei/Restreamer",
+                "-metadata server=NGINX-RTMP",
+                "-f flv"
+            ],
+            "native_h264_silence_aac": [
                 "-f lavfi",
-                "-i aevalsrc=0",
+                "-i anullsrc=r=44100:cl=mono",
                 "-vcodec copy",
                 "-acodec aac",
-                "-map 0:0",
-                "-map 1:0",
+                "-b:a 0k",
+                "-map 0:v",
+                "-map 1:a",
                 "-shortest",
+                "-map_metadata -1",
+                "-metadata application=datarhei/Restreamer",
+                "-metadata server=NGINX-RTMP",
+                "-f flv"
+            ],
+            "native_h264_transcode_aac": [
+                "-vcodec copy",
+                "-acodec aac",
+                "-b:a 64k",
+                "-map 0:v",
+                "-map 0:a",
                 "-map_metadata -1",
                 "-metadata application=datarhei/Restreamer",
                 "-metadata server=NGINX-RTMP",
@@ -114,10 +147,18 @@
         {
             "name": "RS_FFMPEG_DEBUG",
             "alias": "",
-            "type": "string",
+            "type": "bool",
             "defaultValue": "false",
             "required": false,
             "description": "Enables FFmpeg reporting"
+        },
+        {
+            "name": "RS_AUDIO",
+            "alias": "",
+            "type": "string",
+            "defaultValue": "auto",
+            "required": false,
+            "description": "Handling of audio track: auto, none (force no audio), silence (force silence), aac (force AAC)"
         }
     ]
 }

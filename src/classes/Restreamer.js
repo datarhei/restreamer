@@ -215,16 +215,64 @@ class Restreamer {
                 return deferred.reject(err);
             }
 
-            if (data.streams.length > 1) {
-                ffmpegOptions = config.ffmpeg.options.native_h264;
-                logger.debug('Selected ffmpeg.option: native_h264');
-            } else {
-                ffmpegOptions = config.ffmpeg.options.native_h264_soundless_aac;
-                logger.debug('Selected ffmpeg.option: native_h264_soundless_aac');
+            let video = null;
+            let audio = null;
+
+            for(let s of data.streams) {
+                if(s.codec_type == 'video' && video === null) {
+                    video = s;
+                }
+                else if(s.codec_type == 'audio' && audio === null) {
+                    audio = s;
+                }
+
+                if(video !== null && audio !== null) {
+                    break;
+                }
             }
+
+            if(video === null) {
+                return deferred.reject("no video stream detected");
+            }
+
+            if(video.codec_name != 'h264') {
+                return deferred.reject("video stream must be h264, found " + video.codec_name);
+            }
+
+            let option = "native_h264_no_audio";
+
+            if(audio !== null) {
+                switch(audio.codec_name) {  // consider all allowed audio codecs for FLV
+                    case 'mp3':
+                    case 'pcm_alaw':
+                    case 'pcm_mulaw':
+                        option = "native_h264_native_audio"; break;
+                    case 'aac':
+                        option = "native_h264_native_aac"; break;
+                    default:
+                        option = "native_h264_transcode_aac"; break;
+                }
+            }
+
+            if(process.env.RS_AUDIO == "none") {
+                option = "native_h264_no_audio";
+            }
+            else if(process.env.RS_AUDIO == "silence") {
+                option = "native_h264_silence_aac";
+            }
+            else if(process.env.RS_AUDIO == "aac") {
+                if(audio !== null && audio.codec_name != 'aac') {
+                    option = "native_h264_transcode_aac";
+                }
+            }
+
+            logger.debug('Selected ffmpeg.option: ' + option);
+            ffmpegOptions = config.ffmpeg.options[option];
+
             for (let option of ffmpegOptions) {
                 ffmpegCommand.outputOption(option);
             }
+
             return deferred.resolve();
         });
         return deferred.promise;
