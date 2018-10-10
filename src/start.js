@@ -43,7 +43,7 @@ if (process.env.RS_FFMPEG_DEBUG === 'true') {
 }
 
 // start the app
-nginxrtmp.init()
+nginxrtmp.start()
     .then(() => {
         return RestreamerData.checkJSONDb();
     })
@@ -56,7 +56,6 @@ nginxrtmp.init()
     .then(() => {
         return Q.fcall(Restreamer.restoreFFMpegProcesses);
     })
-    .catch((error)=> {
-        let errorMessage = `Error starting webserver and nginx for application: ${error}`;
-        throw new Error(errorMessage);
+    .catch((error) => {
+        logger.error('Error starting webserver and nginx for application: ' + error);
     });

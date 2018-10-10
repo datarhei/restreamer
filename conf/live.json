@@ -70,7 +70,11 @@
         }
     },
     "nginx": {
-        "exec": "/usr/local/nginx/sbin/nginx -c /restreamer/conf/nginx.conf",
+        "command": "/usr/local/nginx/sbin/nginx",
+        "args": [
+            "-c",
+            "/restreamer/conf/nginx.conf"
+        ],
         "streaming": {
             "ip": "127.0.0.1",
             "rtmp_port": "1935",
