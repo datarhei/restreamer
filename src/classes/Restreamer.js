@@ -50,24 +50,25 @@ class Restreamer {
      * receive snapshot by using first frame of repeated video
      */
     static fetchSnapshot () {
-        var command = null;
-        if (Restreamer.data.states.repeatToLocalNginx.type === 'connected') {
-            command = new FfmpegCommand(Restreamer.generateOutputHLSPath());
-
-            command.output(Restreamer.generateSnapshotPath());
-            command.outputOption(config.ffmpeg.options.snapshot);
-            command.on('error', (error)=> {
-                logger.error('Error on fetching snapshot: ' + error.toString());
-            });
-            command.on('end', () => {
-                logger.info('Updated snapshot');
-                WebsocketsController.emit('snapshot', null);
-                Q.delay(this.calculateSnapshotRefreshInterval()).then(() => {
-                    Restreamer.fetchSnapshot();
-                });
-            });
-            command.exec();
+        if(Restreamer.data.states.repeatToLocalNginx.type != 'connected') {
+            return;
         }
+
+        let command = new FfmpegCommand(Restreamer.generateOutputHLSPath());
+
+        command.output(Restreamer.generateSnapshotPath());
+        command.outputOption(config.ffmpeg.options.snapshot);
+        command.on('error', (error)=> {
+            logger.error('Error on fetching snapshot: ' + error.toString());
+        });
+        command.on('end', () => {
+            logger.info('Updated snapshot');
+            WebsocketsController.emit('snapshot', null);
+            Q.delay(this.calculateSnapshotRefreshInterval()).then(() => {
+                Restreamer.fetchSnapshot();
+            });
+        });
+        command.exec();
     }
 
     static calculateSnapshotRefreshInterval () {
