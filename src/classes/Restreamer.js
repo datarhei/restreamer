@@ -360,7 +360,7 @@ class Restreamer {
         // repeat to local nginx server
         if (repeatToLocalNginx) {
             command = new FfmpegCommand(src, {
-                'outputLineLimit': 1
+                stdoutLines: 1
             });
 
             // add outputs to the ffmpeg stream
@@ -371,7 +371,7 @@ class Restreamer {
             // repeat to optional output
         } else if (repeatToOptionalOutput) {
             command = new FfmpegCommand(Restreamer.generateOutputHLSPath(), {
-                'outputLineLimit': 1
+                stdoutLines: 1
             });
             Restreamer.data.addresses.optionalOutputAddress = optionalOutput;
             addOutputPromise = Restreamer.addOutput(command, optionalOutput);
