@@ -133,7 +133,7 @@ class Restreamer {
         state = Restreamer.getState('repeatToOptionalOutput');
         let repeatToOptionalOutputReconnecting = (state == 'connected' || state == 'connecting');
 
-        // check if the srcAddress has been repeated to Local Nginx
+        // check if a stream was repeated locally
         if(Restreamer.data.addresses.srcAddress && repeatToLocalNginxReconnecting) {
             Restreamer.startStream(
                 Restreamer.data.addresses.srcAddress,
@@ -143,6 +143,7 @@ class Restreamer {
             );
         }
 
+        // check if the stream was repeated to an output address
         if(Restreamer.data.addresses.optionalOutputAddress && repeatToOptionalOutputReconnecting) {
             Restreamer.startStream(
                 Restreamer.data.addresses.srcAddress,

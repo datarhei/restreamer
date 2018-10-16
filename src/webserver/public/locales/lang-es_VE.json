@@ -10,7 +10,7 @@
     "logout": "Cerrar sesión",
     "button_start": "Iniciar",
     "button_stop": "Detener",
-    "input_title": "Fuente de video RTMP/RTSP",
+    "input_title": "Fuente de video RTMP/RTSP/HLS",
     "input_example": "ej. rtsp://192.168.57.100/media.amp",
     "rtsp_tcp": "RTSP sobre TCP",
     "process_input_invalid": "Dirección del stream inválida, favor revisar la fuente",

@@ -10,7 +10,7 @@
     "logout": "Ausloggen",
     "button_start": "Start",
     "button_stop": "Stop",
-    "input_title": "RTMP/RTSP Video Quelle",
+    "input_title": "RTMP/RTSP/HLS Video Quelle",
     "input_example": "z.B. rtsp://192.168.57.100/media.amp",
     "rtsp_tcp": "RTSP über TCP",
     "process_input_invalid": "Die Stream-Adresse ist nicht valide. Bitte überprüfe die Eingabe",
