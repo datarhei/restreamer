@@ -70,7 +70,8 @@
             "snapshot": "-vframes 1"
         },
         "monitor": {
-            "restart_wait": "6000"
+            "restart_wait": "6000",
+            "stale_wait": "60000"
         }
     },
     "nginx": {
