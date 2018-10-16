@@ -61,12 +61,16 @@
                 "-metadata server=NGINX-RTMP",
                 "-f flv"
             ],
-            "snapshot": "-vframes 1",
-            "err_detect": "ignore_err"
+            "input": [
+                "-hide_banner",
+                "-stats",
+                "-loglevel quiet",
+                "-err_detect ignore_err"
+            ],
+            "snapshot": "-vframes 1"
         },
         "monitor": {
-            "restart_wait": "6000",
-            "retries": 100
+            "restart_wait": "6000"
         }
     },
     "nginx": {
@@ -152,7 +156,7 @@
             "name": "RS_FFMPEG_DEBUG",
             "alias": "",
             "type": "bool",
-            "defaultValue": "false",
+            "defaultValue": false,
             "required": false,
             "description": "Enables FFmpeg reporting"
         },
