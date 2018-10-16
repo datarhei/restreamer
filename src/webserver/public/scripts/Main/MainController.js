@@ -114,7 +114,6 @@ window.angular.module('Main').controller('mainController',
             });
             ws.on('updateStreamData', (reStreamerData) => {
                 $scope.reStreamerData = reStreamerData;
-                console.log(reStreamerData);
                 if ($scope.showStopButton('repeatToOptionalOutput')) {
                     // checkbox
                     $scope.activateOptionalOutput = true;
