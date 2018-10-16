@@ -124,21 +124,23 @@ window.angular.module('Main').controller('mainController',
         }
 
         $scope.startStream = (streamType) => {
-            const rtmpRegex = /^(?:rtmp:\/\/|rtmps:\/\/|rtmpt:\/\/|rtsp:\/\/|http:\/\/|https:\/\/)(?:(?:[^:])+:(?:[^@])+@)?(?:(?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(?:(?!\-)(?:[a-zA-Z\d\-]{0,62}[a-zA-Z\d]\.){1,126}(?!\d+)[a-zA-Z\d]{1,63}))(:?:[0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])?(?:\/.*)?/;
-            var optionalOutput = '';
+            const inputRegex = /^(rtmp(s|t)?|rtsp|https?):\/\//;
+            const outputRegex = /^rtmp(s|t)?/;
 
-            if ($scope.activateOptionalOutput === true) {
+            var optionalOutput = '';
+            if($scope.activateOptionalOutput === true) {
                 optionalOutput = $scope.reStreamerData.addresses.optionalOutputAddress;
             }
 
-            if (streamType === 'repeatToOptionalOutput') {
-                $scope.optionalOutputInputInvalid = !rtmpRegex.test(optionalOutput);
-                if ($scope.optionalOutputInputInvalid) {
+            if(streamType == 'repeatToOptionalOutput') {
+                $scope.optionalOutputInputInvalid = !outputRegex.test(optionalOutput);
+                if($scope.optionalOutputInputInvalid) {
                     return;
                 }
-            } else {
-                $scope.nginxRepeatStreamInputInvalid = !rtmpRegex.test($scope.reStreamerData.addresses.srcAddress);
-                if ($scope.nginxRepeatStreamInputInvalid) {
+            }
+            else {
+                $scope.nginxRepeatStreamInputInvalid = !inputRegex.test($scope.reStreamerData.addresses.srcAddress);
+                if($scope.nginxRepeatStreamInputInvalid) {
                     return;
                 }
             }
