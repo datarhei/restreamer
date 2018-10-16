@@ -38,8 +38,8 @@ logger.info('', false);
 EnvVar.init(config);
 
 // ffmpeg reporting
-if(process.env.RS_FFMPEG_DEBUG == true) {
-    process.env['FFREPORT'] = 'file=/restreamer/src/webserver/public/debug/%p-%t.log:level=40';
+if(process.env.RS_FFMPEG_DEBUG == 'true') {
+    process.env['FFREPORT'] = 'file=/restreamer/src/webserver/public/debug/%p-%t.log';
 }
 
 // start the app
