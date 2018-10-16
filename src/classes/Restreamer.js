@@ -28,14 +28,16 @@ class Restreamer {
      * @returns {string}
      */
     static generateOutputHLSPath () {
-        var nginx = config.nginx.streaming;
-        var token = process.env.RS_TOKEN || config.auth.token;
+        let nginx = config.nginx.streaming;
+        let token = process.env.RS_TOKEN || config.auth.token;
 
-        if (token != '') {
-            return 'rtmp://' + nginx.ip + ':' + nginx.rtmp_port + nginx.rtmp_hls_path + 'live.stream' + '?token=' + token;
-        } else {
-            return 'rtmp://' + nginx.ip + ':' + nginx.rtmp_port + nginx.rtmp_hls_path + 'live.stream';
+        let hlspath = 'rtmp://' + nginx.ip + ':' + nginx.rtmp_port + nginx.rtmp_hls_path + 'live.stream';
+
+        if(token != '') {
+            hlspath += '?token=' + token;
         }
+
+        return hlspath;
     }
 
     /**
@@ -103,7 +105,7 @@ class Restreamer {
         logger.info('stopStream ' + processName);
         clearTimeout(Restreamer.data.retryTimeouts[processName]);
         if (processHasBeenSpawned) {
-            Restreamer.data.processes[processName].kill();
+            Restreamer.data.processes[processName].kill('SIGKILL');
             Restreamer.data.processes[processName] = {
                 'state': 'not_connected'
             };
@@ -183,18 +185,16 @@ class Restreamer {
         return Restreamer.appendOutputOptionFromConfig(ffmpegCommand);
     }
 
-    static applyOptions (ffmpegCommand, streamType) {
-        var ffmpegOptions = config.ffmpeg.options;
+    static applyOptions(ffmpegCommand, streamType) {
+        let ffmpegOptions = config.ffmpeg.options.input;
 
-        // reduces process data
-        ffmpegCommand.inputOptions('-hide_banner', '-stats', '-loglevel', 'quiet');
+        for (let o of ffmpegOptions) {
+            ffmpegCommand.inputOptions(o);
+        }
 
-        // for unclean rtsp-sources
-        ffmpegCommand.inputOptions('-err_detect', ffmpegOptions.err_detect);
-
-        // gui option
+        // GUI option
         if (streamType === 'repeatToLocalNginx') {
-            if (Restreamer.data.options.rtspTcp && Restreamer.data.addresses.srcAddress.indexOf('rtsp') === 0) {
+            if(Restreamer.data.options.rtspTcp && Restreamer.data.addresses.srcAddress.indexOf('rtsp') === 0) {
                 ffmpegCommand.inputOptions('-rtsp_transport', 'tcp');
             }
         }
@@ -205,13 +205,18 @@ class Restreamer {
      * @param {FfmpegCommand} ffmpegCommand
      * @return {Promise}
      */
-    static appendOutputOptionFromConfig (ffmpegCommand) {
+    static appendOutputOptionFromConfig(ffmpegCommand, streamType) {
         var deferred = Q.defer();
         var ffmpegOptions = [];
 
         ffmpegCommand.ffprobe((err, data) => {
-            if (err) {
-                return deferred.reject(err);
+            if(err) {
+                let lines = err.toString().split(/\r\n|\r|\n/);
+                lines = lines.filter(function (line) {
+                    return line.length > 0;
+                });
+
+                return deferred.reject(lines[lines.length - 1]);
             }
 
             let video = null;
@@ -240,40 +245,46 @@ class Restreamer {
 
             let option = "native_h264_no_audio";
 
-            if(audio !== null) {
-                switch(audio.codec_name) {  // consider all allowed audio codecs for FLV
-                    case 'mp3':
-                    case 'pcm_alaw':
-                    case 'pcm_mulaw':
-                        option = "native_h264_native_audio"; break;
-                    case 'aac':
-                        option = "native_h264_native_aac"; break;
-                    default:
-                        option = "native_h264_transcode_aac"; break;
+            if(streamType == 'repeatToLocalNginx') {
+                if(audio !== null) {
+                    switch(audio.codec_name) {  // consider all allowed audio codecs for FLV
+                        case 'mp3':
+                        case 'pcm_alaw':
+                        case 'pcm_mulaw':
+                            option = "native_h264_native_audio"; break;
+                        case 'aac':
+                            option = "native_h264_native_aac"; break;
+                        default:
+                            option = "native_h264_transcode_aac"; break;
+                    }
                 }
-            }
 
-            if(process.env.RS_AUDIO == "none") {
-                option = "native_h264_no_audio";
-            }
-            else if(process.env.RS_AUDIO == "silence") {
-                option = "native_h264_silence_aac";
-            }
-            else if(process.env.RS_AUDIO == "aac") {
-                if(audio !== null && audio.codec_name != 'aac') {
-                    option = "native_h264_transcode_aac";
+                if(process.env.RS_AUDIO == "none") {
+                    option = "native_h264_no_audio";
                 }
+                else if(process.env.RS_AUDIO == "silence") {
+                    option = "native_h264_silence_aac";
+                }
+                else if(process.env.RS_AUDIO == "aac") {
+                    if(audio !== null && audio.codec_name != 'aac') {
+                        option = "native_h264_transcode_aac";
+                    }
+                }
+            }
+            else {
+                option = "native_h264_native_audio";
             }
 
             logger.debug('Selected ffmpeg.option: ' + option);
             ffmpegOptions = config.ffmpeg.options[option];
 
-            for (let option of ffmpegOptions) {
-                ffmpegCommand.outputOption(option);
+            for(let o of ffmpegOptions) {
+                ffmpegCommand.outputOptions(o);
             }
 
             return deferred.resolve();
         });
+
         return deferred.promise;
     }
 
@@ -284,18 +295,51 @@ class Restreamer {
      * @param {string=} message
      * @return {string} name of the new state
      */
-    static updateState (processName, state, message) {
-        logger.debug(`Update state of "${processName}" from state "${Restreamer.data.states[processName].type}" to state "${state}"`);
+    static updateState(processName, state, message) {
+        logger.debug('Update state of "' + processName + '" from state "' + Restreamer.data.states[processName].type + '" to state "' + state + '"');
+
         Restreamer.data.states[processName] = {
             'type': state,
             'message': message
         };
-        if (processName === 'repeatToLocalNginx' && state === 'connected') {
+
+        if(processName === 'repeatToLocalNginx' && state === 'connected') {
             Restreamer.fetchSnapshot();
         }
+
         Restreamer.writeToDB();
         Restreamer.updateStreamDataOnGui();
         return state;
+    }
+
+    /**
+     * get the state of the stream
+     * @param {string} processName
+     * @return {string} name of the new state
+     */
+    static getState(processName) {
+        return Restreamer.data.states[processName].type;
+    }
+
+    /**
+     * get the current user action
+     * @param {string} processName
+     * @return {string} name of the user action
+     */
+    static getUserAction(processName) {
+        return Restreamer.data.userActions[processName];
+    }
+
+    /**
+     * set the current user action
+     * @param {string} processName
+     * @param {string} action
+     * @return {string} name of the previous user action
+     */
+    static setUserAction(processName, action) {
+        let previousAction = Restreamer.data.userActions[processName];
+        Restreamer.data.userActions[processName] = action;
+        return previousAction;
     }
 
     /**
@@ -304,11 +348,19 @@ class Restreamer {
      * @param {string} action user action
      * @return {string} name of the new user action
      */
-    static updateUserAction (processName, action) {
-        logger.debug(`Set user action of "${processName}" from "${Restreamer.data.userActions[processName]}" to "${action}"`);
-        Restreamer.data.userActions[processName] = action;
+    static updateUserAction(processName, action) {
+        let previousAction = Restreamer.setUserAction(processName, action);
+
+        if(previousAction == action) {
+            return action;
+        }
+
+        logger.debug('Set user action of "' + processName + '" from "' + previousAction + '" to "' + action +'"');
+
+        Restreamer.setUserAction(processName, action);
         Restreamer.writeToDB();
         Restreamer.updateStreamDataOnGui();
+
         return action;
     }
 
@@ -327,29 +379,17 @@ class Restreamer {
      * @param {string} src src-address of the ffmpeg stream
      * @param {string} streamType repeatToOptionalOutput or repeatToLocalNginx
      * @param {string=} optionalOutput address of the optional output
-     * @param {string=} retryCounter current value of the retry counter (startStream retries automatically if anything fails)
      */
-    static startStream (src, streamType, optionalOutput, retryCounter) {
-        /** @var {FfmpegCommand} instance of FFmpeg command of module fluent-ffmpeg */
-        var command = null;
-
-        /** @var {Promise} Promise to make sure, the add output process has been finished */
-        var addOutputPromise = null;
-
-        logger.info(`Start stream "${streamType}"`);
-
-        // update the retry counter for the streamType
-        Restreamer.data.retryCounter[streamType].current = typeof retryCounter === 'undefined' ? 0 : retryCounter;
-
-        /** @var {Boolean} */
-        const repeatToLocalNginx = streamType === 'repeatToLocalNginx';
-
-        /** @var {Boolean} */
-        const repeatToOptionalOutput = streamType === 'repeatToOptionalOutput';
+    static startStream(src, streamType, optionalOutput) {
+        // check if there's currently no other stream connected or connecting
+        let state = Restreamer.getState(streamType);
+        if(state == 'connected' || state == 'connecting') {
+            return;
+        }
 
         // check if the user has clicked 'stop' meanwhile, so the startStream process has to be skipped
-        if (Restreamer.data.userActions[streamType] === 'stop') {
-            logger.debug('Skipping "startStream" since "stopped" has been clicked');
+        if(Restreamer.getUserAction(streamType) == 'stop') {
+            logger.debug('Skipping "startStream" because "stop" has been clicked');
             return;
         }
 
@@ -357,100 +397,109 @@ class Restreamer {
         Restreamer.data.addresses.srcAddress = src;
         Restreamer.updateState(streamType, 'connecting');
 
+        /** @var {FfmpegCommand} instance of FFmpeg command of module fluent-ffmpeg */
+        var command = null;
 
-        // repeat to local nginx server
-        if (repeatToLocalNginx) {
+        /** @var {Promise} Promise to make sure, the add output process has been finished */
+        var addOutputPromise = null;
+
+        logger.info('Start stream "' + streamType + '"');
+
+        let rtmpPath = Restreamer.generateOutputHLSPath();
+
+        if(streamType == 'repeatToLocalNginx') {
+            // repeat to local nginx server
             command = new FfmpegCommand(src, {
                 stdoutLines: 1
             });
 
             // add outputs to the ffmpeg stream
-            addOutputPromise = Restreamer.addOutput(command, Restreamer.generateOutputHLSPath()).catch((error) => {
-                logger.error(`Error adding one or more outputs: ${error.toString}`);
-            });
-
+            command.output(rtmpPath);
+            addOutputPromise = Restreamer.appendOutputOptionFromConfig(command, streamType)
+        }
+        else {
             // repeat to optional output
-        } else if (repeatToOptionalOutput) {
-            command = new FfmpegCommand(Restreamer.generateOutputHLSPath(), {
+            command = new FfmpegCommand(rtmpPath, {
                 stdoutLines: 1
             });
+
             Restreamer.data.addresses.optionalOutputAddress = optionalOutput;
-            addOutputPromise = Restreamer.addOutput(command, optionalOutput);
+
+            // add outputs to the ffmpeg stream
+            command.output(optionalOutput);
+            addOutputPromise = Restreamer.appendOutputOptionFromConfig(command, streamType)
+        }
+
+        let retry = () => {
+            logger.info('Retrying FFmpeg connection to "' + src + '" after "' + config.ffmpeg.monitor.restart_wait + '" ms');
+            Restreamer.data.retryTimeouts[streamType] = setTimeout(() => {
+                logger.info('Retry FFmpeg connection to "' + src + '"');
+                Restreamer.startStream(src, streamType, optionalOutput);
+            }, config.ffmpeg.monitor.restart_wait);
         }
 
         // after adding outputs, define events on the new FFmpeg stream
         addOutputPromise.then(() => {
-            var progressMethod = (progress) => {
-                if (Restreamer.data.states[streamType].type === 'connecting') {
-                    Restreamer.data.retryCounter[streamType].current = 1;
-                    Restreamer.updateState(streamType, 'connected');
-                }
-                Restreamer.data.progresses[streamType] = progress;
-                Restreamer.updateProgressOnGui();
-                command.removeAllListeners('progress');
-            };
             Restreamer.applyOptions(command, streamType);
             command
                 .on('start', (commandLine) => {
-                    if (Restreamer.data.userActions[streamType] === 'stop') {
-                        logger.debug('Skipping on "start" event of FFmpeg command since "stopped" has been clicked');
+                    logger.info('start for "' + streamType + '"');
+
+                    if(Restreamer.data.userActions[streamType] === 'stop') {
+                        command.kill();
+                        logger.debug('Skipping on "start" event of FFmpeg command because "stop" has been clicked');
                         return;
                     }
-                    logger.debug(`FFmpeg spawned: ${commandLine}`);
+
+                    logger.debug('FFmpeg spawned: ' + commandLine);
                     Restreamer.data.processes[streamType] = command;
                 })
 
                 // stream ended
                 .on('end', ()=> {
+                    logger.info('end for "' + streamType + '"');
+
                     Restreamer.updateState(streamType, 'disconnected');
-                    Restreamer.data.retryCounter[streamType].current++;
-                    if (Restreamer.data.retryCounter[streamType].current <= config.ffmpeg.monitor.retries) {
-                        if (Restreamer.data.userActions[streamType] === 'stop') {
-                            logger.debug('Skipping retry since "stopped" has been clicked');
-                            return;
-                        }
-                        logger.info(`Retrying FFmpeg connection to "${src}" after "${config.ffmpeg.monitor.restart_wait}" ms`);
-                        Restreamer.data.retryTimeouts[streamType] = setTimeout(() => {
-                            logger.info(`Retry FFmpeg connection to "${src}" retry counter: ${Restreamer.data.retryCounter[streamType].current}`);
-                            Restreamer.startStream(src, streamType, optionalOutput, Restreamer.data.retryCounter[streamType].current);
-                        }, config.ffmpeg.monitor.restart_wait);
+                    if(Restreamer.data.userActions[streamType] == 'stop') {
+                        logger.debug('Skipping retry because "stop" has been clicked');
+                        return;
                     }
+
+                    retry();
                 })
 
                 // stream error handler
-                .on('error', (error) => {
-                    if (error.toString().indexOf('SIGKILL') > -1) {
+                .on('error', (error, stdout, stderr) => {
+                    logger.info('error for "' + streamType + '"');
+
+                    if(Restreamer.data.userActions[streamType] == 'stop') {
                         Restreamer.updateState(streamType, 'disconnected');
-                        logger.info(`FFmpeg streaming stopped for "${streamType}"`);
-                    } else {
-                        Restreamer.data.retryCounter[streamType].current++;
-                        if (Restreamer.data.retryCounter[streamType].current <= config.ffmpeg.monitor.retries) {
-                            if (Restreamer.data.userActions[streamType] === 'stop') {
-                                logger.debug('Skipping retry since "stopped" has been clicked');
-                                return;
-                            }
-                            Restreamer.updateState(streamType, 'error', error.toString());
-                            logger.error(`Error on stream ${streamType}: ${error.toString()}`);
-                            logger.info(`Retrying FFmpeg connection to "${src}" after "${config.ffmpeg.monitor.restart_wait}" ms`);
-                            Restreamer.data.retryTimeouts[streamType] = setTimeout(() => {
-                                logger.info(`Retry FFmpeg connection to "${src}" retry counter: ${Restreamer.data.retryCounter[streamType].current}`);
-                                Restreamer.startStream(src, streamType, optionalOutput, Restreamer.data.retryCounter[streamType].current);
-                            }, config.ffmpeg.monitor.restart_wait);
-                        } else {
-                            Restreamer.updateState(streamType, 'error', error.toString());
-                        }
+                        logger.debug('Skipping retry since "stop" has been clicked');
+                        return;
                     }
+
+                    Restreamer.updateState(streamType, 'error', error.toString());
+
+                    retry();
+                })
+
+                // progress handler
+                .on('progress', (progress) => {
+                    if(Restreamer.data.states[streamType].type == 'connecting') {
+                        Restreamer.updateState(streamType, 'connected');
+                    }
+
+                    Restreamer.data.progresses[streamType] = progress;
+                    Restreamer.updateProgressOnGui();
                 });
 
-            command.on('progress', progressMethod);
-            setInterval(()=> {
-                if (command.listeners('progress').length === 0) {
-                    command.on('progress', progressMethod);
-                }
-            }, 1000);
             command.exec();
         }).catch((error) => {
-            logger.error(`Error starting FFmpeg command: ${error.toString()}`);
+            logger.error('Error starting FFmpeg command: ' + error.toString());
+
+            Restreamer.updateState(streamType, 'error', error.toString());
+
+            retry();
         });
     }
 
@@ -483,8 +532,7 @@ class Restreamer {
             'addresses': Restreamer.data.addresses,
             'options': Restreamer.data.options,
             'userActions': Restreamer.data.userActions,
-            'states': Restreamer.data.states,
-            'retryCounter': Restreamer.data.retryCounter
+            'states': Restreamer.data.states
         };
     }
 
@@ -545,16 +593,6 @@ class Restreamer {
  define data structure of Restreamer Data
  */
 Restreamer.data = {
-    'retryCounter': {
-        'repeatToLocalNginx': {
-            'current': 0,
-            'max': config.ffmpeg.monitor.retries
-        },
-        'repeatToOptionalOutput': {
-            'current': 0,
-            'max': config.ffmpeg.monitor.retries
-        }
-    },
     'retryTimeouts': {
         'repeatToLocalNginx': null,
         'repeatToOptionalOutput': null

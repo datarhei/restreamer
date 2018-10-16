@@ -44,19 +44,17 @@ window.angular.module('Main').controller('mainController',
         $scope.nginxRepeatStreamInputInvalid = false;
 
         $scope.reStreamerData = {
-            'retryCounter': {
-                'repeatToLocalNginx': 0,
-                'repeatToOptionalOutput': 0
-            },
             'options': {
                 'rtspTcp': false
             },
             'states': {
                 'repeatToLocalNginx': {
-                    'type': ''
+                    'type': '',
+                    'message': ''
                 },
                 'repeatToOptionalOutput': {
-                    'type': ''
+                    'type': '',
+                    'message': ''
                 }
             },
             'userActions': {
@@ -116,6 +114,7 @@ window.angular.module('Main').controller('mainController',
             });
             ws.on('updateStreamData', (reStreamerData) => {
                 $scope.reStreamerData = reStreamerData;
+                console.log(reStreamerData);
                 if ($scope.showStopButton('repeatToOptionalOutput')) {
                     // checkbox
                     $scope.activateOptionalOutput = true;

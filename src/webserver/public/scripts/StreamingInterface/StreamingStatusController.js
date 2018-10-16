@@ -41,8 +41,7 @@ window.angular.module('StreamingInterface').controller('streamingStatusControlle
          * @returns {boolean}
          */
         $scope.error = () => {
-            $scope.retries = $scope.data.retryCounter[$scope.name].current;
-            $scope.maxRetries = $scope.data.retryCounter[$scope.name].max;
+            $scope.message = $scope.data.states[$scope.name].message;
             return statusName() === 'error';
         };
 
