@@ -37,6 +37,14 @@ window.angular.module('StreamingInterface').controller('streamingStatusControlle
         };
 
         /**
+         * check if the status is stopped
+         * @returns {boolean}
+         */
+        $scope.stopped = () => {
+            return statusName() === 'stopped';
+        };
+
+        /**
          * check if the status is error
          * @returns {boolean}
          */

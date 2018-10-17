@@ -75,12 +75,18 @@ window.angular.module('Main').controller('mainController',
 
         $scope.optionalOutput = '';
 
-        $scope.showStopButton = (streamType) => {
-            return $scope.reStreamerData.userActions[streamType] === 'start';
+        $scope.showStartButton = (streamType) => {
+            return ($scope.reStreamerData.states[streamType].type == 'disconnected');
         };
 
-        $scope.showStartButton = (streamType) => {
-            return $scope.reStreamerData.userActions[streamType] === 'stop';
+        $scope.showStopButton = (streamType) => {
+            let state = $scope.reStreamerData.states[streamType].type;
+
+            return (state == 'connected' || state == 'connecting' || state == 'error');
+        };
+
+        $scope.disableInput = (streamType) => {
+            return ($scope.reStreamerData.states[streamType].type != 'disconnected');
         };
 
         $scope.openPlayer = () => {

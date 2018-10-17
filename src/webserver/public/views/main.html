@@ -11,7 +11,7 @@
     <input type="text" class="form-control input" id="input_uri"
            placeholder="{{'input_example' | translate}}"
            ng-model="reStreamerData.addresses.srcAddress"
-           ng-disabled="showStopButton('repeatToLocalNginx')">
+           ng-disabled="disableInput('repeatToLocalNginx')">
 </div>
 
 <streaming-status name="repeatToLocalNginx" data="reStreamerData"></streaming-status>
@@ -66,7 +66,7 @@
         <input type="text" class="form-control input" id="output_optional_uri"
                placeholder="{{'output_optional_example' | translate}}"
                ng-model="reStreamerData.addresses.optionalOutputAddress"
-               ng-disabled="showStopButton('repeatToOptionalOutput')">
+               ng-disabled="disableInput('repeatToOptionalOutput')">
     </div>
 </div>
 

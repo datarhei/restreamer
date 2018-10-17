@@ -18,6 +18,7 @@
     "process_failed": "Auf den Stream konnte nicht zugegriffen werden.",
     "process_failed_retry": "Versuch",
     "process_init": "Der Streaming-Prozess wird erstellt. Bitte warten...",
+    "process_stopped": "Der Streaming-Prozess wird angehalten. Bitte warten ...",
     "output_optional": "Externer RTMP-Streaming-Server",
     "output_optional_example": "z.b. rtmp://live.youtube.com/channelId",
     "player_link_title": "Player öffnen",

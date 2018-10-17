@@ -101,9 +101,8 @@ class Restreamer {
     static stopStream(streamType) {
         Restreamer.updateState(streamType, 'stopped');
         logger.info('Stopping ' + streamType);
-        Restreamer.setTimeout(streamType, 'retry', null);
 
-        if(Restreamer.data.processes[streamType] != null) {
+        if(Restreamer.data.processes[streamType] !== null) {
             Restreamer.data.processes[streamType].kill('SIGKILL');
             Restreamer.data.processes[streamType] = null;
         }
@@ -138,6 +137,9 @@ class Restreamer {
                 true
             );
         }
+        else {
+            Restreamer.updateState('repeatToLocalNginx', 'disconnected')
+        }
 
         // check if the stream was repeated to an output address
         if(Restreamer.data.addresses.optionalOutputAddress && repeatToOptionalOutputReconnecting) {
@@ -147,6 +149,9 @@ class Restreamer {
                 Restreamer.data.addresses.optionalOutputAddress,
                 true
             );
+        }
+        else {
+            Restreamer.updateState('repeatToOptionalOutput', 'disconnected')
         }
     }
 
@@ -182,8 +187,9 @@ class Restreamer {
         var deferred = Q.defer();
         var ffmpegOptions = [];
 
-        let stat = Restreamer.getState(streamType);
+        let state = Restreamer.getState(streamType);
         if(state != 'connecting') {
+            logger.debug('Skipping "startStream" because state is not "connecting". Current state is "' + state + '".', streamType);
             return null;
         }
 
@@ -268,74 +274,86 @@ class Restreamer {
 
     /**
      * update the state of the stream
-     * @param {string} processName
+     * @param {string} streamType
      * @param {string} state
-     * @param {string=} message
+     * @param {string} message
      * @return {string} name of the new state
      */
-    static updateState(processName, state, message) {
-        logger.debug('Update state of "' + processName + '" from state "' + Restreamer.data.states[processName].type + '" to state "' + state + '"');
+    static updateState(streamType, state, message) {
+        let previousState = Restreamer.setState(streamType, state, message);
 
-        Restreamer.data.states[processName] = {
-            'type': state,
-            'message': message
-        };
+        if(previousState == state) {
+            return state;
+        }
 
-        if(processName === 'repeatToLocalNginx' && state === 'connected') {
+        logger.debug('Update state from "' + previousState + '" to "' + state + '"', streamType);
+
+        if(streamType === 'repeatToLocalNginx' && state === 'connected') {
             Restreamer.fetchSnapshot();
         }
 
         Restreamer.writeToDB();
         Restreamer.updateStreamDataOnGui();
+
         return state;
+    }
+
+    static setState(streamType, state, message) {
+        let previousState = Restreamer.data.states[streamType].type;
+
+        Restreamer.data.states[streamType] = {
+            'type': state,
+            'message': message
+        };
+
+        return previousState;
     }
 
     /**
      * get the state of the stream
-     * @param {string} processName
+     * @param {string} streamType
      * @return {string} name of the new state
      */
-    static getState(processName) {
-        return Restreamer.data.states[processName].type;
+    static getState(streamType) {
+        return Restreamer.data.states[streamType].type;
     }
 
     /**
      * get the current user action
-     * @param {string} processName
+     * @param {string} streamType
      * @return {string} name of the user action
      */
-    static getUserAction(processName) {
-        return Restreamer.data.userActions[processName];
+    static getUserAction(streamType) {
+        return Restreamer.data.userActions[streamType];
     }
 
     /**
      * set the current user action
-     * @param {string} processName
+     * @param {string} streamType
      * @param {string} action
      * @return {string} name of the previous user action
      */
-    static setUserAction(processName, action) {
-        let previousAction = Restreamer.data.userActions[processName];
-        Restreamer.data.userActions[processName] = action;
+    static setUserAction(streamType, action) {
+        let previousAction = Restreamer.data.userActions[streamType];
+        Restreamer.data.userActions[streamType] = action;
         return previousAction;
     }
 
     /**
      * update the last submitted user action (like click on stop stream, click on start stream)
-     * @param {string} processName
+     * @param {string} streamType
      * @param {string} action user action
      * @return {string} name of the new user action
      */
-    static updateUserAction(processName, action) {
-        let previousAction = Restreamer.setUserAction(processName, action);
+    static updateUserAction(streamType, action) {
+        let previousAction = Restreamer.setUserAction(streamType, action);
 
         if(previousAction == action) {
             return action;
         }
 
-        logger.debug('Set user action of "' + processName + '" from "' + previousAction + '" to "' + action +'"');
+        logger.debug('Set user action from "' + previousAction + '" to "' + action +'"', streamType);
 
-        Restreamer.setUserAction(processName, action);
         Restreamer.writeToDB();
         Restreamer.updateStreamDataOnGui();
 
@@ -362,19 +380,22 @@ class Restreamer {
     static startStream(src, streamType, optionalOutput, force) {
         // remove any running timeouts
         Restreamer.setTimeout(streamType, 'retry', null);
+        Restreamer.setTimeout(streamType, 'stale', null);
 
         force = force || false;
         if(force != true) {
             // check if there's currently no other stream connected or connecting
             let state = Restreamer.getState(streamType);
-            if(state != 'disconnected') {
+            if(state == 'connected' || state == 'connecting') {
+                logger.debug('Skipping "startStream" because state is "connected" or "connecting". Current state is "' + state + '".', streamType);
                 return;
             }
         } 
 
         // check if the user has clicked 'stop' meanwhile, so the startStream process has to be skipped
         if(Restreamer.getUserAction(streamType) == 'stop') {
-            logger.debug('Skipping "startStream" because "stop" has been clicked');
+            Restreamer.stopStream(streamType);
+            logger.debug('Skipping "startStream" because "stop" has been clicked', streamType);
             return;
         }
 
@@ -388,7 +409,7 @@ class Restreamer {
         /** @var {Promise} Promise to make sure, the add output process has been finished */
         var addOutputPromise = null;
 
-        logger.info('Start stream "' + streamType + '"');
+        logger.info('Start stream', streamType);
 
         let rtmpPath = Restreamer.generateOutputHLSPath();
 
@@ -416,13 +437,21 @@ class Restreamer {
         }
 
         if(addOutputPromise === null) {
+            logger.debug('Skipping "startStream" because promise is null', streamType);
             return;
         }
 
         let retry = () => {
-            logger.info('Retrying FFmpeg connection to "' + src + '" after "' + config.ffmpeg.monitor.restart_wait + '" ms');
+            logger.info('Retry to connect to "' + src + '" in ' + config.ffmpeg.monitor.restart_wait + 'ms', streamType);
             Restreamer.setTimeout(streamType, 'retry', () => {
-                logger.info('Retry FFmpeg connection to "' + src + '"');
+                logger.info('Retry to connect to "' + src + '"', streamType);
+
+                if(Restreamer.data.userActions[streamType] == 'stop') {
+                    logger.debug('Skipping retry because "stop" has been clicked', streamType);
+                    Restreamer.updateState(streamType, 'disconnected');
+                    return;
+                }
+
                 Restreamer.startStream(src, streamType, optionalOutput);
             }, config.ffmpeg.monitor.restart_wait);
         }
@@ -444,21 +473,24 @@ class Restreamer {
 
             command
                 .on('start', (commandLine) => {
+                    Restreamer.data.processes[streamType] = command;
+
                     if(Restreamer.data.userActions[streamType] == 'stop') {
-                        command.kill();
-                        logger.debug('Skipping on "start" event of FFmpeg command because "stop" has been clicked');
+                        Restreamer.stopStream(streamType);
+                        logger.debug('Skipping on "start" event of FFmpeg command because "stop" has been clicked', streamType);
                         return;
                     }
 
                     logger.debug('FFmpeg spawned: ' + commandLine);
-                    Restreamer.data.processes[streamType] = command;
                 })
 
                 // stream ended
                 .on('end', () => {
+                    Restreamer.data.processes[streamType] = null;
                     Restreamer.updateState(streamType, 'disconnected');
+
                     if(Restreamer.data.userActions[streamType] == 'stop') {
-                        logger.debug('Skipping retry because "stop" has been clicked');
+                        logger.debug('Skipping retry because "stop" has been clicked', streamType);
                         return;
                     }
 
@@ -469,13 +501,13 @@ class Restreamer {
 
                 // stream error handler
                 .on('error', (error, stdout, stderr) => {
+                    Restreamer.data.processes[streamType] = null;
+
                     if(Restreamer.data.userActions[streamType] == 'stop') {
                         Restreamer.updateState(streamType, 'disconnected');
-                        logger.debug('Skipping retry since "stop" has been clicked');
+                        logger.debug('Skipping retry since "stop" has been clicked', streamType);
                         return;
                     }
-
-                    logger.info(streamType + ': ' + error.toString());
 
                     Restreamer.updateState(streamType, 'error', error.toString());
 
@@ -493,14 +525,20 @@ class Restreamer {
 
                     // add a stale timeout
                     Restreamer.setTimeout(streamType, 'stale', () => {
-                        logger.info('Stale connection for "' + streamType + '"');
+                        logger.info('Stale connection', streamType);
                         Restreamer.stopStream(streamType);
                     }, config.ffmpeg.monitor.stale_wait);
                 });
 
             command.exec();
         }).catch((error) => {
-            logger.error('Error starting FFmpeg command: ' + error.toString());
+            logger.debug('Failed to probe stream: ' + error.toString(), streamType);
+
+            if(Restreamer.data.userActions[streamType] == 'stop') {
+                Restreamer.updateState(streamType, 'disconnected');
+                logger.debug('Skipping retry since "stop" has been clicked', streamType);
+                return;
+            }
 
             Restreamer.updateState(streamType, 'error', error.toString());
 
@@ -530,16 +568,21 @@ class Restreamer {
     static bindWebsocketEvents () {
         WebsocketsController.setConnectCallback((socket) => {
             socket.emit('publicIp', Restreamer.data.publicIp);
-            socket.on('startStream', (options)=> {
+            socket.on('startStream', (options) => {
+                logger.debug('Got "startStream" event for ' + options.streamType);
                 Restreamer.updateUserAction(options.streamType, 'start');
                 Restreamer.updateOptions(options.options);
                 Restreamer.startStream(options.src, options.streamType, options.optionalOutput);
             });
-            socket.on('stopStream', (streamType)=> {
+            socket.on('stopStream', (streamType) => {
+                logger.debug('Got "stopStream" event for ' + streamType);
                 Restreamer.updateUserAction(streamType, 'stop');
                 Restreamer.stopStream(streamType);
             });
-            socket.on('checkStates', Restreamer.updateStreamDataOnGui);
+            socket.on('checkStates', () => {
+                logger.debug('Got "checkStates" event');
+                Restreamer.updateStreamDataOnGui()
+            });
         });
     }
 
