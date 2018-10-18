@@ -492,6 +492,10 @@ class Restreamer {
                 // stream ended
                 .on('end', () => {
                     Restreamer.data.processes[streamType] = null;
+
+                    Restreamer.setTimeout(streamType, 'retry', null);
+                    Restreamer.setTimeout(streamType, 'stale', null);
+
                     Restreamer.updateState(streamType, 'disconnected');
 
                     if(Restreamer.data.userActions[streamType] == 'stop') {
@@ -507,6 +511,9 @@ class Restreamer {
                 // stream error handler
                 .on('error', (error, stdout, stderr) => {
                     Restreamer.data.processes[streamType] = null;
+
+                    Restreamer.setTimeout(streamType, 'retry', null);
+                    Restreamer.setTimeout(streamType, 'stale', null);
 
                     if(Restreamer.data.userActions[streamType] == 'stop') {
                         Restreamer.updateState(streamType, 'disconnected');
