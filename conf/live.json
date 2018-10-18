@@ -61,8 +61,18 @@
                 "-metadata server=NGINX-RTMP",
                 "-f flv"
             ],
+            "native_h264_transcode_mp3": [
+                "-vcodec copy",
+                "-acodec libmp3lame",
+                "-b:a 64k",
+                "-map 0:v",
+                "-map 0:a",
+                "-map_metadata -1",
+                "-metadata application=datarhei/Restreamer",
+                "-metadata server=NGINX-RTMP",
+                "-f flv"
+            ],
             "input": [
-                "-hide_banner",
                 "-stats",
                 "-loglevel quiet",
                 "-err_detect ignore_err"
@@ -167,7 +177,7 @@
             "type": "string",
             "defaultValue": "auto",
             "required": false,
-            "description": "Handling of audio track: auto, none (force no audio), silence (force silence), aac (force AAC)"
+            "description": "Handling of audio track: auto, none (force no audio), silence (force silence), aac (force AAC), mp3 (force MP3)"
         }
     ]
 }

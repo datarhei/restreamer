@@ -254,6 +254,11 @@ class Restreamer {
                         option = "native_h264_transcode_aac";
                     }
                 }
+                else if(process.env.RS_AUDIO == "mp3") {
+                    if(audio !== null && audio.codec_name != 'mp3') {
+                        option = "native_h264_transcode_mp3";
+                    }
+                }
             }
             else {
                 option = "native_h264_native_audio";
