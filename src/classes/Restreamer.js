@@ -59,9 +59,15 @@ class Restreamer {
         let command = new FfmpegCommand(Restreamer.generateOutputHLSPath());
 
         command.output(Restreamer.generateSnapshotPath());
-        command.outputOption(config.ffmpeg.options.snapshot);
+
+        Restreamer.addOptions(command, "global");
+        Restreamer.addOptions(command, "snapshot");
+
+        command.on('start', (commandLine) => {
+            logger.debug('Spawned: ' + commandLine, 'snapshot');
+        });
         command.on('error', (error) => {
-            logger.error('Error fetching snapshot: ' + error.toString().trim());
+            logger.error('Error: ' + error.toString().trim(), 'snapshot');
         });
         command.on('end', () => {
             logger.info('Updated snapshot');
@@ -71,6 +77,29 @@ class Restreamer {
             });
         });
         command.exec();
+    }
+
+    static addOptions(command, name) {
+        if(!(name in config.ffmpeg.options)) {
+            logger.debug('Unknown option: ' + name);
+            return;
+        }
+
+        logger.debug('Adding option: ' + name);
+
+        let options = config.ffmpeg.options[name];
+
+        if('input' in options) {
+            command.input(options.input);
+        }
+
+        if('inputOptions' in options) {
+            command.inputOptions(options.inputOptions);
+        }
+
+        if('outputOptions' in options) {
+            command.outputOptions(options.outputOptions);
+        }
     }
 
     static calculateSnapshotRefreshInterval () {
@@ -183,9 +212,8 @@ class Restreamer {
      * @param {FfmpegCommand} ffmpegCommand
      * @return {Promise}
      */
-    static appendOutputOptionFromConfig(ffmpegCommand, streamType) {
+    static probeStream(ffmpegCommand, streamType) {
         var deferred = Q.defer();
-        var ffmpegOptions = [];
 
         let state = Restreamer.getState(streamType);
         if(state != 'connecting') {
@@ -265,13 +293,8 @@ class Restreamer {
             }
 
             logger.debug('Selected ffmpeg.option: ' + option);
-            ffmpegOptions = config.ffmpeg.options[option];
 
-            for(let o of ffmpegOptions) {
-                ffmpegCommand.outputOptions(o);
-            }
-
-            return deferred.resolve();
+            return deferred.resolve(option);
         });
 
         return deferred.promise;
@@ -412,7 +435,7 @@ class Restreamer {
         var command = null;
 
         /** @var {Promise} Promise to make sure, the add output process has been finished */
-        var addOutputPromise = null;
+        var probePromise = null;
 
         logger.info('Start stream', streamType);
 
@@ -424,9 +447,18 @@ class Restreamer {
                 stdoutLines: 1
             });
 
+            Restreamer.addOptions(command, 'global');
+
+            // GUI option
+            if(streamType == 'repeatToLocalNginx') {
+                if(Restreamer.data.options.rtspTcp && Restreamer.data.addresses.srcAddress.indexOf('rtsp') == 0) {
+                    Restreamer.addOptions(command, 'rtsp-tcp');
+                }
+            }
+
             // add outputs to the ffmpeg stream
             command.output(rtmpPath);
-            addOutputPromise = Restreamer.appendOutputOptionFromConfig(command, streamType)
+            probePromise = Restreamer.probeStream(command, streamType)
         }
         else {
             // repeat to optional output
@@ -434,14 +466,16 @@ class Restreamer {
                 stdoutLines: 1
             });
 
+            Restreamer.addOptions(command, 'global');
+
             Restreamer.data.addresses.optionalOutputAddress = optionalOutput;
 
             // add outputs to the ffmpeg stream
             command.output(optionalOutput);
-            addOutputPromise = Restreamer.appendOutputOptionFromConfig(command, streamType)
+            probePromise = Restreamer.probeStream(command, streamType)
         }
 
-        if(addOutputPromise === null) {
+        if(probePromise === null) {
             logger.debug('Skipping "startStream" because promise is null', streamType);
             return;
         }
@@ -462,19 +496,8 @@ class Restreamer {
         }
 
         // after adding outputs, define events on the new FFmpeg stream
-        addOutputPromise.then(() => {
-            let ffmpegOptions = config.ffmpeg.options.input;
-
-            for(let o of ffmpegOptions) {
-                command.inputOptions(o);
-            }
-
-            // GUI option
-            if(streamType == 'repeatToLocalNginx') {
-                if(Restreamer.data.options.rtspTcp && Restreamer.data.addresses.srcAddress.indexOf('rtsp') == 0) {
-                    command.inputOptions('-rtsp_transport', 'tcp');
-                }
-            }
+        probePromise.then((option) => {
+            Restreamer.addOptions(command, option);
 
             command
                 .on('start', (commandLine) => {
@@ -486,7 +509,7 @@ class Restreamer {
                         return;
                     }
 
-                    logger.debug('FFmpeg spawned: ' + commandLine);
+                    logger.debug('Spawned: ' + commandLine, streamType);
                 })
 
                 // stream ended

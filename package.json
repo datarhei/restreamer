@@ -20,7 +20,7 @@
     "cookie-parser": "1.4.3",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
-    "fluent-ffmpeg": "git://github.com/datarhei/node-fluent-ffmpeg.git",
+    "fluent-ffmpeg": "^2.1.2",
     "jsonschema": "1.2.0",
     "moment-timezone": "0.5.13",
     "node-json-db": "0.7.3",

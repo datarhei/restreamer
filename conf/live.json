@@ -8,76 +8,101 @@
     },
     "ffmpeg": {
         "options": {
-            "native_h264_native_audio": [
-                "-codec copy",
-                "-map 0:v",
-                "-map 0:a",
-                "-map_metadata -1",
-                "-metadata application=datarhei/Restreamer",
-                "-metadata server=NGINX-RTMP",
-                "-f flv"
-            ],
-            "native_h264_no_audio": [
-                "-vcodec copy",
-                "-an",
-                "-map 0:v",
-                "-map_metadata -1",
-                "-metadata application=datarhei/Restreamer",
-                "-metadata server=NGINX-RTMP",
-                "-f flv"
-            ],
-            "native_h264_native_aac": [
-                "-codec copy",
-                "-map 0:v",
-                "-map 0:a",
-                "-bsf:a aac_adtstoasc",
-                "-map_metadata -1",
-                "-metadata application=datarhei/Restreamer",
-                "-metadata server=NGINX-RTMP",
-                "-f flv"
-            ],
-            "native_h264_silence_aac": [
-                "-f lavfi",
-                "-i anullsrc=r=44100:cl=mono",
-                "-vcodec copy",
-                "-acodec aac",
-                "-b:a 0k",
-                "-map 0:v",
-                "-map 1:a",
-                "-shortest",
-                "-map_metadata -1",
-                "-metadata application=datarhei/Restreamer",
-                "-metadata server=NGINX-RTMP",
-                "-f flv"
-            ],
-            "native_h264_transcode_aac": [
-                "-vcodec copy",
-                "-acodec aac",
-                "-b:a 64k",
-                "-map 0:v",
-                "-map 0:a",
-                "-map_metadata -1",
-                "-metadata application=datarhei/Restreamer",
-                "-metadata server=NGINX-RTMP",
-                "-f flv"
-            ],
-            "native_h264_transcode_mp3": [
-                "-vcodec copy",
-                "-acodec libmp3lame",
-                "-b:a 64k",
-                "-map 0:v",
-                "-map 0:a",
-                "-map_metadata -1",
-                "-metadata application=datarhei/Restreamer",
-                "-metadata server=NGINX-RTMP",
-                "-f flv"
-            ],
-            "input": [
-                "-stats",
-                "-loglevel quiet",
-                "-err_detect ignore_err"
-            ],
-            "snapshot": "-vframes 1"
+            "native_h264_native_audio": {
+                "outputOptions": [
+                    "-codec copy",
+                    "-map 0:v",
+                    "-map 0:a",
+                    "-map_metadata -1",
+                    "-metadata application=datarhei/Restreamer",
+                    "-metadata server=NGINX-RTMP",
+                    "-f flv"
+                ]
+            },
+            "native_h264_no_audio": {
+                "outputOptions": [
+                    "-vcodec copy",
+                    "-an",
+                    "-map 0:v",
+                    "-map_metadata -1",
+                    "-metadata application=datarhei/Restreamer",
+                    "-metadata server=NGINX-RTMP",
+                    "-f flv"
+                ]
+            },
+            "native_h264_native_aac": {
+                "outputOptions": [
+                    "-codec copy",
+                    "-map 0:v",
+                    "-map 0:a",
+                    "-bsf:a aac_adtstoasc",
+                    "-map_metadata -1",
+                    "-metadata application=datarhei/Restreamer",
+                    "-metadata server=NGINX-RTMP",
+                    "-f flv"
+                ]
+            },
+            "native_h264_silence_aac": {
+                "input": "anullsrc=r=44100:cl=mono",
+                "inputOptions": [
+                    "-f lavfi"
+                ],
+                "outputOptions": [
+                    "-vcodec copy",
+                    "-acodec aac",
+                    "-b:a 0k",
+                    "-map 0:v",
+                    "-map 1:a",
+                    "-shortest",
+                    "-map_metadata -1",
+                    "-metadata application=datarhei/Restreamer",
+                    "-metadata server=NGINX-RTMP",
+                    "-f flv"
+                ]
+            },
+            "native_h264_transcode_aac": {
+                "outputOptions": [
+                    "-vcodec copy",
+                    "-acodec aac",
+                    "-b:a 64k",
+                    "-map 0:v",
+                    "-map 0:a",
+                    "-map_metadata -1",
+                    "-metadata application=datarhei/Restreamer",
+                    "-metadata server=NGINX-RTMP",
+                    "-f flv"
+                ]
+            },
+            "native_h264_transcode_mp3": {
+                "outputOptions": [
+                    "-vcodec copy",
+                    "-acodec libmp3lame",
+                    "-b:a 64k",
+                    "-map 0:v",
+                    "-map 0:a",
+                    "-map_metadata -1",
+                    "-metadata application=datarhei/Restreamer",
+                    "-metadata server=NGINX-RTMP",
+                    "-f flv"
+                ]
+            },
+            "global": {
+                "inputOptions": [
+                    "-stats",
+                    "-loglevel quiet",
+                    "-err_detect ignore_err"
+                ]
+            },
+            "rtsp-tcp": {
+                "inputOptions": [
+                    "-rtsp_transport tcp"
+                ]
+            },
+            "snapshot": {
+                "outputOptions": [
+                    "-vframes 1"
+                ]
+            }
         },
         "monitor": {
             "restart_wait": "6000",
