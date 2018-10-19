@@ -70,7 +70,7 @@ class Restreamer {
             logger.error('Error: ' + error.toString().trim(), 'snapshot');
         });
         command.on('end', () => {
-            logger.info('Updated snapshot');
+            logger.info('Updated snapshot', 'snapshot');
             WebsocketsController.emit('snapshot', null);
             Q.delay(this.calculateSnapshotRefreshInterval()).then(() => {
                 Restreamer.fetchSnapshot();
@@ -102,9 +102,9 @@ class Restreamer {
         }
     }
 
-    static calculateSnapshotRefreshInterval () {
+    static calculateSnapshotRefreshInterval() {
         let fallbackRefreshInterval = 60000;
-        let snapshotRefreshInterval = process.env.RS_SNAPSHOT_REFRESH_INTERVAL.match(/([0-9]+)([a-z]{1,2})?/);
+        let snapshotRefreshInterval = process.env.RS_SNAPSHOT_INTERVAL.match(/([0-9]+)([a-z]{1,2})?/);
 
         let refreshInterval = fallbackRefreshInterval;
 
@@ -129,7 +129,7 @@ class Restreamer {
      */
     static stopStream(streamType) {
         Restreamer.updateState(streamType, 'stopped');
-        logger.info('Stopping ' + streamType);
+        logger.info('Stop streaming', streamType);
 
         if(Restreamer.data.processes[streamType] !== null) {
             Restreamer.data.processes[streamType].kill('SIGKILL');
@@ -141,7 +141,7 @@ class Restreamer {
      * restore the ffmpeg processes from jsondb (called on app start to restore ffmpeg processes
      * after the application has been killed or stuff
      */
-    static restoreFFMpegProcesses () {
+    static restoreFFMpegProcesses() {
         var db = new JsonDB(config.jsondb, true, false);
 
         Restreamer.data.addresses = db.getData('/addresses');
@@ -290,7 +290,7 @@ class Restreamer {
                 option = "native_h264_native_audio";
             }
 
-            logger.debug('Selected ffmpeg.option: ' + option);
+            logger.debug('Selected ffmpeg option: ' + option, streamType);
 
             return deferred.resolve(option);
         });
@@ -428,7 +428,7 @@ class Restreamer {
         var command = null;
         var probePromise = null;
 
-        logger.info('Start stream', streamType);
+        logger.info('Start streaming', streamType);
 
         // update the state on the frontend
         Restreamer.updateState(streamType, 'connecting');
@@ -595,7 +595,7 @@ class Restreamer {
         WebsocketsController.setConnectCallback((socket) => {
             socket.emit('publicIp', Restreamer.data.publicIp);
             socket.on('startStream', (options) => {
-                logger.debug('Got "startStream" event for ' + options.streamType);
+                logger.debug('Got "startStream" event', options.streamType);
                 Restreamer.updateUserAction(options.streamType, 'start');
                 Restreamer.updateOptions(options.options);
 
@@ -615,7 +615,7 @@ class Restreamer {
                 Restreamer.startStream(streamUrl, options.streamType);
             });
             socket.on('stopStream', (streamType) => {
-                logger.debug('Got "stopStream" event for ' + streamType);
+                logger.debug('Got "stopStream" event', streamType);
                 Restreamer.updateUserAction(streamType, 'stop');
                 Restreamer.stopStream(streamType);
             });
@@ -658,7 +658,7 @@ class Restreamer {
      */
     static checkForUpdates () {
         const url = {'host': 'datarhei.org', 'path': '/apps.json'};
-        logger.debug('Checking for updates...');
+        logger.debug('Checking for updates...', 'checkForUpdates');
         https.get(url, (response) => {
             if (response.statusCode === 200) {
                 response.on('data', (body) => {
@@ -682,12 +682,12 @@ class Restreamer {
      * get public ip
      */
     static getPublicIp () {
-        logger.info('Getting public IP ...', 'start.publicip');
+        logger.info('Retrieving public IP ...', 'publicIP');
         publicIp.v4().then(ip => {
             Restreamer.data.publicIp = ip;
-            logger.info('Found public IP: ' + ip, 'start.publicip');
+            logger.info('Found public IP: ' + ip, 'publicIP');
         }).catch(err => {
-            logger.warn('Failed to get public IP', 'start.publicip');
+            logger.warn('Failed to get public IP', 'publicIP');
             Restreamer.data.publicIp = '127.0.0.1';
         });
     }

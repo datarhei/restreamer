@@ -24,6 +24,7 @@
     "jsonschema": "1.2.0",
     "moment-timezone": "0.5.13",
     "node-json-db": "0.7.3",
+    "printf": "^0.5.1",
     "ps-find": "1.1.0",
     "public-ip": "^2.4.0",
     "q": "1.5.0",

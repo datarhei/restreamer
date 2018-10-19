@@ -6,7 +6,7 @@
  */
 'use strict';
 
-const logger = require.main.require('./classes/Logger')('WebsocketsController');
+const logger = require.main.require('./classes/Logger')('WSController');
 const app = require.main.require('./webserver/app').app;
 
 /**
@@ -22,7 +22,7 @@ class WebsocketsController {
      */
     static emit (event, data) {
         app.get('websocketsReady').promise.then((io) => {
-            logger.debug(`Emitting ${event}`);
+            logger.debug('Emitting ' + event);
             io.sockets.emit(event, data);
         });
     }

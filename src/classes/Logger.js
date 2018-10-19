@@ -7,6 +7,8 @@
 'use strict';
 
 const moment = require('moment-timezone');
+const printf = require('printf');
+
 const LEVEL_MUTE = 0;
 const LEVEL_ERROR = 1;
 const LEVEL_WARN = 2;
@@ -48,16 +50,19 @@ class Logger {
      */
     stdout (message, context, type) {
         var time = moment().tz(process.env.RS_TIMEZONE).format('DD-MM-YYYY HH:mm:ss.SSS');
-        var loggerContext = `${String(context)}`;
 
-        if (Logger.isMuted()) {
+        if(Logger.isMuted()) {
             return;
         }
-        if (context) {
-            process.stdout.write(`[${time}] [${type}] ${message} [${loggerContext}]\n`);
+
+        let logline = '';
+        if(context) {
+            logline = printf('[%s] [%-5s] [%22s] %s', time, type, context, message);
         } else {
-            process.stdout.write(`[${time}] [${type}] ${message}\n`);
+            logline = printf('[%s] [%-5s] %s', time, type, message);
         }
+
+        process.stdout.write(logline + '\n');
     }
 
     /**

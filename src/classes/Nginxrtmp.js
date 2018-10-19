@@ -10,7 +10,7 @@ const Q = require('q');
 const config = require('../../conf/live.json');
 const proc = require('process');
 const spawn = require('child_process').spawn;
-const logger = require('./Logger')('Nginxrtmp');
+const logger = require('./Logger')('NGINX');
 const rp = require('request-promise');
 
 /**
@@ -35,24 +35,24 @@ class Nginxrtmp {
      * @returns {Promise.<boolean>}
      */
     async start() {
-        this.logger.info('Starting NGINX ...');
+        this.logger.info('Starting ...');
         let timeout = 250;
         let abort = false;
 
         this.process = spawn(this.config.nginx.command, this.config.nginx.args);
 
         this.process.stdout.on('data', (data) => {
-            this.logger.info(data.toString().trim(), 'NGINX');
+            this.logger.info(data.toString().replace(/^.*\]/, '').trim());
         });
 
         this.process.stderr.on('data', (data) => {
-            this.logger.error(data.toString().trim(), 'NGINX');
+            this.logger.error(data.toString().replace(/^.*\]/, '').trim());
         });
 
         this.process.on('close', (code) => {
             abort = true;
 
-            this.logger.error('NGINX exited with code: ' + code);
+            this.logger.error('Exited with code: ' + code);
 
             if(code < 0) {
                 return;
@@ -61,14 +61,14 @@ class Nginxrtmp {
             if(this.allowRestart == true) {
                 let self = this;
                 setTimeout(() => {
-                    self.logger.info('Trying to restart NGINX');
+                    self.logger.info('Trying to restart ...');
                     self.start();
                 }, timeout);
             }
         });
 
         this.process.on('error', (err) => {
-            this.logger.error('Failed to spawn NGINX process: ' + err.name + ': ' + err.message);
+            this.logger.error('Failed to spawn process: ' + err.name + ': ' + err.message);
         });
 
         let running = false;
@@ -82,11 +82,11 @@ class Nginxrtmp {
 
         if(running == false) {
             this.process = null;
-            throw new Error('NGINX failed to start');
+            throw new Error('Failed to start');
         }
         else {
             this.allowRestart = true;
-            this.logger.info('NGINX successfully started');
+            this.logger.info('Successfully started');
         }
 
         return true;
