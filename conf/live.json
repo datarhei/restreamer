@@ -132,7 +132,7 @@
             "type": "int",
             "defaultValue": "3000",
             "required": false,
-            "description": "Webserver port of application"
+            "description": "Webserver port of application."
         },
         {
             "name": "RS_NODE_ENV",
@@ -142,7 +142,7 @@
             "type": "string",
             "defaultValue": "prod",
             "required": false,
-            "description": "Nodejs Environment ('dev' or 'prod')"
+            "description": "Node.js Environment ('dev' or 'prod')."
         },
         {
             "name": "RS_LOGGER_LEVEL",
@@ -152,7 +152,7 @@
             "type": "int",
             "defaultValue": "3",
             "required": false,
-            "description": "Logging level (0=no logging, 1=ERROR, 2=WARN, 3=INFO, 4=DEBUG)"
+            "description": "Logging level (0=no logging, 1=ERROR, 2=WARN, 3=INFO, 4=DEBUG)."
         },
         {
             "name": "RS_TIMEZONE",
@@ -162,7 +162,7 @@
             "type": "string",
             "defaultValue": "Europe/Berlin",
             "required": false,
-            "description": "Set the timezone"
+            "description": "Set the timezone. Accepts Olson timezone IDs."
         },
         {
             "name": "RS_SNAPSHOT_INTERVAL",
@@ -173,7 +173,7 @@
             "type": "string",
             "defaultValue": "1m",
             "required": false,
-            "description": "Interval to create a new snapshot (in milliseconds, use suffix 's' for seconds, 'm' for minutes)"
+            "description": "Interval for new snapshots (in milliseconds, use suffix 's' for seconds, 'm' for minutes). Use a value of 0 to disable snapshots."
         },
         {
             "name": "RS_CREATE_HEAPDUMPS",
@@ -183,7 +183,7 @@
             "type": "bool",
             "defaultValue": "false",
             "required": false,
-            "description": "Create Heapdumps of application"
+            "description": "Create Heapdumps of application."
         },
         {
             "name": "RS_USERNAME",
@@ -193,7 +193,7 @@
             "type": "string",
             "defaultValue": "admin",
             "required": false,
-            "description": "Username for the backend"
+            "description": "Username for the backend."
         },
         {
             "name": "RS_PASSWORD",
@@ -203,7 +203,7 @@
             "type": "string",
             "defaultValue": "datarhei",
             "required": false,
-            "description": "Password for the backend"
+            "description": "Password for the backend."
         },
         {
             "name": "RS_DEBUG_FFMPEG",
@@ -213,7 +213,7 @@
             "type": "bool",
             "defaultValue": false,
             "required": false,
-            "description": "Enables FFmpeg reporting"
+            "description": "Enables FFmpeg reporting."
         },
         {
             "name": "RS_AUDIO",
@@ -221,7 +221,7 @@
             "type": "string",
             "defaultValue": "auto",
             "required": false,
-            "description": "Handling of audio track: auto, none (force no audio), silence (force silence), aac (force AAC), mp3 (force MP3)"
+            "description": "Audio track handling: auto, none (remove audio), silence (force silence), aac (force AAC), mp3 (force MP3)."
         }
     ]
 }

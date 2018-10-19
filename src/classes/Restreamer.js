@@ -53,6 +53,13 @@ class Restreamer {
      */
     static fetchSnapshot () {
         if(Restreamer.data.states.repeatToLocalNginx.type != 'connected') {
+            logger.debug('Disabled, because stream is not connected', 'snapshot');
+            return;
+        }
+
+        let interval = Restreamer.getSnapshotInterval();
+        if(interval == 0) {
+            logger.info('Disabled', 'snapshot');
             return;
         }
 
@@ -67,14 +74,14 @@ class Restreamer {
             logger.debug('Spawned: ' + commandLine, 'snapshot');
         });
         command.on('error', (error) => {
-            logger.error('Error: ' + error.toString().trim(), 'snapshot');
+            logger.error(error.toString().trim(), 'snapshot');
         });
         command.on('end', () => {
-            logger.info('Updated snapshot', 'snapshot');
+            logger.info('Updated. Next scheduled update in ' + interval + 'ms.', 'snapshot');
             WebsocketsController.emit('snapshot', null);
-            Q.delay(this.calculateSnapshotRefreshInterval()).then(() => {
+            Restreamer.setTimeout('repeatToLocalNginx', 'snapshot', () => {
                 Restreamer.fetchSnapshot();
-            });
+            }, interval);
         });
         command.exec();
     }
@@ -102,25 +109,43 @@ class Restreamer {
         }
     }
 
-    static calculateSnapshotRefreshInterval() {
-        let fallbackRefreshInterval = 60000;
-        let snapshotRefreshInterval = process.env.RS_SNAPSHOT_INTERVAL.match(/([0-9]+)([a-z]{1,2})?/);
+    static getSnapshotInterval() {
+        let minimalInterval = 10000;    // 10 seconds
+        let defaultInterval = 60000;    // 60 seconds
+        let parsedInterval = process.env.RS_SNAPSHOT_INTERVAL.match(/^([0-9]+)(m|s|ms)?$/);
 
-        let refreshInterval = fallbackRefreshInterval;
+        let interval = defaultInterval;
 
-        if (typeof snapshotRefreshInterval[2] === 'undefined' || snapshotRefreshInterval[2] === 'ms') {
-            refreshInterval = snapshotRefreshInterval[1];
-        } else if (snapshotRefreshInterval[2] === 's') {
-            refreshInterval = snapshotRefreshInterval[1] * 1000;
-        } else if (snapshotRefreshInterval[2] === 'm') {
-            refreshInterval = snapshotRefreshInterval[1] * 1000 * 60;
+        if(parsedInterval !== null) {
+            interval = parsedInterval[1];
+
+            if(parsedInterval.length == 3) {
+                switch(parsedInterval[2]) {
+                    case 'm':
+                        interval *= 1000 * 60;
+                        break;
+                    case 's':
+                        interval *= 1000;
+                        break;
+                    case 'ms':
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        else {
+            logger.warn('Invalid value for interval. Using default.', 'snapshot');
         }
 
-        if (refreshInterval >= 10000) {
-            return refreshInterval;
+        if(interval == 0) {
+            return 0;   // disable snapshots
+        }
+        else if(interval < minimalInterval) {
+            interval = minimalInterval;
         }
 
-        return fallbackRefreshInterval;
+        return interval;
     }
 
     /**
@@ -581,6 +606,16 @@ class Restreamer {
      * @return {void}
      */
     static setTimeout(streamType, target, func, delay) {
+        if(!(target in Restreamer.data.timeouts)) {
+            logger.error('Unknown target for timeout', streamType);
+            return;
+        }
+
+        if(!(streamType in Restreamer.data.timeouts[target])) {
+            logger.error('Unknown stream type for timeout target "' + target + '"', streamType);
+            return;
+        }
+
         clearTimeout(Restreamer.data.timeouts[target][streamType]);
 
         if(typeof func == 'function') {
@@ -705,6 +740,9 @@ Restreamer.data = {
         'stale': {
             'repeatToLocalNginx': null,
             'repeatToOptionalOutput': null
+        },
+        'snapshot': {
+            'repeatToLocalNginx': null
         }
     },
     'options': {
