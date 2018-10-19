@@ -5,46 +5,68 @@
  * @license Apache-2.0
  */
 'use strict';
-const logger = require('./Logger')('EnvVar');
+const logger = require('./Logger')('ENV');
 const logBlacklist = ['RS_PASSWORD'];
 
 /**
  * Class for environment variables with default values
  */
 class EnvVar {
-    static init (config) {
+    static init(config) {
         var killProcess = false;
 
-        for (let envVar of config.envVars) {
-            if (typeof process.env[envVar.alias] !== 'undefined') {
-                process.env[envVar.name] = process.env[envVar.alias];
-                delete process.env[envVar.alias];
-            }
-            if (typeof process.env[envVar.name] !== 'undefined') {
-                logger.info(`ENV "${envVar.name} = ${(logBlacklist.indexOf(envVar.name) === -1 ? process.env[envVar.name] : '[hidden]')}"`, envVar.description);
-            } else if (envVar.required === true) {
-                logger.error(`No value set for env "${envVar.name}", but it is required`);
-                killProcess = true;
-            } else {
-                process.env[envVar.name] = envVar.defaultValue;
-                logger.info(`ENV "${envVar.name} = ${(logBlacklist.indexOf(envVar.name) === -1 ? process.env[envVar.name] : '[hidden]')}", set to default value`, envVar.description);
+        // Cycle through all defined environment variables
+        for(let envVar of config.envVars) {
+            // Check if the environment variable is set. If not, cycle through the aliases.
+            if(!(envVar.name in process.env)) {
+                for(let i in envVar.alias) {
+                    let alias = envVar.alias[i];
+                    // If the alias exists, copy it to the actual name and delete it.
+                    if(alias in process.env) {
+                        logger.warn('The use of ' + alias + ' is deprecated. Please use ' + envVar.name + ' instead')
+                        process.env[envVar.name] = process.env[alias];
+                        delete process.env[alias];
+                    }
+                }
             }
 
-            if (typeof process.env[envVar.name] !== 'undefined') {
-                switch (envVar.type) {
+            // Check if the environment variable is set and display it, if it is not set
+            // apply the default value. In case the environment variable is required and
+            // not set, stop the process.
+            if(envVar.name in process.env) {
+                // Adjust the given value to the required type
+                switch(envVar.type) {
                     case 'int':
                         process.env[envVar.name] = parseInt(process.env[envVar.name], 10);
                         break;
                     case 'bool':
-                        process.env[envVar.name] = process.env[envVar.name] === 'true';
+                        process.env[envVar.name] = process.env[envVar.name] == 'true';
                         break;
                     default: // keep strings
                         break;
                 }
+
+                // Cover blacklisted values
+                let value = process.env[envVar.name];
+                if(logBlacklist.indexOf(envVar.name) != -1) {
+                    value = '******';
+                }
+
+                logger.info(envVar.name + ' = ' + value + ' (' + envVar.defaultValue + ') ' + envVar.description);
+            }
+            else {
+                if(envVar.required == true) {
+                    logger.error(envVar.name + ' not set but required');
+                    killProcess = true;
+                }
+                else {
+                    logger.info(envVar.name + ' = ' + envVar.defaultValue + ' (using default) ' + envVar.description);
+                    process.env[envVar.name] = envVar.defaultValue;
+                }
             }
         }
 
-        if (killProcess === true) {
+        if(killProcess == true) {
             setTimeout(()=> {
                 process.exit();
             }, 500);

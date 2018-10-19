@@ -126,7 +126,9 @@
     "envVars": [
         {
             "name": "RS_NODE_PORT",
-            "alias": "NODEJS_PORT",
+            "alias": [
+                "NODEJS_PORT"
+            ],
             "type": "int",
             "defaultValue": "3000",
             "required": false,
@@ -134,39 +136,50 @@
         },
         {
             "name": "RS_NODE_ENV",
-            "alias": "NODE_ENV",
+            "alias": [
+                "NODE_ENV"
+            ],
             "type": "string",
             "defaultValue": "prod",
             "required": false,
-            "description": "Nodejs Environment"
+            "description": "Nodejs Environment ('dev' or 'prod')"
         },
         {
             "name": "RS_LOGGER_LEVEL",
-            "alias": "LOGGER_LEVEL",
+            "alias": [
+                "LOGGER_LEVEL"
+            ],
             "type": "int",
             "defaultValue": "3",
-            "required": true,
-            "description": "Logger level to defined, what should be logged"
+            "required": false,
+            "description": "Logging level (0=no logging, 1=ERROR, 2=WARN, 3=INFO, 4=DEBUG)"
         },
         {
             "name": "RS_TIMEZONE",
-            "alias": "TIMEZONE",
+            "alias": [
+                "TIMEZONE"
+            ],
             "type": "string",
             "defaultValue": "Europe/Berlin",
-            "required": true,
+            "required": false,
             "description": "Set the timezone"
         },
         {
-            "name": "RS_SNAPSHOT_REFRESH_INTERVAL",
-            "alias": "SNAPSHOT_REFRESH_INTERVAL",
+            "name": "RS_SNAPSHOT_INTERVAL",
+            "alias": [
+                "SNAPSHOT_REFRESH_INTERVAL",
+                "RS_SNAPSHOT_REFRESH_INTERVAL"
+            ],
             "type": "string",
             "defaultValue": "1m",
             "required": false,
-            "description": "Interval to create a new Snapshot (in minutes)"
+            "description": "Interval to create a new snapshot (in milliseconds, use suffix 's' for seconds, 'm' for minutes)"
         },
         {
             "name": "RS_CREATE_HEAPDUMPS",
-            "alias": "CREATE_HEAPDUMPS",
+            "alias": [
+                "CREATE_HEAPDUMPS"
+            ],
             "type": "bool",
             "defaultValue": "false",
             "required": false,
@@ -174,23 +187,29 @@
         },
         {
             "name": "RS_USERNAME",
-            "alias": "RESTREAMER_USERNAME",
+            "alias": [
+                "RESTREAMER_USERNAME"
+            ],
             "type": "string",
             "defaultValue": "admin",
             "required": false,
-            "description": "Backend user name"
+            "description": "Username for the backend"
         },
         {
             "name": "RS_PASSWORD",
-            "alias": "RESTREAMER_PASSWORD",
+            "alias": [
+                "RESTREAMER_PASSWORD"
+            ],
             "type": "string",
             "defaultValue": "datarhei",
             "required": false,
-            "description": "Backend login password"
+            "description": "Password for the backend"
         },
         {
-            "name": "RS_FFMPEG_DEBUG",
-            "alias": "",
+            "name": "RS_DEBUG_FFMPEG",
+            "alias": [
+                "RS_FFMPEG_DEBUG"
+            ],
             "type": "bool",
             "defaultValue": false,
             "required": false,
@@ -198,7 +217,7 @@
         },
         {
             "name": "RS_AUDIO",
-            "alias": "",
+            "alias": [],
             "type": "string",
             "defaultValue": "auto",
             "required": false,
