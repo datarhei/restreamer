@@ -162,7 +162,6 @@ class Restreamer {
             Restreamer.startStream(
                 Restreamer.data.addresses.srcAddress,
                 'repeatToLocalNginx',
-                null,
                 true
             );
         }
@@ -173,9 +172,8 @@ class Restreamer {
         // check if the stream was repeated to an output address
         if(Restreamer.data.addresses.optionalOutputAddress && repeatToOptionalOutputReconnecting) {
             Restreamer.startStream(
-                Restreamer.data.addresses.srcAddress,
-                'repeatToOptionalOutput',
                 Restreamer.data.addresses.optionalOutputAddress,
+                'repeatToOptionalOutput',
                 true
             );
         }
@@ -405,7 +403,7 @@ class Restreamer {
      * @param {string} optionalOutput address of the optional output
      * @param {string} force force the start of the stream
      */
-    static startStream(src, streamType, optionalOutput, force) {
+    static startStream(streamUrl, streamType, force) {
         // remove any running timeouts
         Restreamer.setTimeout(streamType, 'retry', null);
         Restreamer.setTimeout(streamType, 'stale', null);
@@ -427,23 +425,18 @@ class Restreamer {
             return;
         }
 
-        // update the state and src address on the frontend
-        Restreamer.data.addresses.srcAddress = src;
-        Restreamer.updateState(streamType, 'connecting');
-
-        /** @var {FfmpegCommand} instance of FFmpeg command of module fluent-ffmpeg */
         var command = null;
-
-        /** @var {Promise} Promise to make sure, the add output process has been finished */
         var probePromise = null;
 
         logger.info('Start stream', streamType);
 
+        // update the state on the frontend
+        Restreamer.updateState(streamType, 'connecting');
+
         let rtmpPath = Restreamer.generateOutputHLSPath();
 
-        if(streamType == 'repeatToLocalNginx') {
-            // repeat to local nginx server
-            command = new FfmpegCommand(src, {
+        if(streamType == 'repeatToLocalNginx') {    // repeat to local nginx server
+            command = new FfmpegCommand(streamUrl, {
                 stdoutLines: 1
             });
 
@@ -460,18 +453,15 @@ class Restreamer {
             command.output(rtmpPath);
             probePromise = Restreamer.probeStream(command, streamType)
         }
-        else {
-            // repeat to optional output
+        else {  // repeat to optional output
             command = new FfmpegCommand(rtmpPath, {
                 stdoutLines: 1
             });
 
             Restreamer.addOptions(command, 'global');
 
-            Restreamer.data.addresses.optionalOutputAddress = optionalOutput;
-
             // add outputs to the ffmpeg stream
-            command.output(optionalOutput);
+            command.output(streamUrl);
             probePromise = Restreamer.probeStream(command, streamType)
         }
 
@@ -481,9 +471,9 @@ class Restreamer {
         }
 
         let retry = () => {
-            logger.info('Retry to connect to "' + src + '" in ' + config.ffmpeg.monitor.restart_wait + 'ms', streamType);
+            logger.info('Retry to connect to "' + streamUrl + '" in ' + config.ffmpeg.monitor.restart_wait + 'ms', streamType);
             Restreamer.setTimeout(streamType, 'retry', () => {
-                logger.info('Retry to connect to "' + src + '"', streamType);
+                logger.info('Retry to connect to "' + streamUrl + '"', streamType);
 
                 if(Restreamer.data.userActions[streamType] == 'stop') {
                     logger.debug('Skipping retry because "stop" has been clicked', streamType);
@@ -491,7 +481,7 @@ class Restreamer {
                     return;
                 }
 
-                Restreamer.startStream(src, streamType, optionalOutput);
+                Restreamer.startStream(streamUrl, streamType);
             }, config.ffmpeg.monitor.restart_wait);
         }
 
@@ -519,9 +509,10 @@ class Restreamer {
                     Restreamer.setTimeout(streamType, 'retry', null);
                     Restreamer.setTimeout(streamType, 'stale', null);
 
-                    Restreamer.updateState(streamType, 'disconnected');
+                    Restreamer.updateState(streamType, 'stopped');
 
                     if(Restreamer.data.userActions[streamType] == 'stop') {
+                        Restreamer.updateState(streamType, 'disconnected');
                         logger.debug('Skipping retry because "stop" has been clicked', streamType);
                         return;
                     }
@@ -607,7 +598,21 @@ class Restreamer {
                 logger.debug('Got "startStream" event for ' + options.streamType);
                 Restreamer.updateUserAction(options.streamType, 'start');
                 Restreamer.updateOptions(options.options);
-                Restreamer.startStream(options.src, options.streamType, options.optionalOutput);
+
+                let streamUrl = '';
+                if(options.streamType == 'repeatToLocalNginx') {
+                    Restreamer.data.addresses.srcAddress = options.src;
+                    streamUrl = options.src;
+                }
+                else if(options.streamType == 'repeatToOptionalOutput') {
+                    Restreamer.data.addresses.optionalOutputAddress = options.optionalOutput;
+                    streamUrl = options.optionalOutput;
+                }
+                else {
+                    return;
+                }
+
+                Restreamer.startStream(streamUrl, options.streamType);
             });
             socket.on('stopStream', (streamType) => {
                 logger.debug('Got "stopStream" event for ' + streamType);
