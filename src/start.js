@@ -54,7 +54,7 @@ nginxrtmp.start()
         return restreamerApp.startWebserver();
     })
     .then(() => {
-        return Q.fcall(Restreamer.restoreFFMpegProcesses);
+        return Q.fcall(Restreamer.restoreProcesses);
     })
     .catch((error) => {
         logger.error('Error starting webserver and nginx for application: ' + error);

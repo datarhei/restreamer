@@ -27,7 +27,7 @@ class Restreamer {
      * generate output hls-path from config-file
      * @returns {string}
      */
-    static generateOutputHLSPath () {
+    static getRTMPStreamUrl() {
         let nginx = config.nginx.streaming;
         let token = process.env.RS_TOKEN || config.auth.token;
 
@@ -44,7 +44,7 @@ class Restreamer {
      * generate output snapshot-path from config-file
      * @returns {string}
      */
-    static generateSnapshotPath () {
+    static getSnapshotPath() {
         return path.join(global.__public, 'images', 'live.jpg');
     }
 
@@ -63,12 +63,12 @@ class Restreamer {
             return;
         }
 
-        let command = new FfmpegCommand(Restreamer.generateOutputHLSPath());
+        let command = new FfmpegCommand(Restreamer.getRTMPStreamUrl());
 
-        command.output(Restreamer.generateSnapshotPath());
+        command.output(Restreamer.getSnapshotPath());
 
-        Restreamer.addOptions(command, "global");
-        Restreamer.addOptions(command, "snapshot");
+        Restreamer.addStreamOptions(command, "global");
+        Restreamer.addStreamOptions(command, "snapshot");
 
         command.on('start', (commandLine) => {
             logger.debug('Spawned: ' + commandLine, 'snapshot');
@@ -86,7 +86,7 @@ class Restreamer {
         command.exec();
     }
 
-    static addOptions(command, name) {
+    static addStreamOptions(command, name) {
         if(!(name in config.ffmpeg.options)) {
             logger.debug('Unknown option: ' + name);
             return;
@@ -166,7 +166,7 @@ class Restreamer {
      * restore the ffmpeg processes from jsondb (called on app start to restore ffmpeg processes
      * after the application has been killed or stuff
      */
-    static restoreFFMpegProcesses() {
+    static restoreProcesses() {
         var db = new JsonDB(config.jsondb, true, false);
 
         Restreamer.data.addresses = db.getData('/addresses');
@@ -458,32 +458,32 @@ class Restreamer {
         // update the state on the frontend
         Restreamer.updateState(streamType, 'connecting');
 
-        let rtmpPath = Restreamer.generateOutputHLSPath();
+        let rtmpUrl = Restreamer.getRTMPStreamUrl();
 
         if(streamType == 'repeatToLocalNginx') {    // repeat to local nginx server
             command = new FfmpegCommand(streamUrl, {
                 stdoutLines: 1
             });
 
-            Restreamer.addOptions(command, 'global');
+            Restreamer.addStreamOptions(command, 'global');
 
             // GUI option
             if(streamType == 'repeatToLocalNginx') {
                 if(Restreamer.data.options.rtspTcp && Restreamer.data.addresses.srcAddress.indexOf('rtsp') == 0) {
-                    Restreamer.addOptions(command, 'rtsp-tcp');
+                    Restreamer.addStreamOptions(command, 'rtsp-tcp');
                 }
             }
 
             // add outputs to the ffmpeg stream
-            command.output(rtmpPath);
+            command.output(rtmpUrl);
             probePromise = Restreamer.probeStream(command, streamType)
         }
         else {  // repeat to optional output
-            command = new FfmpegCommand(rtmpPath, {
+            command = new FfmpegCommand(rtmpUrl, {
                 stdoutLines: 1
             });
 
-            Restreamer.addOptions(command, 'global');
+            Restreamer.addStreamOptions(command, 'global');
 
             // add outputs to the ffmpeg stream
             command.output(streamUrl);
@@ -512,7 +512,7 @@ class Restreamer {
 
         // after adding outputs, define events on the new FFmpeg stream
         probePromise.then((option) => {
-            Restreamer.addOptions(command, option);
+            Restreamer.addStreamOptions(command, option);
 
             command
                 .on('start', (commandLine) => {
@@ -626,7 +626,7 @@ class Restreamer {
     /**
      * bind websocket events on application start
      */
-    static bindWebsocketEvents () {
+    static bindWebsocketEvents() {
         WebsocketsController.setConnectCallback((socket) => {
             socket.emit('publicIp', Restreamer.data.publicIp);
             socket.on('startStream', (options) => {
@@ -666,7 +666,7 @@ class Restreamer {
      * to write it to filesystem
      * @returns {object}
      */
-    static extractDataOfStreams () {
+    static extractDataOfStreams() {
         return {
             'addresses': Restreamer.data.addresses,
             'options': Restreamer.data.options,
@@ -679,7 +679,7 @@ class Restreamer {
      * create with only the data, that is needed by the jsonDb
      * @return {object}
      */
-    static dataForJsonDb () {
+    static dataForJsonDb() {
         return {
             'addresses': Restreamer.data.addresses,
             'options': Restreamer.data.options,
@@ -691,7 +691,7 @@ class Restreamer {
     /**
      * check for updates
      */
-    static checkForUpdates () {
+    static checkForUpdates() {
         const url = {'host': 'datarhei.org', 'path': '/apps.json'};
         logger.debug('Checking for updates...', 'checkForUpdates');
         https.get(url, (response) => {
@@ -716,7 +716,7 @@ class Restreamer {
     /**
      * get public ip
      */
-    static getPublicIp () {
+    static getPublicIp() {
         logger.info('Retrieving public IP ...', 'publicIP');
         publicIp.v4().then(ip => {
             Restreamer.data.publicIp = ip;
