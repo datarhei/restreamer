@@ -1,5 +1,5 @@
 ---
-title: learn-more-features
+title: Fearures
 ---
 # Features
 **Datarhei/Restreamer is free open source live video streaming on your website without streaming provider.**

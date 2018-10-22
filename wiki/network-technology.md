@@ -1,7 +1,8 @@
 ---
-title: network-technology
+title: Network Technology
 ---
-#Network
+# Network Technology
+
 Who operates with live video streaming will will get in contact with of hardware and misc IT technologies. We have put the main parts together for you: 
 
 ## 1. Hardware

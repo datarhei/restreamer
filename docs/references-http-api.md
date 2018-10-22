@@ -1,10 +1,10 @@
 ---
-title: references-http-api
+title: HTTP API
 ---
-######[References](../docs/references-index.html) > JSON/HTTP API
+###### [References](../docs/references-index.html) > JSON/HTTP API
 # JSON/HTTP API
 
-Small http api for additional webapps
+Small HTTP API for additional webapps
 
 * [GET /v1/states](#get-v1-states)
 * [GET /v1/progresses](#get-v1-progresses)

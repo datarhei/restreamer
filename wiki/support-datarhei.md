@@ -1,7 +1,8 @@
 ---
-title: supportdatarhei_en
+title: Support Datarhei
 ---
-#How to support Datarhei?  
+# How to support Datarhei?
+
 The easiest way to support us is certainly to tell everyone how cool you Datarhei is! Share it about your favourite socialmedia page: Facebook, Twitter, Tumblr, Pinterest, YouTube, Blogs, Reddit, Snapchat, Instagramm, G+ or whatever your want. ☺  
 
 A financial method of supporting us is via Social-Payment-Service Flatter <a href="https://flattr.com/submit/auto?user_id=datarhei&url=https%3A%2F%2Fgithub.com%2Fdatarhei%2F" target="_blank"><img src="http://datarhei.org/wiki/pic/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0"></a>  

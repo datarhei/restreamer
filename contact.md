@@ -1,7 +1,7 @@
 ---
 layout: pages
 tab: contact
-title: contact
+title: Contact
 ---
 # Contact  
 ### Email  

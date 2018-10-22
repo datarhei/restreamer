@@ -1,8 +1,10 @@
 ---
-title: sms-power-socket
+title: SMS Power Socket
 ---
-######[Network](../wiki/network-technology.html) > SMS Power Socket
-#SMS Power Socket
+###### [Network](../wiki/network-technology.html) > SMS Power Socket
+
+# SMS Power Socket
+
 Power Socket with SIM card slot. Via SMS commands can be sent to trigger actions like power cycle or ON / OFF. If an SMS sent to the device, the device responds with an SMS, and confirms the action or gives an error.
 Normally this type sockets have neither a network connection or a GUI.  
 

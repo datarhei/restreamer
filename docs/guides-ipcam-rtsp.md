@@ -1,7 +1,8 @@
 ---
-title: guides-ipcam-rtsp
+title: IP Camera
 ---
-######[User Guides](../docs/guides-index.html) > RTMP/RTSP Video Source 
+###### [User Guides](../docs/guides-index.html) > RTMP/RTSP Video Source 
+
 # RTMP/RTSP Video Source (IP camera)
 For the integration of an H.264 enabled network camera you need the address, at which you can retrieve the video livestream from the camera. Take a look at your camera manual and look for RTSP/RTP.  
 

@@ -1,8 +1,10 @@
 ---
-title: moneytization_en
+title: Monetization
 ---
-######[Basic Know How](/restreamer/wiki/basic_know_how.html) > Moneytization
-#Moneytization
+###### [Basic Know How](/restreamer/wiki/basic_know_how.html) > Monetization
+
+# Moneytization
+
 Earn money with your live stream is a nice thing. From experience, however, this is possible only on advertising for large portals with millions of page views.
 
 A nice livestream is quickly becoming magnet for visitors of each website. This is to position it well for small sites possible date content or advertising in the player environment and to benefit from the fact that the visitors come back to throw every day at a glance at the live stream.  

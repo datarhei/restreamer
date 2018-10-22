@@ -1,19 +1,19 @@
 ---
-title: guides-snapshot
+title: Snapshot
 ---
-######[User Guides](../docs/guides-index.html) > Snapshot 
-###What is the Snapshot?
+###### [User Guides](../docs/guides-index.html) > Snapshot 
+### What is the Snapshot?
 
 ---
-###Change Intervall
+### Change Intervall
 
 ---
-###How to embedd the snapshot
+### How to embedd the snapshot
 
 ---
-###Code Examples
+### Code Examples
 
 ---
-###What else to do with a Snapshot?
+### What else to do with a Snapshot?
 
 ---

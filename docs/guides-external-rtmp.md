@@ -1,7 +1,8 @@
 ---
-title: guides-external-rtmp
+title: External RTMP
 ---
-######[User Guides](../docs/guides-index.html) > External RTMP streaming
+###### [User Guides](../docs/guides-index.html) > External RTMP streaming
+
 # External RTMP streaming server
 ---
 To forward your videostream to an external video service provider or other external services like YouTube, you can use the field "Additional RTMP streaming server". The check box is accessible once the connection to your camera is established.  

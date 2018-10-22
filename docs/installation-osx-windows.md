@@ -1,8 +1,8 @@
 ---
-title: installation-osx-windows
+title: Installation OSX / Windows
 ---
-######[Installation](../docs/installation-index.html) > Installation OSX / Windows
-# Installation OSX / Windows  
+###### [Installation](../docs/installation-index.html) > Installation OSX / Windows
+# Installation OSX / Windows
 
 **Requirements:**  
 

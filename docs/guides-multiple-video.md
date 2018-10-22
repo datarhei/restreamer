@@ -1,5 +1,5 @@
 ---
-title: guides-multiple-video
+title: Multiple video sources
 ---
 # How to add multiple video sources to Datarhei/Restreamer
 

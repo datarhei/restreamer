@@ -1,7 +1,7 @@
 ---
 title: Environment Variables
 ---
-######[References](../docs/references-index.html) > Enviroment Variables
+###### [References](../docs/references-index.html) > Enviroment Variables
 # Enviroment Variables
 
 * [NodeJS Port](#nodejs-port)
@@ -15,8 +15,8 @@ title: Environment Variables
 
 ```sh
 docker run ...
-    -e "LOGGER_LEVEL=4" \
-    -e "SNAPSHOT_REFRESH_INTERVAL=10000" \
+    -e "RS_LOGGER_LEVEL=4" \
+    -e "RS_SNAPSHOT_INTERVAL=10000" \
         ...
 ```
 **Kitematic example:**
@@ -63,7 +63,7 @@ Default-Value: Europe/Berlin
 
 #### Login security
 
-To change the default login data please change or set the follogin env. The auth out of [Configuration](references-config.html) are only as fallback.
+To change the default login data please change or set the following env. The auth out of [Configuration](references-config.html) are only as fallback.
 
 Example:
 

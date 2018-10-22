@@ -1,7 +1,7 @@
 ---
-title: guides-faq
+title: FAQ
 ---
-######[Learn more](../docs/learn-more.html) > [Help](../docs/help.html) > FAQ
+###### [Learn more](../docs/learn-more.html) > [Help](../docs/help.html) > FAQ
 # FAQ
 
 1. sound ?

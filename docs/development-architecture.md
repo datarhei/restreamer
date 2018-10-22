@@ -1,7 +1,7 @@
 ---
 title: Architecture
 ---
-######[Development](../docs/development-index.html) > Architecture
+###### [Development](../docs/development-index.html) > Architecture
 # Architecture
 
 The Datarhei/Restreamer basically consists of four different applications:

@@ -1,10 +1,10 @@
 ---
-title: references-config
+title: Configuration
 ---
-######[References](../docs/references-index.html) > Configuration
+###### [References](../docs/references-index.html) > Configuration
 # Configuration
 
-The base configuration file is located on "/conf/live.json". Please don't change its settings if you don't understand the architecture and the software components like NGINX and FFmpeg..
+The base configuration file is located on "/conf/live.json". Please don't change its settings if you don't understand the architecture and the software components like NGINX and FFmpeg.
 
 The user configurations are available at [Enviroment-Variables](references-environment-vars.html).
 
@@ -27,7 +27,7 @@ If you want to add more than one config, you have to change this name to "dev" o
 }
 ```
 
-This sets the path to the Jsondb. More about the Jsondb  [here](https://www.npmjs.com/package/node-jsondb)
+This sets the path to the Jsondb. More about the Jsondb [here](https://www.npmjs.com/package/node-jsondb)
 
 #### auth
 

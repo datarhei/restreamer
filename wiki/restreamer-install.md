@@ -1,4 +1,4 @@
 ---
-title: restreamerinstall_en
+title: Restreamer Installation
 ---
-#Restreamer Installation
+# Restreamer Installation

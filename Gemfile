@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+gem 'github-pages', group: :jekyll_plugins
 
 # Jekyll
 gem "jekyll"
@@ -6,17 +7,17 @@ gem "jekyll-coffeescript"
 gem "jekyll-sass-converter"
 
 # Converters
-gem "kramdown"
-gem "maruku"
-gem "rdiscount"
-gem "redcarpet"
-gem "RedCloth"
+#gem "kramdown"
+#gem "maruku"
+#gem "rdiscount"
+#gem "redcarpet"
+#gem "RedCloth"
 
 # Liquid
 gem "liquid"
 
 # Highlighters
-gem "pygments.rb"
+#gem "pygments.rb"
 
 # Plugins
 #gem "jemoji"

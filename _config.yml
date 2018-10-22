@@ -16,26 +16,12 @@ defaults:
     values:
       layout: wiki
       tab: wiki
-  -
-    scope:
-      path: "wiki/basic_know_how"
-    values:
-      layout: wiki-basic
-  -
-    scope:
-      path: "wiki/general_instructions"
-    values:
-      layout: wiki-general
 
 sass:
   sass_dir: _sass
   style: :compressed
 
 baseurl: "/restreamer"
-highlighter: pygments
 lsi: false
-markdown: redcarpet
-redcarpet:
-  extensions: [with_toc_data, tables]
 safe: true
 source: .

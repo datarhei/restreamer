@@ -1,7 +1,7 @@
 ---
-title: guides-forum
+title: Forum
 ---
-######[Learn more](../docs/learn-more.html) > [Help](../docs/help.html) > Forum
+###### [Learn more](../docs/learn-more.html) > [Help](../docs/help.html) > Forum
 # Forum
 
 ---

@@ -1,8 +1,11 @@
 ---
-title: development-index
+title: Development
 ---
 
 # Development
-###[Architecture](../docs/development-architecture.html)
+
+### [Architecture](../docs/development-architecture.html)
+
+Learn more about how Datarhei/Restreamer works.
 
 ---

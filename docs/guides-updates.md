@@ -1,7 +1,7 @@
 ---
-title: guides-updates 
+title: Updates
 ---
-######[User Guides](../docs/guides-index.html) > Updates
+###### [User Guides](../docs/guides-index.html) > Updates
 # Hot to updates your Datahrei/Restreamer
 
 To update the Restreamer without loosing the data of the input fields it is required to start the Docker-Image with `-v /path/to/local:/restreamer/db` ([here](installation-linux-64.html#declaration-of-the-command)) or a activated volume in Kitematic (Docker Toolbox) ([here](installation-osx-windows.html#important-customizations))!

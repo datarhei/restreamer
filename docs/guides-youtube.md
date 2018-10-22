@@ -1,7 +1,8 @@
 ---
-title: guides-youtube-live
+title: YouTube
 ---
-######[User Guides](../docs/guides-index.html) > YouTube
+###### [User Guides](../docs/guides-index.html) > YouTube
+
 # Streaming to YouTube-Live over RTMP
 To forward your videostream to YouTube-Live, you can use the field "Additional RTMP streaming server". The check box is accessible once the connection to your camera is established.  
 <img src="../img/references-external-rtmp-streaming-server.png" width="95%">

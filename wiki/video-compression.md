@@ -1,8 +1,10 @@
 ---
-title: video-compression
+title: Video Compression
 ---
-######[Camera](../wiki/camera-technology.html) > Video Compression
-#Video Compression
+###### [Camera](../wiki/camera-technology.html) > Video Compression
+
+# Video Compression
+
 ## Example to understand video compression
 Imagine a green meadow against a cloudless blue sky. On this meadow there is  a cow thatmoves. If the cow is moving, quite simply transfer the image of the cow often. Meadow and sky do not change so often in the frames and so data can be saved. Very simple principle.  
 
@@ -19,7 +21,7 @@ This means that a lot of moving objects or even large areas of water in the pict
 **Datarhei Hint** ☺ ► This are empirical values from 10 years live streaming, it can always happen anyway that a stream much more or less uplaod needed (usually more!).  
 
 ---
-##Scenarios  
+## Scenarios  
 * Rooftops / Still Life / No Movment - less bandwidth  
 * Scenics - less bandwidth  
 * Street - more bandwidth  
@@ -27,7 +29,7 @@ This means that a lot of moving objects or even large areas of water in the pict
 * Night - a lot of bandwidth  
 * River / Water - a lot of bandwidth  
 
-##Rule of thumb for bandwidth in these scenarios (all upload speed) for a static network camera 720p resolution
+## Rule of thumb for bandwidth in these scenarios (all upload speed) for a static network camera 720p resolution
 Rooftops 720p → 100 Kbit/s to 1 Mbit/s  
 Scenics 720p → 0.5 Kbit/s - 1.2 Mbit/s  
 Street 720p → from 0.5 Kbit/s - 2 Mbit/s  

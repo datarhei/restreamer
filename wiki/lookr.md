@@ -1,9 +1,11 @@
 ---
-title: lookr
+title: Lookr
 ---
-######[Basic Know How](../wiki/basic-know-how.html) > [Webcam Portals](../wiki/webcam-portals.html) > Lookr.com
-#Lookr.com
-##Stream your Datarhei/Restreamer direct to Lookr.com!
+###### [Basic Know How](../wiki/basic-know-how.html) > [Webcam Portals](../wiki/webcam-portals.html) > Lookr.com
+
+# Lookr.com
+
+## Stream your Datarhei/Restreamer direct to Lookr.com!
 
 We have a agreement with Lookr. If you want to present your camera a larger group of spectators do the following:
 

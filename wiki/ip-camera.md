@@ -1,8 +1,10 @@
 ---
-title: ip-camera
+title: IP Camera
 ---
-######[Network](../wiki/network-technology.html) > IP Camera
-#IP Camera
+###### [Network](../wiki/network-technology.html) > IP Camera
+
+# IP Camera
+
 An Internet protocol camera, or IP camera, is a type of digital video camera commonly employed for surveillance, and which, unlike analog closed circuit television (CCTV) cameras, can send and receive data via a computer network and the Internet. Although most cameras that do this are webcams, the term "IP camera" or "netcam" is usually applied only to those used for surveillance. The first centralized IP camera was Axis Neteye 200, released in 1996 by Axis Communications.  
 
 There are two kinds of IP cameras:  

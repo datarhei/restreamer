@@ -1,7 +1,7 @@
 ---
-title: references-udpates
+title: Updates
 ---
-######[User Guides](../docs/guides-index.html) > Updates
+###### [User Guides](../docs/guides-index.html) > Updates
 # Hot to updates your Datahrei/Restreamer
 
 To update the Restreamer without loosing the data of the input fields it is required to start the Docker-Image with `-v /path/to/local:/restreamer/db` ([here](installation-linux-64.html#declaration-of-the-command)) or a activated volume in Kitematic (Docker Toolbox) ([here](installation-osx-windows.html#important-customizations))!
@@ -53,7 +53,7 @@ That's it!
   start the Restreamer again (please remember to modify if you have your own configuration):   
    
    ```
-   # docker run -d --name restreamer --restart always -e "RESTREAMER_USERNAME=YOUR-USERNAME" -e "RESTREAMER_PASSWORD=YOUR-PASSWORD" -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db datarhei/restreamer:latest
+   # docker run -d --name restreamer --restart always -e "RS_USERNAME=YOUR-USERNAME" -e "RS_PASSWORD=YOUR-PASSWORD" -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db datarhei/restreamer:latest
    ```
 
 Finished!

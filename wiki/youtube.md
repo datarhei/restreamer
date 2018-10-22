@@ -1,7 +1,8 @@
 ---
-title: youtube_en
+title: YouTube
 ---
-#YouTube.com
+# YouTube
+
 Everyone should know: <a href="https://www.youtube.com" target="_blank">https://www.youtube.com</a>. If not (!): <a href="https://de.wikipedia.org/wiki/YouTube" target="_blank">Wikipedia</a>  
 
 A good start into livestreaming with YouTube is this page: <a href="https://support.google.com/youtube/answer/2474026?hl=en" target="_blank">https://support.google.com/youtube/answer/2474026?hl=en</a>   

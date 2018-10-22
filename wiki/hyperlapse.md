@@ -1,4 +1,4 @@
 ---
-title: hyperlapse
+title: Hyperlapse
 ---
-#Hyperlapse
+# Hyperlapse

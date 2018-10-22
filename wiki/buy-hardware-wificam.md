@@ -1,8 +1,10 @@
 ---
-title: buy-hardware-wificam
+title: Buy WiFi Camera
 ---
-######[Buy Hardware](../wiki/buy-hardware-index.html) > Buy Indoor WiFi Camera
-#Buy Indoor WiFi Camera
+###### [Buy Hardware](../wiki/buy-hardware-index.html) > Buy Indoor WiFi Camera
+
+# Buy Indoor WiFi Camera
+
 #### Basically a network cable is always preferable to a wireless LAN connection. If a cable embarrassed but is too laborious, a Wi-Fi camera can be useful in an emergency.
 
 ```sh
@@ -26,7 +28,7 @@ CAUTION: Indoor cameras are not waterproof or heated and therefore not suitable 
 
 ***
 
-#Buy Outdoor WiFi Camera
+# Buy Outdoor WiFi Camera
 
 ***
 <a target= "_blank" rel="nofollow" href="http://www.amazon.de/gp/offer-listing/B011O8NSGY/ref=as_li_tl?ie=UTF8&camp=1638&creative=6742&creativeASIN=B011O8NSGY&linkCode=am2&tag=httpwwwdatarh-21">Foscam FI9900P Outdoor Bullet Camera, 2.0 MP 1080p Resolution Waterproof IP 66, 20m Night Vision (price about 120 EUR)</a><img src="http://ir-de.amazon-adsystem.com/e/ir?t=httpwwwdatarh-21&l=am2&o=3&a=B011O8NSGY" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />  

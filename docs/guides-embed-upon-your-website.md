@@ -1,7 +1,7 @@
 ---
-title: guides-embed-on-your-website
+title: Embed
 ---
-######[User Guides](../docs/guides-index.html) > Embedding 
+###### [User Guides](../docs/guides-index.html) > Embedding 
 # Embedding the video stream on your Website
 
 To embed the Player and/or the Snapshot follow the next steps:

@@ -1,31 +1,31 @@
 ---
-title: Datarhei/Restreamear - Case Study 2
+title: Case Study 2
 ---
-######[Demo](../docs/demo-index.html) > Case Study Demo >> Case Study 2
-#Case Study 2
+###### [Demo](../docs/demo-index.html) > Case Study Demo >> Case Study 2
+# Case Study 2
 Projects done with Datarhei/Restreamer
 
-###Datarhei/Restreamer with two cameras. One AXIS indoor IP and a Raspicam
-###Mission  
+### Datarhei/Restreamer with two cameras. One AXIS indoor IP and a Raspicam
+### Mission  
 Streaming a backyard with a Raspberry Pi2 and a static outdoor network camera by Samsung. The installation is easy because of short ways from installation place of the IP camera to the router and the internet connection. The Raspberry Pi is placed directly between the router. ADSL with 2 Mbit/s uploadspeed is available to upload. 
 
 <img src="../img/case-study-1.jpg" width="50%" height="50%">
 
 ---
-###Requirements
+### Requirements
 * Running internet connection
 * Configured router or switch 
 * Working LAN
 * Power(230V)
 
 ---
-###Setup Scheme
+### Setup Scheme
 A little handwritten or simple made scheme with graphic programm helps to see things clearer. There are special tools for schemes if you want to use one google gives you tons of information about this.  
 
 <img src="../img/learn-more-assembly-scheme.png" width="50%" height="50%"> 
 
 --
-###Hardware and Software
+### Hardware and Software
 * Raspberry Pi2 with Datarhei/Restreamer running
 * Power supply for Rasbperry Pi
 * Memory card (>8GB)
@@ -38,7 +38,7 @@ A little handwritten or simple made scheme with graphic programm helps to see th
 <img src="../img/case-study-2.jpg" width="50%" height="50%">
 
 ---
-###Installation Material
+### Installation Material
 * CAT ethernet cable to connect the Raspberry Pi to your LAN/Router/Switch
 * CAT ethernet cable to connect the Samsung IP camera to your LAN/Router/Switch
 * RJ 45 plugs if you crimp your network cable
@@ -49,7 +49,7 @@ A little handwritten or simple made scheme with graphic programm helps to see th
 * And hammer and Swiss Army Knife is always a good choice :D
 
 ---
-###The Installation
+### The Installation
 * Install your etherne cable for the IP camera to your POE/LAN (Some cases might need 230V cable if POE is not supported by camera)
 * Mount IP Camera at wall
 * Connect to your LAN/Router/Switch with the network cable
@@ -59,7 +59,7 @@ A little handwritten or simple made scheme with graphic programm helps to see th
 
 <img src="../img/case-study-3.jpg" width="50%" height="50%">
 
-###Start streming
+### Start streming
 * Open Restreamer in Browser and start streaming!
 
 

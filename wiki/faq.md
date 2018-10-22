@@ -1,7 +1,7 @@
 ---
 layout: pages
 tab: faq
-title: faq
+title: FAQ
 ---
 #Frequently Asked Questions
 ##1. What is Datarhei/Restreamer?

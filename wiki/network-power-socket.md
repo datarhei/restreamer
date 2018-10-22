@@ -1,8 +1,10 @@
 ---
-title: network-power-socket
+title: Network Power Socket
 ---
-######[Network](../wiki/network-technology.html) > Network Power Socket
-#Network Power Socket
+###### [Network](../wiki/network-technology.html) > Network Power Socket
+
+# Network Power Socket
+
 Network-compatible power sockets are a good choice to reduce the support of your system. About the GSM (mobile), network (LAN) or internet (WWW), the socket can be switched. To powercycle is very easy with this hardware.
 
 Watchdog is often supported. The watchdog automatically restarts your equipment as soon as they are no longer accessible on the network.

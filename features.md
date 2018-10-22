@@ -1,12 +1,13 @@
 ---
 layout: pages
-tab: contact
-title: learn-more-features
+tab: features
+title: Features
 ---
 # Features
-##Datarhei/Restreamer is free open source live video streaming on your website without streaming provider.**
 
-###Contents:  
+Datarhei/Restreamer is free open source live video streaming on your website without streaming provider.
+
+### Contents:  
 * [Core features](#datarhei-restreamer-core-features)  
 * [Input video sources](#input-video-sources)  
 * [Output external RTMP](#output-external-rtmp-live-video)  

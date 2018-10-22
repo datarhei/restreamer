@@ -1,8 +1,10 @@
 ---
-title: transport-protocol
+title: Transport Protocol
 ---
-######[Basic Know How](../wiki/basic-know-how.html) > Transport Protocol
-#Transport Protocol
+###### [Basic Know How](../wiki/basic-know-how.html) > Transport Protocol
+
+# Transport Protocol
+
 The Internet consists of a variety of different protocols, so that eg. Server can communicate with websites, browser together. For video, there are special transport connection protocols that are used.
 
 Here the most important protocols:
@@ -17,5 +19,3 @@ Here the most important protocols:
 
 ---  
 **Datarhei Hint** ☺ ► HLS streaming is required for iOS devices and Safari browser. This is supported by the CLappr.io player delivered by Datarhei engine.
-
----

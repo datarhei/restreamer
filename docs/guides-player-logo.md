@@ -1,7 +1,8 @@
 ---
-title: guides-player-logo
+title: Logo
 ---
-######[User Guides](../docs/guides-index.html) > Player Logo 
+###### [User Guides](../docs/guides-index.html) > Player Logo
+
 ### How to add/change the watermark in your video player
 
 Datarhei/Restreamer uses the open source video player clappr.io full documentation on clappr player and more things

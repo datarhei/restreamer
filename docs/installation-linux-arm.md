@@ -1,7 +1,7 @@
 ---
-title: installation-linux-arm
+title: Installation Linux ARMv6l / ARMv7l
 ---
-######[Installation](../docs/installation-index.html) > Installation Linux ARMv6l / ARMv7l
+###### [Installation](../docs/installation-index.html) > Installation Linux ARMv6l / ARMv7l
 # Installation Linux ARMv6l / ARMv7l
 
 **Requirements:**
@@ -17,7 +17,7 @@ Verified with <a target= "_blank" href="https://www.raspberrypi.org/products/mod
 1. Copy the <a target= "_blank" href="http://blog.hypriot.com/getting-started-with-docker-on-your-arm-device/">Hypriot-Image</a> to your SD-Card or download and install the <a target= "_blank" href="http://blog.hypriot.com/downloads/#hypriot-docker-debian-dackages-for-raspberry-pi">Hypriot Docker Debian Packages for Raspberry Pi</a>  
 2. login to your ARMv6l-Board and start the Restreamer with:    
    ```
-   # docker run -d --name restreamer --restart always -e "RESTREAMER_USERNAME=YOUR-USERNAME" -e "RESTREAMER_PASSWORD=YOUR-PASSWORD" -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db datarhei/restreamer-armv6l:latest
+   # docker run -d --name restreamer --restart always -e "RS_USERNAME=YOUR-USERNAME" -e "RS_PASSWORD=YOUR-PASSWORD" -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db datarhei/restreamer-armv6l:latest
    ```
 3. Browse to http://your-device-ip:8080
 
@@ -36,7 +36,7 @@ Tested with <a target= "_blank" href="https://www.raspberrypi.org/products/raspb
 1. Copy the <a target= "_blank" href="http://blog.hypriot.com/getting-started-with-docker-on-your-arm-device/">Hypriot-Image</a> to your SD-Card or download and install the <a target= "_blank" href="http://blog.hypriot.com/downloads/#hypriot-docker-debian-dackages-for-raspberry-pi">Hypriot Docker Debian Packages for Raspberry Pi</a>  
 2. start the Restreamer with:    
    ```
-   # docker run -d --name restreamer --restart always -e "RESTREAMER_USERNAME=YOUR-USERNAME" -e "RESTREAMER_PASSWORD=YOUR-PASSWORD" -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db datarhei/restreamer-armv7l:latest
+   # docker run -d --name restreamer --restart always -e "RS_USERNAME=YOUR-USERNAME" -e "RS_PASSWORD=YOUR-PASSWORD" -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db datarhei/restreamer-armv7l:latest
    ```
 3. Browse to http://your-device-ip:8080
 
@@ -54,7 +54,7 @@ The default login (more [here](references-environment-vars.html#login-security))
    ```
 3. Start the Restreamer with:    
    ```
-   # docker run -d --name restreamer --restart always -e "RESTREAMER_USERNAME=YOUR-USERNAME" -e "RESTREAMER_PASSWORD=YOUR-PASSWORD" -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db datarhei/restreamer-armv7l:latest
+   # docker run -d --name restreamer --restart always -e "RS_USERNAME=YOUR-USERNAME" -e "RS_PASSWORD=YOUR-PASSWORD" -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db datarhei/restreamer-armv7l:latest
    ```
 4. Browse to http://your-device-ip:8080
 
@@ -71,7 +71,7 @@ The default login (more [here](references-environment-vars.html#login-security))
   you can login into the container by typing "docker exec -it restreamer /bin/bash"
 * --restart always   
   the Docker-Daemon is monitoring your container and will start it it again, if it runs into errors. 
-* -e `"RESTREAMER_USERNAME=..."` -e `"RESTREAMER_PASSWORD=..."`   
+* -e `"RS_USERNAME=..."` -e `"RS_PASSWORD=..."`   
   set the login data as enviroment-variable (more [here](references-environment-vars.html#login-security))
 * -p 8080:8080   
   bind the device-port 8080 to the Restreamer-port 8080 (you can change it with "-p 31000:8080")
