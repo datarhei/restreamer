@@ -1,17 +1,27 @@
 ## Changes from 0.1.0-rc7 to 0.1.0
 
-* switched to Alpine-Linux
-* switched to mutlistage Dockerfiles for AMD64 and ARMHF (req. Docker 17.x) and removed old files
-  * https://hub.docker.com/r/datarhei/ffmpeg/
-  * https://hub.docker.com/r/datarhei/nginx-rtmp/
-* updated to FFmpeg 3.1.10
-* updated NPM/Bower packages
-* fixed public-ip problem
-* disabled FFmpeg "error-detection" for a vlc-like feeling
-* added optional rtmp-token-authentification (default is without token. token can be set with env RS_TOKEN or in the live.json config.)
-* updated NGINX to 1.13.4 and RTMP-Module to latest dev-version
-* switched nginx-init-check to an http-call ("ps aux" on Alpine is problematic)
-* allowed http/https (hls) and rtmpt/rtmps addresses as video source 
+* Update FFmpeg to 4.0.2
+* Update NGINX to 1.14.0
+* Update NGINXRTMP module to 1.2.1
+* Update node.js to 8.12.0
+* Update NPM packages
+* Fix detection of public IP
+* Disable FFmpeg error detection for a VLC-like behaviour
+* Add optional RTMP token authentification
+* Add health check to NGINX
+* Allow HTTP/HTTPS (HLS) and RTMPT/RTMPS addresses as video source
+* Add optional autostart for the player
+* Add Spanish translation for the GUI
+* Add aarch64/arm64v8 Dockerfile
+* Reduce docker image size
+* Fix snapshot interval parsing
+* Allow to disable snapshot
+* Add RS_SNAPSHOT_INTERVAL environment variable, deprecate RS_SNAPSHOT_REFRESH_INTERVAL
+* Remove stream connection retry limits
+* Add stale stream detection with automatic restart
+* Add RS_DEBUG_FFMPEG environment variable to store FFmpeg debug output to /debug
+* Add RS_AUDIO environment variable to control audio processing
+* Redesign logging output and logging messages
 
 ## Changes from 0.1.0-rc7 to 0.1.0-rc.7.1
 
