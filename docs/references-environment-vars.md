@@ -1,8 +1,14 @@
 ---
 title: Environment Variables
 ---
-###### [References](../docs/references-index.html) > Enviroment Variables
+###### [References](references-index.html) > Enviroment Variables
+
 # Enviroment Variables
+
+You can control the default behaviour of the Datarhei/Restreamer with environment variables. Currently these environment variables are
+understood and supported by Datarhei/Restreamer:
+
+* `RS_SNAPSHOT_INTERVAL`
 
 * [NodeJS Port](#nodejs-port)
 * [Logger level](#logger-level)
@@ -10,6 +16,16 @@ title: Environment Variables
 * [Login security](#login-security)
 * [Snapshot refreash interval](#snapshot-refreash-interval)
 * [Create heapdumps](#create-heapdumps)
+
+**Shell example:**
+
+```sh
+export RS_LOGGER_LEVEL=4
+export RS_SNAPSHOT_INTERVAL=10000
+...
+
+./run.sh
+```
 
 **Docker example:**
 
