@@ -1,4 +1,4 @@
-FROM FROM arm32v7/debian:stretch-slim
+ARG IMAGE=arm32v7/debian:stretch-slim
 
 FROM $IMAGE as builder
 
