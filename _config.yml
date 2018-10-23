@@ -1,27 +1,36 @@
 defaults:
-  -
-    scope:
+  - scope:
       path: ""
     values:
       layout: default
-  -
-    scope:
+  - scope:
       path: "docs"
     values:
       layout: docs
       tab: docs
-  -
-    scope:
+  - scope:
       path: "wiki"
     values:
       layout: wiki
       tab: wiki
 
-sass:
-  sass_dir: _sass
-  style: :compressed
+exclude:
+  - db
+  - node_modules
+  - src
+  - Dockerfile
+  - vendor
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - LICENSE
 
+sass:
+  style: compressed
+
+plugins:
+  - jekyll-sitemap
+  - jekyll-redirect-from
+
+encoding: utf-8
 baseurl: "/restreamer"
-lsi: false
-safe: true
-source: .

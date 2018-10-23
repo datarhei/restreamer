@@ -1,14 +1,16 @@
-FROM node:4.2.2-slim
+FROM alpine:latest
 
-RUN apt-get update && \
-    apt-get install -y gem ruby-dev make autoconf python-dev
+RUN apk update && apk upgrade && \
+    apk add ruby-dev ruby-rdoc ruby-bigdecimal ruby-webrick ruby-etc build-base zlib-dev
 
-COPY . /restreamer
-WORKDIR /restreamer
+WORKDIR /gh-pages
 
-RUN apt-get install -y ruby rubygems-integration build-essential
+COPY run.sh /usr/local/bin
+COPY Gemfile /gh-pages
 
-RUN gem install RedCloth bundler
-RUN bundle install
+RUN gem install bundler && bundle install
 
-CMD ["bundle", "exec", "jekyll", "serve", "-H", "0.0.0.0", "-w"]
+EXPOSE 4000
+VOLUME /gh-pages
+
+CMD ["/usr/local/bin/run.sh"]

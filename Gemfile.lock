@@ -243,12 +243,6 @@ PLATFORMS
 
 DEPENDENCIES
   github-pages
-  jekyll
-  jekyll-coffeescript
-  jekyll-redirect-from
-  jekyll-sass-converter
-  jekyll-sitemap
-  liquid
 
 BUNDLED WITH
    1.16.6
