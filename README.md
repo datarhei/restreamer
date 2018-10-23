@@ -1,27 +1,9 @@
 # Restreamer docs and website
 
-## Setup
+## Setup, Develop, and Deploy
 
 1. Clone the Restreamer repository:   
    
-        $ git clone git@github.com:datarhei/restreamer.git gh-pages
-
-2. Change into the directory where docs live
-
-        $ cd /path/to/gh-pages
-
-3. Start the web server
-
-        $ docker run -d -p 4000:4000 -v $PWD:/restreamer datarhei/jekyll:latest
-
-4. Visit the site at
-   http://docker-host-ip:4000/restreamer/
-
-## Deployment
-
-1. Clone a separate copy of the Restreamer repo as a sibling of your normal
-   Restreamer project directory and name it "gh-pages".
-
         $ git clone git@github.com:datarhei/restreamer.git gh-pages
 
 2. Check out the "gh-pages" branch.
@@ -29,7 +11,25 @@
         $ cd /path/to/gh-pages
         $ git checkout gh-pages
 
-3. Commit and push the changes
+3. Build the docker image with Jekyll
 
-        $ git commit . -m "Syncing with gh-pages branch"
+        $ docker build -t jekyll:restreamer .
+
+4. Start the web server
+
+        $ docker run -d -p 4000:4000 -v ${PWD}:/gh-pages jekyll:restreamer
+
+5. Visit the site at http://localhost:4000/restreamer/
+
+6. Edit the pages. Pages get automatically rebuild as soon as you save them.
+
+7. Commit your changes
+
+        $ git add [your changes files]
+        $ git commit -m "[describe your changes]"
+
+8. Push your changes
+
         $ git push origin gh-pages
+
+9. The page is now available on https://datarhei.github.io/restreamer/
