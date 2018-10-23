@@ -125,7 +125,7 @@
     },
     "envVars": [
         {
-            "name": "RS_NODE_PORT",
+            "name": "RS_NODEJS_PORT",
             "alias": [
                 "NODEJS_PORT"
             ],
@@ -135,7 +135,7 @@
             "description": "Webserver port of application."
         },
         {
-            "name": "RS_NODE_ENV",
+            "name": "RS_NODEJS_ENV",
             "alias": [
                 "NODE_ENV"
             ],
@@ -145,7 +145,7 @@
             "description": "Node.js Environment ('dev' or 'prod')."
         },
         {
-            "name": "RS_LOGGER_LEVEL",
+            "name": "RS_LOGLEVEL",
             "alias": [
                 "LOGGER_LEVEL"
             ],
@@ -176,16 +176,6 @@
             "description": "Interval for new snapshots (in milliseconds, use suffix 's' for seconds, 'm' for minutes). Use a value of 0 to disable snapshots."
         },
         {
-            "name": "RS_CREATE_HEAPDUMPS",
-            "alias": [
-                "CREATE_HEAPDUMPS"
-            ],
-            "type": "bool",
-            "defaultValue": "false",
-            "required": false,
-            "description": "Create Heapdumps of application."
-        },
-        {
             "name": "RS_USERNAME",
             "alias": [
                 "RESTREAMER_USERNAME"
@@ -206,10 +196,18 @@
             "description": "Password for the backend."
         },
         {
-            "name": "RS_DEBUG_FFMPEG",
+            "name": "RS_DEBUG_HEAPDUMPS",
             "alias": [
-                "RS_FFMPEG_DEBUG"
+                "CREATE_HEAPDUMPS"
             ],
+            "type": "bool",
+            "defaultValue": "false",
+            "required": false,
+            "description": "Create heapdumps of application."
+        },
+        {
+            "name": "RS_DEBUG_FFMPEG",
+            "alias": [],
             "type": "bool",
             "defaultValue": false,
             "required": false,
