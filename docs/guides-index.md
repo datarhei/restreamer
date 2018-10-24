@@ -1,37 +1,35 @@
 ---
 title: Guides
 ---
-# User Guides  
 
-### [IP Camera](../docs/guides-ipcam-rtsp.html)  
-Run your H.264 network camera to stream it live.
+## IP Camera
+How to stream from your H.264 network camera.
+[Read more](guides-ipcam-rtsp.html).
 
----
-### [Raspicam](../docs/guides-raspicam.html)  
-Use Raspberry Pi camera board or the NOIR.
+## Raspicam
+How to stream from your Raspberry Pi camera (V1, V2, and NoIR).
+[Read more](guides-raspicam.html).
 
----
-### [USB Camera](../docs/guides-usb-camera.html)  
-For some cases a good choice.
+## USB Camera
+How to stream from your USB camera.
+[Read more](guides-usb-camera.html).
 
----
-### [Embedding](../docs/guides-embed-upon-your-website.html)  
-Easy embedding on your website with HTML iframe snippet.
+## Embedding
+How to embed your stream into your website with a simple HTML code snippet.
+[Read more](guides-embedding.html).
 
----
-### [YouTube](../docs/guides-youtube.html)  
-Stream to YouTube-Live.
+## External RTMP
+How to stream to an external RTMP service such as livestream.com, ustream.com, Twitch, etc.
+[Read more](guides-external-rtmp.html).
 
----
-### [External RTMP](../docs/guides-external-rtmp.html)  
-Streaming to external RTMP services (Livestream, Usteram, Twitch, etc)
+## YouTube
+How to stream to YouTube-Live.
+[Read more](guides-youtube.html).
 
----
-### [WOWZA](../docs/guides-push-to-wowza.html)  
-Stream your Datarhei/Restreamer to the industry standard for video streaming software.
+## Wowza
+How to stream to the industry standard for video streaming software.
+[Read more](guides-wowza.html).
 
----
-### [Updates](../docs/guides-updates.html)  
+## Updating
 How to update your Datahrei/Restreamer.
-
----
+[Read more](guides-updates.html).

@@ -1,41 +1,40 @@
 ---
 title: Network Technology
 ---
-# Network Technology
 
-Who operates with live video streaming will will get in contact with of hardware and misc IT technologies. We have put the main parts together for you: 
+If you operates with live video streaming will get in contact with of hardware and miscellaneous IT technologies. We have put the main parts together for you. 
 
-## 1. Hardware
-* [IP Camera](../wiki/ip-camera.html)  
-* [USB-Camera](../wiki/usb-camera.html)
-* [POE](../wiki/poe.html)
-* [Network Power Socket](../wiki/network-power-socket.html)  
-* [SMS Power Socket](../wiki/sms-power-socket.html)
-* [Router](../wiki/router.html)
-* [Network Switch](../wiki/network-switch.html)   
+## Hardware
+* [IP Camera](ip-camera.html)  
+* [USB-Camera](usb-camera.html)
+* [POE](poe.html)
+* [Network Power Socket](network-power-socket.html)  
+* [SMS Power Socket](sms-power-socket.html)
+* [Router](router.html)
+* [Network Switch](network-switch.html)   
 
-## 2. Internet Access
+## Internet Access
 * [Firewall](firewall.html)
-* [Port 1935](../wiki/port-1935.html)
-* [Port 554](../wiki/port-554.html)
-* [ADSL](../wiki/adsl.html)
-* [SDSL](../wiki/sdsl.html)
-* [VDSL](../wiki/vdsl.html)
-* [UMTS (3G)](../wiki/umts.html)
-* [LTE (4G)](../wiki/lte.html)
-* [Data Volume](../wiki/data-volume.html)  
-* [Upload](../wiki/upload.html)
-* [Download](../wiki/download.html)  
+* [Port 1935](port-1935.html)
+* [Port 554](port-554.html)
+* [ADSL](adsl.html)
+* [SDSL](sdsl.html)
+* [VDSL](vdsl.html)
+* [UMTS (3G)](umts.html)
+* [LTE (4G)](lte.html)
+* [Data Volume](data-volume.html)  
+* [Upload](upload.html)
+* [Download](download.html)  
 
-## 3. Server  
-* [Web-Hosting](../wiki/web-hosting.html)  
-* [Root-Server](../wiki/root-server.html)
+## Server  
+* [Web-Hosting](web-hosting.html)  
+* [Root-Server](root-server.html)
    
-## 4. Software Development  
-* [Node.js](../wiki/nodejs.html)
-* [Docker](../wiki/docker.html)
+## Software Development  
+* [Node.js](nodejs.html)
+* [Docker](docker.html)
 
-## 5. Miscellaneous
-* [Dynamic DNS](../wiki/dynamic-dns.html) 
-* [Dynamic IP (DHCP)](../wiki/dynamic-ip.html)  
-* [Static IP](../wiki/static-ip.html)
+## Miscellaneous
+* [Dynamic DNS](dynamic-dns.html) 
+* [Dynamic IP (DHCP)](dynamic-ip.html)  
+* [Static IP](static-ip.html)

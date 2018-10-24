@@ -1,25 +1,22 @@
 ---
 title: Camera Technology
 ---
-# Camera
 
 You will find the most important terms associated with cameras in this wiki section.  
 
----  
-**Datarhei Hint** ☺ ► you can find regular small hints and tips & tricks or relevant for Datarhei information among the explanations.  
+## Topics
 
----
-##### 1. [Live Streaming](../wiki/live-streaming.html) 
-##### 2. [Video Compression](../wiki/video-compression.html)  
-##### 3. [MJPEG](../wiki/mjpeg.html)  
-##### 4. [H.264](../wiki/h264.html)  
-##### 5. [Iris Control / Auto Iris](../wiki/iris-control.html)  
-##### 6. [Autofocus](../wiki/autofocus.html)  
-##### 7. [Time-Block](../wiki/timeblock.html)  
-##### 8. [PTZ](../wiki/ptz.html)
-##### 9. [Snapshot](../wiki/snapshot.html)  
-##### 10. [Time Lapse](../wiki/timelapse.html) 
-##### 11. [Frame Rate (FPS)](../wiki/framerate.html)  
-##### 12. [I-Frame/GOP/GOV](../wiki/iframe.html)  
-##### 13. [Video Resolution](../wiki/video-resolution.html) 
-##### 14. [Encoding](../wiki/encoding.html)
+- [Live Streaming](live-streaming.html) 
+- [Video Compression](video-compression.html)  
+- [MJPEG](mjpeg.html)  
+- [H.264](h264.html)  
+- [Iris Control / Auto Iris](iris-control.html)  
+- [Autofocus](autofocus.html)  
+- [Time-Block](timeblock.html)  
+- [PTZ](ptz.html)
+- [Snapshot](snapshot.html)  
+- [Time Lapse](timelapse.html) 
+- [Frame Rate (FPS)](framerate.html)  
+- [I-Frame/GOP/GOV](iframe.html)  
+- [Video Resolution](video-resolution.html) 
+- [Encoding](encoding.html)

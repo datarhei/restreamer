@@ -1,0 +1,85 @@
+# main links
+main:
+  - title: "Get Started"
+    url: docs/installation-index.html
+  - title: "Documentation"
+    url: docs/index.html
+  - title: "FAQ"
+    url: faq.html
+  - title: "Wiki"
+    url: wiki/index.html
+  - title: "Contact"
+    url: contact.html
+
+docs:
+  - title: Installation
+    url: docs/installation-index.html
+    children:
+      - title: Windows / macOS
+        url: docs/installation-osx-windows.html
+      - title: Linux
+        url: docs/installation-linux-64.html
+      - title: Raspberry Pi / ARM
+        url: docs/installation-linux-arm.html
+  - title: User Guides
+    url: docs/guides-index.html
+    children:
+      - title: IP Camera
+        url: docs/guides-ipcam-rtsp.html
+      - title: Raspicam
+        url: docs/guides-raspicam.html
+      - title: USB Camera
+        url: docs/guides-usb-camera.html
+      - title: Embedding
+        url: docs/guides-embedding.html
+      - title: External RTMP
+        url: docs/guides-external-rtmp.html
+      - title: YouTube
+        url: docs/guides-youtube.html
+      - title: Wowza
+        url: docs/guides-wowza.html
+      - title: Updating
+        url: docs/guides-updates.html
+  - title: References
+    url: docs/references-index.html
+    children:
+      - title: Configuration
+        url: docs/references-config.html
+      - title: Environment Variables
+        url: docs/references-environment-vars.html
+      - title: HTTP API
+        url: docs/references-http-api.html
+  - title: Development
+    url: docs/development-index.html
+    children:
+      - title: Architecture
+        url: docs/development-architecture.html
+  - title: Learn more
+    url: docs/learn-more.html
+  - title: Demo
+    url: docs/demo-index.html
+
+wiki:
+  - title: Wiki
+    url: wiki/index.html
+  - title: Technology
+    children:
+      - title: Basics
+        url: wiki/basic-know-how.html
+      - title: Camera
+        url: wiki/camera-technology.html
+      - title: Network
+        url: wiki/network-technology.html
+  - title: Hardware
+    children:
+      - title: Requirements
+        url: wiki/requirements.html
+      - title: Buy Hardware
+        url: wiki/buy-hardware-index.html
+  - title: Miscellaneous
+    children:
+      - title: Streaming partner
+        url: wiki/partner-streaming.html
+      - title: Support Datarhei
+        url: wiki/support-datarhei.html
+

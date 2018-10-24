@@ -2,17 +2,20 @@ defaults:
   - scope:
       path: ""
     values:
-      layout: default
+      layout: single
+      classes: wide
   - scope:
       path: "docs"
     values:
-      layout: docs
-      tab: docs
+      layout: single
+      sidebar:
+        nav: "docs"
   - scope:
       path: "wiki"
     values:
-      layout: wiki
-      tab: wiki
+      layout: single
+      sidebar:
+        nav: "wiki"
 
 exclude:
   - db
@@ -31,6 +34,17 @@ sass:
 plugins:
   - jekyll-sitemap
   - jekyll-redirect-from
+  - jekyll-gist
+  - jemoji
+  - jekyll-include-cache
+
+#remote_theme: "mmistakes/minimal-mistakes"
+# possible other theme: https://jekyllthemes.io/theme/feeling-responsive
+
+# Theme configuration
+title: Restreamer
+repository: "datarhei/restreamer"
+minimal_mistakes_skin: "contrast"
 
 encoding: utf-8
 baseurl: "/restreamer"

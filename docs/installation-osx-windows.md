@@ -1,19 +1,18 @@
 ---
-title: Installation OSX / Windows
+title: Installation Windows / macOS
 ---
-###### [Installation](../docs/installation-index.html) > Installation OSX / Windows
-# Installation OSX / Windows
 
-**Requirements:**  
+## Requirements
 
 * 64bit Intel or AMD CPU
-* OSX 10.8+ (Mountain Lion or newer) or Windows 7+ (or later) 
+* OSX 10.10.3+ (Mountain Yosemite or later) or Windows 10 (Professional or Enterprise)
 
----
+For other macOS or Windows versions, you can download the legacy [Docker Toolbox](https://docs.docker.com/toolbox/overview/).
+{: .notice--info}
 
 ## Installation
 
-1. Download and install <a target= "_blank" href="https://www.docker.com/docker-toolbox/">**Docker Toolbox (Kitematic)**</a>. Skip the Kitematic login if you do not want to register at <a target= "_blank" href="https://hub.docker.com/">https://hub.docker.com/</a> 
+1. Download and install <a target= "_blank" href="https://www.docker.com/products/docker-desktop">Docker Desktop</a>. You have to login in order to start the download.
 2. Open the Kitematic User-Interface
    <img src="../img/installation-osx-windows-kitematic-1.png" width="95%">
 3. Search for "restreamer" and select the "restreamer" image without "arm-"-tag
@@ -23,21 +22,20 @@ title: Installation OSX / Windows
 5. Open the User-Interface by clicking on the web-preview
    <img src="../img/installation-osx-windows-kitematic-4.png" width="95%">
    
-The default login (more [here](references-environment-vars.html#login-security)) are:
+The default login is:
 
-* Username: admin
-* Password: datarhei
+* Username: `admin`
+* Password: `datarhei`
 
----
+It is highly recommended to change the username and password.
+{: .notice--warning}
 
 ## Important customizations
 
 1. Click on the volume path and "Enable volumes":
    <img src="../img/installation-osx-windows-kitematic-5.png" width="95%">
-2. We recommend to change your password and username:
+2. We stringly recommend to change your password and username:
    <img src="../img/installation-osx-windows-kitematic-6.png" width="95%">
-
----
 
 ## Customs to embed the player upon your website
 
@@ -56,5 +54,3 @@ Next a small example for Kitematic/VirtualBox:
 6. Open the Restreamer upon your browser by "http://127.0.0.1:31000" to verify the changes
 
 To setup the port-forwarding in your router model you have to read the manual.
-
----

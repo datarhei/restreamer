@@ -1,81 +1,108 @@
 ---
-title: Installation Linux ARMv6l / ARMv7l
----
-###### [Installation](../docs/installation-index.html) > Installation Linux ARMv6l / ARMv7l
-# Installation Linux ARMv6l / ARMv7l
-
-**Requirements:**
-
-* ARMv6l or ARMv7l architecture
-
----
-## ARMv6l
-Verified with <a target= "_blank" href="https://www.raspberrypi.org/products/model-b-plus/">Raspberry Pi 1</a>:
-
-### Raspberry Pi 1
-
-1. Copy the <a target= "_blank" href="http://blog.hypriot.com/getting-started-with-docker-on-your-arm-device/">Hypriot-Image</a> to your SD-Card or download and install the <a target= "_blank" href="http://blog.hypriot.com/downloads/#hypriot-docker-debian-dackages-for-raspberry-pi">Hypriot Docker Debian Packages for Raspberry Pi</a>  
-2. login to your ARMv6l-Board and start the Restreamer with:    
-   ```
-   # docker run -d --name restreamer --restart always -e "RS_USERNAME=YOUR-USERNAME" -e "RS_PASSWORD=YOUR-PASSWORD" -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db datarhei/restreamer-armv6l:latest
-   ```
-3. Browse to http://your-device-ip:8080
-
-The default login (more [here](references-environment-vars.html#login-security)) are:
-
-* Username: admin
-* Password: datarhei
-
+title: Installation Raspberry Pi / ARM
 ---
 
-## ARMv7l
-Tested with <a target= "_blank" href="https://www.raspberrypi.org/products/raspberry-pi-2-model-b/">Raspberry Pi 2</a> and <a target= "_blank" href="http://www.hardkernel.com/main/products/prdt_info.php?g_code=g138745696275">Odroid U3</a>
+## Requirements
 
-### Raspberry Pi 2
+* Raspberry Pi 1 / Pi 2 / Pi 3 or Odoid U3
+* ARM CPU that supports the `armhf` architecture
 
-1. Copy the <a target= "_blank" href="http://blog.hypriot.com/getting-started-with-docker-on-your-arm-device/">Hypriot-Image</a> to your SD-Card or download and install the <a target= "_blank" href="http://blog.hypriot.com/downloads/#hypriot-docker-debian-dackages-for-raspberry-pi">Hypriot Docker Debian Packages for Raspberry Pi</a>  
-2. start the Restreamer with:    
-   ```
-   # docker run -d --name restreamer --restart always -e "RS_USERNAME=YOUR-USERNAME" -e "RS_PASSWORD=YOUR-PASSWORD" -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db datarhei/restreamer-armv7l:latest
-   ```
-3. Browse to http://your-device-ip:8080
+## Raspberry Pi 1 / Pi 2 / Pi 3
 
-The default login (more [here](references-environment-vars.html#login-security)) are:
+Verified with:
 
-* Username: admin
-* Password: datarhei
+* [Raspberry Pi 1 Model B+](https://www.raspberrypi.org/products/model-b-plus/)
+* [Raspberry Pi 2 Model B](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/)
+* [Raspberry Pi 3 Model B+](https://www.raspberrypi.org/products/raspberry-pi-3-model-b-plus/)
 
-### Odroid U3
+Instructions:
 
-1. Download and copy Ubunut 14.04 image to your SD-Card
-2. Install Docker-Engine (tested with kernel 3.8.13.30):    
-   ```
-   apt-get update && apt-get install -y docker-engine
-   ```
-3. Start the Restreamer with:    
-   ```
-   # docker run -d --name restreamer --restart always -e "RS_USERNAME=YOUR-USERNAME" -e "RS_PASSWORD=YOUR-PASSWORD" -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db datarhei/restreamer-armv7l:latest
+1. Install the latest [Raspian Stretch](https://www.raspberrypi.org/downloads/raspbian/) image on the SD card
+
+2. Login to the Pi and install Docker CE according to the [Debian install instructions](https://docs.docker.com/install/linux/docker-ce/debian/)
+
+3. Start the Restreamer   
+   ```shell
+   # docker run -d --name restreamer --restart always -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db datarhei/restreamer-armhf:latest
    ```
 4. Browse to http://your-device-ip:8080
 
-The default login (more [here](references-environment-vars.html#login-security)) are:
+The default login is:
 
-* Username: admin
-* Password: datarhei
+* Username: `admin`
+* Password: `datarhei`
 
----
+It is highly recommended to change the username and password.
+{: .notice--warning}
 
-## Declaration of the command
+## Odroid U3
 
-* --name restreamer
-  you can login into the container by typing "docker exec -it restreamer /bin/bash"
-* --restart always   
-  the Docker-Daemon is monitoring your container and will start it it again, if it runs into errors. 
-* -e `"RS_USERNAME=..."` -e `"RS_PASSWORD=..."`   
-  set the login data as enviroment-variable (more [here](references-environment-vars.html#login-security))
-* -p 8080:8080   
-  bind the device-port 8080 to the Restreamer-port 8080 (you can change it with "-p 31000:8080")
-* -v /mnt/restreamer/db:/restreamer/db   
-  this save and export the Restreamer-DB on your device-filesystem under /mnt/restreamer
+Verified with:
 
----
+* [Odroid U3](http://www.hardkernel.com/main/products/prdt_info.php?g_code=g138745696275) (discontinued)
+
+Instructions:
+
+1. Install the latest [Ubuntu](https://com.odroid.com/sigong/nf_file_board/nfile_board.php) image on the SD card
+
+2. Login to the Odroid and install Docker CE according to the [Unbuntu install instructions](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
+
+3. Start the Restreamer   
+   ```shell
+   # docker run -d --name restreamer --restart always -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db datarhei/restreamer-armhf:latest
+   ```
+4. Browse to http://your-device-ip:8080
+
+The default login is:
+
+* Username: `admin`
+* Password: `datarhei`
+
+It is highly recommended to change the username and password.
+{: .notice--warning}
+
+## Important customizations
+
+It is recommended to change the username and password. In order to change them you have to set the respective [environment variables](references-environment-vars.html)
+in the docker command:
+
+```shell
+# docker run ... -e "RS_USERNAME=YOUR_USERNAME" -e "RS_PASSWORD=YOUR_PASSWORD" ...
+```
+
+## Description of the command
+
+#### `-d`
+
+Detach the container. This means that the container will run in the background. You can run it interactively in the foreground with
+`-it` instead of `-d`. To stop the Restreamer in detached mode, type `docker stop restreamer`. In interactive mode just hit `Ctrl-C` to
+stop the Restreamer.
+
+#### `--name restreamer`
+
+Gives the container the name `restreamer`. This name can be used in other docker commands to control the container. In order to
+stop the Restreamer, type `docker stop restreamer`. While the Restreamer is running you can log in into the container with `docker exec -it restreamer /bin/bash`.
+
+#### `--restart always`
+
+In case the Restreamer crashes, Docker will automatically restart the Restreamer.
+
+#### `-e "RS_USERNAME=..." -e "RS_PASSWORD=..."`
+
+Set values for the environment variables `RS_USERNAME` and `RS_PASSWORD`. See a description of all known [environment variables](references-environment-vars.html).
+
+#### `-p 8080:8080`
+
+Bind the port 8080 of the device to the port 8080 of the Restreamer. With this you can connect with your browser to the Restreamer GUI.
+If you want to us another port, change it to e.g. `-p 31000:8080`.
+
+#### `-v /mnt/restreamer/db:/restreamer/db`
+
+The Restreamer stores the current state in the directory `/restreamer/db` inside the container. This command maps the directory `/mnt/restreamer/db`
+of your device into the container. With this the state can be preserved in case the Restreamer needs to be restarted. If you want to store
+the state in a different directory on your device, change it to e.g. `-v /tmp/restreamer:/restreamer/db`
+
+#### `datarhei/restreamer:latest`
+
+This is the docker image of the lastest Restreamer on the Docker Hub. Docker will check if the image is locally available
+and download it if it is not available or a newer image is available.

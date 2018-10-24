@@ -1,16 +1,17 @@
 ---
 title: Configuration
 ---
-###### [References](../docs/references-index.html) > Configuration
-# Configuration
 
-The base configuration file is located on "/conf/live.json". Please don't change its settings if you don't understand the architecture and the software components like NGINX and FFmpeg.
+This is the basic configuration file for Restreamer and it is is located in `conf/live.json`. It hosts settings for different
+internal aspects of the Restreamer.
 
-The user configurations are available at [Enviroment-Variables](references-environment-vars.html).
+Usually you don't need to change these values. You can safely control them with the available [enviroment variables](docs/references-environment-vars.html).
+{: .notice--success}
 
----
+Please don't change these settings if you don't understand the internals of Restreamer.
+{: .notice--danger}
 
-#### name
+## Name
 
 ```json
 {
@@ -19,7 +20,7 @@ The user configurations are available at [Enviroment-Variables](references-envir
 ```
 If you want to add more than one config, you have to change this name to "dev" or something you like and start the application with the env. "MODE=dev" to select the other one.
 
-#### jsondb
+## JSON database
 
 ```json
 {
@@ -27,89 +28,197 @@ If you want to add more than one config, you have to change this name to "dev" o
 }
 ```
 
-This sets the path to the Jsondb. More about the Jsondb [here](https://www.npmjs.com/package/node-jsondb)
+The path to the JSON database. More about the [JSON database](https://www.npmjs.com/package/node-jsondb).
 
-#### auth
+## Auth
 
 ```json
 {
     "auth": {
         "username": "admin",   
-        "password": "datarhei" 
+        "password": "datarhei",
+        "token": ""
     }
 }
 ```
-Just a fallback for the login data if no env. is set. More about the env. [here](references-environment-vars.html#login-security)
+Default values for the login credentials if they are not set by the environment variables.
+More about the [environment variables|(references-environment-vars.html).
 
-#### ffmpeg options
+## FFmpeg options
 
 ```json
 {
     "ffmpeg": {
         "options": {
-            "native_h264":[  
-                "-c copy",
-                "-f flv"
-            ],
-            "native_h264_soundless_aac":[  
-                "-ar 44100",
-                "-ac 2",
-                "-acodec pcm_s16le",
-                "-f s16le",
-                "-ac 2",
-                "-i /dev/zero",
-                "-c:v copy",
-                "-acodec aac",
-                "-ab 128k",
-                "-f flv"
-            ],
-            "snapshot": "-vframes 1"  
+            "native_h264_native_audio": {
+                "outputOptions": [
+                    "-codec copy",
+                    "-map 0:v",
+                    "-map 0:a",
+                    "-map_metadata -1",
+                    "-metadata application=datarhei/Restreamer",
+                    "-metadata server=NGINX-RTMP",
+                    "-f flv"
+                ]
+            },
+            "native_h264_no_audio": {
+                "outputOptions": [
+                    "-vcodec copy",
+                    "-an",
+                    "-map 0:v",
+                    "-map_metadata -1",
+                    "-metadata application=datarhei/Restreamer",
+                    "-metadata server=NGINX-RTMP",
+                    "-f flv"
+                ]
+            },
+            "native_h264_native_aac": {
+                "outputOptions": [
+                    "-codec copy",
+                    "-map 0:v",
+                    "-map 0:a",
+                    "-bsf:a aac_adtstoasc",
+                    "-map_metadata -1",
+                    "-metadata application=datarhei/Restreamer",
+                    "-metadata server=NGINX-RTMP",
+                    "-f flv"
+                ]
+            },
+            "native_h264_silence_aac": {
+                "input": "anullsrc=r=44100:cl=mono",
+                "inputOptions": [
+                    "-f lavfi"
+                ],
+                "outputOptions": [
+                    "-vcodec copy",
+                    "-acodec aac",
+                    "-b:a 0k",
+                    "-map 0:v",
+                    "-map 1:a",
+                    "-shortest",
+                    "-map_metadata -1",
+                    "-metadata application=datarhei/Restreamer",
+                    "-metadata server=NGINX-RTMP",
+                    "-f flv"
+                ]
+            },
+            "native_h264_transcode_aac": {
+                "outputOptions": [
+                    "-vcodec copy",
+                    "-acodec aac",
+                    "-b:a 64k",
+                    "-map 0:v",
+                    "-map 0:a",
+                    "-map_metadata -1",
+                    "-metadata application=datarhei/Restreamer",
+                    "-metadata server=NGINX-RTMP",
+                    "-f flv"
+                ]
+            },
+            "native_h264_transcode_mp3": {
+                "outputOptions": [
+                    "-vcodec copy",
+                    "-acodec libmp3lame",
+                    "-b:a 64k",
+                    "-map 0:v",
+                    "-map 0:a",
+                    "-map_metadata -1",
+                    "-metadata application=datarhei/Restreamer",
+                    "-metadata server=NGINX-RTMP",
+                    "-f flv"
+                ]
+            },
+            "global": {
+                "inputOptions": [
+                    "-stats",
+                    "-loglevel quiet",
+                    "-err_detect ignore_err"
+                ]
+            },
+            "rtsp-tcp": {
+                "inputOptions": [
+                    "-rtsp_transport tcp"
+                ]
+            },
+            "snapshot": {
+                "outputOptions": [
+                    "-vframes 1"
+                ]
+            }
         }
     }
 }
 ```
 
-If FFmpeg is initiated, Restreamer will try to check if your video stream has an audio channel or not. It will choose `"native_h264"` if your stream has an audio and `"native_h264_soundless_aac"` if not. This is required if you want to stream a video to YouTube-Live without native audio. For the creation of a snapshot we select the "snapshot" options.
+Preset for FFmpeg. The selected presets depend on the incoming stream and the environmet variable for the audio setting. By default, it is assumed, that
+the stream has no audio (`native_h264_no_audio`). If there is an audio track, `native_h264_native_audio` will be selected. In case the audio track
+is encoded with AAC, then the preset `native_h264_native_aac` gets selected (to fix possible errors in the audio stream). If the audio stream is
+not supported by the FLV container, it will be transcoded to AAC with the preset `native_h264_transcode_aac`. 
+
+The selection of the incoming video stream preset can be influenced by the `RS_AUDIO` [enviroment variable](docs/references-environment-vars.html).
+{: .notice--info}
         
-#### ffmpeg monitor
+## FFmpeg monitor
 
 ```json
 {
     "ffmpeg": {
         "monitor": {
             "restart_wait": "6000",  
-            "retries": 10  
+            "stale_wait": "60000"
         }
     }
 }
 ```
 
-If a FFmpeg-process dies, the monitor will try to restart it. `"restart_wait"` sets the time the monitor has to wait before retrying and `"retries"` is the count for the monitor to start the process again.
+The running FFmpeg process is monitord. If the process stops, it will be automatically restarted after `restart_wait` milliseconds. If the process
+is stale, i.e. no incoming data is processed, FFmpeg will be automatically restart after `stale_wait` milliseconds.
 
-#### nginx
+## NGINX
 
 ```json
 {
     "nginx": {
-        "exec": "/usr/local/nginx/sbin/nginx -c /restreamer/conf/nginx.conf",  
+        "command": "/usr/local/nginx/sbin/nginx",
+        "args": [
+            "-c",
+            "/restreamer/conf/nginx.conf"
+        ],
         "streaming": {
-            "ip": "127.0.0.1",  
-            "rtmp_port": "1935",  
-            "rtmp_path": "/live/",  
-            "hls_port": "8080", 
-            "hls_path": "/hls/" 
+            "ip": "127.0.0.1",
+            "rtmp_port": "1935",
+            "rtmp_hls_path": "/hls/",
+            "http_port": "8080",
+            "http_health_path": "/ping"
         }
-    }
+    },
 }
 ```
 
-These options are required if you want to use an external streaming server from our docker container. Warning: the player and a lot of other processes are currently static on the local NGINX. Actually it is not recommended to change it!  
+Preset for the NGINX process. The values in the `streaming` section reflect what is configured in the `nginx.conf` file.
 
-`"exec"` is the command the NodeJS-Application of Restreamer will execute on startup to launch the NGINX-instance.   
-`"ip"` sets the IP to the NGINX-RTMP server   
-`"rtmp_port"` set the rtmp port   
-`"rtmp_path"` set the path to the rtmp-application   
-`"hls_port"` set the hls port   
-`"hls_path"` set the path to the hls-application   
+Don't change any of these parameter without changing them accordingly in the `nginx.conf` file.
+{: .notice--danger}
 
----
+## Environment variables
+```json
+{
+    "envVars": [
+        {
+            "name": "RS_NODEJS_PORT",
+            "alias": [
+                "NODEJS_PORT"
+            ],
+            "type": "int",
+            "defaultValue": "3000",
+            "required": false,
+            "description": "Webserver port of application."
+        },
+        {
+            ...
+        }
+    ]
+}
+```
+
+Definition of the available environment variables, their type, default value, and description.

@@ -1,26 +1,28 @@
 ---
 title: Environment Variables
 ---
-###### [References](references-index.html) > Enviroment Variables
 
-# Enviroment Variables
+These environment variables enable you to control the default behaviour of Restreamer:
 
-You can control the default behaviour of the Datarhei/Restreamer with environment variables. Currently these environment variables are
-understood and supported by Datarhei/Restreamer:
+| Name | Default | Description |
+|------|---------|-------------|
+| `RS_USERNAME` | `admin` | Username for the backend. [Details](#rs_username) |
+| `RS_PASSWORD` | `datarhei` | Password for the backend. [Details](#rs_password) |
+| `RS_SNAPSHOT_INTERVAL` | `1m` | Interval for new snapshots. [Details](#rs_snapshot_interval) |
+| `RS_AUDIO` | `auto` | Audio track handling. [Details](#rs_audio) |
+| `RS_LOGLEVEL` | `3` | Logging level . [Details](#rs_loglevel) |
+| `RS_TIMEZONE` | `Europe/Berlin` | Set the timezone. [Details](#rs_timezone) |
+| `RS_DEBUG_FFMPEG` | `false` | Enables FFmpeg reporting. [Details](#rs_debug_ffmpeg) |
+| `RS_DEBUG_HEAPDUMPS` | `false` | Create heapdumps of application. [Details](#rs_debug_heapdumps) |
+| `RS_NODEJS_PORT` | `3000` | Node.js webserver port of application. [Details](#rs_nodejs_port) |
+| `RS_NODEJS_ENV` | `prod` | Node.js environment. [Details](#rs_nodejs_env) |
 
-* `RS_SNAPSHOT_INTERVAL`
-
-* [NodeJS Port](#nodejs-port)
-* [Logger level](#logger-level)
-* [Timezone](#timezone)
-* [Login security](#login-security)
-* [Snapshot refreash interval](#snapshot-refreash-interval)
-* [Create heapdumps](#create-heapdumps)
+You can define new values for these environment variables in different ways, depending on how you run Restreamer.
 
 **Shell example:**
 
 ```sh
-export RS_LOGGER_LEVEL=4
+export RS_LOGLEVEL=4
 export RS_SNAPSHOT_INTERVAL=10000
 ...
 
@@ -31,88 +33,126 @@ export RS_SNAPSHOT_INTERVAL=10000
 
 ```sh
 docker run ...
-    -e "RS_LOGGER_LEVEL=4" \
+    -e "RS_LOGLEVEL=4" \
     -e "RS_SNAPSHOT_INTERVAL=10000" \
         ...
 ```
+
 **Kitematic example:**
    <img src="../img/references-env-kitematic-example.png" width="95%">
 
----
 
-#### NodeJS Port
+## RS_USERNAME
 
-Webserver port of the NodeJS application (nginx is proxying the port 8080 to 3000. don't change it without changing the nginx.conf too)   
+Set the username for the Restreamer GUI login.
 
-Example:
 
+## RS_PASSWORD
+
+Set the password for the Restreamer GUI login.
+
+It is highly recommend to change the default password.
+{: .notice--warning}
+
+
+## RS_SNAPSHOT_INTERVAL
+
+Set the interval in which the snapshot of the stream will be updated. The value should be in milliseconds. You can also
+use a suffix to indicate the time unit. Known suffixes are `ms` for milliseconds, `s` for seconds, `m` for minutes.
+
+In the following examples, the snapshot interval will be set to 1 minute:
 ```sh
-"NODEJS_PORT=3000"
+export RS_SNAPSHOT_INTERVAL=60000
+export RS_SNAPSHOT_INTERVAL=60000ms
+export RS_SNAPSHOT_INTERVAL=60s
+export RS_SNAPSHOT_INTERVAL=1m
 ```
 
-Default-Value: 3000
+The snapshot interval cannot be shorter that 10 seconds. If you provide a value smaller than this, the interval will
+be set to the minimum of 10 seconds.
+{: .notice--info}
 
-#### Logger level
+If you want to disable the snapshots, use the special value of `0` for the snapshot interval.
 
-Logs are shipped to stdout / stderr. With Kitematic click on the running container on the left sidebar or if you are using the shell, run "docker logs restreamer" to get it directly.
 
-The env. "LOGGER_LEVEL" set the logging level of the application. The values are "1" for error, "2" for error and warnings, "3" for error, warnings and info or "4" for error, warnings, info and debug.
+## RS_AUDIO
 
-Example:   
+By default the audio track from the incoming stream will not be modified. Only if the audio format is not supported by the
+FLV container, the audio will be transcoded to AAC. You can change this behaviour by providing one of the values to this
+environment variable:
 
-```sh
-"LOGGER_LEVEL=4"
-```
+| Value     | Description |
+|-----------|-------------|
+| `auto`    | Default behaviour |
+| `none`    | Remove any audio tracks |
+| `silence` | Replace the audio track with silence |
+| `aac`     | Transcode the audio track to AAC |
+| `mp3`     | Transcode the audio track to MP3 |
 
-Default-Value: 3
+In the case of `silence`, an audio track will be added if the incoming stream doesn't have an audio track.
 
-#### Timezone
 
-Set the timezone for logging. More <a href="http://momentjs.com/timezone/" target="_blank">here</a>.  
-Example:
+## RS_LOGLEVEL
 
-```sh
-"TIMEZONE=America/New_York"
-```
+Restreamer writes some information to the console (stdout). With this environment variable you can crontrol how "chatty" Restreamer is.
+The different logging levels are
 
-Default-Value: Europe/Berlin
+| Value | Level   | Description |
+|-------|---------|-------------|
+| `0`   | `MUTE`  | No logging output |
+| `1`   | `ERROR` | Only error messages will be logged |
+| `2`   | `WARN`  | Warnings and error messages will be logged |
+| `3`   | `INFO`  | Informal, warnings, and error messages will be logged |
+| `4`   | `DEBUG` | Everything will be logged |
 
-#### Login security
+### Kitematic
 
-To change the default login data please change or set the following env. The auth out of [Configuration](references-config.html) are only as fallback.
+Click on the running container on the left sidebar to see the logging output.
 
-Example:
+### Docker
 
-```sh
-"RESTREAMER_USERNAME=myUsername"
-"RESTREAMER_PASSWORD=myVerySecurePassword"
-```
+Run `docker logs restreamer` to see the logging output.
 
-Default-Values: admin / datarhei
 
-#### Snapshot refreash interval
+## RS_TIMEZONE
 
-By default a snapshot is captured every 60 seconds. You can modify this by starting your Docker-Image with the additional command.
-The 60000 is in msec. If you want to create a snapshot every 10 seconds you have to enter 10000.
+Set the timezone for the timestamp in the logging messages. Allowed values are valid [timezone IDs](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
+E.g. `America/New_York`, `Europe/Berlin`, ... 
 
-Example:
 
-```sh
-"SNAPSHOT_REFRESH_INTERVAL=10000"
-```
+## RS_DEBUG_FFMPEG
 
-Default-Value: 60000
+Set this value to `true` and the debugging output from the FFmpeg processes will be written to a file. You can access these files
+through the browser in the path `/debug` of the Restreamer GUI, e.g. if your Restreamer GUI is running on `http://192.168.1.123/` then
+the debug files will be under `http://192.168.1.123/debug`.
 
-#### Create heapdumps (just for dev.)
+The logging output of FFmpeg is very extensive. For a long running process it can use up a lot of disk space. This should only be used during development.
+{: .notice--danger}
 
-Create Heapdumps of application (needs g++, make and python to run, please install heapdump with 'npm install heapdump' afterwords).
 
-Example:
+## RS_DEBUG_HEAPDUMPS
 
-```sh
-"CREATE_HEAPDUMPS=true"
-```
+Set this value to `true` in order to create heap dumps of the Restreamer application. It needs `g++`, `make` and `python` to run and
+you have to install heapdump with `npm install heapdump`.
 
-Default-Value: false
+This should only be used during development.
+{: .notice--danger}
+ 
 
----
+## RS_NODEJS_PORT
+
+The port for the internal node.js webserver application. This port is not exposed to the outside.
+
+NGINX is proxying the port 8080 to 3000.
+{: .notice--info}
+
+Please don't change this value without changing it in the `nginx.conf` accordingly. Otherwise Restreamer will not work correctly.
+{: ..notice--danger}
+
+
+## RS_NODEJS_ENV
+
+Sets the enviroment for the Restreamer node.js application. Possible values are `prod` and `dev`.
+
+This should only be used during development.
+{: .notice--danger}

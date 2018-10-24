@@ -1,35 +1,33 @@
 ---
-layout: pages
-tab: faq
-title: FAQ
+layout: single
+title: Frequently Asked Questions
 ---
-# Frequently Asked Questions
 
 ## General
 
-### 1. What is Datarhei/Restreamer?
+### What is Datarhei/Restreamer?
 Datarhei/Restreamer is a software which allows for free real-time video streaming, e.g. transferring video signals of webcams or other video-inputs directly to your website. You can be your own Datarhei/Restreamer streaming provider.
 
-### 2. How do I realise video streaming without Datarhei/Restreamer?  
+### How do I realise video streaming without Datarhei/Restreamer?  
 The classic way is the data transfer with a streaming provider who collects monthly fees. Some services are supported by advertising, others additionally sell you their own hardware. Some companies then sell your live stream in content syndication campaigns, too. As a result you lose the control of your video content. The added value of the so-called "content syndication" is not measurable for you in most cases. Datarhei/Restreamer allows you to transfer H.264 video in TV quality to your own website without these middlemen. You are free to choose your hardware for yourself, the use is free of charge and you remain in possession of your videodata!  
 
-### 3. For whom is it suitable?
+### For whom is it suitable?
 Datarhei/Restreamer is suitable for all kinds of live video. Private and professional webcams for events or tourism marketing, in-house TV in hotels, restaurants, industrial and safety monitoring or surveillance are just a few applications. Only the number of viewers is limited. For a lot of viewers and professional applications you need background technology, you can easily connect to with Datarhei/Restreamer.  
 
-### 4. What is different from the "others"?
+### What is different from the "others"?
 Datarhei/Restreamer does not charge monthly fees and the streaming is completely free, because it uses your own internet connection. You will be your own video streaming provider. Datarhei/Restreamer is Open Source. It is free to use for both private and commercial use.  
 
-### 5. How old is Datarhei/Restreamer?  
+### How old is Datarhei/Restreamer?  
 Datarhei/Restreamer was released 30.12.2015 on GitHub
 
-### 6. Is Datarhei/Restreamer available for my operating system?  
+### Is Datarhei/Restreamer available for my operating system?  
 Datarhei/Restreamer can be used on any type of operating system. Windows, MacOS, Linux, BSD and Solaris are supported.
 
-### 7. Datarhei/Restreamer Notice
+### Datarhei/Restreamer Notice
 Datarhei/Restreamer provides the technology to transmit video data in real time. We request every user to respect the privacy laws of your country and the privacy requirements of every human being!  
 
----
-## Datarhei/Restreamer Basics
+
+## Basics
 
 ### What kind of hardware is supported by Datarhei/Restreamer?
 Datarhei/Restreamer has been tested with single board computers like Raspberry Pi1, Pi2, and ODROID. Windows, MacOS and Linux works with Docker. 
@@ -70,7 +68,7 @@ Datahrei/Restreamer is supporting video streaming with audio
 ### Icecast  
 To be honest we do not know yet. If you have tested this with Icecast please tell us your results :) 
 
----
+
 ## Support the project
 
 ### Ways to support Datarhei/Restreamer  

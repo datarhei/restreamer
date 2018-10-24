@@ -1,16 +1,15 @@
 ---
 title: References
 ---
-# References
-### [Configuration](../docs/references-config.html)
-Learn how to configure your Datarhei/Restreamer.
 
----
-### [Environment Variables](../docs/references-environment-vars.html)
-Some variables you could play with.
+## Configuration
+How to configure your Datarhei/Restreamer.
+[Read more](references-config.html).
 
----
-### [JSON/HTTP-API](../docs/references-http-api.html)
-Small HTTP API for additional webapps. To be honest it is very clear at the moment. More coming...
+## Environment Variables
+How to configure Datarhei/Restreamer with environment variables.
+[Read more](references-environment-vars.html).
 
----
+## HTTP API
+How to use the Datarhei/Restreamer HTTP API.
+[Read more](references-http-api.html).

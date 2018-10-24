@@ -1,17 +1,10 @@
 ---
 title: HTTP API
 ---
-###### [References](../docs/references-index.html) > JSON/HTTP API
-# JSON/HTTP API
 
-Small HTTP API for additional webapps
+Minimal HTTP API for polling the current state of Restreamer.
 
-* [GET /v1/states](#get-v1-states)
-* [GET /v1/progresses](#get-v1-progresses)
-
----
-
-#### GET /v1/states
+## GET /v1/states
 
 Request:
 
@@ -27,16 +20,16 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 
 {
-    "repeat_to_local_nginx": {
+    "repeatToLocalNginx": {
         "type": "connected"
     },
-    "repeat_to_optional_output": {
+    "repeatToOptionalOutput": {
         "type": "disconnected"
     }
 }
 ```
 
-#### GET /v1/progresses
+## GET /v1/progresses
 
 Request:
 
@@ -52,14 +45,14 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 
 {
-    "repeat_to_local_nginx": {
+    "repeatToLocalNginx": {
         "frames": 12843,
         "current_fps": 24,
         "current_kbps": 1417.2,
         "target_size": 92653,
         "timemark": "00:08:55.59"
     },
-    "repeat_to_optional_output": {
+    "repeatToOptionalOutput": {
         "frames": 220,
         "current_fps": 37,
         "current_kbps": 1246.2,
@@ -68,5 +61,3 @@ Content-Type: application/json
     }
 }
 ```
-
----
