@@ -2,36 +2,49 @@
 title: Raspicam
 ---
 
-###### [User Guides](../docs/guides-index.html) > Raspicam 
-## Raspicam
 
----
-**Datarhei Hint ☺ ►**  for Hypriot-Users   
-The Hypriot-Image has no raspi-config to activate the camera. You have to install this first:
+## Enable RaspiCam
+
+Execute the `raspi-config` command and then select `Enable Camera`. Leave `raspi-config` and reboot your Raspberry Pi.
+
+## Configure Restreamer
+
+For Restreamer to be able to access the RaspiCam, you have to stop the Restreamer if it is currently running:
 
 ```sh
-# cd /tmp
-# apt-get update && apt-get install -y alsa-utils
-# wget http://archive.raspberrypi.org/debian/pool/main/r/raspi-config/raspi-config_20160108_all.deb
-# dpkg -i raspi-config_20160108_all.deb
+docker stop restreamer
+docker rm restreamer
 ```
 
-*Source <a target= "_blank" href="https://github.com/snubbegbg">here</a>*
+Restart the Restreamer with the RaspiCam mode enabled:
 
----
+```sh 
+docker run -d --restart always \
+    --name restreamer \
+    -e "RS_USERNAME=..." -e "RS_PASSWORD=..." -e "MODE=RASPICAM" \
+    -p 8080:8080 \
+    -v /mnt/restreamer/db:/restreamer/db \
+    -v /opt/vc:/opt/vc \
+    --privileged \
+    datarhei/restreamer-armhf:latest
+```
 
-1. Setup your RaspiCam  
-  `# raspi-config` -> "Enable Camera" -> "Finished" and then reboot  
-2. Show the running Docker image by name and ID   
-  `# docker ps`
-3. Kill the running container:  
-  `# docker kill ContainerName && docker rm ContainerName`
-4. Start the Docker image  
-   * Raspberry Pi 1:   
-  `# docker run -d --name restreamer --restart always -e "RESTREAMER_USERNAME=YOUR-USERNAME" -e "RESTREAMER_PASSWORD=YOUR-PASSWORD" -e "MODE=RASPICAM" -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db -v /opt/vc:/opt/vc --privileged datarhei/restreamer-armv6l:latest`
-   * Raspberry Pi 2:   
-  `# docker run -d --name restreamer --restart always -e "RESTREAMER_USERNAME=YOUR-USERNAME" -e "RESTREAMER_PASSWORD=YOUR-PASSWORD" -e "MODE=RASPICAM" -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db -v /opt/vc:/opt/vc --privileged datarhei/restreamer-armv7l:latest`
-5. Put the address into the "RTMP/RTSP Video Source" field  
-   `rtmp://127.0.0.1/live/raspicam.stream`   
-   
----
+In order to stream what your RaspiCam is recording, you have to put `rtmp://127.0.0.1/live/raspicam.stream` into
+the "RTMP/RTSP/HLS Video Source" field and press "Start".
+
+<img src="../img/guides-raspicam-url.png" width="95%">
+
+## raspi-config is missing
+
+If you are running a Linux on your Raspberry Pi that is missing the `raspi-config` program, you have to install it first:
+
+```sh
+cd /tmp
+sudo apt-get update && apt-get install -y alsa-utils
+wget https://archive.raspberrypi.org/debian/pool/main/r/raspi-config/raspi-config_20180406+1_all.deb
+sudo dpkg -i raspi-config_20180406+1_all.deb
+```
+
+Please check `https://archive.raspberrypi.org/debian/pool/main/r/raspi-config/` for the lastest available version of `raspi-config`.
+
+[Source](https://github.com/snubbegbg/install_raspi-config)

@@ -1,13 +1,11 @@
 ---
 title: Encoding
 ---
-###### [Camera](../wiki/camera-technology.html) > Encoding
 
-# Encoding
+Encoding is the process in which an existing video format is converted into another. You can use either a software (e.g. [FFmpeg](ffmpeg.html)) or specialized hardware.  
 
-In connection with "Video" "Encoding" means a process in which an existing video format is converted into another. Normaly , a video encoder hardware or software is used.  
+We recomment you this [article about encoding](http://www.heywatchencoding.com/what-is-video-encoding).
 
-<a href="http://www.heywatchencoding.com/what-is-video-encoding" target="_blank">Good article about Encoding.</a>
-
----
-**Datarhei Hint ☺** ► If you want to encode with Datarhei take care that your hardware has enough CPU-Power available. We will gladly help you look for the encoding to the correct settings.
+If you want to encode with Restreamer, make sure that your hardware has enough CPU power available. We will gladly help you look for the correct
+encoding settings.
+{: .notice--info}

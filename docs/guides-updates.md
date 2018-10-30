@@ -1,61 +1,57 @@
 ---
-title: Updates
+title: Update Reastreamer
 ---
-###### [User Guides](../docs/guides-index.html) > Updates
-# Hot to updates your Datahrei/Restreamer
 
-To update the Restreamer without loosing the data of the input fields it is required to start the Docker-Image with `-v /path/to/local:/restreamer/db` ([here](installation-linux-64.html#declaration-of-the-command)) or a activated volume in Kitematic (Docker Toolbox) ([here](installation-osx-windows.html#important-customizations))!
+To update the Restreamer without losing the data of the input fields it is required to start the Docker image with `-v /path/to/local:/restreamer/db` ([more info](installation-linux-64.html#description-of-the-command)) or a activated volume in Kitematic ([more info](installation-osx-windows.html#important-customizations))!
 
-* [OSX / Windows](#osx-windows)
+* [Windows / macOS](#windows-macos)
 * [Linux](#linux)
 
----
+## Windows / macOS
 
-## OSX / Windows
+1. Open Kitematic and click in the running Restreamer on "STOP":
+   ![Kitematic Stop](../img/kitematic-restreamer-stop.png)
 
-1. open Kitematic and click in the running Restreamer on stop:
-   <img src="../img/references-updates-stop.png" width="95%">
-2. delete the old image:
-   <img src="../img/references-updates-delete.png" width="95%">
-3. start the image again: 
-   <img src="../img/references-updates-create.png" width="95%">
-4. enable the volume again:
-   <img src="../img/references-updates-db-restore.png" width="95%">
-5. insert your enviroments again (more [here](installation-osx-windows.html#important-customizations))
+2. Delete the old image:
+   ![Kitematic Delete](../img/kitematic-restreamer-delete.png)
 
-That's it! 
+3. Start the image: 
+  ![Kitematic Search](../img/kitematic-restreamer-search.png)
 
----
+4. Enable the volume:
+  ![Kitematic Volumes](../img/kitematic-restreamer-volumes.png)
+
+5. Insert your enviroment variables again ([more here](references-environment-vars.html))
+
+Done! 
 
 ## Linux
 
-1.
-  stop and remove the running Restreamer:   
+1. Stop and remove the running Restreamer:
   
-   ```
-   # docker stop restreamer && docker rm restreamer
-   ```
+  ```sh
+  docker stop restreamer && docker rm restreamer
+  ```
 
-2.
-  download the new image. Please do not forget to add the right arm-tag if used.
+2. Download the new image. Please do not forget to add the right arm-tag if used.
   
-   ```
-   # docker pull datarhei/restreamer:latest  
-   ```
-   ```
-   # docker pull datarhei/restreamer-armv6l:latest (use for Pi1)  
-   ```
-   ```
-   # docker pull datarhei/restreamer-armv7l:latest (use for Pi2)  
-   ```
+  ```sh
+  # for x86_64 / amd64 architecture
+  docker pull datarhei/restreamer:latest
 
-3.
-  start the Restreamer again (please remember to modify if you have your own configuration):   
+  # for armv6 end armv7 architecture
+  docker pull datarhei/restreamer-armhf:latest
+  ```
+
+3. Start the Restreamer again (please remember to modify if you have your own configuration):
    
-   ```
-   # docker run -d --name restreamer --restart always -e "RESTREAMER_USERNAME=YOUR-USERNAME" -e "RESTREAMER_PASSWORD=YOUR-PASSWORD" -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db datarhei/restreamer:latest
-   ```
+  ```sh
+  docker run -d --restart always \
+    --name restreamer \
+    -e "RS_USERNAME=..." -e "RS_PASSWORD=..." \
+    -p 8080:8080 \
+    -v /mnt/restreamer/db:/restreamer/db \
+    datarhei/restreamer:latest
+  ```
 
-Finished!
-
----
+Done!

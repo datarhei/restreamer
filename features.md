@@ -1,53 +1,53 @@
 ---
-layout: pages
-tab: features
 title: Features
+sidebar:
+  nav: "features"
 ---
-# Features
 
-Datarhei/Restreamer is free open source live video streaming on your website without streaming provider.
+Restreamer is free open source live video streaming on your website without a streaming provider.
 
-### Contents:  
-* [Core features](#datarhei-restreamer-core-features)  
-* [Input video sources](#input-video-sources)  
-* [Output external RTMP](#output-external-rtmp-live-video)  
-* [Video player](#video-player)  
-* [Supported browser](#supported-browser)  
-* [Support](#support)    
+## Core Features
 
+### <i class="fas fa-check"></i> Live Video Streaming
+Restreamer is an out-of-the-box free video streaming server and ready to stream directly on your website. [Read more](docs/guides-embedding.html).
 
-```sh
-✓ Available out of the box  
-☑ Feature is supported by an external plugin or with extra configuration but not of the box  
-? Unknown  
-☓ Not supported  
-```
+### <i class="fas fa-check"></i> H.264
+Restreamer supports end-to-end H.264 streaming from the input to the target without quality loss.
 
-### Datarhei/Restreamer core features:
+### <i class="fas fa-check"></i> HLS Video
+Restreamer does not require Adobe Flash. It uses HLS HTTP Streaming which is the standart now. [Read more](wiki/hls-http.html).
 
-| Feature                       |   | Explanation                                       |
-|-------------------------------|---|---------------------------------------------------|
-| **Live Web Video Streaming**  | ✓ | **Out of the box free video streaming server to stream directly on your website**|
-| HLS Video Streaming           | ✓ | Streaming without Adobe Flash - Restreamer is using HLS HTTP Streaming|
-| HTML5 Open Source Video Player| ✓ | Responsive open source video player for every device|
-| Multiple Streaming            | ✓ | Works with more than 1 video source               |
-| Audio                         | ✓ | Audio is supported                                |
-| Password protection           | ✓ | Default username:password datarhei:restreamer     |
-| Browser User Interface        | ✓ | Configure Datarhei/Restreamer in your browser     |
-| Snapshot                      | ✓ | Automatic generated and customized frequency      |
-| HTTP-API                      | ✓ | Start developing your own applications on GitHub  |
-| 100% Data control             | ✓ | Datarhei/Restreamer guarantees full control of your video data|
-| **Installation:**                                                                     |
-| Docker                        | ✓ | Multi plattform support with Docker and Docker Hub|
-| Downloadable Image            | ✓ | Just download and write image on memory card for ARMv6l/ARMv7l plugin and start|
-| **Operating Systems:**                                                                |
-| Single Board Computer         | ✓ | ARMv6l ARMv7l (Raspberry Pi 1/2/Zero) and Odroid  |
-| Linux                         | ✓ | OSS rockz!                                        |
-| Windows/MacOS                 | ✓ | Easy installation with Docker-Toolbox (Kitematic) |
+### <i class="fas fa-check"></i> Audio Support
+Restreamer recognizes the audio track of your input stream. Optionally you can remove it, add silencs, or convert it to AAC or MP3. [Read more](docs/references-environment-vars.html#rs_audio). 
 
----
-### Details:
-#### Input video sources
+### <i class="fas fa-check"></i> HTML5 Open Source Video Player
+Restreamer uses the [Clappr](https://clappr.io) open source video player. It fully supports HTML5, plays HD, Full-HD, and 4K video, and is responsive.
+
+### <i class="fas fa-check"></i> Snapshots
+Restreamer generates JPEG snapshots of your input stream in user defined intervals. [Read more](docs/references-environment-vars.html#rs_snapshot_interval). 
+
+### <i class="fas fa-check"></i> Multiple Streaming
+Restreamer works with multiple input streams. Just fire up a new Restreamer instance for each input stream.
+
+### <i class="fas fa-check"></i> Browser Interface
+Restreamer lets you easily configure the input stream and the output target via an user interface in your browser.
+
+### <i class="fas fa-check"></i> Password protection
+Restreamer protects the browser user interface with a user defined username and password. [Read more](docs/references-environment-vars.html#rs_username).
+
+### <i class="fas fa-check"></i> HTTP API
+Restreamer gives you programatically access to the current status of the streams with a JSON HTTP API. [Read more](docs/references-http-api.html).
+
+### <i class="fas fa-check"></i> 100% Data Control
+Restreamer guarantees full control of your video data. It doesn't push your video stream anywhere if you don't tell it to. [Read more](docs/guides-external-rtmp.html).
+
+### <i class="fas fa-check"></i> Open Source
+Restreamer is open source under the Apache 2.0 license. Check it out on [GitHub](https://github.com/datarhei/restreamer).
+
+### <i class="fas fa-check"></i> Multi Platform Support
+Restreamer is built on Docker which allows it to run everywhere, where Docker is supported: Linux, macOS, Windows, Raspberry Pi 1/2/3/Zero, and more. [Read more](docs/installation-index.html).
+
+## Input Video Sources
 
 | Video Source                  |   | Explanation                                       |
 |-------------------------------|---|---------------------------------------------------|
@@ -59,7 +59,7 @@ Datarhei/Restreamer is free open source live video streaming on your website wit
 | H.264                         | ✓ | H.264 sources work                                | 
 
 
-#### Output external RTMP live video:
+## Output Video Targets
 
 | Video Destination             |   | Explanation                                       |
 |-------------------------------|---|---------------------------------------------------|
@@ -73,7 +73,7 @@ Datarhei/Restreamer is free open source live video streaming on your website wit
 | Red5                          | ✓ | Push to open source streaming server Red5         |
 | Datarhei Partner              | ✓ | Professional streaming <a target= "_blank" href="http://www.video-stream-hosting.com/">http://www.video-stream-hosting.com/</a>|
 
-#### Video player
+## Video Player
 Datarhei/Restreamer is using <a target= "_blank" href="http://clappr.io">Clappr.io</a> as video player. 
 
 | Feature                       |   | Explanation                                                 |
@@ -88,7 +88,7 @@ Datarhei/Restreamer is using <a target= "_blank" href="http://clappr.io">Clappr.
 | Player size                   | ✓ | Set with width and height paramters in HTML                 |
 | Analytics                     | ☑ | Integrate your Google Analytics                             |
 
-#### Supported browser
+## Supported Browsers
 
 | HLS Support                   |   | 
 |-------------------------------|---|
@@ -104,18 +104,12 @@ Datarhei/Restreamer is using <a target= "_blank" href="http://clappr.io">Clappr.
 | WiiU Browser                  | ✓ |  
 | PS4 Browser                   | ✓ |  
 
----
+
 ## Support
 
 | Video Player                  |   | Explanation                                                 |
 |-------------------------------|---|-------------------------------------------------------------|
 | E-Mail                        | ✓ | Ask questions via email (Mo-Fr 24h response time)           |
 | Forum on Google Groups        | ✓ | Ask quesions in our support forum 12-24 (Mo-Fr 24h response time)|
-| Chatroom                      | ✓ | Webchat to ask questions in our chatroom                    |
 | GitHub                        | ✓ | Developer support on GitHub                                 |
-| Instructables                 | ✓ | Detailed step by step user instructions with videos and more for the novice user|
-| YouTube                       | ✓ | Step by step user instructions on Datarhei channel          |
 | Wiki                          | ✓ | Hundreds of informations round video streaming microcosm    |
-| 1:1 Chat                      | ☑ | Chat 1:1 with one of our core members in private webchat or Skype|
-
----

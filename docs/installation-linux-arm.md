@@ -4,7 +4,7 @@ title: Installation Raspberry Pi / ARM
 
 ## Requirements
 
-* Raspberry Pi 1 / Pi 2 / Pi 3 or Odoid U3
+* Raspberry Pi 1 / Pi 2 / Pi 3 or Odroid U3
 * ARM CPU that supports the `armhf` architecture
 
 ## Raspberry Pi 1 / Pi 2 / Pi 3
@@ -19,21 +19,7 @@ Instructions:
 
 1. Install the latest [Raspian Stretch](https://www.raspberrypi.org/downloads/raspbian/) image on the SD card
 
-2. Login to the Pi and install Docker CE according to the [Debian install instructions](https://docs.docker.com/install/linux/docker-ce/debian/)
-
-3. Start the Restreamer   
-   ```shell
-   # docker run -d --name restreamer --restart always -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db datarhei/restreamer-armhf:latest
-   ```
-4. Browse to http://your-device-ip:8080
-
-The default login is:
-
-* Username: `admin`
-* Password: `datarhei`
-
-It is highly recommended to change the username and password.
-{: .notice--warning}
+2. Login to the Pi and install Docker CE according to the [Debian install instructions](https://docs.docker.com/install/linux/docker-ce/debian/#install-from-a-package)
 
 ## Odroid U3
 
@@ -45,11 +31,18 @@ Instructions:
 
 1. Install the latest [Ubuntu](https://com.odroid.com/sigong/nf_file_board/nfile_board.php) image on the SD card
 
-2. Login to the Odroid and install Docker CE according to the [Unbuntu install instructions](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
+2. Login to the Odroid and install Docker CE according to the [Unbuntu install instructions](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-from-a-package)
+
+
+## Common Steps
 
 3. Start the Restreamer   
-   ```shell
-   # docker run -d --name restreamer --restart always -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db datarhei/restreamer-armhf:latest
+   ```sh
+   $ docker run -d --restart always \
+        --name restreamer \
+        -e "RS_USERNAME=admin" -e "RS_PASSWORD=datarhei" \
+        -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db \
+        datarhei/restreamer-armhf:latest
    ```
 4. Browse to http://your-device-ip:8080
 
@@ -66,8 +59,8 @@ It is highly recommended to change the username and password.
 It is recommended to change the username and password. In order to change them you have to set the respective [environment variables](references-environment-vars.html)
 in the docker command:
 
-```shell
-# docker run ... -e "RS_USERNAME=YOUR_USERNAME" -e "RS_PASSWORD=YOUR_PASSWORD" ...
+```sh
+$ docker run ... -e "RS_USERNAME=YOUR_USERNAME" -e "RS_PASSWORD=YOUR_PASSWORD" ...
 ```
 
 ## Description of the command
@@ -102,7 +95,7 @@ The Restreamer stores the current state in the directory `/restreamer/db` inside
 of your device into the container. With this the state can be preserved in case the Restreamer needs to be restarted. If you want to store
 the state in a different directory on your device, change it to e.g. `-v /tmp/restreamer:/restreamer/db`
 
-#### `datarhei/restreamer:latest`
+#### `datarhei/restreamer-armhf:latest`
 
 This is the docker image of the lastest Restreamer on the Docker Hub. Docker will check if the image is locally available
 and download it if it is not available or a newer image is available.

@@ -44,7 +44,18 @@ plugins:
 # Theme configuration
 title: Restreamer
 repository: "datarhei/restreamer"
-minimal_mistakes_skin: "contrast"
+minimal_mistakes_skin: "air"
+twitter:
+  username: "datarhei"
+
+footer:
+  links:
+    - label: "Twitter"
+      icon: "fab fa-fw fa-twitter-square"
+      url: "https://twitter.com/datarhei"
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/datarhei/restreamer"
 
 encoding: utf-8
 baseurl: "/restreamer"

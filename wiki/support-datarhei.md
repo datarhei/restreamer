@@ -1,7 +1,6 @@
 ---
 title: Support Datarhei
 ---
-# How to support Datarhei?
 
 The easiest way to support us is certainly to tell everyone how cool you Datarhei is! Share it about your favourite socialmedia page: Facebook, Twitter, Tumblr, Pinterest, YouTube, Blogs, Reddit, Snapchat, Instagramm, G+ or whatever your want. ☺  
 

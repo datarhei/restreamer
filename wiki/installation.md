@@ -1,10 +1,7 @@
 ---
 title: Installation
 ---
-# Installation
 
-See doc's for up-to-date [documentation](https://github.com/datarhei/small-restreamer-internal/tree/master/docs).  
+See the [documentation](../docs/index.html) for up-to-date information on how to install Restreamer. 
 
-Want to talk to us? Just choose a nickname and join us on <a target= "_blank" href="https://webchat.freenode.net/?channels=datarhei">#datarhei webchat on freenode</a>.  
-
-If you're having a weird problem while developing, see [Known Issues](../restreamer/issues).
+If you're having a weird problems while using or developing Restreamer, see the [known issues](https://github.com/datarhei/restreamer/issues).

@@ -39,7 +39,7 @@ docker run ...
 ```
 
 **Kitematic example:**
-   <img src="../img/references-env-kitematic-example.png" width="95%">
+![Kitematic Environment Variables](../img/references-environment-variables.png)
 
 
 ## RS_USERNAME

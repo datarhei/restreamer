@@ -2,7 +2,8 @@
 title: Network Technology
 ---
 
-If you operates with live video streaming will get in contact with of hardware and miscellaneous IT technologies. We have put the main parts together for you. 
+If you operates with live video streaming will get in contact with of hardware and miscellaneous IT technologies. We have put the main parts
+together for you. 
 
 ## Hardware
 * [IP Camera](ip-camera.html)  

@@ -1,9 +1,11 @@
 ---
 title: HLS
 ---
-# HLS
 
-Push, or server push, describes a style of Internet-based communication where the request for a given transaction is initiated by the publisher or central server. It is contrasted with pull/get, where the request for the transmission of information is initiated by the receiver or client. <a href="https://en.wikipedia.org/wiki/HTTP_Live_Streaming" target="_blank">Wikipedia</a>  
+HTTP Live Streaming (also known as HLS) is an HTTP-based media streaming communications protocol implemented by Apple Inc. as part of its QuickTime,
+Safari, OS X, and iOS software. Client implementations are also available in Microsoft Edge, Firefox and some versions of Google Chrome. Support is
+widespread in streaming media servers. <a href="https://en.wikipedia.org/wiki/HTTP_Live_Streaming" target="_blank">Wikipedia</a>  
 
----  
-**Datarhei Hint** ☺ ► The default player of Datarhei/Restreamer (Clappr.io) embedded in the iframe is supporting HLS streaming for iOS and Safari.
+The default player of Restreamer (Clappr.io) embedded in the iframe is supporting HLS streaming for iOS and Safari.
+{: .notice--info}
+

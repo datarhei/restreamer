@@ -6,64 +6,86 @@ header:
   overlay_color: "#5e616c"
   overlay_image: "img/splash.jpg"
   actions:
-    - label: "<i class='fas fa-download'></i> Get Started"
+    - label: "<i class='fab fa-docker'></i> Get Started"
       url: "docs/installation-index.html"
-  caption:
+  caption: 
 excerpt: 'Live video streaming on your website without a streaming provider.<br /> <small><a href="https://github.com/datarhei/restreamer/releases/tag/0.1.0">Latest release v0.1.0</a></small><br /><br /> {::nomarkdown}<iframe style="display: inline-block;" src="https://ghbtns.com/github-btn.html?user=datarhei&repo=restreamer&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe> <iframe style="display: inline-block;" src="https://ghbtns.com/github-btn.html?user=datarhei&repo=restreamer&type=fork&count=true&size=large" frameborder="0" scrolling="0" width="158px" height="30px"></iframe>{:/nomarkdown}'
-feature_row:
-  - image_path: assets/images/mm-customizable-feature.png
-    alt: "customizable"
-    title: "Super Customizable"
-    excerpt: "Everything from the menus, sidebars, comments, and more can be configured or set with YAML Front Matter."
-    url: "docs/installation-osx-windows.html"
-    btn_class: "btn--primary"
-    btn_label: "Learn More"
-  - image_path: assets/images/mm-responsive-feature.png
-    alt: "fully responsive"
-    title: "Docker"
-    excerpt: "Build on Docker."
-    url: "docs/installation-linux-64.html"
-    btn_class: "btn--primary"
-    btn_label: "Learn More"
-  - image_path: assets/images/mm-free-feature.png
-    alt: "100% free"
-    title: "100% Free"
-    excerpt: "It is free (licensed under Apache 2.0) and you can use it for any purpose, private or commercial."
-    url: "docs/installation-linux-arm.html"
-    btn_class: "btn--primary"
-    btn_label: "Learn More"
-support:
-  - image_path: assets/images/mm-customizable-feature.png
-    alt: "Windows / macOS"
-    title: "Windows / macOS"
-    excerpt: "Everything from the menus, sidebars, comments, and more can be configured or set with YAML Front Matter."
-    url: "docs/installation-osx-windows.html"
-    btn_class: "btn--primary"
-    btn_label: "Learn More"
-  - image_path: assets/images/mm-responsive-feature.png
-    alt: "Linux"
-    title: "Linux"
-    excerpt: "Built on HTML5 + CSS3. All layouts are fully responsive with helpers to augment your content."
-    url: "docs/installation-linux-64.html"
-    btn_class: "btn--primary"
-    btn_label: "Learn More"
-  - image_path: assets/images/mm-free-feature.png
-    alt: "Raspberry Pi"
-    title: "Raspberry Pi / ARM"
-    excerpt: "It is free (licensed under Apache 2.0) and you can use it for any purpose, private or commercial."
-    url: "docs/installation-linux-arm.html"
-    btn_class: "btn--primary"
-    btn_label: "Learn More"
-github:
-  - excerpt: '{::nomarkdown}<iframe style="display: inline-block;" src="https://ghbtns.com/github-btn.html?user=mmistakes&repo=minimal-mistakes&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe> <iframe style="display: inline-block;" src="https://ghbtns.com/github-btn.html?user=mmistakes&repo=minimal-mistakes&type=fork&count=true&size=large" frameborder="0" scrolling="0" width="158px" height="30px"></iframe>{:/nomarkdown}'
 intro:
-  - excerpt: 'Datarhei/Restreamer offers smart free video streaming in real time. Stream H.264 video of IP cameras live to your website. Upload your live video on YouTube, Ustream, Twitch, Livestream.com or any other streaming solutions e.g. Wowza-Streaming-Engine. Our Docker image is easy to install and runs on Linux, MacOS and Windows. Datarhei/Restreamer can be perfectly combined with single-board computers like Raspberry Pi and Odroid.'
+  - title: "Free Video Streaming"
+    excerpt: "Restreamer offers smart free video streaming in real time. Stream H.264 video of IP cameras live to your website."
+    url: "docs/installation-index.html"
+    btn_class: "btn--success"
+    btn_label: "<i class='fab fa-docker'></i> Get Started"
+  - title: "Distribute"
+    excerpt: "Upload your live stream to YouTube, Ustream, Twitch, Livestream.com or any other streaming solutions like Wowza."
+    url: "docs/installation-index.html"
+    btn_class: "btn--success"
+    btn_label: "<i class='fab fa-docker'></i> Get Started"
+  - title: "Runs Everywhere"
+    excerpt: "The Restreamer Docker image is easy to install and runs on Linux, macOS and Windows, as well as on Raspberry Pi and others."
+    url: "docs/installation-index.html"
+    btn_class: "btn--success"
+    btn_label: "<i class='fab fa-docker'></i> Get Started"
+features:
+  - title: "H.264 HLS Streaming"
+    excerpt: "Supports modern H.264 streaming from the input than runs natively in your browser without requiring Flash or any other plugins."
+    url: "features.html"
+    btn_class: "btn--primary"
+    btn_label: "<i class='far fa-lightbulb'></i> Learn More"
+  - title: "HTML5 Video Player"
+    excerpt: "Open source HTML5 responsive video player that plays HD, Full-HD, and 4K video with audio in fullscreen."
+    url: "features.html"
+    btn_class: "btn--primary"
+    btn_label: "<i class='far fa-lightbulb'></i> Learn More"
+  - title: "Multi Platform"
+    excerpt: "Built on Docker it runs on many platforms like Windows, macOS, Linux, Raspberry Pi 1/2/3/Zero, and more."
+    url: "features.html"
+    btn_class: "btn--primary"
+    btn_label: "<i class='far fa-lightbulb'></i> Learn More"
+  - title: "Open Source"
+    excerpt: "Restreamer is free and open source (licensed under Apache 2.0), so you can use it for any purpose, private or commercial."
+    url: "features.html"
+    btn_class: "btn--primary"
+    btn_label: "<i class='far fa-lightbulb'></i> Learn More"
+  - title: "Network Cameras"
+    excerpt: "Use the H.264 stream from any source such as an IP camera, USB camera, Rapsicam, or any H.264 encoder."
+    url: "features.html"
+    btn_class: "btn--primary"
+    btn_label: "<i class='far fa-lightbulb'></i> Learn More"
+  - title: "Stream Anywhere"
+    excerpt: "Easily stream your camera to your website or YouTube, Vimeo, Twitch, Wowza, AMS, Red5, and many more."
+    url: "features.html"
+    btn_class: "btn--primary"
+    btn_label: "<i class='far fa-lightbulb'></i> Learn More"
+install:
+  - title: "Windows / macOS"
+    excerpt: "Install on Windows or macOS with Docker and Kitematic in just a few clicks."
+    url: "docs/installation-osx-windows.html"
+    btn_class: "btn--primary"
+    btn_label: "<i class='fa fa-cloud-download-alt'></i> Install"
+  - title: "Linux"
+    excerpt: "Install on Linux with a 64bit Intel or AMD CPU using Docker."
+    url: "docs/installation-linux-64.html"
+    btn_class: "btn--primary"
+    btn_label: "<i class='fa fa-cloud-download-alt'></i> Install"
+  - title: "Raspberry Pi / ARM"
+    excerpt: "Install on Raspberry Pi 1, Pi 2, and Pi 3 or any other device with an ARMv6, ARMv7, or ARMv8 CPU."
+    url: "docs/installation-linux-arm.html"
+    btn_class: "btn--primary"
+    btn_label: "<i class='fa fa-cloud-download-alt'></i> Install"
+powered:
+  - title: "Powered by"
+    excerpt: "![Intro Powered By](img/intro_powered.png)"
 ---
 
-{% include feature_row id="intro" type="center" %}
+{% include feature_row id="intro" %}
 
-{% include feature_row %}
+![Intro Banner](img/intro_banner.png){: .align-center}
 
-{% include feature_row id="support" %}
+{% include feature_row id="features" %}
 
+![Intro Docker](img/intro_docker.png){: .align-center}
 
+{% include feature_row id="install" %}
+
+{% include feature_row id="powered" type="center" %}

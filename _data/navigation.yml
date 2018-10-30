@@ -83,3 +83,13 @@ wiki:
       - title: Support Datarhei
         url: wiki/support-datarhei.html
 
+features:
+  - title: Core Features
+    children:
+      - title: Live Video Streaming
+        url: "features.html#-live-video-streaming"
+  - title: Input Video Sources
+  - title: Output Video Targets
+  - title: Video Player
+  - title: Supported Browsers
+  - title: Support

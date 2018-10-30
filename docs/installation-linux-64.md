@@ -23,8 +23,12 @@ Other Linux distributions that are derived from the ones listed above may also b
 1. Download and install Docker CE. Please refer to the guides that are listed above.
 
 2. Start the Restreamer  
-   ```shell
-   # docker run -d --name restreamer --restart always -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db datarhei/restreamer:latest
+   ```sh
+   $ docker run -d --restart always \
+        --name restreamer \
+        -e "RS_USERNAME=admin" -e "RS_PASSWORD=datarhei" \
+        -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db \
+        datarhei/restreamer:latest
    ```
 
 3. Browse to http://your-device-ip:8080
@@ -42,8 +46,8 @@ It is highly recommended to change the username and password.
 It is recommended to change the username and password. In order to change them you have to set the respective [environment variables](references-environment-vars.html)
 in the docker command:
 
-```shell
-# docker run ... -e "RS_USERNAME=YOUR_USERNAME" -e "RS_PASSWORD=YOUR_PASSWORD" ...
+```sh
+$ docker run ... -e "RS_USERNAME=YOUR_USERNAME" -e "RS_PASSWORD=YOUR_PASSWORD" ...
 ```
 
 ## Description of the command
