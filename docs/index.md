@@ -2,11 +2,17 @@
 title: Documentation
 ---
 
-Welcome to the Datarhei/Restreamer documentation, which should help you to install and configure Restreamer for your device.
+Welcome to the Restreamer documentation, which helps you to install and configure Restreamer for your device.
 All other questions about the streaming microcosm and technical facts are explained [in our Wiki](../wiki). 
 
 Restreamer is built on [Docker](../wiki/docker.html). If you don't know Docker, don't be scared. Extensive knowledge isn't required!
 {: .notice--info}
+
+## Requirements
+
+* An IP camera, USB camera, or RaspiCam
+* A x86_64 or ARM computer running Windows, macOS, or Linux
+* A working Docker installation
 
 ## Quick start
 
@@ -42,4 +48,3 @@ For more details on how to run Restreamer on your device, please refer to our in
 You can customize your Restreamer by setting different [environment variables](references-environment-vars.html), e.g. for changing the
 [login for the GUI](references-environment-vars.html#rs_username), the [snapshot interval](references-environment-vars.html#rs_snapshot_interval),
 or tampering [the audio track](references-environment-vars.html#rs_audio) of your stream.
-

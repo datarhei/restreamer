@@ -10,12 +10,12 @@ Please refer to the manual of you router to find out how to enable port forwardi
 {: .notice--info} 
 
 Open the Restreamer player
-   <img src="../img/guides-embed.png" width="95%">
+![Embed](../img/guides-embed.png)
 
 ## Player
 
 The HTML snippet for the video iframe code is listed under the video player.
-   <img src="../img/guides-embed-player.png" width="95%">
+![Embed](../img/guides-embed-player.png)
 
 Restreamer tries to find out your public internet IP address and uses it automatically in the HTML code snippet.
 {: .notice--success}
@@ -33,10 +33,17 @@ port 32000 (or whatever port you defined in Docker) on your Restreamer device.
 
 You can also change the width and height of the video by adjusting the `width` and `height` parameters in the iframe HTML tag.
 
+### Autoplay
+
+If want to enable autoplay, simply add `?autoplay=1` after `player.html` such that it looks like this:
+```html
+<iframe src="http://.../player.html?autoplay=1" ...></iframe>
+``` 
+
 ## Snapshot
 
 The HTML snippet for the snapshot code is listed under the video player.
-   <img src="../img/guides-embed-snapshot.png" width="95%">
+![Embed](../img/guides-embed-snapshot.png)
 
 Restreamer tries to find out your public internet IP address and uses it automatically in the HTML code snippet.
 {: .notice--success}

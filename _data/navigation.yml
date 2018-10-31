@@ -12,6 +12,11 @@ main:
     url: contact.html
 
 docs:
+  - title: About
+    url: docs/index.html
+    children:
+        - title: What is Restreamer
+          url: docs/why.html
   - title: Installation
     url: docs/installation-index.html
     children:
@@ -54,10 +59,6 @@ docs:
     children:
       - title: Architecture
         url: docs/development-architecture.html
-  - title: Learn more
-    url: docs/learn-more.html
-  - title: Demo
-    url: docs/demo-index.html
 
 wiki:
   - title: Wiki
@@ -88,8 +89,19 @@ features:
     children:
       - title: Live Video Streaming
         url: "features.html#-live-video-streaming"
-  - title: Input Video Sources
-  - title: Output Video Targets
-  - title: Video Player
-  - title: Supported Browsers
-  - title: Support
+      - title: H.264
+      - title: HLS Video
+      - title: Audio Support
+      - title: HTML5 Open Source Video Player
+      - title: Snapshots
+      - title: Multiple Streaming
+      - title: Browser Interface
+      - title: Password Protection
+      - title: HTTP API
+      - title: 100% Data Control
+      - title: Open Source
+      - title: Multi Platform Support
+      - title: Input Sources
+      - title: Output Targets
+      - title: Browser Support
+      - title: User Support

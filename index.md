@@ -28,35 +28,35 @@ intro:
     btn_label: "<i class='fab fa-docker'></i> Get Started"
 features:
   - title: "H.264 HLS Streaming"
-    excerpt: "Supports modern H.264 streaming from the input than runs natively in your browser without requiring Flash or any other plugins."
-    url: "features.html"
-    btn_class: "btn--primary"
-    btn_label: "<i class='far fa-lightbulb'></i> Learn More"
+    excerpt: "Supports modern [H.264 streaming](wiki/hls-http.html) from the input than runs natively in your browser without requiring Flash or any other plugins."
   - title: "HTML5 Video Player"
     excerpt: "Open source HTML5 responsive video player that plays HD, Full-HD, and 4K video with audio in fullscreen."
-    url: "features.html"
-    btn_class: "btn--primary"
-    btn_label: "<i class='far fa-lightbulb'></i> Learn More"
   - title: "Multi Platform"
-    excerpt: "Built on Docker it runs on many platforms like Windows, macOS, Linux, Raspberry Pi 1/2/3/Zero, and more."
-    url: "features.html"
-    btn_class: "btn--primary"
-    btn_label: "<i class='far fa-lightbulb'></i> Learn More"
+    excerpt: "Built on Docker it runs on many platforms like [Windows](docs/installation-osx-windows.html), [macOS](docs/installation-osx-windows.html), [Linux](docs/installation-linux-64.html), [Raspberry Pi](docs/installation-linux-arm.html) 1/2/3/Zero, and more."
   - title: "Open Source"
     excerpt: "Restreamer is free and open source (licensed under Apache 2.0), so you can use it for any purpose, private or commercial."
-    url: "features.html"
-    btn_class: "btn--primary"
-    btn_label: "<i class='far fa-lightbulb'></i> Learn More"
-  - title: "Network Cameras"
-    excerpt: "Use the H.264 stream from any source such as an IP camera, USB camera, Rapsicam, or any H.264 encoder."
-    url: "features.html"
-    btn_class: "btn--primary"
-    btn_label: "<i class='far fa-lightbulb'></i> Learn More"
+  - title: "Stream Anything"
+    excerpt: "Use the H.264 stream from any source such as an [IP cameras](docs/guides-ipcam-rtsp.html), [USB cameras](docs/guides-usb-camera.html), [RaspiCam](docs/guides-raspicam.html), or any H.264 encoder."
   - title: "Stream Anywhere"
-    excerpt: "Easily stream your camera to your website or YouTube, Vimeo, Twitch, Wowza, AMS, Red5, and many more."
-    url: "features.html"
-    btn_class: "btn--primary"
-    btn_label: "<i class='far fa-lightbulb'></i> Learn More"
+    excerpt: "Easily stream your camera to your [website](docs/guides-embedding.html), [YouTube](docs/guides-youtube.html), Facebook, twitch.tv, Periscope, Vimeo, [Wowza](docs/guides-wowza.html), AMS, Red5, and more"
+  - title: Audio Support
+    excerpt: Use the audio track of your input stream and optinally remove, add silence, or convert it to AAC or MP3. [Read more](docs/references-environment-vars.html#rs_audio).
+  - title: Snapshots
+    excerpt: Generate JPEG snapshots of your input stream in user defined intervals. [Read more](docs/references-environment-vars.html#rs_snapshot_interval). 
+  - title: Multiple Streaming
+    excerpt: Works with multiple input streams. Just fire up a new Restreamer instance for each input stream.
+  - title: Browser Interface
+    excerpt: Easily configure the input stream and the output target via an user interface in your browser.
+  - title: Password Protection
+    excerpt: Password protected browser user interface with a user defined username and password. [Read more](docs/references-environment-vars.html#rs_username).
+  - title: HTTP API
+    excerpt: Programatically access the current status of the streams with a JSON HTTP API. [Read more](docs/references-http-api.html).
+  - title: 100% Data Control
+    excerpt: Full control of your video data. The video stream stays with you. [Read more](docs/guides-external-rtmp.html).
+  - title: Browser Support
+    excerpt: Supports all major browsers on the desktop (IE, Edge, Chrome, Firefox, Safari) as well as on mobile platforms (iPhone, iPad, Android) and game consoles (WiiU, PS4).
+  - title: User Support
+    excerpt: Support via email, [Google Groups](https://groups.google.com/forum/#!forum/datarhei), [GitHub](https://github.com/datarhei/restreamer/issues), and the [wiki](wiki/index.html).
 install:
   - title: "Windows / macOS"
     excerpt: "Install on Windows or macOS with Docker and Kitematic in just a few clicks."
