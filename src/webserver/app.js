@@ -40,7 +40,7 @@ class RestreamerExpressApp {
         this.sessionKey = 'restreamer-session';
         this.sessionStore = new session.MemoryStore();
 
-        if (process.env.RS_NODE_ENV === 'dev') {
+        if (process.env.RS_NODEJS_ENV === 'dev') {
             this.initDev();
         } else {
             this.initProd();
@@ -158,7 +158,7 @@ class RestreamerExpressApp {
         var server = null;
 
         logger.info('Starting ...');
-        this.app.set('port', process.env.RS_NODE_PORT);
+        this.app.set('port', process.env.RS_NODEJS_PORT);
         server = this.app.listen(this.app.get('port'), ()=> {
             this.app.set('io', require('socket.io')(server));
             this.secureSockets();
@@ -166,7 +166,7 @@ class RestreamerExpressApp {
 
             // promise to avoid ws binding before the webserver has been started
             this.app.get('websocketsReady').resolve(this.app.get('io'));
-            logger.info('Running on port ' + process.env.RS_NODE_PORT);
+            logger.info('Running on port ' + process.env.RS_NODEJS_PORT);
             deferred.resolve(server.address().port);
         });
 

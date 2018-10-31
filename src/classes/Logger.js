@@ -18,7 +18,7 @@ const LEVEL_DEBUG = 4;
 // set default timezone to use the timezone before the default values are
 // @todo: it is really ugly and wrong to log with hardcoded timezone before environment is read
 process.env.RS_TIMEZONE = process.env.RS_TIMEZONE || 'Europe/Berlin';
-process.env.RS_LOGGER_LEVEL = process.env.RS_LOGGER_LEVEL || 3;
+process.env.RS_LOGLEVEL = process.env.RS_LOGLEVEL || 3;
 
 /**
  * Class for logger
@@ -30,7 +30,7 @@ class Logger {
      * @returns {boolean}
      */
     static isMuted () {
-        return process.env.RS_LOGGER_LEVEL === LEVEL_MUTE;
+        return process.env.RS_LOGLEVEL === LEVEL_MUTE;
     }
 
     /**
@@ -38,7 +38,7 @@ class Logger {
      * @param {string} context context of the log message (classname.methodname)
      */
     constructor (context) {
-        process.env.RS_LOGGER_LEVEL = process.env.RS_LOGGER_LEVEL || LEVEL_INFO;
+        process.env.RS_LOGLEVEL = process.env.RS_LOGLEVEL || LEVEL_INFO;
         this.context = context;
     }
 
@@ -83,7 +83,7 @@ class Logger {
             loggerAlertGui = false;
         }
 
-        if (process.env.RS_LOGGER_LEVEL >= LEVEL_INFO) {
+        if (process.env.RS_LOGLEVEL >= LEVEL_INFO) {
             return this.stdout(message, loggerContext, 'INFO');
         }
 
@@ -111,7 +111,7 @@ class Logger {
             loggerAlertGui = false;
         }
 
-        if (process.env.RS_LOGGER_LEVEL >= LEVEL_WARN) {
+        if (process.env.RS_LOGLEVEL >= LEVEL_WARN) {
             return this.stdout(message, loggerContext, 'WARN');
         }
 
@@ -139,7 +139,7 @@ class Logger {
             loggerAlertGui = false;
         }
 
-        if (process.env.RS_LOGGER_LEVEL >= LEVEL_DEBUG) {
+        if (process.env.RS_LOGLEVEL >= LEVEL_DEBUG) {
             return this.stdout(message, loggerContext, 'DEBUG');
         }
 
@@ -168,7 +168,7 @@ class Logger {
             loggerAlertGui = false;
         }
 
-        if (process.env.RS_LOGGER_LEVEL >= LEVEL_ERROR) {
+        if (process.env.RS_LOGLEVEL >= LEVEL_ERROR) {
             return this.stdout(message, loggerContext, 'ERROR');
         }
 
