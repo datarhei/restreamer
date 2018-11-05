@@ -12,7 +12,7 @@ main:
     url: contact.html
 
 docs:
-  - title: About
+  - title: Documentation
     url: docs/index.html
     children:
         - title: What is Restreamer
