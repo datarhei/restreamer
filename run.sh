@@ -141,9 +141,22 @@ elif [ "${MODE}" = "USBCAM" ]; then
     # https://trac.ffmpeg.org/wiki/Capture/Webcam
     # https://www.ffmpeg.org/ffmpeg-devices.html#video4linux2_002c-v4l2
 
+    USBCAM_DEVICE=${RS_USBCAM_DEVICE:="/dev/video0"}
+
     USBCAM_WIDTH=${RS_USBCAM_WIDTH:=1280}
     USBCAM_HEIGHT=${RS_USBCAM_HEIGHT:=720}
-    USBCAM_FPS=${RS_USBCAM_FPS:=25}
+
+    USBCAM_FPS=25
+    USBCAM_GOP=50
+
+    if [ -n "$RS_USBCAM_FPS" ]; then
+        USBCAM_FPS=$RS_USBCAM_FPS
+        USBCAM_GOP=$((USBCAM_FPS * 2))
+    fi
+
+    if [ -n "$RS_USBCAM_GOP" ]; then
+        USBCAM_GOP=$USBCAM_GOP
+    fi
 
     RTMP_URL="rtmp://127.0.0.1:1935/live/usb.stream"
 
@@ -151,7 +164,7 @@ elif [ "${MODE}" = "USBCAM" ]; then
         RTMP_URL="${RTMP_URL}?token=${RS_TOKEN}"
     fi
 
-    ffmpeg -f v4l2 -framerate $USBCAM_FPS -video_size "${USBCAM_WIDTH}x${USBCAM_HEIGHT}" -i /dev/video0 -f lavfi -i anullsrc=r=44100:cl=mono -vcodec copy -acodec aac -b:a 0k -map 0:v -map 1:a -shortest -f flv "${RTMP_URL}" > /dev/null 2>&1
+    ffmpeg -f v4l2 -framerate $USBCAM_FPS -video_size "${USBCAM_WIDTH}x${USBCAM_HEIGHT}" -i "${USBCAM_DEVICE}" -f lavfi -i anullsrc=r=44100:cl=mono -vcodec libx264 -preset ultrafast -g "${USBCAM_GOP}" -acodec aac -b:a 0k -map 0:v -map 1:a -shortest -f flv "${RTMP_URL}" > /dev/null 2>&1
 else
     npm start
 fi
