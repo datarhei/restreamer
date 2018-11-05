@@ -196,6 +196,14 @@
             "description": "Password for the backend."
         },
         {
+            "name": "RS_TOKEN",
+            "alias": [],
+            "type": "string",
+            "defaultValue": "",
+            "required": false,
+            "description": "Token for pushing an RTMP stream."
+        },
+        {
             "name": "RS_DEBUG_HEAPDUMPS",
             "alias": [
                 "CREATE_HEAPDUMPS"
