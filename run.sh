@@ -1,6 +1,6 @@
 #!/bin/sh
 CPU_TYPE=$(uname -m | cut -c 1-3)
-if [ "${MODE}" = "RASPICAM" ] && [ "$CPU_TYPE" = "arm" ]; then
+if [ "${RS_MODE}" = "RASPICAM" ] && [ "$CPU_TYPE" = "arm" ]; then
     echo "/opt/vc/lib" > /etc/ld.so.conf.d/00-vmcs.conf
     ldconfig
     npm start &
@@ -129,7 +129,7 @@ if [ "${MODE}" = "RASPICAM" ] && [ "$CPU_TYPE" = "arm" ]; then
         --metering "$RASPICAM_METERING" \
         --drc "$RASPICAM_DRC" \
         -o - | ffmpeg -i - -f lavfi -i anullsrc=r=44100:cl=mono -vcodec copy -acodec aac -b:a 0k -map 0:v -map 1:a -shortest -f flv "${RTMP_URL}" > /dev/null 2>&1
-elif [ "${MODE}" = "USBCAM" ]; then
+elif [ "${RS_MODE}" = "USBCAM" ]; then
     npm start &
     NGINX_RUNNING=0
     until [ "$NGINX_RUNNING" = "1" ]; do
