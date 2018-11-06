@@ -130,7 +130,6 @@ if [ "${MODE}" = "RASPICAM" ] && [ "$CPU_TYPE" = "arm" ]; then
         --drc "$RASPICAM_DRC" \
         -o - | ffmpeg -i - -f lavfi -i anullsrc=r=44100:cl=mono -vcodec copy -acodec aac -b:a 0k -map 0:v -map 1:a -shortest -f flv "${RTMP_URL}" > /dev/null 2>&1
 elif [ "${MODE}" = "USBCAM" ]; then
-    apt-get update && apt-get install -y v4l-utils libv4l-0
     npm start &
     NGINX_RUNNING=0
     until [ "$NGINX_RUNNING" = "1" ]; do
@@ -145,8 +144,11 @@ elif [ "${MODE}" = "USBCAM" ]; then
 
     # https://trac.ffmpeg.org/wiki/Capture/Webcam
     # https://www.ffmpeg.org/ffmpeg-devices.html#video4linux2_002c-v4l2
+    # https://trac.ffmpeg.org/wiki/Capture/ALSA
+    # https://ffmpeg.org/ffmpeg-devices.html#alsa
 
-    USBCAM_DEVICE=${RS_USBCAM_DEVICE:="/dev/video0"}
+    USBCAM_VIDEODEVICE=${RS_USBCAM_VIDEODEVICE:="/dev/video"}
+    USBCAM_AUDIODEVICE=${RS_USBCAM_AUDIODEVICE:="0"}
 
     USBCAM_FPS=25
     USBCAM_GOP=50
@@ -174,7 +176,13 @@ elif [ "${MODE}" = "USBCAM" ]; then
         RTMP_URL="${RTMP_URL}?token=${RS_TOKEN}"
     fi
 
-    ffmpeg -f v4l2 -framerate "$USBCAM_FPS" -video_size "${USBCAM_WIDTH}x${USBCAM_HEIGHT}" -i "${USBCAM_DEVICE}" -f lavfi -i anullsrc=r=44100:cl=mono -vcodec libx264 -preset "${USBCAM_H264PRESET}" -g "${USBCAM_GOP}" -b:v "${USBCAM_BITRATE}k" -bufsize "${USBCAM_BUFFER}k" -acodec aac -b:a 0k -map 0:v -map 1:a -shortest -f flv "${RTMP_URL}" > /dev/null 2>&1
+    USBCAM_AUDIO="-f lavfi -i anullsrc=r=44100:cl=mono -b:a 0k"
+
+    if [ "$RS_USBCAM_AUDIO" = "true" ]; then
+        USBCAM_AUDIO="-thread_queue_size 512 -f alsa -ac 1 -ar 44100 -i hw:${USBCAM_AUDIODEVICE} -b:a 64k"
+    fi
+
+    ffmpeg -thread_queue_size 512 -f v4l2 -framerate "$USBCAM_FPS" -video_size "${USBCAM_WIDTH}x${USBCAM_HEIGHT}" -i "${USBCAM_VIDEODEVICE}" ${USBCAM_AUDIO} -vcodec libx264 -preset "${USBCAM_H264PRESET}" -r "$USBCAM_FPS" -g "${USBCAM_GOP}" -b:v "${USBCAM_BITRATE}k" -bufsize "${USBCAM_BUFFER}k" -acodec aac -map 0:v -map 1:a -shortest -f flv "${RTMP_URL}" > /dev/null 2>&1
 else
     npm start
 fi

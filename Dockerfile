@@ -25,6 +25,7 @@ RUN apt-get update && \
         libtool \
         libssl-dev \
         zlib1g-dev \
+        libasound2-dev \
         build-essential 
 
 # nasm
@@ -122,7 +123,10 @@ RUN apt-get update && \
         procps \
         libpcre3 \
         libssl1.1 \
-        zlib1g
+        zlib1g \
+        v4l-utils \
+        libv4l-0 \
+        alsa-utils
 
 COPY . /restreamer
 WORKDIR /restreamer
