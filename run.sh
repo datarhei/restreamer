@@ -170,7 +170,7 @@ elif [ "${MODE}" = "USBCAM" ]; then
     USBCAM_BITRATE=$(($USBCAM_BITRATE / 1024))
     USBCAM_BUFFER=$(($USBCAM_BITRATE * 2))
 
-    RTMP_URL="rtmp://127.0.0.1:1935/live/usb.stream"
+    RTMP_URL="rtmp://127.0.0.1:1935/live/usbcam.stream"
 
     if [ -n "$RS_TOKEN" ]; then
         RTMP_URL="${RTMP_URL}?token=${RS_TOKEN}"
