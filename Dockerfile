@@ -8,10 +8,10 @@ ARG NASM_VERSION=2.13.03
 ARG LAME_VERSION=3.100
 # x264 versions from August 2018 onward (> Core 152) seem to have a bug that cuts performance by 50%
 ARG X264_VERSION=20180717-2245-stable
-ARG FFMPEG_VERSION=4.0.2
-ARG NGINX_VERSION=1.14.0
+ARG FFMPEG_VERSION=4.1
+ARG NGINX_VERSION=1.14.1
 ARG NGINXRTMP_VERSION=1.2.1
-ARG NODE_VERSION=8.12.0
+ARG NODE_VERSION=10.13.0
 
 ENV SRC="/usr/local/" \
     LD_LIBRARY_PATH="/usr/local/lib" \
@@ -30,7 +30,7 @@ RUN apt-get update && \
 
 # nasm
 RUN mkdir -p /dist && cd /dist && \
-    curl -OL "https://www.nasm.us/pub/nasm/releasebuilds/2.13.03/nasm-${NASM_VERSION}.tar.xz" && \
+    curl -OL "https://www.nasm.us/pub/nasm/releasebuilds/${NASM_VERSION}/nasm-${NASM_VERSION}.tar.xz" && \
     tar -xvJ -f nasm-${NASM_VERSION}.tar.xz && \
     cd nasm-${NASM_VERSION} && \
     ./configure && \
@@ -48,7 +48,7 @@ RUN mkdir -p /dist && cd /dist && \
 
 # libmp3lame
 RUN mkdir -p /dist && cd /dist && \
-    curl -OL "https://kent.dl.sourceforge.net/project/lame/lame/3.100/lame-${LAME_VERSION}.tar.gz" && \
+    curl -OL "https://kent.dl.sourceforge.net/project/lame/lame/${LAME_VERSION}/lame-${LAME_VERSION}.tar.gz" && \
     tar -xvz -f lame-${LAME_VERSION}.tar.gz && \
     cd lame-${LAME_VERSION} && \
     ./configure --prefix="${SRC}" --bindir="${SRC}/bin" --disable-static --enable-nasm && \
