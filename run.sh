@@ -17,6 +17,8 @@ if [ "${MODE}" = "RASPICAM" ] && [ "$CPU_TYPE" = "arm" ]; then
 
     ## options
 
+    RS_RASPICAM_INLINE=${RS_RASPICAM_INLINE:="true"}
+
     RASPIVID_OPTIONS="--timeout 0 --nopreview"
 
     # flip the image horizontally
@@ -55,7 +57,7 @@ if [ "${MODE}" = "RASPICAM" ] && [ "$CPU_TYPE" = "arm" ]; then
 
     ## bitrate and codec
 
-    RASPICAM_BITRATE=${RS_RASPICAM_BITRATE:=5242880}
+    RASPICAM_BITRATE=${RS_RASPICAM_BITRATE:=5000000}
     # h264 profile: baseline (no B-frames), main, high
     RASPICAM_H264PROFILE=${RS_RASPICAM_H264PROFILE:="high"}
     # h264 level: 4, 4.1, 4.2 (1080p30, 720p60 and 640 × 480p60/90)
@@ -79,6 +81,8 @@ if [ "${MODE}" = "RASPICAM" ] && [ "$CPU_TYPE" = "arm" ]; then
 
     # capture ISO
     RASPICAM_ISO=${RS_RASPICAM_ISO:=0}
+    # quantization parameter
+    RASPICAM_QP=${RS_RASPICAM_QP:=0}
     # EV compensation, steps of 1/6 stop
     RASPICAM_EV=${RS_RASPICAM_EV:=0}
     # exposure: off,auto,night,nightpreview,backlight,spotlight,sports,snow,beach,verylong,fixedfps,antishake,fireworks
@@ -104,25 +108,26 @@ if [ "${MODE}" = "RASPICAM" ] && [ "$CPU_TYPE" = "arm" ]; then
 
     /opt/vc/bin/raspivid \
         $RASPIVID_OPTIONS \
-        --width $RASPICAM_WIDTH \
-        --height $RASPICAM_HEIGHT \
-        --framerate $RASPICAM_FPS \
-        --bitrate $RASPICAM_BITRATE \
-        --intra $RASPICAM_GOP \
-        --codec $RASPICAM_CODEC \
-        --profile $RASPICAM_H264PROFILE \
-        --level $RASPICAM_H264LEVEL \
-        --sharpness $RASPICAM_SHARPNESS \
-        --contrast $RASPICAM_CONTRAST \
-        --brightness $RASPICAM_BRIGHTNESS \
-        --saturation $RASPICAM_SATURATION \
-        --ISO $RASPICAM_ISO \
-        --exposure $RASPICAM_EXPOSURE \
-        --flicker $RASPICAM_FLICKER \
-        --awb $RASPICAM_AWB \
-        --imxfx $RASPICAM_IMXFX \
-        --metering $RASPICAM_METERING \
-        --drc $RASPICAM_DRC \
+        --width "$RASPICAM_WIDTH" \
+        --height "$RASPICAM_HEIGHT" \
+        --framerate "$RASPICAM_FPS" \
+        --bitrate "$RASPICAM_BITRATE" \
+        --intra "$RASPICAM_GOP" \
+        --codec "$RASPICAM_CODEC" \
+        --profile "$RASPICAM_H264PROFILE" \
+        --level "$RASPICAM_H264LEVEL" \
+        --sharpness "$RASPICAM_SHARPNESS" \
+        --contrast "$RASPICAM_CONTRAST" \
+        --brightness "$RASPICAM_BRIGHTNESS" \
+        --saturation "$RASPICAM_SATURATION" \
+        --ISO "$RASPICAM_ISO" \
+        --qp "$RASPICAM_QP" \
+        --exposure "$RASPICAM_EXPOSURE" \
+        --flicker "$RASPICAM_FLICKER" \
+        --awb "$RASPICAM_AWB" \
+        --imxfx "$RASPICAM_IMXFX" \
+        --metering "$RASPICAM_METERING" \
+        --drc "$RASPICAM_DRC" \
         -o - | ffmpeg -i - -f lavfi -i anullsrc=r=44100:cl=mono -vcodec copy -acodec aac -b:a 0k -map 0:v -map 1:a -shortest -f flv "${RTMP_URL}" > /dev/null 2>&1
 elif [ "${MODE}" = "USBCAM" ]; then
     apt-get update && apt-get install -y v4l-utils libv4l-0
@@ -143,9 +148,6 @@ elif [ "${MODE}" = "USBCAM" ]; then
 
     USBCAM_DEVICE=${RS_USBCAM_DEVICE:="/dev/video0"}
 
-    USBCAM_WIDTH=${RS_USBCAM_WIDTH:=1280}
-    USBCAM_HEIGHT=${RS_USBCAM_HEIGHT:=720}
-
     USBCAM_FPS=25
     USBCAM_GOP=50
 
@@ -158,13 +160,21 @@ elif [ "${MODE}" = "USBCAM" ]; then
         USBCAM_GOP=$USBCAM_GOP
     fi
 
+    USBCAM_BITRATE=${RS_USBCAM_BITRATE:=5000000}
+    USBCAM_H264PRESET=${RS_USBCAM_H264PRESET:="ultrafast"}
+    USBCAM_WIDTH=${RS_USBCAM_WIDTH:=1280}
+    USBCAM_HEIGHT=${RS_USBCAM_HEIGHT:=720}
+
+    USBCAM_BITRATE=$(($USBCAM_BITRATE / 1024))
+    USBCAM_BUFFER=$(($USBCAM_BITRATE * 2))
+
     RTMP_URL="rtmp://127.0.0.1:1935/live/usb.stream"
 
     if [ -n "$RS_TOKEN" ]; then
         RTMP_URL="${RTMP_URL}?token=${RS_TOKEN}"
     fi
 
-    ffmpeg -f v4l2 -framerate $USBCAM_FPS -video_size "${USBCAM_WIDTH}x${USBCAM_HEIGHT}" -i "${USBCAM_DEVICE}" -f lavfi -i anullsrc=r=44100:cl=mono -vcodec libx264 -preset ultrafast -g "${USBCAM_GOP}" -acodec aac -b:a 0k -map 0:v -map 1:a -shortest -f flv "${RTMP_URL}" > /dev/null 2>&1
+    ffmpeg -f v4l2 -framerate "$USBCAM_FPS" -video_size "${USBCAM_WIDTH}x${USBCAM_HEIGHT}" -i "${USBCAM_DEVICE}" -f lavfi -i anullsrc=r=44100:cl=mono -vcodec libx264 -preset "${USBCAM_H264PRESET}" -g "${USBCAM_GOP}" -b:v "${USBCAM_BITRATE}k" -bufsize "${USBCAM_BUFFER}k" -acodec aac -b:a 0k -map 0:v -map 1:a -shortest -f flv "${RTMP_URL}" > /dev/null 2>&1
 else
     npm start
 fi
