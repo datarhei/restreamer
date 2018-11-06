@@ -2,8 +2,9 @@
 title: Raspicam
 ---
 
-For the RaspiCam we recommend that you use the latest [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) distribution
-that has the video capture tools in `/opt/vc` installed.
+The Raspicam is the [video module for the Raspberry Pi](https://www.raspberrypi.org/products/camera-module-v2/) devices.
+We recommend that you use the latest [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) distribution
+that has the video capture tools in `/opt/vc` pre-installed.
 
 ## Enable RaspiCam
 
@@ -18,13 +19,13 @@ docker stop restreamer
 docker rm restreamer
 ```
 
-Restart the Restreamer with the environment variable `MODE` set to `RASPICAM` and mounting the directory with Raspberry Pi video capture
-tool into the container (`/opt/vc`). Also you have to raise the privileges for the docker container in order to access the camera.
+Restart the Restreamer with the environment variable `RS_MODE` set to `RASPICAM` and mounting the directory with the Raspberry Pi video capture
+tools into the container (`/opt/vc`). Also you have to raise the privileges for the docker container in order to access the camera.
 
 ```sh 
 docker run -d --restart always \
     --name restreamer \
-    -e "RS_USERNAME=..." -e "RS_PASSWORD=..." -e "MODE=RASPICAM" \
+    -e "RS_USERNAME=..." -e "RS_PASSWORD=..." -e "RS_MODE=RASPICAM" \
     -p 8080:8080 \
     -v /mnt/restreamer/db:/restreamer/db \
     -v /opt/vc:/opt/vc \
