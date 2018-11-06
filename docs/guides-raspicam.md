@@ -49,7 +49,7 @@ These environment variables enable you to control the Raspberry Pi camera.
 | `RS_RASPICAM_STABILIZATION` | `false` | Set to `true` to enable video stabilization. |
 | `RS_RASPICAM_FPS` | `25` | Set the framerate. Possible values are between `2` and `30`. |
 | `RS_RASPICAM_GOP` | `50` | Set the GOP size. Usually the framerate multiplied by 2 is a good value. |
-| `RS_RASPICAM_BITRATE` | `5000000` | Bitrate of the video stream in bit/s. 5Mbit/s is `5000000`. For a high quality H264 stream with 1920x1080@30 a bitrate of 15Mbit/s would be suffucient. The maximum is `25000000` (25Mbit/s) |
+| `RS_RASPICAM_BITRATE` | `5000000` | Bitrate of the video stream in bit/s. E.g. `5000000` is 5Mbit/s. For a high quality H264 stream with 1920x1080@30 a bitrate of 15Mbit/s would be suffucient. The maximum is `25000000` (25Mbit/s) |
 | `RS_RASPICAM_H264PROFILE` | `high` | H264 profile. Possible values are `baseline`, `main`, or `high`. |
 | `RS_RASPICAM_H264LEVEL` | `4` | H264 level. Possible values are `4`, `4.1`, or `4.2`. |
 | `RS_RASPICAM_CODEC` | `H264` | Video codec. Possible values are `H264` or `MJPEG`. We do not recommend to change this value. |
