@@ -10,12 +10,14 @@ These environment variables enable you to control the default behaviour of Restr
 | `RS_PASSWORD` | `datarhei` | Password for the backend. [Details](#rs_password) |
 | `RS_SNAPSHOT_INTERVAL` | `1m` | Interval for new snapshots. [Details](#rs_snapshot_interval) |
 | `RS_AUDIO` | `auto` | Audio track handling. [Details](#rs_audio) |
+| `RS_TOKEN` | (not set) | RTMP publish token. [Details](#rs_token)|
 | `RS_LOGLEVEL` | `3` | Logging level . [Details](#rs_loglevel) |
 | `RS_TIMEZONE` | `Europe/Berlin` | Set the timezone. [Details](#rs_timezone) |
 | `RS_DEBUG_FFMPEG` | `false` | Enables FFmpeg reporting. [Details](#rs_debug_ffmpeg) |
 | `RS_DEBUG_HEAPDUMPS` | `false` | Create heapdumps of application. [Details](#rs_debug_heapdumps) |
 | `RS_NODEJS_PORT` | `3000` | Node.js webserver port of application. [Details](#rs_nodejs_port) |
 | `RS_NODEJS_ENV` | `prod` | Node.js environment. [Details](#rs_nodejs_env) |
+| `RS_MODE` | (not set) | Enable different input devices. [Details](#rs_mode) |
 
 You can define new values for these environment variables in different ways, depending on how you run Restreamer.
 
@@ -92,6 +94,13 @@ environment variable:
 In the case of `silence`, an audio track will be added if the incoming stream doesn't have an audio track.
 
 
+## RS_TOKEN
+
+Set a token (just a string of characters, e.g. `eYIxCQpqzxr7`) that is required in order to push to the RTMP server. For pushing an RTMP
+stream to the server you have to add the token as a key/value in the query string: `rtmp://127.0.0.1/live/camera.stream?token=...`.
+By default the token is not set.
+
+
 ## RS_LOGLEVEL
 
 Restreamer writes some information to the console (stdout). With this environment variable you can crontrol how "chatty" Restreamer is.
@@ -156,3 +165,11 @@ Sets the enviroment for the Restreamer node.js application. Possible values are 
 
 This should only be used during development.
 {: .notice--danger}
+
+
+## RS_MODE
+
+Enable either the Raspberry Pi camera (set a value of `RASPICAM`) or an USB camera (set a value of `USBCAM`) as an input
+video stream. Don't set this environment variable if you want to use none of these devices.
+
+Check out our [Raspberry Pi camera guide](guides-raspicam.html) or [USB camera guide](guides-usb-camera.html).
