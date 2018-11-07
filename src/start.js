@@ -21,6 +21,10 @@ const Restreamer = require('./classes/Restreamer');
 const RestreamerData = require('./classes/RestreamerData');
 const restreamerApp = require('./webserver/app');
 
+if(process.env.RS_DEBUG == "true") {
+    logger.info('Debugging enabled. Check the /debug path in the web interface.', false);
+}
+
 // show start message
 logger.info('     _       _             _           _ ', false);
 logger.info('  __| | __ _| |_ __ _ _ __| |___   ___(_)', false);
@@ -36,11 +40,6 @@ logger.info('', false);
 
 // setup environment vars
 EnvVar.init(config);
-
-// ffmpeg reporting
-if(process.env.RS_DEBUG_FFMPEG == 'true') {
-    process.env['FFREPORT'] = 'file=/restreamer/src/webserver/public/debug/%p-%t.log';
-}
 
 // start the app
 nginxrtmp.start()

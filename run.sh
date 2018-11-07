@@ -1,4 +1,13 @@
 #!/bin/sh
+MODE=${MODE:="default"}
+RS_MODE=${RS_MODE:=$MODE}
+
+# debug reporting
+RS_DEBUG=${RS_DEBUG:="false"}
+if [ "$RS_DEBUG" = "true" ]; then
+    export FFREPORT="file=/restreamer/src/webserver/public/debug/%p-%t.log:level=48"
+fi
+
 CPU_TYPE=$(uname -m | cut -c 1-3)
 if [ "${RS_MODE}" = "RASPICAM" ] && [ "$CPU_TYPE" = "arm" ]; then
     echo "/opt/vc/lib" > /etc/ld.so.conf.d/00-vmcs.conf

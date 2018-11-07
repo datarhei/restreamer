@@ -214,12 +214,12 @@
             "description": "Create heapdumps of application."
         },
         {
-            "name": "RS_DEBUG_FFMPEG",
+            "name": "RS_DEBUG",
             "alias": [],
             "type": "bool",
             "defaultValue": false,
             "required": false,
-            "description": "Enables FFmpeg reporting."
+            "description": "Enables debug reporting."
         },
         {
             "name": "RS_AUDIO",
