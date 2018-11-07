@@ -13,7 +13,7 @@ These environment variables enable you to control the default behaviour of Restr
 | `RS_TOKEN` | (not set) | RTMP publish token. [Details](#rs_token)|
 | `RS_LOGLEVEL` | `3` | Logging level . [Details](#rs_loglevel) |
 | `RS_TIMEZONE` | `Europe/Berlin` | Set the timezone. [Details](#rs_timezone) |
-| `RS_DEBUG_FFMPEG` | `false` | Enables FFmpeg reporting. [Details](#rs_debug_ffmpeg) |
+| `RS_DEBUG` | `false` | Enables debugging reporting. [Details](#rs_debug) |
 | `RS_DEBUG_HEAPDUMPS` | `false` | Create heapdumps of application. [Details](#rs_debug_heapdumps) |
 | `RS_NODEJS_PORT` | `3000` | Node.js webserver port of application. [Details](#rs_nodejs_port) |
 | `RS_NODEJS_ENV` | `prod` | Node.js environment. [Details](#rs_nodejs_env) |
@@ -129,13 +129,13 @@ Set the timezone for the timestamp in the logging messages. Allowed values are v
 E.g. `America/New_York`, `Europe/Berlin`, ... 
 
 
-## RS_DEBUG_FFMPEG
+## RS_DEBUG
 
-Set this value to `true` and the debugging output from the FFmpeg processes will be written to a file. You can access these files
+Set this value to `true` and the debugging output from the GUI and FFmpeg processes will be written to a file. You can access these files
 through the browser in the path `/debug` of the Restreamer GUI, e.g. if your Restreamer GUI is running on `http://192.168.1.123/` then
 the debug files will be under `http://192.168.1.123/debug`.
 
-The logging output of FFmpeg is very extensive. For a long running process it can use up a lot of disk space. This should only be used during development.
+The logging output is very extensive. For a long running process it can use up a lot of disk space. This should only be used during development.
 {: .notice--danger}
 
 
