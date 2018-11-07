@@ -1,13 +1,13 @@
 ## Changes from 0.1.0-rc7 to 0.1.0
 
-* Update FFmpeg to 4.0.2
-* Update NGINX to 1.14.0
+* Update FFmpeg to 4.1
+* Update NGINX to 1.14.1
 * Update NGINXRTMP module to 1.2.1
-* Update node.js to 8.12.0
+* Update node.js to 10.13.0
 * Update NPM packages
 * Fix detection of public IP
 * Disable FFmpeg error detection for a VLC-like behaviour
-* Add optional RTMP token authentification
+* Add optional RTMP (RS_TOKEN environment variable) token authentification
 * Add health check to NGINX
 * Allow HTTP/HTTPS (HLS) and RTMPT/RTMPS addresses as video source
 * Add optional autostart for the player
@@ -16,12 +16,19 @@
 * Reduce docker image size
 * Fix snapshot interval parsing
 * Allow to disable snapshot
-* Add RS_SNAPSHOT_INTERVAL environment variable, deprecate RS_SNAPSHOT_REFRESH_INTERVAL
 * Remove stream connection retry limits
 * Add stale stream detection with automatic restart
-* Add RS_DEBUG_FFMPEG environment variable to store FFmpeg debug output to /debug
+* Add RS_DEBUG environment variable to store debug output to /debug
 * Add RS_AUDIO environment variable to control audio processing
 * Redesign logging output and logging messages
+* Rename environment variables (old environment variables are still supported but will be deprecated in the future)
+  * RS_NODE_PORT to RS_NODEJS_PORT
+  * RS_NODE_ENV to RS_NODEJS_ENV
+  * RS_LOGGER_LEVEL to RS_LOGLEVEL
+  * MODE to RS_MDOE
+  * RS_SNAPSHOT_REFRESH_INTERVAL to RS_SNAPSHOT_INTERVAL
+* Add options to control Raspberry Pi cameras (RS_MODE=RASPICAM)
+* Add options to control USB cameras (RS_MODE=USBCAM)
 
 ## Changes from 0.1.0-rc7 to 0.1.0-rc.7.1
 
