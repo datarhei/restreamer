@@ -50,7 +50,7 @@ class Logger {
                 this.debuglog = fs.openSync('/restreamer/src/webserver/public/debug/Restreamer-' + identifier + '.txt', 'a');
             } catch(err) {
                 this.debuglog = null;
-                this.stdout('Error opening debug file ' + identifier + ': ' + err, false, 'INFO');
+                this.stdout('Error opening debug file ' + identifier + ': ' + err, context, 'INFO');
             } finally {
                 this.stdout('Enabled logging to ' + identifier, context, 'INFO');
             }
