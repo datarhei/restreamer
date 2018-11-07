@@ -39,7 +39,7 @@ Done!
   # for x86_64 / amd64 architecture
   docker pull datarhei/restreamer:latest
 
-  # for armv6 end armv7 architecture
+  # for arm32v6 and arm32v7 architecture
   docker pull datarhei/restreamer-armhf:latest
   ```
 
