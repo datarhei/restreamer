@@ -312,7 +312,9 @@ class Restreamer {
                 }
             }
             else {
-                option = "native_h264_native_audio";
+                if(audio !== null) {
+                    option = "native_h264_native_audio";
+                }
             }
 
             logger.debug('Selected ffmpeg option: ' + option, streamType);
