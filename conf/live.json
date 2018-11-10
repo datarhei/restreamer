@@ -3,109 +3,231 @@
     "jsondb": "db/v1",
     "auth": {
         "username": "admin",
-        "password": "datarhei"
+        "password": "datarhei",
+        "token": ""
     },
     "ffmpeg": {
         "options": {
-            "native_h264": [
-                "-codec copy",
-                "-map_metadata -1",
-                "-metadata application=datarhei/Restreamer",
-                "-metadata server=NGINX-RTMP",
-                "-f flv"
-            ],
-            "native_h264_soundless_aac": [
-                "-f lavfi",
-                "-i aevalsrc=0",
-                "-vcodec copy",
-                "-acodec aac",
-                "-map 0:0",
-                "-map 1:0",
-                "-shortest",
-                "-map_metadata -1",
-                "-metadata application=datarhei/Restreamer",
-                "-metadata server=NGINX-RTMP",
-                "-f flv"
-            ],
-            "snapshot": "-vframes 1"
+            "native_h264_native_audio": {
+                "outputOptions": [
+                    "-codec copy",
+                    "-map 0:v",
+                    "-map 0:a",
+                    "-map_metadata -1",
+                    "-metadata application=datarhei/Restreamer",
+                    "-metadata server=NGINX-RTMP",
+                    "-f flv"
+                ]
+            },
+            "native_h264_no_audio": {
+                "outputOptions": [
+                    "-vcodec copy",
+                    "-an",
+                    "-map 0:v",
+                    "-map_metadata -1",
+                    "-metadata application=datarhei/Restreamer",
+                    "-metadata server=NGINX-RTMP",
+                    "-f flv"
+                ]
+            },
+            "native_h264_native_aac": {
+                "outputOptions": [
+                    "-codec copy",
+                    "-map 0:v",
+                    "-map 0:a",
+                    "-bsf:a aac_adtstoasc",
+                    "-map_metadata -1",
+                    "-metadata application=datarhei/Restreamer",
+                    "-metadata server=NGINX-RTMP",
+                    "-f flv"
+                ]
+            },
+            "native_h264_silence_aac": {
+                "input": "anullsrc=r=44100:cl=mono",
+                "inputOptions": [
+                    "-f lavfi"
+                ],
+                "outputOptions": [
+                    "-vcodec copy",
+                    "-acodec aac",
+                    "-b:a 0k",
+                    "-map 0:v",
+                    "-map 1:a",
+                    "-shortest",
+                    "-map_metadata -1",
+                    "-metadata application=datarhei/Restreamer",
+                    "-metadata server=NGINX-RTMP",
+                    "-f flv"
+                ]
+            },
+            "native_h264_transcode_aac": {
+                "outputOptions": [
+                    "-vcodec copy",
+                    "-acodec aac",
+                    "-b:a 64k",
+                    "-map 0:v",
+                    "-map 0:a",
+                    "-map_metadata -1",
+                    "-metadata application=datarhei/Restreamer",
+                    "-metadata server=NGINX-RTMP",
+                    "-f flv"
+                ]
+            },
+            "native_h264_transcode_mp3": {
+                "outputOptions": [
+                    "-vcodec copy",
+                    "-acodec libmp3lame",
+                    "-b:a 64k",
+                    "-map 0:v",
+                    "-map 0:a",
+                    "-map_metadata -1",
+                    "-metadata application=datarhei/Restreamer",
+                    "-metadata server=NGINX-RTMP",
+                    "-f flv"
+                ]
+            },
+            "global": {
+                "inputOptions": [
+                    "-stats",
+                    "-loglevel quiet",
+                    "-err_detect ignore_err"
+                ]
+            },
+            "rtsp-tcp": {
+                "inputOptions": [
+                    "-rtsp_transport tcp"
+                ]
+            },
+            "snapshot": {
+                "outputOptions": [
+                    "-vframes 1"
+                ]
+            }
         },
         "monitor": {
             "restart_wait": "6000",
-            "retries": 10
+            "stale_wait": "60000"
         }
     },
     "nginx": {
-        "exec": "/usr/local/nginx/sbin/nginx -c /restreamer/conf/nginx.conf",
+        "command": "/usr/local/nginx/sbin/nginx",
+        "args": [
+            "-c",
+            "/restreamer/conf/nginx.conf"
+        ],
         "streaming": {
             "ip": "127.0.0.1",
             "rtmp_port": "1935",
-            "rtmp_hls_path": "/hls/"
+            "rtmp_hls_path": "/hls/",
+            "http_port": "8080",
+            "http_health_path": "/ping"
         }
     },
     "envVars": [
         {
-            "name": "RS_NODE_PORT",
-            "alias": "NODEJS_PORT",
+            "name": "RS_NODEJS_PORT",
+            "alias": [
+                "NODEJS_PORT"
+            ],
             "type": "int",
             "defaultValue": "3000",
             "required": false,
-            "description": "Webserver port of application"
+            "description": "Webserver port of application."
         },
         {
-            "name": "RS_NODE_ENV",
-            "alias": "NODE_ENV",
+            "name": "RS_NODEJS_ENV",
+            "alias": [
+                "NODE_ENV"
+            ],
             "type": "string",
             "defaultValue": "prod",
             "required": false,
-            "description": "Nodejs Environment"
+            "description": "Node.js Environment ('dev' or 'prod')."
         },
         {
-            "name": "RS_LOGGER_LEVEL",
-            "alias": "LOGGER_LEVEL",
+            "name": "RS_LOGLEVEL",
+            "alias": [
+                "LOGGER_LEVEL"
+            ],
             "type": "int",
             "defaultValue": "3",
-            "required": true,
-            "description": "Logger level to defined, what should be logged"
+            "required": false,
+            "description": "Logging level (0=no logging, 1=ERROR, 2=WARN, 3=INFO, 4=DEBUG)."
         },
         {
             "name": "RS_TIMEZONE",
-            "alias": "TIMEZONE",
+            "alias": [
+                "TIMEZONE"
+            ],
             "type": "string",
             "defaultValue": "Europe/Berlin",
-            "required": true,
-            "description": "Set the timezone"
+            "required": false,
+            "description": "Set the timezone. Accepts Olson timezone IDs."
         },
         {
-            "name": "RS_SNAPSHOT_REFRESH_INTERVAL",
-            "alias": "SNAPSHOT_REFRESH_INTERVAL",
+            "name": "RS_SNAPSHOT_INTERVAL",
+            "alias": [
+                "SNAPSHOT_REFRESH_INTERVAL",
+                "RS_SNAPSHOT_REFRESH_INTERVAL"
+            ],
             "type": "string",
             "defaultValue": "1m",
             "required": false,
-            "description": "Interval to create a new Snapshot (in minutes)"
-        },
-        {
-            "name": "RS_CREATE_HEAPDUMPS",
-            "alias": "CREATE_HEAPDUMPS",
-            "type": "bool",
-            "defaultValue": "false",
-            "required": false,
-            "description": "Create Heapdumps of application"
+            "description": "Interval for new snapshots (in milliseconds, use suffix 's' for seconds, 'm' for minutes). Use a value of 0 to disable snapshots."
         },
         {
             "name": "RS_USERNAME",
-            "alias": "RESTREAMER_USERNAME",
+            "alias": [
+                "RESTREAMER_USERNAME"
+            ],
             "type": "string",
             "defaultValue": "admin",
             "required": false,
-            "description": "Backend user name"
+            "description": "Username for the backend."
         },
         {
             "name": "RS_PASSWORD",
-            "alias": "RESTREAMER_PASSWORD",
+            "alias": [
+                "RESTREAMER_PASSWORD"
+            ],
             "type": "string",
             "defaultValue": "datarhei",
             "required": false,
-            "description": "Backend login password"
+            "description": "Password for the backend."
+        },
+        {
+            "name": "RS_TOKEN",
+            "alias": [],
+            "type": "string",
+            "defaultValue": "",
+            "required": false,
+            "description": "Token for pushing an RTMP stream."
+        },
+        {
+            "name": "RS_DEBUG_HEAPDUMPS",
+            "alias": [
+                "CREATE_HEAPDUMPS"
+            ],
+            "type": "bool",
+            "defaultValue": "false",
+            "required": false,
+            "description": "Create heapdumps of application."
+        },
+        {
+            "name": "RS_DEBUG",
+            "alias": [],
+            "type": "bool",
+            "defaultValue": false,
+            "required": false,
+            "description": "Enables debug reporting."
+        },
+        {
+            "name": "RS_AUDIO",
+            "alias": [],
+            "type": "string",
+            "defaultValue": "auto",
+            "required": false,
+            "description": "Audio track handling: auto, none (remove audio), silence (force silence), aac (force AAC), mp3 (force MP3)."
         }
     ]
 }

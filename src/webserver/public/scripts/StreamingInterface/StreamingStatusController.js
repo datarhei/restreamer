@@ -37,12 +37,19 @@ window.angular.module('StreamingInterface').controller('streamingStatusControlle
         };
 
         /**
+         * check if the status is stopped
+         * @returns {boolean}
+         */
+        $scope.stopped = () => {
+            return statusName() === 'stopped';
+        };
+
+        /**
          * check if the status is error
          * @returns {boolean}
          */
         $scope.error = () => {
-            $scope.retries = $scope.data.retryCounter[$scope.name].current;
-            $scope.maxRetries = $scope.data.retryCounter[$scope.name].max;
+            $scope.message = $scope.data.states[$scope.name].message;
             return statusName() === 'error';
         };
 

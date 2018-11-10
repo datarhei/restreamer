@@ -1,10 +1,9 @@
-ARG IMAGE=amd64/debian:stretch-slim
+ARG IMAGE=arm64v8/debian:stretch-slim
 
 FROM $IMAGE as builder
 
 MAINTAINER datarhei <info@datarhei.org>
 
-ARG NASM_VERSION=2.13.03
 ARG LAME_VERSION=3.100
 # x264 versions from August 2018 onward (> Core 152) seem to have a bug that cuts performance by 50%
 ARG X264_VERSION=20180717-2245-stable
@@ -27,15 +26,6 @@ RUN apt-get update && \
         zlib1g-dev \
         libasound2-dev \
         build-essential 
-
-# nasm
-RUN mkdir -p /dist && cd /dist && \
-    curl -OL "https://www.nasm.us/pub/nasm/releasebuilds/${NASM_VERSION}/nasm-${NASM_VERSION}.tar.xz" && \
-    tar -xvJ -f nasm-${NASM_VERSION}.tar.xz && \
-    cd nasm-${NASM_VERSION} && \
-    ./configure && \
-    make -j$(nproc) && \
-    make install
 
 # x264
 RUN mkdir -p /dist && cd /dist && \
@@ -93,9 +83,9 @@ RUN mkdir -p /dist && cd /dist && \
 
 # node.js
 RUN mkdir -p /dist && cd /dist && \
-    curl -OL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz" && \
-    tar -xvJ -f "node-v${NODE_VERSION}-linux-x64.tar.xz" && \
-    cd node-v${NODE_VERSION}-linux-x64 && \
+    curl -OL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-arm64.tar.xz" && \
+    tar -xvJ -f "node-v${NODE_VERSION}-linux-arm64.tar.xz" && \
+    cd node-v${NODE_VERSION}-linux-arm64 && \
     cp -R bin /usr/local && \
     cp -R lib /usr/local
 

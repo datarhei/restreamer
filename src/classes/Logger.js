@@ -7,6 +7,9 @@
 'use strict';
 
 const moment = require('moment-timezone');
+const printf = require('printf');
+const fs = require('fs');
+
 const LEVEL_MUTE = 0;
 const LEVEL_ERROR = 1;
 const LEVEL_WARN = 2;
@@ -16,7 +19,7 @@ const LEVEL_DEBUG = 4;
 // set default timezone to use the timezone before the default values are
 // @todo: it is really ugly and wrong to log with hardcoded timezone before environment is read
 process.env.RS_TIMEZONE = process.env.RS_TIMEZONE || 'Europe/Berlin';
-process.env.RS_LOGGER_LEVEL = process.env.RS_LOGGER_LEVEL || 3;
+process.env.RS_LOGLEVEL = process.env.RS_LOGLEVEL || 3;
 
 /**
  * Class for logger
@@ -28,7 +31,7 @@ class Logger {
      * @returns {boolean}
      */
     static isMuted () {
-        return process.env.RS_LOGGER_LEVEL === LEVEL_MUTE;
+        return process.env.RS_LOGLEVEL === LEVEL_MUTE;
     }
 
     /**
@@ -36,8 +39,35 @@ class Logger {
      * @param {string} context context of the log message (classname.methodname)
      */
     constructor (context) {
-        process.env.RS_LOGGER_LEVEL = process.env.RS_LOGGER_LEVEL || LEVEL_INFO;
+        process.env.RS_LOGLEVEL = process.env.RS_LOGLEVEL || LEVEL_INFO;
         this.context = context;
+
+        this.debuglog = null;
+
+        if(process.env.RS_DEBUG == 'true') {
+            let identifier = process.pid + '-' + process.platform + '-' + process.arch;
+            try {
+                this.debuglog = fs.openSync('/restreamer/src/webserver/public/debug/Restreamer-' + identifier + '.txt', 'a');
+            } catch(err) {
+                this.debuglog = null;
+                this.stdout('Error opening debug file ' + identifier + ': ' + err, context, 'INFO');
+            } finally {
+                this.stdout('Enabled logging to ' + identifier, context, 'INFO');
+            }
+        }
+    }
+
+    logline(message, context, type) {
+        let time = moment().tz(process.env.RS_TIMEZONE).format('DD-MM-YYYY HH:mm:ss.SSS');
+
+        let logline = '';
+        if(context) {
+            logline = printf('[%s] [%-5s] [%22s] %s', time, type, context, message);
+        } else {
+            logline = printf('[%s] [%-5s] %s', time, type, message);
+        }
+
+        return logline;
     }
 
     /**
@@ -47,16 +77,37 @@ class Logger {
      * @param {string} type
      */
     stdout (message, context, type) {
-        var time = moment().tz(process.env.RS_TIMEZONE).format('DD-MM-YYYY HH:mm:ss.SSS');
-        var loggerContext = `${String(context)}`;
-
-        if (Logger.isMuted()) {
+        if(Logger.isMuted()) {
             return;
         }
-        if (context) {
-            process.stdout.write(`[${time}] [${type}] ${message} [${loggerContext}]\n`);
-        } else {
-            process.stdout.write(`[${time}] [${type}] ${message}\n`);
+
+        let logline = this.logline(message, context, type);
+
+        process.stdout.write(logline + '\n');
+    }
+
+    /**
+     * print a message to a file
+     * @param {string} message
+     * @param {string} context
+     * @param {string} type
+     */
+    file (message, context, type) {
+        let logline = this.logline(message, context, type);
+
+        if(this.debuglog !== null) {
+            fs.appendFile(this.debuglog, logline + '\n', 'utf8', (err) => {
+                // ignore errors
+                if(err) {
+                    return;
+                }
+
+                fs.fsync(this.debuglog, (err) => {
+                    return;
+                });
+
+                return;
+            });
         }
     }
 
@@ -78,7 +129,11 @@ class Logger {
             loggerAlertGui = false;
         }
 
-        if (process.env.RS_LOGGER_LEVEL >= LEVEL_INFO) {
+        if(process.env.RS_DEBUG == 'true') {
+            this.file(message, loggerContext, 'INFO');
+        }
+
+        if (process.env.RS_LOGLEVEL >= LEVEL_INFO) {
             return this.stdout(message, loggerContext, 'INFO');
         }
 
@@ -106,7 +161,11 @@ class Logger {
             loggerAlertGui = false;
         }
 
-        if (process.env.RS_LOGGER_LEVEL >= LEVEL_WARN) {
+        if(process.env.RS_DEBUG == 'true') {
+            this.file(message, loggerContext, 'WARN');
+        }
+
+        if (process.env.RS_LOGLEVEL >= LEVEL_WARN) {
             return this.stdout(message, loggerContext, 'WARN');
         }
 
@@ -134,7 +193,11 @@ class Logger {
             loggerAlertGui = false;
         }
 
-        if (process.env.RS_LOGGER_LEVEL >= LEVEL_DEBUG) {
+        if(process.env.RS_DEBUG == 'true') {
+            this.file(message, loggerContext, 'DEBUG');
+        }
+
+        if (process.env.RS_LOGLEVEL >= LEVEL_DEBUG) {
             return this.stdout(message, loggerContext, 'DEBUG');
         }
 
@@ -163,7 +226,11 @@ class Logger {
             loggerAlertGui = false;
         }
 
-        if (process.env.RS_LOGGER_LEVEL >= LEVEL_ERROR) {
+        if(process.env.RS_DEBUG == 'true') {
+            this.file(message, loggerContext, 'ERROR');
+        }
+
+        if (process.env.RS_LOGLEVEL >= LEVEL_ERROR) {
             return this.stdout(message, loggerContext, 'ERROR');
         }
 

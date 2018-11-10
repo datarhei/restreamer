@@ -3,6 +3,8 @@
 Dockerfile
 Dockerfile_armv6l
 Dockerfile_armv7l
+Dockerfile-armhf
+Dockerfile-aarch64
 .git
 .editorconfig
 .gitignore
@@ -12,3 +14,4 @@ bin
 db
 src/webserver/public/libs
 checkDeployment.sh
+*.log

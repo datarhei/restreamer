@@ -21,6 +21,10 @@ const Restreamer = require('./classes/Restreamer');
 const RestreamerData = require('./classes/RestreamerData');
 const restreamerApp = require('./webserver/app');
 
+if(process.env.RS_DEBUG == "true") {
+    logger.info('Debugging enabled. Check the /debug path in the web interface.', false);
+}
+
 // show start message
 logger.info('     _       _             _           _ ', false);
 logger.info('  __| | __ _| |_ __ _ _ __| |___   ___(_)', false);
@@ -38,20 +42,19 @@ logger.info('', false);
 EnvVar.init(config);
 
 // start the app
-nginxrtmp.init()
-         .then(() => {
-             return RestreamerData.checkJSONDb();
-         })
-         .then(() => {
-             Restreamer.checkForUpdates();
-             Restreamer.getPublicIp();
-             Restreamer.bindWebsocketEvents();
-             return restreamerApp.startWebserver();
-         })
-         .then(() => {
-             return Q.fcall(Restreamer.restoreFFMpegProcesses);
-         })
-         .catch((error)=> {
-             let errorMessage = `Error starting webserver and nginx for application: ${error}`;
-             throw new Error(errorMessage);
-         });
+nginxrtmp.start()
+    .then(() => {
+        return RestreamerData.checkJSONDb();
+    })
+    .then(() => {
+        Restreamer.checkForUpdates();
+        Restreamer.getPublicIp();
+        Restreamer.bindWebsocketEvents();
+        return restreamerApp.startWebserver();
+    })
+    .then(() => {
+        return Q.fcall(Restreamer.restoreProcesses);
+    })
+    .catch((error) => {
+        logger.error('Error starting webserver and nginx for application: ' + error);
+    });

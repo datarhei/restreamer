@@ -44,19 +44,17 @@ window.angular.module('Main').controller('mainController',
         $scope.nginxRepeatStreamInputInvalid = false;
 
         $scope.reStreamerData = {
-            'retryCounter': {
-                'repeatToLocalNginx': 0,
-                'repeatToOptionalOutput': 0
-            },
             'options': {
                 'rtspTcp': false
             },
             'states': {
                 'repeatToLocalNginx': {
-                    'type': ''
+                    'type': '',
+                    'message': ''
                 },
                 'repeatToOptionalOutput': {
-                    'type': ''
+                    'type': '',
+                    'message': ''
                 }
             },
             'userActions': {
@@ -77,12 +75,18 @@ window.angular.module('Main').controller('mainController',
 
         $scope.optionalOutput = '';
 
-        $scope.showStopButton = (streamType) => {
-            return $scope.reStreamerData.userActions[streamType] === 'start';
+        $scope.showStartButton = (streamType) => {
+            return ($scope.reStreamerData.states[streamType].type == 'disconnected');
         };
 
-        $scope.showStartButton = (streamType) => {
-            return $scope.reStreamerData.userActions[streamType] === 'stop';
+        $scope.showStopButton = (streamType) => {
+            let state = $scope.reStreamerData.states[streamType].type;
+
+            return (state == 'connected' || state == 'connecting' || state == 'error');
+        };
+
+        $scope.disableInput = (streamType) => {
+            return ($scope.reStreamerData.states[streamType].type != 'disconnected');
         };
 
         $scope.openPlayer = () => {
@@ -125,21 +129,23 @@ window.angular.module('Main').controller('mainController',
         }
 
         $scope.startStream = (streamType) => {
-            const rtmpRegex = /^(?:rtmp:\/\/|rtsp:\/\/)(?:(?:[^:])+:(?:[^@])+@)?(?:(?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(?:(?!\-)(?:[a-zA-Z\d\-]{0,62}[a-zA-Z\d]\.){1,126}(?!\d+)[a-zA-Z\d]{1,63}))(:?:[0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])?(?:\/.*)?/;
-            var optionalOutput = '';
+            const inputRegex = /^(rtmp(s|t)?|rtsp|https?):\/\//;
+            const outputRegex = /^rtmp(s|t)?/;
 
-            if ($scope.activateOptionalOutput === true) {
+            var optionalOutput = '';
+            if($scope.activateOptionalOutput === true) {
                 optionalOutput = $scope.reStreamerData.addresses.optionalOutputAddress;
             }
 
-            if (streamType === 'repeatToOptionalOutput') {
-                $scope.optionalOutputInputInvalid = !rtmpRegex.test(optionalOutput);
-                if ($scope.optionalOutputInputInvalid) {
+            if(streamType == 'repeatToOptionalOutput') {
+                $scope.optionalOutputInputInvalid = !outputRegex.test(optionalOutput);
+                if($scope.optionalOutputInputInvalid) {
                     return;
                 }
-            } else {
-                $scope.nginxRepeatStreamInputInvalid = !rtmpRegex.test($scope.reStreamerData.addresses.srcAddress);
-                if ($scope.nginxRepeatStreamInputInvalid) {
+            }
+            else {
+                $scope.nginxRepeatStreamInputInvalid = !inputRegex.test($scope.reStreamerData.addresses.srcAddress);
+                if($scope.nginxRepeatStreamInputInvalid) {
                     return;
                 }
             }

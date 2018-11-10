@@ -7,122 +7,108 @@
 'use strict';
 
 const Q = require('q');
-const psFind = require('ps-find');
+const config = require('../../conf/live.json');
+const proc = require('process');
 const spawn = require('child_process').spawn;
-const logger = require('./Logger')('Nginxrtmp');
+const logger = require('./Logger')('NGINX');
+const rp = require('request-promise');
 
 /**
- * class to watch and control the NGINX RTMP server process
+ * Class to watch and control the NGINX RTMP server process
  */
 class Nginxrtmp {
 
     /**
-     * constructs the Nginx rtmp with injection of config to use
+     * Constructs the NGINX rtmp with injection of config to use
      * @param config
      */
-    constructor (config) {
+    constructor(config) {
         this.config = config;
-        this.process = null;
         this.logger = logger;
+
+        this.process = null;        // Process handler
+        this.allowRestart = false;  // Whether to allow restarts. Restarts are not allowed until the first successful start
     }
 
     /**
-     * generate output hls-path from config-file
-     * @returns {string}
+     * Start the NGINX server
+     * @returns {Promise.<boolean>}
      */
-    init () {
-        return this.getState()
-                   .then((state) => {
-                       switch (state) {
-                           case 'not_running':
-                               this.start();
-                               break;
-                           case 'running':
-                               this.logger.info('NGINX already started');
-                               break;
-                           default:
-                               throw new Error('NGINX state could not be detected');
-                       }
-                   });
-    }
+    async start() {
+        this.logger.info('Starting ...');
+        let timeout = 250;
+        let abort = false;
 
-    /**
-     * start nginx rtmp server
-     */
-    start () {
-        this.logger.info('Starting NGINX...', 'start.nginx');
-        this.process = spawn('sh', [
-            '-c',
-            this.config.nginx.exec
-        ]);
-        this.bindNginxProcessEvents(this.process);
+        this.process = spawn(this.config.nginx.command, this.config.nginx.args);
 
-        // todo: code a watcher instead of fix 1s delay for state detection
-        this.getState(1000)
-            .then((state)=> {
-                switch (state) {
-
-                    case 'not_running':
-                        this.logger.info('NGINX could not be started');
-                        break;
-
-                    case 'running':
-                        this.logger.info('NGINX successfully started');
-                        break;
-
-                    default:
-                        throw new Error('NGINX state could not be detected');
-                }
-            });
-    }
-
-    /**
-     * bind events on outputs of the nginx process
-     * @param {process} process
-     */
-    bindNginxProcessEvents (process) {
-        process.stdout.on('data', (data) => {
-            this.logger.info(`The NGINX RTMP process created an output: ${data}`);
+        this.process.stdout.on('data', (data) => {
+            this.logger.info(data.toString().replace(/^.*\]/, '').trim());
         });
 
-        process.stderr.on('data', (data) => {
-            this.logger.error(`The NGINX RTMP process created an error output: ${data}`);
+        this.process.stderr.on('data', (data) => {
+            this.logger.error(data.toString().replace(/^.*\]/, '').trim());
         });
 
-        process.stderr.on('close', (code) => {
-            this.logger.error(`The NGINX RTMP process exited with code: ${code}`);
-            this.start();
+        this.process.on('close', (code) => {
+            abort = true;
+
+            this.logger.error('Exited with code: ' + code);
+
+            if(code < 0) {
+                return;
+            }
+
+            if(this.allowRestart == true) {
+                let self = this;
+                setTimeout(() => {
+                    self.logger.info('Trying to restart ...');
+                    self.start();
+                }, timeout);
+            }
         });
+
+        this.process.on('error', (err) => {
+            this.logger.error('Failed to spawn process: ' + err.name + ': ' + err.message);
+        });
+
+        let running = false;
+
+        while(running == false){
+            running = await this.isRunning(timeout);
+            if(abort == true) {
+                break;
+            }
+        }
+
+        if(running == false) {
+            this.process = null;
+            throw new Error('Failed to start');
+        }
+        else {
+            this.allowRestart = true;
+            this.logger.info('Successfully started');
+        }
+
+        return true;
     }
 
     /**
-     * get current state of nginx rtmp server
-     * @returns {*|promise}
+     * Get current state of the NGINX server
+     * @returns {Promise.<boolean>}
      */
-    getState (delayMs) {
-        let delay = typeof delayMs === 'undefined' ? 0 : delayMs;
-        let nginxProcessString = 'nginx: master process ' + this.config.nginx.exec;
-        let state = 'not_running';
-        let deferred = Q.defer();
+    async isRunning(delay) {
+        const url = "http://" + config.nginx.streaming.ip + ":" +  config.nginx.streaming.http_port  +  config.nginx.streaming.http_health_path;
 
-        // delay the state detection if waiting for process is needed
-        Q.delay(delay)
-         .then(()=> {
-             return Q.nfcall(psFind.find, nginxProcessString);
-         })
-         .then(()=> {
-             state = 'running';
-         })
-         .catch(()=> { // ps-find throws exception in case of 'not found' so we have to handle that
-             state = 'not_running';
-         })
-         .finally(()=> {
-             deferred.resolve(state);
-         });
-        return deferred.promise;
+        try {
+            await Q.delay(delay); // delay the state detection by the given amount of milliseconds
+            const response = await rp(url);
+            return (response == 'pong');
+        } catch(error) {
+            return false;
+        }
     }
 }
 
-module.exports = (config)=> {
+module.exports = (config) => {
     return new Nginxrtmp(config);
 };

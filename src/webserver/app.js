@@ -19,7 +19,7 @@ const Q = require('q');
 const crypto = require('crypto');
 
 // modules
-const logger = require.main.require('./classes/Logger')('RestreamerExpressApp');
+const logger = require.main.require('./classes/Logger')('Webserver');
 const indexRouter = require('./controllers/index');
 const apiV1 = require('./controllers/api/v1');
 
@@ -40,7 +40,7 @@ class RestreamerExpressApp {
         this.sessionKey = 'restreamer-session';
         this.sessionStore = new session.MemoryStore();
 
-        if (process.env.RS_NODE_ENV === 'dev') {
+        if (process.env.RS_NODEJS_ENV === 'dev') {
             this.initDev();
         } else {
             this.initProd();
@@ -157,8 +157,8 @@ class RestreamerExpressApp {
         var deferred = Q.defer();
         var server = null;
 
-        logger.info('Starting webserver...');
-        this.app.set('port', process.env.RS_NODE_PORT);
+        logger.info('Starting ...');
+        this.app.set('port', process.env.RS_NODEJS_PORT);
         server = this.app.listen(this.app.get('port'), ()=> {
             this.app.set('io', require('socket.io')(server));
             this.secureSockets();
@@ -166,7 +166,7 @@ class RestreamerExpressApp {
 
             // promise to avoid ws binding before the webserver has been started
             this.app.get('websocketsReady').resolve(this.app.get('io'));
-            logger.info(`Webserver running on port ${process.env.RS_NODE_PORT}`);
+            logger.info('Running on port ' + process.env.RS_NODEJS_PORT);
             deferred.resolve(server.address().port);
         });
 
@@ -190,7 +190,7 @@ class RestreamerExpressApp {
      * prod config for the express app
      */
     initProd () {
-        logger.debug('init webserver with PROD environment');
+        logger.debug('Init webserver with PROD environment');
         this.initAlways();
         this.app.get('/', (req, res)=> {
             res.sendFile(path.join(global.__public, 'index.prod.html'));
@@ -203,7 +203,7 @@ class RestreamerExpressApp {
      * dev config for the express app
      */
     initDev () {
-        logger.debug('init webserver with DEV environment');
+        logger.debug('Init webserver with DEV environment');
         this.initAlways();
         this.app.get('/', (req, res)=> {
             res.sendFile(path.join(global.__public, 'index.dev.html'));
