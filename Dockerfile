@@ -145,9 +145,6 @@ RUN cd /restreamer && \
         curl && \
     apt autoremove -y
 
-ENV RS_USERNAME admin
-ENV RS_PASSWORD datarhei
-
 EXPOSE 8080
 VOLUME ["/restreamer/db"]
 
