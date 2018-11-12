@@ -67,8 +67,8 @@ class Restreamer {
 
         command.output(Restreamer.getSnapshotPath());
 
-        Restreamer.addStreamOptions(command, "global");
-        Restreamer.addStreamOptions(command, "snapshot");
+        Restreamer.addStreamOptions(command, 'global');
+        Restreamer.addStreamOptions(command, 'snapshot');
 
         command.on('start', (commandLine) => {
             logger.debug('Spawned: ' + commandLine, 'snapshot');
@@ -293,6 +293,9 @@ class Restreamer {
                             option = "native_h264_transcode_aac"; break;
                     }
                 }
+                else {
+                    option = "native_h264_silence_aac";
+                }
 
                 if(process.env.RS_AUDIO == "none") {
                     option = "native_h264_no_audio";
@@ -301,13 +304,29 @@ class Restreamer {
                     option = "native_h264_silence_aac";
                 }
                 else if(process.env.RS_AUDIO == "aac") {
-                    if(audio !== null && audio.codec_name != 'aac') {
-                        option = "native_h264_transcode_aac";
+                    if(audio !== null) {
+                        if(audio.codec_name != 'aac') {
+                            option = "native_h264_transcode_aac";
+                        }
+                        else {
+                            option = "native_h264_native_aac";
+                        }
+                    }
+                    else {
+                        option = "native_h264_silence_aac";
                     }
                 }
                 else if(process.env.RS_AUDIO == "mp3") {
-                    if(audio !== null && audio.codec_name != 'mp3') {
-                        option = "native_h264_transcode_mp3";
+                    if(audio !== null) {
+                        if(audio.codec_name != 'mp3') {
+                            option = "native_h264_transcode_mp3";
+                        }
+                        else {
+                            option = "native_h264_native_audio";
+                        }
+                    }
+                    else {
+                        option = "native_h264_silence_mp3";
                     }
                 }
             }
@@ -468,6 +487,7 @@ class Restreamer {
             });
 
             Restreamer.addStreamOptions(command, 'global');
+            Restreamer.addStreamOptions(command, 'video');
 
             // GUI option
             if(streamType == 'repeatToLocalNginx') {
@@ -486,6 +506,7 @@ class Restreamer {
             });
 
             Restreamer.addStreamOptions(command, 'global');
+            Restreamer.addStreamOptions(command, 'video');
 
             // add outputs to the ffmpeg stream
             command.output(streamUrl);
