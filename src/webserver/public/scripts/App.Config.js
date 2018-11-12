@@ -12,12 +12,12 @@ const config = {
         // project
         'issueTracker': 'https://github.com/datarhei/restreamer/issues/new',
         'projectPage': 'https://github.com/datarhei/restreamer',
-        'updatePage': 'https://datarhei.github.io/restreamer/docs/references-updates.html',
+        'updatePage': 'https://datarhei.github.io/restreamer/docs/guides-updates.html',
 
         // help
-        'embedPlayerHelp': 'https://datarhei.github.io/restreamer/docs/guides-embed-upon-your-website.html',
+        'embedPlayerHelp': 'https://datarhei.github.io/restreamer/docs/guides-embedding.html',
         'portForwardingHelp': 'https://datarhei.github.io/restreamer/wiki/portforwarding.html',
-        'rtmpServerHelp': 'https://datarhei.github.io/restreamer/docs/references-external-rtmp-streaming-server.html'
+        'rtmpServerHelp': 'https://datarhei.github.io/restreamer/docs/guides-external-rtmp.html'
 
     }
 };
