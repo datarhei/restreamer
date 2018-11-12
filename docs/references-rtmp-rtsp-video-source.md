@@ -1,24 +1,30 @@
 ---
-title: RTMP/RTSP Video Source
+title: RTMP/RTSP Video Source (IP Camera)
 ---
-###### [User Guides](../docs/guides-index.html) > RTMP/RTSP Video Source 
-# RTMP/RTSP Video Source (IP camera)
-For the integration of an H.264 enabled network camera you need the address, at which you can retrieve the video livestream from the camera. Take a look at your camera manual and look for RTSP/RTP.  
 
-For this purpose, please read the manual of your camera and search for 0"RTSP". Alternatively you can find already many templates on the Soleratec company website: <a target= "_blank" href="https://www.soleratec.com/support/rtsp/rtsp_listing">https://www.soleratec.com/support/rtsp/rtsp_listing</a>  
+For the integration of an H.264 enabled network camera you need the address, at which you can retrieve the livestream from the camera.
+Take a look at your camera manual and look for RTSP/RTP.  
 
-**Two examples:**  
-AXIS: rtsp://ip-address:554/axis-media/media.amp  
-Samsung: rtsp://ip-address:554/profile2/media.smp  
+For this purpose, please read the manual of your camera and search for "RTSP". Alternatively you can find already many templates on the
+[Soleratec website](https://www.soleratec.com/support/rtsp/).
 
-*You can find the IP address of your camera, if necessary, in the DHCP table of your router. You can use a LAN scanner like http://angryip.org/ which displays all the devices on your network too if you are unsure what the correct IP address is*  
+## Examples
 
-Next step: Put your rtsp-link in the "RTMP/RTSP Video Source" field in the Datarhei/Restreamer-Web-GUI.  
+| Brand | RTSP URL |
+|-------|----------|
+| AXIS  | `rtsp://ip-address:554/axis-media/media.amp` |
+| Samsung | `rtsp://ip-address:554/profile2/media.smp` |
 
-<img src="../img/references-rtmp-rtsp-video-device.png" width="95%">
+You can find the IP address of your camera, if necessary, in the DHCP table of your router. You can also use a LAN scanner like [Angry IP Scanner](https://angryip.org/) which displays all the devices on your network if you are unsure what the correct IP address is.  
 
-Last step: Start process  
+## Start Streaming
 
-Once the process has been successfully established, you can open the Datarhei/Restramer player and, if necessary, forward the stream to an external provider of the player.    
+Put the RTSP URL of your camera in the "RTMP/RTSP/HLS Video Source" field in the Restreamer user interface:  
 
----
+<img src="../img/guides-rtsp-url.png" width="95%">
+
+Then press on the "Start" button.
+
+<img src="../img/guides-rtsp-url-streaming.png" width="95%">
+
+Once the process has been successfully initiated, you can open the Restramer player and, if necessary, forward the stream to an [external provider](guides-external-rtmp.html) of the player.    
