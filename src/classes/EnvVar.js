@@ -5,6 +5,7 @@
  * @license Apache-2.0
  */
 'use strict';
+
 const logger = require('./Logger')('ENV');
 const logBlacklist = ['RS_PASSWORD'];
 
@@ -52,7 +53,7 @@ class EnvVar {
                     value = '******';
                 }
 
-                logger.info(envVar.name + ' = ' + value + ' (' + envVar.defaultValue + ') ' + envVar.description);
+                logger.info(envVar.name + ' = ' + value + ' - ' + envVar.description);
             }
             else {
                 if(envVar.required == true) {
@@ -60,7 +61,7 @@ class EnvVar {
                     killProcess = true;
                 }
                 else {
-                    logger.info(envVar.name + ' = ' + envVar.defaultValue + ' (using default) ' + envVar.description);
+                    logger.info(envVar.name + ' = ' + envVar.defaultValue + ' (using default) - ' + envVar.description);
                     process.env[envVar.name] = envVar.defaultValue;
                 }
             }
