@@ -4,13 +4,14 @@ title: YouTube
 
 ## Setup Restreamer
 
-In order to be able to push your stream to YouTube, its audio has to be either encoded in `AAC` or `MP3`. If this is not already
-the case you can force the encoding of the audio stream by setting the environment variable `RS_AUDIO` to either `aac` or `mp3`.
+In order to be able to push your stream to YouTube, the stream must contain an audio track and it has to be encoded either in `AAC` or `MP3`.
+If this is not already the case you can force the encoding of the audio stream by setting the environment variable `RS_AUDIO` to either
+`aac` or `mp3`.
 
-If you do not want to push the audio of your stream to YouTube, set the environment variable `RS_AUDIO` to `silence`. This will
-replace the audio track with silence, encoded in `AAC`.
+If your stream doesn't contain an audio track or you do not want to push the audio of your stream to YouTube, set the environment
+variable `RS_AUDIO` to `silence`. This will replace the audio track with silence, encoded in `AAC`.
 
-Check out the [environment variables reference](references-environment-vars.html) for how to set the value value for `RS_AUDIO`.
+Check out the [environment variables reference](references-environment-vars.html) for how to set the value for `RS_AUDIO`.
 
 Read more about the [stream requirements](https://support.google.com/youtube/answer/2853702).
 
