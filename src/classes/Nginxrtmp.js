@@ -42,11 +42,29 @@ class Nginxrtmp {
         this.process = spawn(this.config.nginx.command, this.config.nginx.args);
 
         this.process.stdout.on('data', (data) => {
-            this.logger.info(data.toString().replace(/^.*\]/, '').trim());
+            let lines = data.toString().split(/[\r\n]+/);
+
+            for(let i = 0; i < lines.length; i++) {
+                let line = lines[i].replace(/^.*\]/, '').trim();
+                if(line.length == 0) {
+                    continue;
+                }
+
+                this.logger.info(line);
+            }
         });
 
         this.process.stderr.on('data', (data) => {
-            this.logger.error(data.toString().replace(/^.*\]/, '').trim());
+            let lines = data.toString().split(/[\r\n]+/);
+
+            for(let i = 0; i < lines.length; i++) {
+                let line = lines[i].replace(/^.*\]/, '').trim();
+                if(line.length == 0) {
+                    continue;
+                }
+
+                this.logger.error(line);
+            }
         });
 
         this.process.on('close', (code) => {
