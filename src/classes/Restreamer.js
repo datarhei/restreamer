@@ -63,6 +63,18 @@ class Restreamer {
             return;
         }
 
+        var startTime = Date.now();
+        var fetchSnapshot = function() {
+            let elapsed = Date.now() - startTime;
+            if(elapsed <= interval) {
+                interval -= elapsed;
+            }
+
+            Restreamer.setTimeout('repeatToLocalNginx', 'snapshot', () => {
+                Restreamer.fetchSnapshot();
+            }, interval);
+        }
+
         let command = new FfmpegCommand(Restreamer.getRTMPStreamUrl());
 
         command.output(Restreamer.getSnapshotPath());
@@ -75,13 +87,14 @@ class Restreamer {
         });
         command.on('error', (error) => {
             logger.error(error.toString().trim(), 'snapshot');
+
+            fetchSnapshot();
         });
         command.on('end', () => {
             logger.info('Updated. Next scheduled update in ' + interval + 'ms.', 'snapshot');
             WebsocketsController.emit('snapshot', null);
-            Restreamer.setTimeout('repeatToLocalNginx', 'snapshot', () => {
-                Restreamer.fetchSnapshot();
-            }, interval);
+
+            fetchSnapshot();
         });
         command.exec();
     }
