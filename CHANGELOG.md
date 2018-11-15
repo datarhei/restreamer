@@ -1,3 +1,13 @@
+## Changes from 0.1.0 to 0.1.1
+
+* Fix respecting the deprecated environment variabes RESTREAMER_USERNAME and RESTREAMER_PASSWORD
+* Fix links to Github pages
+* Fix snapshot drift
+* Fix initialization of environment variables
+* Minor fixes in logging output
+* Improve RS_AUDIO setting handling
+* Rename misleading armhf Dockerfile to arm32v7
+
 ## Changes from 0.1.0-rc7 to 0.1.0
 
 * Update FFmpeg to 4.1
