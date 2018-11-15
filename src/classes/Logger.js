@@ -16,11 +16,6 @@ const LEVEL_WARN = 2;
 const LEVEL_INFO = 3;
 const LEVEL_DEBUG = 4;
 
-// set default timezone to use the timezone before the default values are
-// @todo: it is really ugly and wrong to log with hardcoded timezone before environment is read
-process.env.RS_TIMEZONE = process.env.RS_TIMEZONE || 'Europe/Berlin';
-process.env.RS_LOGLEVEL = process.env.RS_LOGLEVEL || 3;
-
 /**
  * Class for logger
  */

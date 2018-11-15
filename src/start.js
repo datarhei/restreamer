@@ -11,10 +11,14 @@ global.__src = __dirname;
 global.__base = path.join(__dirname, '..');
 global.__public = path.join(__dirname, 'webserver', 'public');
 
-const logger = require('./classes/Logger')('start');
-const EnvVar = require('./classes/EnvVar');
-const packageJson = require(path.join('..', 'package.json'));
 const config = require(path.join(global.__base, 'conf', 'live.json'));
+const env = require('./classes/EnvVar');
+
+// setup environment vars
+env.init(config);
+
+const packageJson = require(path.join('..', 'package.json'));
+const logger = require('./classes/Logger')('start');
 const nginxrtmp = require('./classes/Nginxrtmp')(config);
 const Q = require('q');
 const Restreamer = require('./classes/Restreamer');
@@ -38,8 +42,13 @@ logger.info('ENVIRONMENTS', false);
 logger.info('More information in our Docs', false);
 logger.info('', false);
 
-// setup environment vars
-EnvVar.init(config);
+// list environment variables
+env.list(logger);
+
+// bail out if there are errors
+if(env.hasErrors()) {
+    process.exit();
+}
 
 // start the app
 nginxrtmp.start()

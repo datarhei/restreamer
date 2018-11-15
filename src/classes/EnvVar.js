@@ -6,16 +6,24 @@
  */
 'use strict';
 
-const logger = require('./Logger')('ENV');
 const logBlacklist = ['RS_PASSWORD'];
 
 /**
  * Class for environment variables with default values
  */
 class EnvVar {
-    static init(config) {
-        var killProcess = false;
+    constructor() {
+        this.reset();
+    }
 
+    log(message, level) {
+        this.messages.push({
+            level: level,
+            message: message
+        });
+    }
+
+    init(config) {
         // Cycle through all defined environment variables
         for(let envVar of config.envVars) {
             // Check if the environment variable is set. If not, cycle through the aliases.
@@ -24,7 +32,7 @@ class EnvVar {
                     let alias = envVar.alias[i];
                     // If the alias exists, copy it to the actual name and delete it.
                     if(alias in process.env) {
-                        logger.warn('The use of ' + alias + ' is deprecated. Please use ' + envVar.name + ' instead')
+                        this.log('The use of ' + alias + ' is deprecated. Please use ' + envVar.name + ' instead', 'warn');
                         process.env[envVar.name] = process.env[alias];
                         delete process.env[alias];
                     }
@@ -53,26 +61,50 @@ class EnvVar {
                     value = '******';
                 }
 
-                logger.info(envVar.name + ' = ' + value + ' - ' + envVar.description);
+                this.log(envVar.name + ' = ' + value + ' - ' + envVar.description, 'info');
             }
             else {
                 if(envVar.required == true) {
-                    logger.error(envVar.name + ' not set but required');
-                    killProcess = true;
+                    this.log(envVar.name + ' not set, but required', 'error');
+                    this.errors = true;
                 }
                 else {
-                    logger.info(envVar.name + ' = ' + envVar.defaultValue + ' (using default) - ' + envVar.description);
+                    this.log(envVar.name + ' = ' + envVar.defaultValue + ' (using default) - ' + envVar.description, 'info');
                     process.env[envVar.name] = envVar.defaultValue;
                 }
             }
         }
+    }
 
-        if(killProcess == true) {
-            setTimeout(()=> {
-                process.exit();
-            }, 500);
+    list(logger) {
+        for(let i = 0; i < this.messages.length; i++) {
+            let m = this.messages[i];
+            switch(m.level) {
+                case 'info':
+                    logger.info(m.message, 'ENV');
+                    break;
+                case 'warn':
+                    logger.warn(m.message, 'ENV');
+                    break;
+                case 'error':
+                    logger.error(m.message, 'ENV');
+                    break;
+                default:
+                    break;
+            }
         }
+
+        this.messages = [];
+    }
+
+    hasErrors() {
+        return this.errors;
+    }
+
+    reset() {
+        this.messages = [];
+        this.errors = false;
     }
 }
 
-module.exports = EnvVar;
+module.exports = new EnvVar;
