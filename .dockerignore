@@ -1,10 +1,6 @@
 # ignore dockerfiles
 .dockerignore
-Dockerfile
-Dockerfile_armv6l
-Dockerfile_armv7l
-Dockerfile-armhf
-Dockerfile-aarch64
+Dockerfile*
 .git
 .editorconfig
 .gitignore
@@ -13,5 +9,5 @@ node_modules
 bin
 db
 src/webserver/public/libs
-checkDeployment.sh
 *.log
+_site
