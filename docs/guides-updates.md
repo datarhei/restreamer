@@ -35,15 +35,13 @@ Done!
   # for amd64 CPUs
   docker pull datarhei/restreamer:latest  
 
-  # for arm32 CPUs with FPU support, e.g. Raspberry Pi, Odroid, ...
-  docker pull datarhei/restreamer-armhf:latest
-  # or
+  # for arm32v7 CPUs Raspberry Pi 2, Pi 3, ...
   docker pull datarhei/restreamer-armv7l:latest
 
-  # for arm64 CPUs
+  # for arm64v8 CPUs
   docker pull datarhei/restreamer-aarch64:latest
 
-  # legacy (will not be updated)
+  # for arm32v6 CPUs
   docker pull datarhei/restreamer-armv6l:latest
   ```
 3.

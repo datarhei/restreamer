@@ -5,7 +5,7 @@ title: Installation Raspberry Pi / ARM
 ## Requirements
 
 * Raspberry Pi 1 / Pi 2 / Pi 3 or Odroid U3
-* ARM CPU that supports the `armhf` architecture
+* ARM CPU that supports the `arm32v6`, `arm32v7`, or `arm64v8` architecture
 
 ## Raspberry Pi 1 / Pi 2 / Pi 3
 
@@ -42,7 +42,7 @@ Instructions:
         --name restreamer \
         -e "RS_USERNAME=admin" -e "RS_PASSWORD=datarhei" \
         -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db \
-        datarhei/restreamer-armhf:latest
+        datarhei/restreamer-arm32v7:latest
    ```
 4. Browse to http://your-device-ip:8080
 

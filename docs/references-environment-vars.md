@@ -80,16 +80,16 @@ If you want to disable the snapshots, use the special value of `0` for the snaps
 ## RS_AUDIO
 
 By default the audio track from the incoming stream will not be modified. Only if the audio format is not supported by the
-FLV container, the audio will be transcoded to AAC. You can change this behaviour by providing one of the values to this
-environment variable:
+FLV container, the audio will be transcoded to AAC. If the incoming stream does not have an audio track, an empty AAC audio
+track will be added. You can change this behaviour by providing one of the values to this environment variable:
 
 | Value     | Description |
 |-----------|-------------|
-| `auto`    | Default behaviour |
+| `auto`    | Default behaviour  |
 | `none`    | Remove any audio tracks |
-| `silence` | Replace the audio track with silence |
-| `aac`     | Transcode the audio track to AAC |
-| `mp3`     | Transcode the audio track to MP3 |
+| `silence` | Replace the audio track with silence or adds an empty AAC audio track |
+| `aac`     | Transcode the audio track to AAC or adds an empty AAC audio track |
+| `mp3`     | Transcode the audio track to MP3 or adds an empty MP3 audio track|
 
 In the case of `silence`, an audio track will be added if the incoming stream doesn't have an audio track.
 
