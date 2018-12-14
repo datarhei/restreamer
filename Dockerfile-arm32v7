@@ -41,7 +41,7 @@ RUN mkdir -p /dist && cd /dist && \
     curl -OL "https://kent.dl.sourceforge.net/project/lame/lame/${LAME_VERSION}/lame-${LAME_VERSION}.tar.gz" && \
     tar -xvz -f lame-${LAME_VERSION}.tar.gz && \
     cd lame-${LAME_VERSION} && \
-    ./configure --prefix="${SRC}" --bindir="${SRC}/bin" --disable-static --enable-nasm && \
+    ./configure --prefix="${SRC}" --bindir="${SRC}/bin" --disable-static && \
     make -j$(nproc) && \
     make install
 
