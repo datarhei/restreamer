@@ -546,6 +546,9 @@ class Restreamer {
             }, config.ffmpeg.monitor.restart_wait);
         }
 
+        // current number of processed frames for stale detection
+        let nFrames = -1;
+
         // after adding outputs, define events on the new FFmpeg stream
         probePromise.then((option) => {
             Restreamer.addStreamOptions(command, option);
@@ -607,14 +610,23 @@ class Restreamer {
                         Restreamer.updateState(streamType, 'connected');
                     }
 
+                    // compare the current number of frames
+                    let nFramesChanged = false;
+                    if(nFrames != progress.frames) {
+                        nFrames = progress.frames;
+                        nFramesChanged = true;
+                    }
+
                     Restreamer.data.progresses[streamType] = progress;
                     Restreamer.updateProgressOnGui();
 
-                    // add a stale timeout
-                    Restreamer.setTimeout(streamType, 'stale', () => {
-                        logger.info('Stale connection', streamType);
-                        Restreamer.stopStream(streamType);
-                    }, config.ffmpeg.monitor.stale_wait);
+                    // add/reset a stale timeout if the number of frames changed
+                    if(nFramesChanged == true) {
+                        Restreamer.setTimeout(streamType, 'stale', () => {
+                            logger.info('Stale connection', streamType);
+                            Restreamer.stopStream(streamType);
+                        }, config.ffmpeg.monitor.stale_wait);
+                    }
                 });
 
             command.exec();
