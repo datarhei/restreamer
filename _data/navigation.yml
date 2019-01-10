@@ -45,6 +45,10 @@ docs:
         url: docs/guides-wowza.html
       - title: Updating
         url: docs/guides-updates.html
+      - title: Multiple Restreamer
+        url: docs/guides-multiple-restreamer.html
+      - title: HTTPS
+        url: docs/guides-https.html
   - title: References
     url: docs/references-index.html
     children:
