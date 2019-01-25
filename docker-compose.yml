@@ -1,0 +1,25 @@
+version: '3'
+services:
+    restreamer:
+        image: datarhei/restreamer
+        ports:
+            - "8080:8080"
+        networks:
+            - frontend
+        volumes:
+            - "~/db:/restreamer/db"
+        environment:
+          - RS_USERNAME=admin
+          - RS_PASSWORD=datarhei
+          - RS_LOGLEVEL=4
+          - RS_TIMEZONE=Europe/Berlin
+          - RS_SNAPSHOT_INTERVAL=1m
+          - RS_AUDIO=auto
+        deploy:
+          replicas: 1
+          restart_policy:
+            condition: any
+            delay: 5s
+            window: 10s
+networks:
+  frontend:
