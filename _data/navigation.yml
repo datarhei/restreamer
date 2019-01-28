@@ -26,6 +26,8 @@ docs:
         url: docs/installation-linux-64.html
       - title: Raspberry Pi / ARM
         url: docs/installation-linux-arm.html
+      - title: Cloud
+        url: docs/installation-cloud.html
   - title: User Guides
     url: docs/guides-index.html
     children:

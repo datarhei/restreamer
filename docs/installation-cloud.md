@@ -1,54 +1,80 @@
 ---
-title: Installation on Cloud/Hosting
+title: Installation Cloud/Hosting-Service
 ---
-
-# Installation on Cloud/Hosting
 
 If your private ISP has´nt enough bandwith it is obvious to deploy the Restreamer on a Cloud/Hosting-Service. Here is a list of services to deploy a Docker-Image:
 
-**Ready to deploy solutions:**
+* [sloppy.io](https://sloppy.io/)
+* [Scaleway](https://www.scaleway.com/imagehub/docker/)
+* [Vultr](https://www.vultr.com/apps/docker)
+* [AWS](https://docs.docker.com/docker-for-aws/)
+* [Microsoft Azure](https://docs.docker.com/docker-for-azure/)
 
-* <a target= "_blank" href="http://sloppy.io/">sloppy.io</a>
-* <a target= "_blank" href="https://tectonic.com/">TECTONIC</a>
-* <a target= "_blank" href="https://www.dotcloud.com/">dotCloud</a>
-* <a target= "_blank" href="https://www.tutum.co/">tutum</a>
-
-**Cloud solutions:**
-
-* <a target= "_blank" href="https://docs.docker.com/engine/installation/amazon/">Amazon EC2</a>
-* <a target= "_blank" href="https://docs.docker.com/engine/installation/google/">Google Cloud Platform]</a>
-* <a target= "_blank" href="https://docs.docker.com/engine/installation/softlayer/">IBM SoftLayer</a>
-* <a target= "_blank" href="https://docs.docker.com/engine/installation/azure/">Microsoft Azure</a>
-* <a target= "_blank" href="https://docs.docker.com/engine/installation/rackspace/">Rackspace Cloud</a>
-* <a target= "_blank" href="https://docs.docker.com/engine/installation/joyent/">Joyent’s Triton Elastic Container Service</a>
+Alternatively, you can use any Cloud/Hosting-Service where you have access to the server. There you install Docker in order to run the Restreamer.
 
 ### Deployment
 
 1. Select and setup your Cloud-/Hosting-Service
 2. Start the Restreamer:    
+   ```sh
+   $ docker run -d --restart always \
+        --name restreamer \
+        -e "RS_USERNAME=admin" -e "RS_PASSWORD=datarhei" \
+        -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db \
+        datarhei/restreamer:latest
    ```
-   # docker run -d --name restreamer --restart always -e "RESTREAMER_USERNAME=YOUR-USERNAME" -e "RESTREAMER_PASSWORD=YOUR-PASSWORD" -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db datarhei/restreamer:latest
-   ```
-3. Browse to http://your-cloud/hosting-ip:8080
+3. Browse to http://your-cloud-ip:8080
 
-Default login if not set:
+The default login is:
 
-* Username: admin
-* Password: datarhei
+* Username: `admin`
+* Password: `datarhei`
 
----
+It is highly recommended to change the username and password.
+{: .notice--warning}
 
-## Declaration of the command
+## Important customizations
 
-* --name restreamer
-  you can login into the container by typing "docker exec -it restreamer /bin/bash"
-* --restart always   
-  the Docker-Daemon is monitoring your container and will start it it again, if it runs into errors. 
-* -e "RESTREAMER_USERNAME=..." -e "RESTREAMER_PASSWORD=..."   
-  set the login data as enviroment-variable (more [here](references-environment-vars.html#login-security))
-* -p 8080:8080   
-  bind the device-port 8080 to the Restreamer-port 8080 (you can change it with "-p 31000:8080")
-* -v /mnt/restreamer/db:/restreamer/db   
-  this save and export the Restreamer-DB on your device-filesystem under /mnt/restreamer
+It is recommended to change the username and password. In order to change them you have to set the respective [environment variables](references-environment-vars.html)
+in the docker command:
 
----
+```sh
+$ docker run ... -e "RS_USERNAME=YOUR_USERNAME" -e "RS_PASSWORD=YOUR_PASSWORD" ...
+```
+
+## Description of the command
+
+#### `-d`
+
+Detach the container. This means that the container will run in the background. You can run it interactively in the foreground with
+`-it` instead of `-d`. To stop the Restreamer in detached mode, type `docker stop restreamer`. In interactive mode just hit `Ctrl-C` to
+stop the Restreamer.
+
+#### `--name restreamer`
+
+Gives the container the name `restreamer`. This name can be used in other docker commands to control the container. In order to
+stop the Restreamer, type `docker stop restreamer`. While the Restreamer is running you can log in into the container with `docker exec -it restreamer /bin/bash`.
+
+#### `--restart always`
+
+In case the Restreamer crashes, Docker will automatically restart the Restreamer.
+
+#### `-e "RS_USERNAME=..." -e "RS_PASSWORD=..."`
+
+Set values for the environment variables `RS_USERNAME` and `RS_PASSWORD`. See a description of all known [environment variables](references-environment-vars.html).
+
+#### `-p 8080:8080`
+
+Bind the port 8080 of the device to the port 8080 of the Restreamer. With this you can connect with your browser to the Restreamer GUI.
+If you want to us another port, change it to e.g. `-p 31000:8080`.
+
+#### `-v /mnt/restreamer/db:/restreamer/db`
+
+The Restreamer stores the current state in the directory `/restreamer/db` inside the container. This command maps the directory `/mnt/restreamer/db`
+of your device into the container. With this the state can be preserved in case the Restreamer needs to be restarted. If you want to store
+the state in a different directory on your device, change it to e.g. `-v /tmp/restreamer:/restreamer/db`
+
+#### `datarhei/restreamer-armhf:latest`
+
+This is the docker image of the lastest Restreamer on the Docker Hub. Docker will check if the image is locally available
+and download it if it is not available or a newer image is available.
