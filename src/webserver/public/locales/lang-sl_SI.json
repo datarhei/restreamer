@@ -1,0 +1,28 @@
+{
+    "help_title": "Pomoč",
+    "issue_tracker": "Sporoči napako",
+    "project_page": "Pomoč",
+    "update_btn": "Posodobitev je na voljo",
+    "login_username": "Uporabniško ime",
+    "login_password": "Geslo",
+    "login_invalid": "Uporabniško ime ali Geslo je nepravilno",
+    "login_btn": "Prijava",
+    "logout": "Odjava",
+    "button_start": "Začni",
+    "button_stop": "Končaj",
+    "input_title": "RTMP/RTSP/HLS video vir",
+    "input_example": "e.g. rtsp://192.168.57.100/media.amp",
+    "rtsp_tcp": "RTSP preko TCP protokola",
+    "process_input_invalid": "Neveljaven naslov za video prenos, preverite vnos",
+    "process_success": "Pretakanje videa je uspešno sproženo.",
+    "process_failed": "Vaš video prenos ni bil dostopen.",
+    "process_failed_retry": "Ponovite postopek",
+    "process_init": "Postopek pretakanja videa se je začelo. Prosimo počakajte...",
+    "process_stopped": "Zaključevanje video prenosa. Prosimo počakajte ...",
+    "output_optional": "Zunanji RTMP-video-strežnik",
+    "output_optional_example": "e.g. rtmp://live.youtube.com/channelId",
+    "player_link_title": "Odpri video predvajalnik",
+    "player_modal_help_title": "iFrame koda in predogled slike za vdelavo v spletno stran:",
+    "player_modal_help_content": "Poleg tega je potrebno vrata (port) preusmeriti z usmerjevalnika na IP naslov računalnika"
+}
+
