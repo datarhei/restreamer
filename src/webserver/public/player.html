@@ -37,6 +37,14 @@
         autoplay = false;
     }
 
+    var mute = getQueryParam("mute", false);
+    if(mute === "1" || mute === "true" || mute === "yes" || mute === "on") {
+        mute = true;
+    }
+    else {
+        mute = false;
+    }
+
     var player = new window.Clappr.Player({
         source: (window.location.protocol == 'https:' ? 'https:' : 'http:') + '//' + window.location.hostname + ':' + window.location.port + '/hls/live.stream.m3u8',
         parentId: '#player',
@@ -46,7 +54,8 @@
         height: '100%',
         width: '100%',
         disableCanAutoPlay: true,
-        autoPlay: autoplay
+        autoPlay: autoplay,
+        mute: mute
     });
     var posterPlugin = player.core.mediaControl.container.getPlugin('poster');
     player.on(window.Clappr.Events.PLAYER_STOP, function updatePoster () {
