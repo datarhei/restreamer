@@ -42,7 +42,8 @@ Instructions:
         --name restreamer \
         -e "RS_USERNAME=admin" -e "RS_PASSWORD=datarhei" \
         -p 8080:8080 -v /mnt/restreamer/db:/restreamer/db \
-        datarhei/restreamer-arm32v7:latest
+        --tmpfs /tmp/hls \
+        datarhei/restreamer-armv7l:latest
    ```
 4. Browse to http://your-device-ip:8080
 
@@ -89,13 +90,18 @@ Set values for the environment variables `RS_USERNAME` and `RS_PASSWORD`. See a 
 Bind the port 8080 of the device to the port 8080 of the Restreamer. With this you can connect with your browser to the Restreamer GUI.
 If you want to us another port, change it to e.g. `-p 31000:8080`.
 
+#### `--tmpfs /tmp/hls`
+
+This will mount the directory `/tmp/hls` as a disk in the RAM of the container. This directory holds the chunks for the HLS chunks and has a lot I/O
+operations on it. By mounting it to a `tmpfs` you avoid wearing out the SD card in your device.
+
 #### `-v /mnt/restreamer/db:/restreamer/db`
 
 The Restreamer stores the current state in the directory `/restreamer/db` inside the container. This command maps the directory `/mnt/restreamer/db`
 of your device into the container. With this the state can be preserved in case the Restreamer needs to be restarted. If you want to store
 the state in a different directory on your device, change it to e.g. `-v /tmp/restreamer:/restreamer/db`
 
-#### `datarhei/restreamer-armhf:latest`
+#### `datarhei/restreamer-armv7l:latest`
 
 This is the docker image of the lastest Restreamer on the Docker Hub. Docker will check if the image is locally available
 and download it if it is not available or a newer image is available.

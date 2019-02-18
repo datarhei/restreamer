@@ -31,7 +31,7 @@ docker run -d --restart always \
     datarhei/restreamer:latest
 ```
 
-If you are running this on an ARM device, please use the `datarhei/restreamer-armhf:latest` Docker image.
+If you are running this on an ARM device, please use the `datarhei/restreamer-armv7l:latest` Docker image.
 {: .notice--info}
 
 Please read the [Video Support](#video-support) section in order to find out what USB camera devices are available.

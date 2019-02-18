@@ -22,7 +22,7 @@ Assuming that you already have a device with Docker running on it, fire up the c
 $ docker run -it --rm -p 8080:8080 datarhei/restreamer:latest
 ```
 
-Choose the image `datarhei/restreamer-armhf:latest` if you are running it on a device with an ARM CPU in 32bit mode.
+Choose the image `datarhei/restreamer-armv7l:latest` if you are running it on a device with an ARM CPU in 32bit mode.
 {: .notice--warning}
 
 Open your browser, load the URL `http://your-device-ip:8080/` and enter `admin` as username and `datarhei` as password. Now you

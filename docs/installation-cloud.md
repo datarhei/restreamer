@@ -74,7 +74,7 @@ The Restreamer stores the current state in the directory `/restreamer/db` inside
 of your device into the container. With this the state can be preserved in case the Restreamer needs to be restarted. If you want to store
 the state in a different directory on your device, change it to e.g. `-v /tmp/restreamer:/restreamer/db`
 
-#### `datarhei/restreamer-armhf:latest`
+#### `datarhei/restreamer:latest`
 
 This is the docker image of the lastest Restreamer on the Docker Hub. Docker will check if the image is locally available
 and download it if it is not available or a newer image is available.

@@ -30,7 +30,7 @@ docker run -d --restart always \
     -v /mnt/restreamer/db:/restreamer/db \
     -v /opt/vc:/opt/vc \
     --privileged \
-    datarhei/restreamer-armhf:latest
+    datarhei/restreamer-armv7l:latest
 ```
 
 In order to stream what your RaspiCam is recording, you have to put `rtmp://127.0.0.1/live/raspicam.stream` into

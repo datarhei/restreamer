@@ -36,8 +36,6 @@ Done!
   docker pull datarhei/restreamer:latest  
 
   # for arm32 CPUs with FPU support, e.g. Raspberry Pi, Odroid, ...
-  docker pull datarhei/restreamer-armhf:latest
-  # or
   docker pull datarhei/restreamer-armv7l:latest
 
   # for arm64 CPUs
