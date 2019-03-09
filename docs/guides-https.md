@@ -2,7 +2,7 @@
 title: HTTPS
 ---
 
-Restreamer currently doesn't support serving the player and its administation interface via HTTPS. You can circumvent this by e.g. putting a nginx
+Restreamer currently doesn't support serving the player and its administration interface via HTTPS. You can circumvent this by e.g. putting a nginx
 in front of Restreamer that has a valid certificate.
 
 ## nginx
