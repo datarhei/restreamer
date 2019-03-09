@@ -1,3 +1,10 @@
+## Changes from 0.1.2 to 0.1.3
+
+* Add stats switch to embeddable player
+* Remove bower and add dist files of required JS libraries
+* Add mute switch to the embeddable player
+* Add Slovenian translation (thanks to Sebastjan)
+
 ## Changes from 0.1.1 to 0.1.2
 
 * Improve stale stream check
