@@ -1,3 +1,9 @@
+## Changes from 0.1.1 to 0.1.2
+
+* Improve stale stream check
+* Add Polish translations (thanks to Emil)
+* Add sample docker-compose.yml
+
 ## Changes from 0.1.0 to 0.1.1
 
 * Fix respecting the deprecated environment variables RESTREAMER_USERNAME and RESTREAMER_PASSWORD
