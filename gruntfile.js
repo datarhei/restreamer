@@ -54,15 +54,8 @@ module.exports = function (grunt) {
             createTempTranspilingFolder: {
                 command: `mkdir ${transpiledPath}`
             },
-            bower: {
-                command: 'bower install --allow-root'
-            },
             eslint: {
                 command: 'eslint src/*'
-            },
-            //temp workaround - https://github.com/clappr/clappr/issues/709
-            clappr: {
-                command: 'rm -rf src/webserver/public/libs/clappr && git clone --depth 1 git://github.com/clappr/clappr src/webserver/public/libs/clappr'
             }
         },
 
@@ -164,15 +157,13 @@ module.exports = function (grunt) {
     grunt.registerTask('lint', ['csslint', 'shell:eslint']);
     // clear old transpile folder and create new one
     grunt.registerTask('clearOldBuild', ['shell:removeTempTranspilingFolder', 'shell:createTempTranspilingFolder']);
-    // install frontendlibraries (atm through bower)
-    grunt.registerTask('installFrontendLibraries', ['shell:bower', 'shell:clappr']);
     // minify the frontend files
     grunt.registerTask('minifyFrontendFiles', ['cssmin', 'ngAnnotate', 'uglify']);
 
     /*
      Build Tasks
      */
-    grunt.registerTask('build', ['loadConfig', 'clearOldBuild', 'babel', 'minifyFrontendFiles', 'installFrontendLibraries', 'shell:removeTempTranspilingFolder']);
+    grunt.registerTask('build', ['loadConfig', 'clearOldBuild', 'babel', 'minifyFrontendFiles', 'shell:removeTempTranspilingFolder']);
 
     /*
      Just Compile

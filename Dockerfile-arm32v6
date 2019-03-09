@@ -122,13 +122,12 @@ COPY . /restreamer
 WORKDIR /restreamer
 
 RUN cd /restreamer && \
-    npm install -g bower grunt grunt-cli nodemon eslint && \
+    npm install -g grunt-cli nodemon eslint && \
     npm install && \
     grunt build && \
     npm prune --production && \
     npm cache verify && \
-    bower cache clean --allow-root && \
-    npm uninstall -g bower grunt grunt-cli nodemon eslint && \
+    npm uninstall -g grunt-cli nodemon eslint && \
     npm prune --production && \
     apt-get remove -y \
         git \

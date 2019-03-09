@@ -62,11 +62,7 @@ bin
 
 # Project files #
 #################
-static/webserver/public/libs/**
-src/webserver/public/libs/**
-src/webserver/public/dist/
+src/webserver/public/dist/**
 db/**
 heapdump
 *.map
-*.min.js
-*.min.css
