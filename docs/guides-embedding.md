@@ -38,6 +38,25 @@ You can also change the width and height of the video by adjusting the `width` a
 If want to enable autoplay, simply add `?autoplay=1` after `player.html` such that it looks like this:
 ```html
 <iframe src="http://.../player.html?autoplay=1" ...></iframe>
+```
+
+You may have to use `mute=1` as well because some browsers will not respect the autoplay setting if the the player is
+not muted.
+
+### Mute
+
+Load the player muted. This is usefull in conjuction with `autoplay=1` because some browser will not respect the autoplay
+setting if the player is not muted:
+```html
+<iframe src="http://.../player.html?mute=1" ...></iframe>
+```
+
+### Statistics
+
+Display statistics about the stream. This will add a little icon in the top right corner of the player that you have to click
+to open the statistics:
+```html
+<iframe src="http://.../player.html?stats=1" ...></iframe>
 ``` 
 
 ## Snapshot
