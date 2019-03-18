@@ -34,12 +34,18 @@ class Nginxrtmp {
      * Start the NGINX server
      * @returns {Promise.<boolean>}
      */
-    async start() {
+    async start(useSSL) {
         this.logger.info('Starting ...');
         let timeout = 250;
         let abort = false;
 
-        this.process = spawn(this.config.nginx.command, this.config.nginx.args);
+        if(useSSL == false) {
+            this.process = spawn(this.config.nginx.command, this.config.nginx.args);
+        }
+        else {
+            this.logger.info('Enabling HTTPS');
+            this.process = spawn(this.config.nginx.command, this.config.nginx.args_ssl);
+        }
 
         this.process.stdout.on('data', (data) => {
             let lines = data.toString().split(/[\r\n]+/);

@@ -51,7 +51,7 @@ if(env.hasErrors()) {
 }
 
 // start the app
-nginxrtmp.start()
+nginxrtmp.start(process.env.RS_HTTPS == "true")
     .then(() => {
         return RestreamerData.checkJSONDb();
     })

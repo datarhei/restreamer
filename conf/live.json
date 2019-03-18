@@ -113,6 +113,10 @@
             "-c",
             "/restreamer/conf/nginx.conf"
         ],
+        "args_ssl": [
+            "-c",
+            "/restreamer/conf/nginx_ssl.conf"
+        ],
         "streaming": {
             "ip": "127.0.0.1",
             "rtmp_port": "1935",
@@ -226,6 +230,14 @@
             "defaultValue": "auto",
             "required": false,
             "description": "Audio track handling: auto, none (remove audio), silence (force silence), aac (force AAC), mp3 (force MP3)."
+        },
+        {
+            "name": "RS_HTTPS",
+            "alias": [],
+            "type": "bool",
+            "defaultValue": "false",
+            "required": false,
+            "description": "Enables HTTPS support for admin interface and embeddable player."
         }
     ]
 }

@@ -145,6 +145,7 @@ RUN cd /restreamer && \
     apt autoremove -y
 
 EXPOSE 8080
+EXPOSE 8181
 VOLUME ["/restreamer/db"]
 
 CMD ["./run.sh"]
