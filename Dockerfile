@@ -87,7 +87,7 @@ RUN mkdir -p /dist && cd /dist && \
     curl -OL "https://github.com/arut/nginx-rtmp-module/archive/v${NGINXRTMP_VERSION}.tar.gz" && \
     tar -xvz -f "v${NGINXRTMP_VERSION}.tar.gz" && \
     cd nginx-${NGINX_VERSION} && \
-    ./configure --prefix=/usr/local/nginx --with-http_ssl_module --add-module=/dist/nginx-rtmp-module-${NGINXRTMP_VERSION} && \
+    ./configure --prefix=/usr/local/nginx --with-http_ssl_module --with-http_v2_module --add-module=/dist/nginx-rtmp-module-${NGINXRTMP_VERSION} && \
     make -j$(nproc) && \
     make install
 
@@ -122,6 +122,7 @@ RUN apt-get update && \
         git \
         procps \
         libpcre3 \
+        openssl \
         libssl1.1 \
         zlib1g \
         v4l-utils \
@@ -146,7 +147,7 @@ RUN cd /restreamer && \
 
 EXPOSE 8080
 EXPOSE 8181
+
 VOLUME ["/restreamer/db"]
 
 CMD ["./run.sh"]
-
