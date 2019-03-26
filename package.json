@@ -1,6 +1,6 @@
 {
   "name": "Restreamer",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Allows you to do h.264 video streaming on your website without a streaming provider",
   "author": "datarhei.org",
   "repository": {

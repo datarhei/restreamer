@@ -1,3 +1,8 @@
+## Changes from 0.1.3 to 0.2.0
+
+* Add HTTPS support
+  https://datarhei.github.io/restreamer/docs/guides-https.html
+
 ## Changes from 0.1.2 to 0.1.3
 
 * Add stats switch to embeddable player
