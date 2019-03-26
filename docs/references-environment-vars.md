@@ -11,6 +11,7 @@ These environment variables enable you to control the default behaviour of Restr
 | `RS_SNAPSHOT_INTERVAL` | `1m` | Interval for new snapshots. [Details](#rs_snapshot_interval) |
 | `RS_AUDIO` | `auto` | Audio track handling. [Details](#rs_audio) |
 | `RS_TOKEN` | (not set) | RTMP publish token. [Details](#rs_token)|
+| `RS_HTTPS` | `false` | Enables HTTPS support for admin interface and embeddable player. [Details](#rs_https) |
 | `RS_LOGLEVEL` | `3` | Logging level . [Details](#rs_loglevel) |
 | `RS_TIMEZONE` | `Europe/Berlin` | Set the timezone. [Details](#rs_timezone) |
 | `RS_DEBUG` | `false` | Enables debugging reporting. [Details](#rs_debug) |
@@ -99,6 +100,10 @@ In the case of `silence`, an audio track will be added if the incoming stream do
 Set a token (just a string of characters, e.g. `eYIxCQpqzxr7`) that is required in order to push to the RTMP server. For pushing an RTMP
 stream to the server you have to add the token as a key/value in the query string: `rtmp://127.0.0.1/live/camera.stream?token=...`.
 By default the token is not set.
+
+## RS_HTTPS
+
+Whether to enable [HTTPS support](guides-https.html).
 
 
 ## RS_LOGLEVEL
