@@ -92,8 +92,8 @@
                         <span class="glyphicon glyphicon-question-sign icon16" aria-hidden="true"></span>
                     </a>
                 </h4>
-                <pre>&lt;iframe src="http://{{publicIp}}:{{windowLocationPort}}/player.html" name="restreamer-player" width="800" height="450" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"&gt;&lt;/iframe&gt;</pre>
-                <pre>&lt;img src="http://{{publicIp}}:{{windowLocationPort}}/images/live.jpg" width="800" height="450"&gt;</pre>
+                <pre>&lt;iframe src="http://{{publicIp}}:{{windowLocationPort}}{{windowLocationPath}}player.html" name="restreamer-player" width="800" height="450" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"&gt;&lt;/iframe&gt;</pre>
+                <pre>&lt;img src="http://{{publicIp}}:{{windowLocationPort}}{{windowLocationPath}}images/live.jpg" width="800" height="450"&gt;</pre>
                 <p>{{'player_modal_help_content' | translate}}
                     <a href="{{config.urls.portForwardingHelp}}" target="_blank" class="underline">
                         <span class="glyphicon glyphicon-question-sign icon14" aria-hidden="true"></span>

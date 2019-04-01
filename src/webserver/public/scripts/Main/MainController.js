@@ -70,7 +70,8 @@ window.angular.module('Main').controller('mainController',
             }
         };
 
-        $rootScope.windowLocationPort = $location.port();
+        $rootScope.windowLocationPort = window.location.port;
+        $rootScope.windowLocationPath = window.location.pathname;
 
         $scope.optionalOutput = '';
 
