@@ -25,10 +25,9 @@ window.angular.module('Main').controller('mainController',
 
         const initClappr = () => {
             player = new window.Clappr.Player({
-                'source': (window.location.protocol === 'https:' ? 'https:' : 'http:') +
-                '//' + window.location.hostname + ':' + window.location.port + '/hls/live.stream.m3u8',
+                'source': 'hls/live.stream.m3u8',
                 'parentId': '#player',
-                'baseUrl': '/libs/clappr/dist/',
+                'baseUrl': 'libs/scripts/',
                 'poster': 'images/live.jpg?t=' + String(new Date().getTime()),
                 'mediacontrol': {'seekbar': '#3daa48', 'buttons': '#3daa48'},
                 'height': '100%',

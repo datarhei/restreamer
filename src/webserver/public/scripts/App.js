@@ -30,7 +30,7 @@ app.config(($stateProvider) => {
 
 app.controller('appController',
     ['$rootScope', '$state', '$http', ($rootScope, $state, $http) => {
-        $http.get('/authenticated').then((response) => {
+        $http.get('authenticated').then((response) => {
             $rootScope.loggedIn = response.data;
         });
         $rootScope.$watch('loggedIn', (value) => {

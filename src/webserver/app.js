@@ -160,7 +160,7 @@ class RestreamerExpressApp {
         logger.info('Starting ...');
         this.app.set('port', process.env.RS_NODEJS_PORT);
         server = this.app.listen(this.app.get('port'), ()=> {
-            this.app.set('io', require('socket.io')(server));
+            this.app.set('io', require('socket.io')(server, {path: '/socket.io'}));
             this.secureSockets();
             this.app.set('server', server.address());
 

@@ -15,7 +15,7 @@ const WebsocketsService = function websocketsService ($rootScope, loggerService)
 
     $rootScope.$watch('loggedIn', (loggedIn) => {
         if (loggedIn) {
-            this.socket = io.connect();
+            this.socket = io('/', {path: (window.location.pathname + '/socket.io').replace(/\/+/g, "/")});
             this.loggerService.websocketsNamespace('WS connected');
         } else if (this.socket !== null) {
             this.socket.disconnect();
