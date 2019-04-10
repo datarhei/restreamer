@@ -1,3 +1,11 @@
+## Changes from 0.2.0 to 0.3.0
+
+* Use relative paths for loading all assets in the GUI
+* Update FFmpeg to 4.1.3
+* Update NGINX to 1.14.2
+* Update node.js to 10.15.3
+* Update nasm to 2.14.02
+
 ## Changes from 0.1.3 to 0.2.0
 
 * Add HTTPS support
