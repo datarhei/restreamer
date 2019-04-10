@@ -33,3 +33,19 @@ How to stream to the industry standard for video streaming software.
 ## Updating
 How to update your Datahrei/Restreamer.
 [Read more](guides-updates.html).
+
+## Multiple Restreamer
+How to run multiple Restreamer on one device.
+[Read more](guides-multiple-restreamer.html).
+
+## HTTPS
+How to enable HTTPS for Restreamer.
+[Read more](guides-https.html).
+
+## Proxying
+How to proxy Restreamer behind a webserver.
+[Read more](guides-proxying.html).
+
+## SD Card
+How to avoid wear-out of SD cards.
+[Read more](guides-sdcard.html).
