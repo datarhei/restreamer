@@ -48,7 +48,7 @@ This example for nginx assumes that the Restreamer is listening on `localhost:80
 
     	[SSL configuration]
 
-        location / {
+        location /restreamer/ {
     		proxy_http_version 1.1;
     		proxy_pass http://localhost:8080;
     	}

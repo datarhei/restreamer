@@ -93,7 +93,7 @@ If you want to us another port, change it to e.g. `-p 31000:8080`.
 #### `--tmpfs /tmp/hls`
 
 This will mount the directory `/tmp/hls` as a disk in the RAM of the container. This directory holds the chunks for the HLS chunks and has a lot I/O
-operations on it. By mounting it to a `tmpfs` you avoid wearing out the SD card in your device.
+operations on it. By mounting it to a `tmpfs` you avoid [wearing out the SD card](guides-sdcard.html) in your device.
 
 #### `-v /mnt/restreamer/db:/restreamer/db`
 

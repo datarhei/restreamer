@@ -51,6 +51,10 @@ docs:
         url: docs/guides-multiple-restreamer.html
       - title: HTTPS
         url: docs/guides-https.html
+      - title: Proxying
+        url: docs/guides-proxying.html
+      - title: SD Card
+        url: docs/guides-sdcard.html
   - title: References
     url: docs/references-index.html
     children:

@@ -9,7 +9,7 @@ header:
     - label: "<i class='fab fa-docker'></i> Get Started"
       url: "docs/installation-index.html"
   caption: 
-excerpt: 'Live video streaming on your website without a streaming provider.<br /> <small><a href="https://github.com/datarhei/restreamer/releases/tag/v0.2.0">Latest release v0.2.0</a></small><br /><br /> {::nomarkdown}<iframe style="display: inline-block;" src="https://ghbtns.com/github-btn.html?user=datarhei&repo=restreamer&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe> <iframe style="display: inline-block;" src="https://ghbtns.com/github-btn.html?user=datarhei&repo=restreamer&type=fork&count=true&size=large" frameborder="0" scrolling="0" width="158px" height="30px"></iframe>{:/nomarkdown}'
+excerpt: 'Live video streaming on your website without a streaming provider.<br /> <small><a href="https://github.com/datarhei/restreamer/releases/tag/v0.3.0">Latest release v0.3.0</a></small><br /><br /> {::nomarkdown}<iframe style="display: inline-block;" src="https://ghbtns.com/github-btn.html?user=datarhei&repo=restreamer&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe> <iframe style="display: inline-block;" src="https://ghbtns.com/github-btn.html?user=datarhei&repo=restreamer&type=fork&count=true&size=large" frameborder="0" scrolling="0" width="158px" height="30px"></iframe>{:/nomarkdown}'
 intro:
   - title: "Free Video Streaming"
     excerpt: "Restreamer offers smart free video streaming in real time. Stream H.264 video of IP cameras live to your website."
