@@ -69,9 +69,69 @@ These environment variables enable you to control the Raspberry Pi camera.
 | `RS_RASPICAM_IMXFX` | `none` | Set an image effect. Possible values are: `none`, `negative`, `solarise`, `sketch`, `denoise`, `emboss`, `oilpaint`, `hatch`, `gpen`, `pastel`, `watercolour`, `film`, `blur`, `saturation`, `colourswap`, `washedout`, `posterise`, `colourpoint`, `colourbalance`, or `cartoon` |
 | `RS_RASPICAM_METERING` | `average` | Set a metering mode. Possible values are: `average`, `spot`, `backlit`, or `matrix` |
 | `RS_RASPICAM_DRC` | `off` | Enable dynamic range compression. Possible values are: `off`, `low`, `med`, or `high` |
+| `RS_RASPICAM_AUDIO` | `false` | Set this to `true` to enable audio from your USB microphone. Please read more below in the [Audio Support](#audio-support) section. |
+| `RS_RASPICAM_AUDIODEVICE` | `0` | The audio device number according to the ALSA utilities. Please read more below in the [Audio Support](#audio-support) section. |
 
 Change the defaults of these environment variable with care and make sure that you know what you are doing. Read more about the available camera
 settings in the [Raspberry Pi camera documentation](https://www.raspberrypi.org/documentation/raspbian/applications/camera.md).
+
+## Audio Support
+
+Audio is currently only supported on Linux Docker hosts that have the `/dev/snd` device available. In order to make the sound device
+available inside of the docker container, you have to add it to the container and enable audio with `RS_RASPICAM_AUDIO=true`:
+
+```sh
+docker run -d --restart always \
+    --name restreamer \
+    -e "RS_USERNAME=..." -e "RS_PASSWORD=..." \
+    -e "RS_MODE=RASPICAM" -e "RS_RASPICAM_AUDIO=true" \
+    -p 8080:8080 \
+    -v /mnt/restreamer/db:/restreamer/db \
+    -v /opt/vc:/opt/vc \
+    --device /dev/snd \
+    --privileged \
+    datarhei/restreamer:latest
+```
+
+The sound device is accessed with the ALSA drivers. Depending what system you have, there may be several audio devices available and you have to
+pass the `RS_RASPICAM_AUDIODEVICE` with the correct value for your USB camera. To find the correct value, call (you need to have the `alsa-utils` installed):
+
+```sh
+arecord --list-devices
+```
+
+The output could be similar to this:
+
+```
+**** List of CAPTURE Hardware Devices ****
+card 1: HD3000 [Microsoft® LifeCam HD-3000], device 0: USB Audio [USB Audio]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+card 2: C170 [Webcam C170], device 0: USB Audio [USB Audio]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+```
+
+The value for `RS_RASPICAM_AUDIODEVICE` is the number after `card`. In this example it is `1` for the audio from the LifeCam. It is also possible that
+there are several devices with the same `card` number. Then you also have to specify the `device` number in the value, separated with a `,` after
+the card number, e.g. `1,0`.
+
+```sh
+docker run -d --restart always \
+    --name restreamer \
+    -e "RS_USERNAME=..." -e "RS_PASSWORD=..." \
+    -e "RS_MODE=RASPICAM" -e "RS_RASPICAM_AUDIO=true" -e "RS_RASPICAM_AUDIODEVICE=1,0" \
+    -p 8080:8080 \
+    -v /mnt/restreamer/db:/restreamer/db \
+    -v /opt/vc:/opt/vc \
+    --device /dev/snd \
+    --privileged \
+    datarhei/restreamer:latest
+```
+
+In this example, the available sound devices are the microphones from USB cameras that are also connected to the Raspberry Pi. However, you can use
+any USB device that declares itself as audio device to the ALSA drivers.
+{: .notice--info}
 
 ## raspi-config is missing
 

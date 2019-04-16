@@ -54,7 +54,7 @@ These environment variables enable you to control the encoding of the video stre
 | `RS_USBCAM_H264PRESET` | `ultrafast` | Set a preset for H.264 encoding. `ultrafast` is the fasted encoding that requires the least CPU. Read more about the [available H.264 presets](http://dev.beandog.org/x264_preset_reference.html). |
 | `RS_USBCAM_WIDTH` | `1280` | Video stream width in pixels. You have to set this values according to the [capabilities of your USB camera](#video-support). |
 | `RS_USBCAM_HEIGHT` | `720` | Video stream height in pixels. You have to set this values according to the [capabilities of your USB camera](#video-support). |
-| `RS_USBCAM_AUDIO` | `false` | Set this to `true` to enable audio from you USB camera. Please read more below in the [Audio Support](#audio-support) section. |
+| `RS_USBCAM_AUDIO` | `false` | Set this to `true` to enable audio from your USB camera. Please read more below in the [Audio Support](#audio-support) section. |
 | `RS_USBCAM_AUDIODEVICE` | `0` | The audio device number according to the ALSA utilities. Please read more below in the [Audio Support](#audio-support) section. |
 
 Change the defaults of these environment variable with care and make sure that you know what you are doing.
