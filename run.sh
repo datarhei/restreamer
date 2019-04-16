@@ -107,6 +107,15 @@ if [ "${RS_MODE}" = "RASPICAM" ] && [ "$CPU_TYPE" = "arm" ]; then
     # dynamic range compression: off,low,med,high
     RASPICAM_DRC=${RS_RASPICAM_DRC:="off"}
 
+    ## audio
+
+    RASPICAM_AUDIODEVICE=${RS_RASPICAM_AUDIODEVICE:="0"}
+    RASPICAM_AUDIO="-f lavfi -i anullsrc=r=44100:cl=mono -b:a 0k"
+
+    if [ "$RS_RASPICAM_AUDIO" = "true" ]; then
+        RASPICAM_AUDIO="-thread_queue_size 512 -f alsa -ac 1 -ar 44100 -i hw:${RASPICAM_AUDIODEVICE} -b:a 64k"
+    fi
+
     ## RTMP URL
 
     RTMP_URL="rtmp://127.0.0.1:1935/live/raspicam.stream"
@@ -137,7 +146,7 @@ if [ "${RS_MODE}" = "RASPICAM" ] && [ "$CPU_TYPE" = "arm" ]; then
         --imxfx "$RASPICAM_IMXFX" \
         --metering "$RASPICAM_METERING" \
         --drc "$RASPICAM_DRC" \
-        -o - | ffmpeg -i - -f lavfi -i anullsrc=r=44100:cl=mono -vcodec copy -acodec aac -b:a 0k -map 0:v -map 1:a -shortest -f flv "${RTMP_URL}" > /dev/null 2>&1
+        -o - | ffmpeg -i - ${RASPICAM_AUDIO} -vcodec copy -acodec aac -map 0:v -map 1:a -shortest -f flv "${RTMP_URL}" > /dev/null 2>&1
 elif [ "${RS_MODE}" = "USBCAM" ]; then
     npm start &
     NGINX_RUNNING=0
