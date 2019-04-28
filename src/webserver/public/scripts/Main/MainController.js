@@ -44,7 +44,19 @@ window.angular.module('Main').controller('mainController',
 
         $scope.reStreamerData = {
             'options': {
-                'rtspTcp': false
+                'rtspTcp': false,
+                'video': {
+                    'codec': 'copy',
+                    'preset': 'ultrafast',
+                    'bitrate': 4096
+                },
+                'audio': {
+                    'codec': 'copy',
+                    'preset': 'silence',
+                    'bitrate': 64,
+                    'channels': 'mono',
+                    'sampling': 41000
+                }
             },
             'states': {
                 'repeatToLocalNginx': {

@@ -7,6 +7,7 @@ MAINTAINER datarhei <info@datarhei.org>
 ARG NASM_VERSION=2.14.02
 ARG LAME_VERSION=3.100
 ARG X264_VERSION=20190409-2245-stable
+ARG X265_VERSION=3.0
 ARG FFMPEG_VERSION=4.1.3
 ARG NGINX_VERSION=1.14.2
 ARG NGINXRTMP_VERSION=1.2.1
@@ -25,7 +26,8 @@ RUN apt-get update && \
         libssl-dev \
         zlib1g-dev \
         libasound2-dev \
-        build-essential
+        build-essential \
+        cmake
 
 # nasm
 RUN mkdir -p /dist && cd /dist && \
@@ -45,6 +47,15 @@ RUN mkdir -p /dist && cd /dist && \
     make -j$(nproc) && \
     make install
 
+# x265
+RUN mkdir -p /dist && cd /dist && \
+    curl -OL "http://ftp.videolan.org/pub/videolan/x265/x265_${X265_VERSION}.tar.gz" && \
+    tar -xvz -f x265_${X265_VERSION}.tar.gz && \
+    cd x265_${X265_VERSION}/build && \
+    cmake ../source && \
+    make -j$(nproc) && \
+    make install
+
 # libmp3lame
 RUN mkdir -p /dist && cd /dist && \
     curl -OL "https://kent.dl.sourceforge.net/project/lame/lame/${LAME_VERSION}/lame-${LAME_VERSION}.tar.gz" && \
@@ -54,11 +65,14 @@ RUN mkdir -p /dist && cd /dist && \
     make -j$(nproc) && \
     make install
 
-# ffmpeg
+# ffmpeg && patch
+COPY ./contrib/ffmpeg /dist/restreamer/contrib/ffmpeg
+
 RUN mkdir -p /dist && cd /dist && \
     curl -OL "https://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz" && \
     tar -xvz -f ffmpeg-${FFMPEG_VERSION}.tar.gz && \
     cd ffmpeg-${FFMPEG_VERSION} && \
+    patch -p1 < /dist/restreamer/contrib/ffmpeg/bitrate.patch && \
     ./configure \
         --bindir="${SRC}/bin" \
         --extra-cflags="-I${SRC}/include" \
@@ -69,6 +83,7 @@ RUN mkdir -p /dist && cd /dist && \
         --enable-version3 \
         --enable-libmp3lame \
         --enable-libx264 \
+        --enable-libx265 \
         --enable-openssl \
         --enable-postproc \
         --enable-small \
@@ -97,17 +112,6 @@ RUN mkdir -p /dist && cd /dist && \
     cd node-v${NODE_VERSION}-linux-x64 && \
     cp -R bin /usr/local && \
     cp -R lib /usr/local
-
-RUN rm -r /dist && \
-    apt-get remove -y \
-        pkg-config \
-        curl \
-        libpcre3-dev \
-        libtool \
-        libssl-dev \
-        zlib1g-dev \
-        build-essential && \
-    apt autoremove -y
 
 FROM $IMAGE
 

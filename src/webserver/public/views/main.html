@@ -17,6 +17,116 @@
 <streaming-status name="repeatToLocalNginx" data="reStreamerData"></streaming-status>
 
 <div class="form-inline form-group">
+    <div style="margin-bottom:1em" ng-if="showStartButton('repeatToLocalNginx')">
+        <h4>Stream options:</h4>
+        <table style="width:100%">
+        <thread>
+        <tr>
+            <th></th>
+            <th class="text-center" style="width:150px"><strong>Video</strong></th>
+            <th class="text-center" style="width:150px"><strong>Audio</strong></th>
+        </tr>
+        </thread>
+        <tbody>
+        <tr style="height:24px">
+            <td>Codec</td>
+            <td class="text-right">
+                <select class="input" ng-model="reStreamerData.options.video.codec">
+                    <option value="copy" selected>copy</option>
+                    <option value="h264">H264 (x264)</option>
+                </select>
+            </td>
+            <td class="text-right">
+                <select class="input" ng-model="reStreamerData.options.audio.codec">
+                    <option value="copy" selected>copy</option>
+                    <option value="none">none</option>
+                    <option value="aac">AAC</option>
+                    <option value="mp3">MP3</option>
+                </select>
+            </td>
+        </tr><tr style="height:24px" ng-if="reStreamerData.options.video.codec != 'copy' || (reStreamerData.options.audio.codec != 'copy' && reStreamerData.options.audio.codec != 'none')">
+            <td>Preset</td>
+            <td class="text-right">
+                <select class="input" ng-if="reStreamerData.options.video.codec != 'copy'" ng-model="reStreamerData.options.video.preset">
+                    <option value="ultrafast" selected>ultrafast</option>
+                    <option value="superfast">superfast</option>
+                    <option value="veryfast">veryfast</option>
+                    <option value="faster">faster</option>
+                    <option value="fast">fast</option>
+                    <option value="medium">medium</option>
+                    <option value="slow">slow</option>
+                    <option value="slower">slower</option>
+                    <option value="veryslow">veryslow</option>
+                    <option value="placebo">placebo</option>
+                </select>
+            </td>
+            <td class="text-right">
+                <select class="input" ng-if="reStreamerData.options.audio.codec != 'copy' && reStreamerData.options.audio.codec != 'none'" ng-model="reStreamerData.options.audio.preset">
+                    <option value="encode" selected>encode</option>
+                    <option value="silence">silence</option>
+                </select>
+            </td>
+        </tr><tr style="height:24px" ng-if="reStreamerData.options.video.codec != 'copy' || (reStreamerData.options.audio.codec != 'copy' && reStreamerData.options.audio.codec != 'none')">
+            <td>Bitrate</td>
+            <td class="text-right">
+                <select class="input" ng-if="reStreamerData.options.video.codec != 'copy'" ng-model="reStreamerData.options.video.bitrate">
+                    <option value="32768">32 Mbit/s</option>
+                    <option value="24576">24 Mbit/s</option>
+                    <option value="20480">20 Mbit/s</option>
+                    <option value="16384">16 Mbit/s</option>
+                    <option value="12288">12 Mbit/s</option>
+                    <option value="8192">8 Mbit/s</option>
+                    <option value="4096" selected>4 Mbit/s</option>
+                    <option value="2048">2 Mbit/s</option>
+                    <option value="1024">1 Mbit/s</option>
+                    <option value="512">512 Kbit/s</option>
+                    <option value="256">256 Kbit/s</option>
+                </select>
+            </td>
+            <td class="text-right">
+                <select class="input" ng-if="reStreamerData.options.audio.codec != 'copy' && reStreamerData.options.audio.codec != 'none'" ng-model="reStreamerData.options.audio.bitrate">
+                    <option value="256">256 Kbit/s</option>
+                    <option value="128">128 Kbit/s</option>
+                    <option value="64" selected>64 Kbit/s</option>
+                    <option value="32">32 Kbit/s</option>
+                    <option value="16">16 Kbit/s</option>
+                    <option value="8">8 Kbit/s</option>
+                </select>
+            </td>
+        </tr><tr style="height:24px" ng-if="reStreamerData.options.video.codec != 'copy'">
+            <td>FPS</td>
+            <td class="text-right">
+                <select class="input" ng-if="reStreamerData.options.video.codec != 'copy'" ng-model="reStreamerData.options.video.fps">
+                    <option value="60">60</option>
+                    <option value="30">30</option>
+                    <option value="25" selected>25</option>
+                </select>
+            </td>
+            <td></td>
+        </tr><tr style="height:24px" ng-if="reStreamerData.options.audio.codec != 'copy' && reStreamerData.options.audio.codec != 'none'">
+            <td>Channels</td>
+            <td></td>
+            <td class="text-right">
+                <select class="input" ng-if="reStreamerData.options.audio.codec != 'copy' && reStreamerData.options.audio.codec != 'none'" ng-model="reStreamerData.options.audio.channels">
+                    <option value="mono" selected>mono</option>
+                    <option value="stereo">stereo</option>
+                </select>
+            </td>
+        </tr><tr style="height:24px" ng-if="reStreamerData.options.audio.codec != 'copy' && reStreamerData.options.audio.codec != 'none'">
+            <td>Sampling</td>
+            <td></td>
+            <td class="text-right">
+                <select class="input" ng-if="reStreamerData.options.audio.codec != 'copy' && reStreamerData.options.audio.codec != 'none'" ng-model="reStreamerData.options.audio.sampling">
+                    <option value="44100" selected>44100 Hz</option>
+                    <option value="22050">22050 Hz</option>
+                    <option value="11025">11025 Hz</option>
+                    <option value="8000">8000 Hz</option>
+                </select>
+            </td>
+        </tr>
+        </tbody>
+        </table>
+    </div>
     <div ng-if="reStreamerData.addresses.srcAddress.indexOf('rtsp') === 0 && showStartButton('repeatToLocalNginx')"
          class="checkbox pull-left">
         <label>
@@ -44,6 +154,7 @@
         {{'button_stop' | translate}}
     </button>
     <div class="clearfix"></div>
+
 </div>
 
 <!-- todo: this hr to css border-bottom or something-->

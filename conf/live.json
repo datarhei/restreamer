@@ -8,72 +8,90 @@
     },
     "ffmpeg": {
         "options": {
-            "native_h264_native_audio": {
+            "audio_codec_copy": {
                 "outputOptions": [
-                    "-codec copy",
-                    "-map 0:v",
-                    "-map 0:a"
+                    "-codec:a copy"
                 ]
             },
-            "native_h264_no_audio": {
+            "audio_codec_copy_aac": {
                 "outputOptions": [
-                    "-vcodec copy",
-                    "-an",
-                    "-map 0:v"
-                ]
-            },
-            "native_h264_native_aac": {
-                "outputOptions": [
-                    "-codec copy",
-                    "-map 0:v",
-                    "-map 0:a",
+                    "-codec:a copy",
                     "-bsf:a aac_adtstoasc"
                 ]
             },
-            "native_h264_silence_aac": {
-                "input": "anullsrc=r=44100:cl=mono",
+            "audio_codec_none": {
+                "outputOptions": [
+                    "-an"
+                ]
+            },
+            "audio_codec_aac": {
+                "outputOptions": [
+                    "-codec:a aac",
+                    "-bsf:a aac_adtstoasc"
+                ]
+            },
+            "audio_codec_mp3": {
+                "outputOptions": [
+                    "-codec:a libmp3lame"
+                ]
+            },
+            "audio_preset_copy": {
+                "outputOptions": [
+                    "-map 0:a"
+                ]
+            },
+            "audio_preset_encode": {
+                "outputOptions": [
+                    "-b:a {bitrate}k",
+                    "-map 0:a"
+                ]
+            },
+            "audio_preset_silence": {
+                "input": "anullsrc=r={sampling}:cl={channels}",
                 "inputOptions": [
-                    "-f lavfi"
+                    "-f lavfi",
+                    "-thread_queue_size 512"
                 ],
                 "outputOptions": [
-                    "-vcodec copy",
-                    "-acodec aac",
-                    "-b:a 0k",
-                    "-map 0:v",
+                    "-b:a {bitrate}k",
                     "-map 1:a",
                     "-shortest"
                 ]
             },
-            "native_h264_transcode_aac": {
+            "video_codec_copy": {
                 "outputOptions": [
-                    "-vcodec copy",
-                    "-acodec aac",
-                    "-b:a 64k",
+                    "-codec:v copy",
                     "-map 0:v",
-                    "-map 0:a"
+                    "-vsync 0",
+                    "-copyts",
+                    "-start_at_zero"
                 ]
             },
-            "native_h264_silence_mp3": {
-                "input": "anullsrc=r=44100:cl=mono",
-                "inputOptions": [
-                    "-f lavfi"
-                ],
+            "video_codec_h264": {
                 "outputOptions": [
-                    "-vcodec copy",
-                    "-acodec libmp3lame",
-                    "-b:a 0k",
-                    "-map 0:v",
-                    "-map 1:a",
-                    "-shortest"
+                    "-codec:v libx264",
+                    "-preset:v {preset}",
+                    "-b:v {bitrate}k",
+                    "-maxrate {bitrate}k",
+                    "-bufsize {bitrate}k",
+                    "-r {fps}",
+                    "-g {gop}",
+                    "-map 0:v"
                 ]
             },
-            "native_h264_transcode_mp3": {
+            "video_codec_hevc": {
                 "outputOptions": [
-                    "-vcodec copy",
-                    "-acodec libmp3lame",
-                    "-b:a 64k",
+                    "-codec:v libx265",
+                    "-preset:v {preset}",
+                    "-b:v {bitrate}k",
+                    "-maxrate {bitrate}k",
+                    "-bufsize {bitrate}k",
+                    "-r {fps}",
+                    "-x265-params keyint={gop}",
                     "-map 0:v",
-                    "-map 0:a"
+                    "-hls_segment_type fmp4",
+                    "-hls_fmp4_init_filename live.stream_init.mp4",
+                    "-hls_segment_filename /tmp/hls/live.stream_%09d.m4s"
                 ]
             },
             "global": {
@@ -86,9 +104,23 @@
             "video": {
                  "outputOptions": [
                     "-map_metadata -1",
-                    "-metadata application=datarhei/Restreamer",
-                    "-metadata server=NGINX-RTMP",
+                    "-metadata application=datarhei/Restreamer"
+                ]
+            },
+            "rtmp": {
+                "outputOptions": [
                     "-f flv"
+                ]
+            },
+            "hls": {
+                "inputOptions": [
+                    "-fflags nobuffer+genpts"
+                ],
+                "outputOptions": [
+                    "-f hls",
+                    "-hls_time 2",
+                    "-hls_list_size 10",
+                    "-hls_flags delete_segments+temp_file+append_list"
                 ]
             },
             "rtsp-tcp": {

@@ -46,6 +46,32 @@ class RestreamerData {
                     throw new Error(JSON.stringify(validateResult.errors));
                 } else {
                     logger.debug('"v1.db" is valid');
+
+                    // Fill up optional fields if not present
+                    if(!('video' in dbdata.options)) {
+                        dbdata.options.video = {
+                            'codec': 'copy',
+                            'preset': 'ultrafast',
+                            'bitrate': '4096',
+                            'fps': '25'
+                        }
+                    }
+
+                    if(!('audio' in dbdata.options)) {
+                        dbdata.options.audio = {
+                            'codec': 'copy',
+                            'preset': 'silence',
+                            'bitrate': '64',
+                            'channels': 'mono',
+                            'sampling': '44100'
+                        }
+                    }
+
+                    if (!fs.existsSync(dbPath)) {
+                        fs.mkdirSync(dbPath);
+                    }
+                    fs.writeFileSync(path.join(dbPath, dbFile), JSON.stringify(dbdata));
+
                     deferred.resolve();
                 }
             })
@@ -56,7 +82,20 @@ class RestreamerData {
                         'optionalOutputAddress': ''
                     },
                     'options': {
-                        'rtspTcp': true
+                        'rtspTcp': true,
+                        'video': {
+                            'codec': 'copy',
+                            'preset': 'ultrafast',
+                            'bitrate': '4096',
+                            'fps': '25'
+                        },
+                        'audio': {
+                            'codec': 'copy',
+                            'preset': 'silence',
+                            'bitrate': '64',
+                            'channels': 'mono',
+                            'sampling': '44100'
+                        }
                     },
                     'states': {
                         'repeatToLocalNginx': {

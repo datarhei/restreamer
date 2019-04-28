@@ -6,6 +6,7 @@ MAINTAINER datarhei <info@datarhei.org>
 
 ARG LAME_VERSION=3.100
 ARG X264_VERSION=20190409-2245-stable
+ARG X265_VERSION=3.0
 ARG FFMPEG_VERSION=4.1.3
 ARG NGINX_VERSION=1.14.2
 ARG NGINXRTMP_VERSION=1.2.1
@@ -44,11 +45,14 @@ RUN mkdir -p /dist && cd /dist && \
     make -j$(nproc) && \
     make install
 
-# ffmpeg
+# ffmpeg && patch
+COPY ./contrib/ffmpeg /dist/restreamer/contrib/ffmpeg
+
 RUN mkdir -p /dist && cd /dist && \
     curl -OL "https://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz" && \
     tar -xvz -f ffmpeg-${FFMPEG_VERSION}.tar.gz && \
     cd ffmpeg-${FFMPEG_VERSION} && \
+    patch -p1 < /dist/restreamer/contrib/ffmpeg/bitrate.patch && \
     ./configure \
         --bindir="${SRC}/bin" \
         --extra-cflags="-I${SRC}/include" \
