@@ -76,7 +76,18 @@
                     "-bufsize {bitrate}k",
                     "-r {fps}",
                     "-g {gop}",
+                    "-pix_fmt yuv420p",
                     "-map 0:v"
+                ]
+            },
+            "video_codec_h264_profile": {
+                "outputOptions": [
+                    "-profile:v {profile}"
+                ]
+            },
+            "video_codec_h264_tune": {
+                "outputOptions": [
+                    "-tune {tune}"
                 ]
             },
             "video_codec_hevc": {

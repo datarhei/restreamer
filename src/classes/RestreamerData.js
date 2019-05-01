@@ -53,7 +53,9 @@ class RestreamerData {
                             'codec': 'copy',
                             'preset': 'ultrafast',
                             'bitrate': '4096',
-                            'fps': '25'
+                            'fps': '25',
+                            'profile': 'auto',
+                            'tune': 'none'
                         }
                     }
 
@@ -87,7 +89,9 @@ class RestreamerData {
                             'codec': 'copy',
                             'preset': 'ultrafast',
                             'bitrate': '4096',
-                            'fps': '25'
+                            'fps': '25',
+                            'profile': 'auto',
+                            'tune': 'none'
                         },
                         'audio': {
                             'codec': 'copy',

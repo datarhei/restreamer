@@ -46,7 +46,9 @@
             "codec",
             "preset",
             "bitrate",
-            "fps"
+            "fps",
+            "profile",
+            "tune"
           ],
           "properties": {
             "codec": {
@@ -67,6 +69,16 @@
             "fps": {
               "type": "string",
               "default": "25",
+              "pattern": "^(.*)$"
+            },
+            "profile": {
+              "type": "string",
+              "default": "none",
+              "pattern": "^(.*)$"
+            },
+            "tune": {
+              "type": "string",
+              "default": "none",
               "pattern": "^(.*)$"
             }
           }

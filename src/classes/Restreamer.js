@@ -332,6 +332,14 @@ class Restreamer {
 
                 if(Restreamer.data.options.video.codec == 'h264') {
                     options.video.push('video_codec_h264');
+
+                    if(Restreamer.data.options.video.profile != 'auto') {
+                        options.video.push('video_codec_h264_profile');
+                    }
+
+                    if(Restreamer.data.options.video.tune != 'none') {
+                        options.video.push('video_codec_h264_tune');
+                    }
                 }
                 else {
                     if(video.codec_name != 'h264') {
@@ -598,7 +606,9 @@ class Restreamer {
                 preset: Restreamer.data.options.video.preset,
                 bitrate: Restreamer.data.options.video.bitrate,
                 fps: Restreamer.data.options.video.fps,
-                gop: (parseInt(Restreamer.data.options.video.fps) * 2) + ''
+                gop: (parseInt(Restreamer.data.options.video.fps) * 2) + '',
+                profile: Restreamer.data.options.video.profile,
+                tune: Restreamer.data.options.video.tune
             }
 
             for(let o in options.video) {

@@ -103,6 +103,31 @@
                 </select>
             </td>
             <td></td>
+        </tr><tr style="height:24px" ng-if="reStreamerData.options.video.codec != 'copy'">
+            <td>Profile</td>
+            <td class="text-right">
+                <select class="input" ng-if="reStreamerData.options.video.codec != 'copy'" ng-model="reStreamerData.options.video.profile">
+                    <option value="auto" selected>auto</option>
+                    <option value="baseline">baseline</option>
+                    <option value="main">main</option>
+                    <option value="high">high</option>
+                </select>
+            </td>
+            <td></td>
+        </tr><tr style="height:24px" ng-if="reStreamerData.options.video.codec != 'copy'">
+            <td>Tune</td>
+            <td class="text-right">
+                <select class="input" ng-if="reStreamerData.options.video.codec != 'copy'" ng-model="reStreamerData.options.video.tune">
+                    <option value="none" selected>none</option>
+                    <option value="animation">animation</option>
+                    <option value="fastdecode">fastdecode</option>
+                    <option value="film">film</option>
+                    <option value="grain">grain</option>
+                    <option value="stillimage">stillimage</option>
+                    <option value="zerolatency">zerolatency</option>
+                </select>
+            </td>
+            <td></td>
         </tr><tr style="height:24px" ng-if="reStreamerData.options.audio.codec != 'copy' && reStreamerData.options.audio.codec != 'none'">
             <td>Channels</td>
             <td></td>
