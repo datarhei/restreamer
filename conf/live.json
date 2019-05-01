@@ -59,6 +59,9 @@
                 ]
             },
             "video_codec_copy": {
+                "inputOptions": [
+                    "-re"
+                ],
                 "outputOptions": [
                     "-codec:v copy",
                     "-map 0:v",
@@ -68,6 +71,9 @@
                 ]
             },
             "video_codec_h264": {
+                "inputOptions": [
+                    "-re"
+                ],
                 "outputOptions": [
                     "-codec:v libx264",
                     "-preset:v {preset}",
@@ -77,7 +83,8 @@
                     "-r {fps}",
                     "-g {gop}",
                     "-pix_fmt yuv420p",
-                    "-map 0:v"
+                    "-map 0:v",
+                    "-vsync 1"
                 ]
             },
             "video_codec_h264_profile": {
@@ -91,6 +98,9 @@
                 ]
             },
             "video_codec_hevc": {
+                "inputOptions": [
+                    "-re"
+                ],
                 "outputOptions": [
                     "-codec:v libx265",
                     "-preset:v {preset}",
@@ -100,9 +110,7 @@
                     "-r {fps}",
                     "-x265-params keyint={gop}",
                     "-map 0:v",
-                    "-hls_segment_type fmp4",
-                    "-hls_fmp4_init_filename live.stream_init.mp4",
-                    "-hls_segment_filename /tmp/hls/live.stream_%09d.m4s"
+                    "-vsync 1"
                 ]
             },
             "global": {
@@ -132,6 +140,19 @@
                     "-hls_time 2",
                     "-hls_list_size 10",
                     "-hls_flags delete_segments+temp_file+append_list"
+                ]
+            },
+            "hls_segment_ts": {
+                "outputOptions": [
+                    "-hls_segment_type ts",
+                    "-hls_segment_filename /tmp/hls/live.stream_%09d.ts"
+                ]
+            },
+            "hls_segment_fmp4": {
+                "outputOptions": [
+                    "-hls_segment_type fmp4",
+                    "-hls_fmp4_init_filename live.stream_init.mp4",
+                    "-hls_segment_filename /tmp/hls/live.stream_%09d.m4s"
                 ]
             },
             "rtsp-tcp": {
