@@ -95,7 +95,7 @@
           "properties": {
             "codec": {
               "type": "string",
-              "default": "copy",
+              "default": "auto",
               "pattern": "^(.*)$"
             },
             "preset": {

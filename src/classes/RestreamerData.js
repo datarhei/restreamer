@@ -61,7 +61,7 @@ class RestreamerData {
 
                     if(!('audio' in dbdata.options)) {
                         dbdata.options.audio = {
-                            'codec': 'copy',
+                            'codec': 'auto',
                             'preset': 'silence',
                             'bitrate': '64',
                             'channels': 'mono',
@@ -94,7 +94,7 @@ class RestreamerData {
                             'tune': 'none'
                         },
                         'audio': {
-                            'codec': 'copy',
+                            'codec': 'auto',
                             'preset': 'silence',
                             'bitrate': '64',
                             'channels': 'mono',

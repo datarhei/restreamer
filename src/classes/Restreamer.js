@@ -361,6 +361,23 @@ class Restreamer {
                         options.audio.push('audio_codec_mp3');
                         options.audio.push('audio_preset_'+Restreamer.data.options.audio.preset);
                     }
+                    else if(Restreamer.data.options.audio.codec == 'auto') {
+                        switch(audio.codec_name) {  // consider all allowed audio codecs for FLV
+                            case 'mp3':
+                            case 'pcm_alaw':
+                            case 'pcm_mulaw':
+                                options.audio.push('audio_codec_copy');
+                                options.audio.push('audio_preset_copy');
+                                break;
+                            case 'aac':
+                                options.audio.push('audio_codec_copy_aac');
+                                options.audio.push('audio_preset_copy');
+                                break;
+                            default:
+                                options.audio.push('audio_codec_aac');
+                                options.audio.push('audio_preset_encode');
+                        }
+                    }
                     else {
                         switch(audio.codec_name) {  // consider all allowed audio codecs for FLV
                             case 'mp3':
@@ -378,7 +395,7 @@ class Restreamer {
                     }
                 }
                 else {
-                    if(Restreamer.data.options.audio.codec == 'aac') {
+                    if(Restreamer.data.options.audio.codec == 'aac' || Restreamer.data.options.audio.codec == 'auto') {
                         options.audio.push('audio_codec_aac');
                         options.audio.push('audio_preset_silence');
                     }
@@ -871,10 +888,12 @@ Restreamer.data = {
             'codec': 'copy',
             'preset': 'ultrafast',
             'bitrate': '4096',
-            'fps': '25'
+            'fps': '25',
+            'profile': 'auto',
+            'tune': 'none'
         },
         'audio': {
-            'codec': 'copy',
+            'codec': 'auto',
             'preset': 'silence',
             'bitrate': '64',
             'channels': 'mono',
