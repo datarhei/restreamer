@@ -8,7 +8,7 @@ WORKDIR /gh-pages
 COPY run.sh /usr/local/bin
 COPY Gemfile /gh-pages
 
-RUN gem install bundler && bundle install
+RUN gem install bundler -v '1.17.3' && bundle install
 
 EXPOSE 4000
 VOLUME /gh-pages

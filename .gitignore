@@ -2,5 +2,6 @@ _site/
 bin
 node_modules
 npm-debug.log
+Gemfile.lock
 .idea
 .DS_Store

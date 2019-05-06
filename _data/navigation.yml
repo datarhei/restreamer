@@ -55,6 +55,8 @@ docs:
         url: docs/guides-proxying.html
       - title: SD Card
         url: docs/guides-sdcard.html
+      - title: Encoding
+        url: docs/guides-encoding.html
   - title: References
     url: docs/references-index.html
     children:
