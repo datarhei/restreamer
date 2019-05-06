@@ -326,10 +326,6 @@ class Restreamer {
             };
 
             if(streamType == 'repeatToLocalNginx') {
-                if(video.codec_name != 'h264' && Restreamer.data.options.video.codec == 'copy') {
-                    return deferred.reject("video stream must be h264, found " + video.codec_name);
-                }
-
                 if(Restreamer.data.options.video.codec == 'h264') {
                     options.video.push('video_codec_h264');
 
