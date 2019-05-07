@@ -349,29 +349,24 @@ class Restreamer {
                     if(Restreamer.data.options.audio.codec == 'none') {
                         options.audio.push('audio_codec_none');
                     }
-                    else if(Restreamer.data.options.audio.codec == 'aac') {
-                        options.audio.push('audio_codec_aac');
-                        options.audio.push('audio_preset_'+Restreamer.data.options.audio.preset);
-                    }
-                    else if(Restreamer.data.options.audio.codec == 'mp3') {
-                        options.audio.push('audio_codec_mp3');
-                        options.audio.push('audio_preset_'+Restreamer.data.options.audio.preset);
-                    }
-                    else if(Restreamer.data.options.audio.codec == 'auto') {
-                        switch(audio.codec_name) {  // consider all allowed audio codecs for FLV
-                            case 'mp3':
-                            case 'pcm_alaw':
-                            case 'pcm_mulaw':
-                                options.audio.push('audio_codec_copy');
-                                options.audio.push('audio_preset_copy');
-                                break;
-                            case 'aac':
-                                options.audio.push('audio_codec_copy_aac');
-                                options.audio.push('audio_preset_copy');
-                                break;
-                            default:
-                                options.audio.push('audio_codec_aac');
-                                options.audio.push('audio_preset_encode');
+                    else if(Restreamer.data.options.audio.codec == 'aac' || Restreamer.data.options.audio.codec == 'mp3') {
+                        if(Restreamer.data.options.audio.codec == 'aac') {
+                            options.audio.push('audio_codec_aac');
+                        }
+                        else {
+                            options.audio.push('audio_codec_mp3');
+                        }
+
+                        options.audio.push('audio_preset_' + Restreamer.data.options.audio.preset);
+
+                        if(Restreamer.data.options.audio.channels != 'inherit' && Restreamer.data.options.audio.sampling != 'inherit') {
+                            options.audio.push('audio_filter_all');
+                        }
+                        else if(Restreamer.data.options.audio.channels != 'inherit') {
+                            options.audio.push('audio_filter_channels');
+                        }
+                        else if(Restreamer.data.options.audio.sampling != 'inherit') {
+                            options.audio.push('audio_filter_sampling');
                         }
                     }
                     else {
@@ -380,24 +375,33 @@ class Restreamer {
                             case 'pcm_alaw':
                             case 'pcm_mulaw':
                                 options.audio.push('audio_codec_copy');
+                                options.audio.push('audio_preset_copy');
                                 break;
                             case 'aac':
                                 options.audio.push('audio_codec_copy_aac');
+                                options.audio.push('audio_preset_copy');
                                 break;
                             default:
-                                return deferred.reject("can't copy audio stream, found unsupported codec " + audio.codec_name);
+                                if(Restreamer.data.options.audio.codec == 'copy') {
+                                    return deferred.reject("can't copy audio stream, found unsupported codec " + audio.codec_name);
+                                }
+                                else {
+                                    options.audio.push('audio_codec_aac');
+                                    options.audio.push('audio_preset_encode');
+                                }
                         }
-                        options.audio.push('audio_preset_copy');
                     }
                 }
                 else {
                     if(Restreamer.data.options.audio.codec == 'aac' || Restreamer.data.options.audio.codec == 'auto') {
                         options.audio.push('audio_codec_aac');
                         options.audio.push('audio_preset_silence');
+                        options.audio.push('audio_filter_all');
                     }
                     else if(Restreamer.data.options.audio.codec == 'mp3') {
                         options.audio.push('audio_codec_mp3');
                         options.audio.push('audio_preset_silence');
+                        options.audio.push('audio_filter_all');
                     }
                     else {
                         options.audio.push('audio_codec_none');
@@ -408,7 +412,14 @@ class Restreamer {
                 options.video.push('video_codec_copy');
 
                 if(audio !== null) {
-                    options.audio.push('audio_codec_copy');
+                    if(audio.codec_name == 'aac') {
+                        options.audio.push('audio_codec_copy_aac');
+                    }
+                    else {
+                        options.audio.push('audio_codec_copy');
+                    }
+
+                    options.audio.push('audio_preset_copy');
                 }
                 else {
                     options.audio.push('audio_codec_none');

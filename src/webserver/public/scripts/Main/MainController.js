@@ -48,7 +48,9 @@ window.angular.module('Main').controller('mainController',
                 'video': {
                     'codec': 'copy',
                     'preset': 'ultrafast',
-                    'bitrate': 4096
+                    'bitrate': 4096,
+                    'profile': 'auto',
+                    'tune': 'none'
                 },
                 'audio': {
                     'codec': 'copy',

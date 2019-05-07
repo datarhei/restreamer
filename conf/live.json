@@ -58,6 +58,21 @@
                     "-shortest"
                 ]
             },
+            "audio_filter_sampling": {
+                "outputOptions": [
+                    "-af aresample=osr={sampling}"
+                ]
+            },
+            "audio_filter_channels": {
+                "outputOptions": [
+                    "-af aresample=ocl={channels}"
+                ]
+            },
+            "audio_filter_all": {
+                "outputOptions": [
+                    "-af aresample=osr={sampling}:ocl={channels}"
+                ]
+            },
             "video_codec_copy": {
                 "inputOptions": [
                     "-re"

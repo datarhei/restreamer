@@ -18,15 +18,20 @@
 
 <div class="form-inline form-group">
     <div style="margin-bottom:1em" ng-if="showStartButton('repeatToLocalNginx')">
-        <h4>Stream options:</h4>
+        <h4>
+            Stream options:
+            <a href="https://datarhei.github.io/restreamer/docs/guides-encoding.html" target="_blank">
+                <span class="glyphicon glyphicon-question-sign icon14" aria-hidden="true"></span>
+            </a>
+        </h4>
         <table style="width:100%">
-        <thread>
+        <thead>
         <tr>
             <th></th>
             <th class="text-center" style="width:150px"><strong>Video</strong></th>
             <th class="text-center" style="width:150px"><strong>Audio</strong></th>
         </tr>
-        </thread>
+        </thead>
         <tbody>
         <tr style="height:24px">
             <td>Codec</td>
@@ -45,7 +50,7 @@
                     <option value="mp3">MP3</option>
                 </select>
             </td>
-        </tr><tr style="height:24px" ng-if="reStreamerData.options.video.codec != 'copy' || (reStreamerData.options.audio.codec != 'copy' && reStreamerData.options.audio.codec != 'none')">
+        </tr><tr style="height:24px" ng-if="reStreamerData.options.video.codec != 'copy' || (reStreamerData.options.audio.codec != 'copy' && reStreamerData.options.audio.codec != 'none' && reStreamerData.options.audio.codec != 'auto')">
             <td>Preset</td>
             <td class="text-right">
                 <select class="input" ng-if="reStreamerData.options.video.codec != 'copy'" ng-model="reStreamerData.options.video.preset">
@@ -67,7 +72,7 @@
                     <option value="silence">silence</option>
                 </select>
             </td>
-        </tr><tr style="height:24px" ng-if="reStreamerData.options.video.codec != 'copy' || (reStreamerData.options.audio.codec != 'copy' && reStreamerData.options.audio.codec != 'none')">
+        </tr><tr style="height:24px" ng-if="reStreamerData.options.video.codec != 'copy' || (reStreamerData.options.audio.codec != 'copy' && reStreamerData.options.audio.codec != 'none' && reStreamerData.options.audio.codec != 'auto')">
             <td>Bitrate</td>
             <td class="text-right">
                 <select class="input" ng-if="reStreamerData.options.video.codec != 'copy'" ng-model="reStreamerData.options.video.bitrate">
@@ -97,7 +102,7 @@
         </tr><tr style="height:24px" ng-if="reStreamerData.options.video.codec != 'copy'">
             <td>FPS</td>
             <td class="text-right">
-                <select class="input" ng-if="reStreamerData.options.video.codec != 'copy'" ng-model="reStreamerData.options.video.fps">
+                <select class="input" ng-model="reStreamerData.options.video.fps">
                     <option value="60">60</option>
                     <option value="59.94">59.94</option>
                     <option value="50">50</option>
@@ -111,7 +116,7 @@
         </tr><tr style="height:24px" ng-if="reStreamerData.options.video.codec != 'copy'">
             <td>Profile</td>
             <td class="text-right">
-                <select class="input" ng-if="reStreamerData.options.video.codec != 'copy'" ng-model="reStreamerData.options.video.profile">
+                <select class="input" ng-model="reStreamerData.options.video.profile">
                     <option value="auto" selected>auto</option>
                     <option value="baseline">baseline</option>
                     <option value="main">main</option>
@@ -122,7 +127,7 @@
         </tr><tr style="height:24px" ng-if="reStreamerData.options.video.codec != 'copy'">
             <td>Tune</td>
             <td class="text-right">
-                <select class="input" ng-if="reStreamerData.options.video.codec != 'copy'" ng-model="reStreamerData.options.video.tune">
+                <select class="input" ng-model="reStreamerData.options.video.tune">
                     <option value="none" selected>none</option>
                     <option value="animation">animation</option>
                     <option value="fastdecode">fastdecode</option>
@@ -133,20 +138,22 @@
                 </select>
             </td>
             <td></td>
-        </tr><tr style="height:24px" ng-if="reStreamerData.options.audio.codec != 'copy' && reStreamerData.options.audio.codec != 'none'">
+        </tr><tr style="height:24px" ng-if="reStreamerData.options.audio.codec != 'copy' && reStreamerData.options.audio.codec != 'none' && reStreamerData.options.audio.codec != 'auto'">
             <td>Channels</td>
             <td></td>
             <td class="text-right">
-                <select class="input" ng-if="reStreamerData.options.audio.codec != 'copy' && reStreamerData.options.audio.codec != 'none'" ng-model="reStreamerData.options.audio.channels">
+                <select class="input" ng-model="reStreamerData.options.audio.channels">
+                    <option value="inherit" ng-if="reStreamerData.options.audio.preset == 'encode'">inherit</option>
                     <option value="mono" selected>mono</option>
                     <option value="stereo">stereo</option>
                 </select>
             </td>
-        </tr><tr style="height:24px" ng-if="reStreamerData.options.audio.codec != 'copy' && reStreamerData.options.audio.codec != 'none'">
+        </tr><tr style="height:24px" ng-if="reStreamerData.options.audio.codec != 'copy' && reStreamerData.options.audio.codec != 'none' && reStreamerData.options.audio.codec != 'auto'">
             <td>Sampling</td>
             <td></td>
             <td class="text-right">
-                <select class="input" ng-if="reStreamerData.options.audio.codec != 'copy' && reStreamerData.options.audio.codec != 'none'" ng-model="reStreamerData.options.audio.sampling">
+                <select class="input" ng-model="reStreamerData.options.audio.sampling">
+                    <option value="inherit" ng-if="reStreamerData.options.audio.preset == 'encode'">inherit</option>
                     <option value="44100" selected>44100 Hz</option>
                     <option value="22050">22050 Hz</option>
                     <option value="11025">11025 Hz</option>
@@ -197,7 +204,7 @@
 <div class="checkbox">
     <label>
         <input type="checkbox" ng-model="activateOptionalOutput"> {{'output_optional' | translate}}
-        <a href="{{config.urls.rtmpServerHelp}}" target="_blank">
+        <a href="https://datarhei.github.io/restreamer/docs/guides-external-rtmp.html" target="_blank">
             <span class="glyphicon glyphicon-question-sign icon14" aria-hidden="true"></span>
         </a>
     </label>
