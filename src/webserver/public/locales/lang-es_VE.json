@@ -20,7 +20,7 @@
     "process_init": "Streaming iniciando. Por favor espera ...",
     "process_stopped": "Streaming detenido. Por favor espera ...",
     "output_optional": "Servidor de streaming RTMP externo",
-    "output_optional_example": "ej. rtmp://live.youtube.com/channelId",
+    "output_optional_example": "ej. rtmp://a.rtmp.youtube.com/live2/...",
     "player_link_title": "Abrir reproductor",
     "player_modal_help_title": "Código iFrame e imagen de la vista previa:",
     "player_modal_help_content": "Adicionalmente, el puerto de los ejemplos debe ser redrigido del router a la IP de la computadora (Port forwarding)"

@@ -20,7 +20,7 @@
     "process_init": "Postopek pretakanja videa se je začelo. Prosimo počakajte...",
     "process_stopped": "Zaključevanje video prenosa. Prosimo počakajte ...",
     "output_optional": "Zunanji RTMP-video-strežnik",
-    "output_optional_example": "e.g. rtmp://live.youtube.com/channelId",
+    "output_optional_example": "e.g. rtmp://a.rtmp.youtube.com/live2/...",
     "player_link_title": "Odpri video predvajalnik",
     "player_modal_help_title": "iFrame koda in predogled slike za vdelavo v spletno stran:",
     "player_modal_help_content": "Poleg tega je potrebno vrata (port) preusmeriti z usmerjevalnika na IP naslov računalnika"

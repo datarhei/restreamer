@@ -20,7 +20,7 @@
     "process_init": "Der Streaming-Prozess wird erstellt. Bitte warten...",
     "process_stopped": "Der Streaming-Prozess wird angehalten. Bitte warten ...",
     "output_optional": "Externer RTMP-Streaming-Server",
-    "output_optional_example": "z.b. rtmp://live.youtube.com/channelId",
+    "output_optional_example": "z.b. rtmp://a.rtmp.youtube.com/live2/...",
     "player_link_title": "Player öffnen",
     "player_modal_help_title": "Der iFrame-Code und ein Preview-Image zur Einbettung in der Webseite:",
     "player_modal_help_content": "Zusätzlich muss der Port aus den Beispielen auf die IP-Adresse des Rechners weitergeleitet werden"
