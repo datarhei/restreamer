@@ -304,20 +304,38 @@ class Restreamer {
             let audio = null;
 
             for(let s of data.streams) {
-                if(s.codec_type == 'video' && video === null) {
-                    video = s;
-                }
-                else if(s.codec_type == 'audio' && audio === null) {
-                    audio = s;
-                }
+                if(s.codec_type == 'video') {
+                    if(video === null) {
+                        video = s;
+                        continue;
+                    }
 
-                if(video !== null && audio !== null) {
-                    break;
+                    // Select the video stream with the highest number of pixels
+                    if((s.width * s.height) > (video.width * video.height)) {
+                        video = s;
+                    }
+                }
+                else if(s.codec_type == 'audio') {
+                    if(audio === null) {
+                        audio = s;
+                        continue;
+                    }
+
+                    // Select the audio stream with highest number of channels
+                    if(s.channels > audio.channels) {
+                        audio = s;
+                    }
                 }
             }
 
             if(video === null) {
                 return deferred.reject("no video stream detected");
+            }
+
+            Restreamer.data.options.video.id = video.index;
+            Restreamer.data.options.audio.id = 'a';
+            if(audio !== null) {
+                Restreamer.data.options.audio.id = audio.index;
             }
 
             let options = {
@@ -627,6 +645,7 @@ class Restreamer {
         // after adding outputs, define events on the new FFmpeg stream
         probePromise.then((options) => {
             let replace_video = {
+                videoid: Restreamer.data.options.video.id,
                 preset: Restreamer.data.options.video.preset,
                 bitrate: Restreamer.data.options.video.bitrate,
                 fps: Restreamer.data.options.video.fps,
@@ -640,6 +659,7 @@ class Restreamer {
             }
 
             let replace_audio = {
+                audioid: Restreamer.data.options.audio.id,
                 bitrate: Restreamer.data.options.audio.bitrate,
                 channels: Restreamer.data.options.audio.channels,
                 sampling: Restreamer.data.options.audio.sampling

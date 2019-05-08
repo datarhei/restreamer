@@ -37,13 +37,13 @@
             },
             "audio_preset_copy": {
                 "outputOptions": [
-                    "-map 0:a"
+                    "-map 0:{audioid}"
                 ]
             },
             "audio_preset_encode": {
                 "outputOptions": [
                     "-b:a {bitrate}k",
-                    "-map 0:a"
+                    "-map 0:{audioid}"
                 ]
             },
             "audio_preset_silence": {
@@ -79,7 +79,7 @@
                 ],
                 "outputOptions": [
                     "-codec:v copy",
-                    "-map 0:v",
+                    "-map 0:{videoid}",
                     "-vsync 0",
                     "-copyts",
                     "-start_at_zero"
@@ -98,7 +98,7 @@
                     "-r {fps}",
                     "-g {gop}",
                     "-pix_fmt yuv420p",
-                    "-map 0:v",
+                    "-map 0:{videoid}",
                     "-vsync 1"
                 ]
             },
@@ -124,7 +124,7 @@
                     "-bufsize {bitrate}k",
                     "-r {fps}",
                     "-x265-params keyint={gop}",
-                    "-map 0:v",
+                    "-map 0:{videoid}",
                     "-vsync 1"
                 ]
             },
@@ -144,6 +144,11 @@
             "rtmp": {
                 "outputOptions": [
                     "-f flv"
+                ]
+            },
+            "rtmp-fflags": {
+                "inputOptions": [
+                    "-fflags nobuffer+genpts+igndts"
                 ]
             },
             "hls": {
