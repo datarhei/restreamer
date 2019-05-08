@@ -72,6 +72,20 @@ a:hover, a:active, a:focus {
     text-decoration: none;
 }
 
+table {
+    width: 100%;
+    margin-bottom: 22px;
+}
+
+th {
+    height: 26px;
+    width: 150px;
+}
+
+td {
+    padding: 2px 0px 2px 0px;
+}
+
 .locales {
     color: #60605e;
     text-decoration: none;
@@ -138,6 +152,14 @@ a:hover, a:active, a:focus {
 
 .input:hover, .input:active, .input:active:hover, .input:active:focus, .input:link, .input:focus {
     border-color: #3daa48;
+}
+
+.select {
+    color: #fff;
+    height: 26px;
+    width: 100%;
+    background-color: #373734;
+    border: 2px solid #434341;
 }
 
 .progress-bar-success {
@@ -215,10 +237,6 @@ pre {
     background-color: #3d3d39;
     border: 1px solid #2c2c28;
     border-radius: 4px;
-}
-
-.jwplayer:focus, .jwplayer:active {
-    outline: 0;
 }
 
 .footer .links a {
