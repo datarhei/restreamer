@@ -9,10 +9,14 @@ already encoded in H.264, but you want to change e.g. the bitrate.
 The encoding is always towards H.264 as this is the most compatible codec for HLS streaming and the only useful choice for pushing
 the stream to a RTMP server, e.g. Youtube, Twitch, ...
 
+![Encode All Settings](../img/guides-encoding-all.png)
+
 ## Default Settings
 
 By default, the settings for the video codec is `copy` and for the audio codec `auto`. These are also the default
 settings for the Restreamer versions before 0.4.0.
+
+![Encode Default Settings](../img/guides-encoding-default.png)
 
 If you set the `RS_AUDIO` environment variable on the command line, its value will be translated to the following settings:
 

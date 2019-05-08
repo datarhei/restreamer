@@ -4,14 +4,17 @@ title: YouTube
 
 ## Setup Restreamer
 
-In order to be able to push your stream to YouTube, the stream must contain an audio track and it has to be encoded either in `AAC` or `MP3`.
-If this is not already the case you can force the encoding of the audio stream by setting the environment variable `RS_AUDIO` to either
-`aac` or `mp3`.
+In order to be able to push your stream to YouTube, the stream must contain an audio track and it has to be encoded in `AAC` (`MP3` is
+also possible but not recommended anymore).
 
-If your stream doesn't contain an audio track or you do not want to push the audio of your stream to YouTube, set the environment
-variable `RS_AUDIO` to `silence`. This will replace the audio track with silence, encoded in `AAC`.
+If this is not already the case you can force the encoding of the audio stream by selecting `AAC` as the codec in the stream options
+and use the `encode` preset. For versions prior 0.4.0, set the environment variable `RS_AUDIO` to `aac`.
 
-Check out the [environment variables reference](references-environment-vars.html) for how to set the value for `RS_AUDIO`.
+If your stream doesn't contain an audio track or you do not want to push the audio of your stream to Twitch, select `AAC` as the codec
+in the stream options and use the `silence` preset. This will replace the audio track with silence, encoded in `AAC`.  For versions prior
+0.4.0, set the environment variable `RS_AUDIO` to `silence`.
+
+Check out the [encoding options](guides-encoding.html) to learn more about the stream options.
 
 Read more about the [stream requirements](https://support.google.com/youtube/answer/2853702).
 
@@ -29,11 +32,11 @@ Your RTMP-URL that you need for Restreamer will look like `rtmp://a.rtmp.youtube
 ## Push to YouTube
 
 To push your video stream to YouTube, you have to check the field "External RTMP-Streaming-Server" and enter the RTMP-URL from above into the field ...
-![YouTube Streaming](../img/guides-rtsp-url-streaming-external-youtube.png)
+![YouTube Streaming](../img/guides-streaming-external-youtube.png)
 
 ... and press "Start":
 
-![YouTube Streaming](../img/guides-rtsp-url-streaming-external-youtube-streaming.png)
+![YouTube Streaming](../img/guides-streaming-external-youtube-streaming.png)
 
 Once the process has been successfully initiated, the stream should also be seen at YouTube-Live.
 Please be patient, this may take a few of seconds.
