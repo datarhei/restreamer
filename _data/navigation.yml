@@ -43,6 +43,8 @@ docs:
         url: docs/guides-external-rtmp.html
       - title: YouTube
         url: docs/guides-youtube.html
+      - title: Twitch
+        url: docs/guides-twitch.html
       - title: Wowza
         url: docs/guides-wowza.html
       - title: Updating
