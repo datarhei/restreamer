@@ -1,3 +1,9 @@
+## Changes from 0.3.0 to 0.4.0
+
+* Allow audio for raspicam from alsa audio device
+* Encode the source stream to H.264
+* Handle multi-bitrate source streams
+
 ## Changes from 0.2.0 to 0.3.0
 
 * Use relative paths for loading all assets in the GUI
