@@ -67,7 +67,7 @@
                 </select>
             </td>
             <td>
-                <select class="select" ng-if="reStreamerData.options.audio.codec != 'copy' && reStreamerData.options.audio.codec != 'none'" ng-model="reStreamerData.options.audio.preset">
+                <select class="select" ng-if="reStreamerData.options.audio.codec != 'copy' && reStreamerData.options.audio.codec != 'none' && reStreamerData.options.audio.codec != 'auto'" ng-model="reStreamerData.options.audio.preset">
                     <option value="encode" selected>encode</option>
                     <option value="silence">silence</option>
                 </select>
@@ -90,7 +90,7 @@
                 </select>
             </td>
             <td>
-                <select class="select" ng-if="reStreamerData.options.audio.codec != 'copy' && reStreamerData.options.audio.codec != 'none'" ng-model="reStreamerData.options.audio.bitrate">
+                <select class="select" ng-if="reStreamerData.options.audio.codec != 'copy' && reStreamerData.options.audio.codec != 'none' && reStreamerData.options.audio.codec != 'auto'" ng-model="reStreamerData.options.audio.bitrate">
                     <option value="256">256 Kbit/s</option>
                     <option value="128">128 Kbit/s</option>
                     <option value="64" selected>64 Kbit/s</option>
