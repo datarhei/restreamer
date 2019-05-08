@@ -65,4 +65,3 @@ bin
 src/webserver/public/dist/**
 db/**
 heapdump
-*.map
