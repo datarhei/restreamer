@@ -67,6 +67,39 @@ class RestreamerData {
                             'channels': 'mono',
                             'sampling': '44100'
                         }
+
+                        // Update the defaults according to RS_AUDIO
+                        switch(process.env.RS_AUDIO) {
+                            case 'auto':
+                                dbdata.options.audio.codec = 'auto';
+                                break;
+                            case 'none':
+                                dbdata.options.audio.codec = 'none';
+                                break;
+                            case 'silence':
+                                dbdata.options.audio.codec = 'aac';
+                                dbdata.options.audio.preset = 'silence';
+                                dbdata.options.audio.bitrate = '8';
+                                dbdata.options.audio.channels = 'mono';
+                                dbdata.options.audio.sampling = '44100';
+                                break;
+                            case 'aac':
+                                dbdata.options.audio.codec = 'aac';
+                                dbdata.options.audio.preset = 'encode';
+                                dbdata.options.audio.bitrate = '64';
+                                dbdata.options.audio.channels = 'inherit';
+                                dbdata.options.audio.sampling = 'inherit';
+                                break;
+                            case 'mp3':
+                                dbdata.options.audio.codec = 'mp3';
+                                dbdata.options.audio.preset = 'encode';
+                                dbdata.options.audio.bitrate = '64';
+                                dbdata.options.audio.channels = 'inherit';
+                                dbdata.options.audio.sampling = 'inherit';
+                                break;
+                            default:
+                                break;
+                        }
                     }
 
                     if (!fs.existsSync(dbPath)) {
