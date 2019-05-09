@@ -4,6 +4,7 @@
 * Optionally (re-)encode the source stream to H.264
 * Handle multi-bitrate source streams
 * Add Twitch streaming guide
+* Introduce RS_INPUTSTREAM environment variable
 
 ## Changes from 0.2.0 to 0.3.0
 
