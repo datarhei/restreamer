@@ -80,13 +80,13 @@ The tune parameter allows you to optimize the encoding of certain content in the
 
 Tune | Description
 -----|------------
-none | Don't apply any tuning 
-film | Use for high quality movie content; lowers deblocking
-animation | Good for cartoons; uses higher deblocking and more reference frames
-grain | Preserves the grain structure in old, grainy film material
-stillimage | Good for slideshow-like content
-fastdecode | Allows faster decoding by disabling certain filters
-zerolatency | Good for fast encoding and low-latency streaming
+`none` | Don't apply any tuning 
+`film` | Use for high quality movie content; lowers deblocking
+`animation` | Good for cartoons; uses higher deblocking and more reference frames
+`grain` | Preserves the grain structure in old, grainy film material
+`stillimage` | Good for slideshow-like content
+`fastdecode` | Allows faster decoding by disabling certain filters
+`zerolatency` | Good for fast encoding and low-latency streaming
 
 Read more on this topic in the ffmpeg [H.264 Video Encoding Guide](https://trac.ffmpeg.org/wiki/Encode/H.264).
 
