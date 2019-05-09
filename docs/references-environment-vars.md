@@ -94,12 +94,16 @@ track will be added. You can change this behaviour by providing one of the value
 
 In the case of `silence`, an audio track will be added if the incoming stream doesn't have an audio track.
 
+As of Restreamer version 0.4.0, this environment variable is deprecated and doesn't have any effect.
+{: .notice--warning}
+
 
 ## RS_TOKEN
 
 Set a token (just a string of characters, e.g. `eYIxCQpqzxr7`) that is required in order to push to the RTMP server. For pushing an RTMP
 stream to the server you have to add the token as a key/value in the query string: `rtmp://127.0.0.1/live/camera.stream?token=...`.
 By default the token is not set.
+
 
 ## RS_HTTPS
 

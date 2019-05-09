@@ -3,8 +3,8 @@ title: Encoding
 ---
 
 As of Restreamer version 0.4.0 you can choose to encode the video stream that you are pulling from the camera to [H.264](../wiki/h264.html). 
-Encoding of the video streams enables you to use stream sources that are not encoded in H.264 or to re-encode a video stream that is
-already encoded in H.264, but you want to change e.g. the bitrate.
+Encoding of the video streams enables you to use stream sources that are not encoded in H.264 (e.g. H.265, VP8, ...) or to re-encode a video
+stream that is already encoded in H.264, but you want to change e.g. the bitrate.
 
 The encoding is always towards H.264 as this is the most compatible codec for HLS streaming and the only useful choice for pushing
 the stream to a RTMP server, e.g. Youtube, Twitch, ...
@@ -18,15 +18,18 @@ settings for the Restreamer versions before 0.4.0.
 
 ![Encode Default Settings](../img/guides-encoding-default.png)
 
-If you set the `RS_AUDIO` environment variable on the command line, its value will be translated to the following settings:
+If you set the `RS_AUDIO` environment variable on the command line, its value will be translated to the following settings when
+you start Restreamer 0.4.0 for the first time.
 
-Value | Codec | Preset | Bitrate | Channels | Sampling
-------|-------|--------|---------|----------|---------
+RS_AUDIO | Codec | Preset | Bitrate | Channels | Sampling
+---------|-------|--------|---------|----------|---------
 `auto` | `auto` | - | - | - | -
 `none` | `none` | - | - | - | -
-`silence` | `aac` | `silence` | `64 Kbit/s` | `mono` | `44100`
+`silence` | `aac` | `silence` | `8 Kbit/s` | `mono` | `44100`
 `aac` | `aac` | `encode` | `64 Kbit/s` | `inherit` | `inherit`
 `mp3` | `mp3` | `encode` | `64 Kbit/s` | `inherit` | `inherit`
+
+Afterwards, the environment variable `RS_AUDIO` will not have any effect anymore.
 
 ## Video Setting
 
