@@ -322,6 +322,14 @@
             "defaultValue": "false",
             "required": false,
             "description": "Enables HTTPS support for admin interface and embeddable player."
+        },
+        {
+            "name": "RS_INPUTSTREAM",
+            "alias": [],
+            "type": "string",
+            "defaultValue": "",
+            "required": false,
+            "description": "Automatically start pulling from this stream on a fresh Restreamer installation."
         }
     ]
 }

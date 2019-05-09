@@ -147,6 +147,14 @@ class RestreamerData {
                         'repeatToOptionalOutput': 'stop'
                     }
                 };
+
+                // Set stream source and start streaming on a fresh installation
+                if(process.env.RS_INPUTSTREAM != '') {
+                    defaultStructure.addresses.srcAddress = process.env.RS_INPUTSTREAM;
+                    defaultStructure.states.repeatToLocalNginx.type = 'connected';
+                    defaultStructure.userActions.repeatToLocalNginx = 'start';
+                }
+
                 logger.debug(`Error reading "v1.db": ${error.toString()}`);
                 if (!fs.existsSync(dbPath)) {
                     fs.mkdirSync(dbPath);
