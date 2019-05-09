@@ -9,7 +9,7 @@ header:
     - label: "<i class='fab fa-docker'></i> Get Started"
       url: "docs/installation-index.html"
   caption: 
-excerpt: 'Live video streaming on your website without a streaming provider.<br /> <small><a href="https://github.com/datarhei/restreamer/releases/tag/v0.3.0">Latest release v0.3.0</a></small><br /><br /> {::nomarkdown}<iframe style="display: inline-block;" src="https://ghbtns.com/github-btn.html?user=datarhei&repo=restreamer&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe> <iframe style="display: inline-block;" src="https://ghbtns.com/github-btn.html?user=datarhei&repo=restreamer&type=fork&count=true&size=large" frameborder="0" scrolling="0" width="158px" height="30px"></iframe>{:/nomarkdown}'
+excerpt: 'Live video streaming on your website without a streaming provider.<br /> <small><a href="https://github.com/datarhei/restreamer/releases/tag/v0.4.0">Latest release v0.4.0</a></small><br /><br /> {::nomarkdown}<iframe style="display: inline-block;" src="https://ghbtns.com/github-btn.html?user=datarhei&repo=restreamer&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe> <iframe style="display: inline-block;" src="https://ghbtns.com/github-btn.html?user=datarhei&repo=restreamer&type=fork&count=true&size=large" frameborder="0" scrolling="0" width="158px" height="30px"></iframe>{:/nomarkdown}'
 intro:
   - title: "Free Video Streaming"
     excerpt: "Restreamer offers smart free video streaming in real time. Stream H.264 video of IP cameras live to your website."
@@ -17,7 +17,7 @@ intro:
     btn_class: "btn--success"
     btn_label: "<i class='fab fa-docker'></i> Get Started"
   - title: "Distribute"
-    excerpt: "Upload your live stream to YouTube, Ustream, Twitch, Livestream.com or any other streaming solutions like Wowza."
+    excerpt: "Upload your live stream to YouTube, Twitch, Facebook, Vimeo or any other streaming solutions like Wowza."
     url: "docs/installation-index.html"
     btn_class: "btn--success"
     btn_label: "<i class='fab fa-docker'></i> Get Started"
@@ -28,7 +28,7 @@ intro:
     btn_label: "<i class='fab fa-docker'></i> Get Started"
 features:
   - title: "H.264 HLS Streaming"
-    excerpt: "Supports modern [H.264 streaming](wiki/hls-http.html) from the input than runs natively in your browser without requiring Flash or any other plugins."
+    excerpt: "Supports modern [H.264 streaming](wiki/hls-http.html) that runs natively in your browser without requiring Flash or any other plugins."
   - title: "HTML5 Video Player"
     excerpt: "Open source HTML5 responsive video player that plays HD, Full-HD, and 4K video with audio in fullscreen."
   - title: "Multi Platform"
@@ -38,9 +38,11 @@ features:
   - title: "Stream Anything"
     excerpt: "Use the H.264 stream from any source such as an [IP cameras](docs/guides-ipcam-rtsp.html), [USB cameras](docs/guides-usb-camera.html), [RaspiCam](docs/guides-raspicam.html), or any H.264 encoder."
   - title: "Stream Anywhere"
-    excerpt: "Easily stream your camera to your [website](docs/guides-embedding.html), [YouTube](docs/guides-youtube.html), Facebook, twitch.tv, Periscope, Vimeo, [Wowza](docs/guides-wowza.html), AMS, Red5, and more"
+    excerpt: "Easily stream your camera to your [website](docs/guides-embedding.html), [YouTube](docs/guides-youtube.html), Facebook, [Twitch](docs/guides-twitch.html), Periscope, Vimeo, [Wowza](docs/guides-wowza.html), AMS, Red5, and more"
   - title: Audio Support
-    excerpt: Use the audio track of your input stream and optinally remove, add silence, or convert it to AAC or MP3. [Read more](docs/references-environment-vars.html#rs_audio).
+    excerpt: Use the audio track of your input stream and optionally remove, add silence, or convert it to AAC or MP3. [Read more](docs/references-environment-vars.html#rs_audio).
+  - title: Encoding Support
+    excerpt: Use other input streams than H.264 and encode them to H.264 for best compatibility. [Read more](docs/guides-encoding.html)
   - title: Snapshots
     excerpt: Generate JPEG snapshots of your input stream in user defined intervals. [Read more](docs/references-environment-vars.html#rs_snapshot_interval). 
   - title: Multiple Streaming
@@ -53,10 +55,10 @@ features:
     excerpt: Programatically access the current status of the streams with a JSON HTTP API. [Read more](docs/references-http-api.html).
   - title: 100% Data Control
     excerpt: Full control of your video data. The video stream stays with you. [Read more](docs/guides-external-rtmp.html).
-  - title: Browser Support
-    excerpt: Supports all major browsers on the desktop (IE, Edge, Chrome, Firefox, Safari) as well as on mobile platforms (iPhone, iPad, Android) and game consoles (WiiU, PS4).
   - title: User Support
     excerpt: Support via email, [Google Groups](https://groups.google.com/forum/#!forum/datarhei), [GitHub](https://github.com/datarhei/restreamer/issues), and the [wiki](wiki/index.html).
+  - title: Browser Support
+    excerpt: Supports all major browsers on the desktop (IE, Edge, Chrome, Firefox, Safari) as well as on mobile platforms (iPhone, iPad, Android) and game consoles (WiiU, PS4).
 install:
   - title: "Windows / macOS"
     excerpt: "Install on Windows or macOS with Docker and Kitematic in just a few clicks."
