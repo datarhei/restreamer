@@ -59,6 +59,11 @@ docs:
         url: docs/guides-sdcard.html
       - title: Encoding
         url: docs/guides-encoding.html
+  - title: Case Studies
+    url: docs/case-studies.html
+    children:
+      - title: Weather Camera Hördt
+        url: docs/case-studies/hoerdt.html
   - title: References
     url: docs/references-index.html
     children:
