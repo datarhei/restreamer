@@ -38,7 +38,7 @@
     "babel-loader": "7.1.2",
     "babel-preset-env": "^1.7.0",
     "coffeescript": "^2.3.2",
-    "eslint": "4.5.0",
+    "eslint": "4.18.2",
     "grunt": "^1.0.3",
     "grunt-babel": "7.0.0",
     "grunt-contrib-csslint": "2.0.0",
