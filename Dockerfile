@@ -58,7 +58,7 @@ RUN mkdir -p /dist && cd /dist && \
 
 # libmp3lame
 RUN mkdir -p /dist && cd /dist && \
-    curl -OL "https://kent.dl.sourceforge.net/project/lame/lame/${LAME_VERSION}/lame-${LAME_VERSION}.tar.gz" && \
+    curl -OL "https://downloads.sourceforge.net/project/lame/lame/${LAME_VERSION}/lame-${LAME_VERSION}.tar.gz" && \
     tar -xvz -f lame-${LAME_VERSION}.tar.gz && \
     cd lame-${LAME_VERSION} && \
     ./configure --prefix="${SRC}" --bindir="${SRC}/bin" --disable-static --enable-nasm && \
