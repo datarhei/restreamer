@@ -19,7 +19,7 @@ This is a list of the more well known video streaming providers.
 
 - [YouTube](guides-youtube.html)
 - Facebook
-- twitch.tv
+- [Twitch](guides-twitch.html)
 - Periscope
 - Vimeo (formerly known as livestream.com)
 - IBM Cloud Video (formerly known as ustream.com)

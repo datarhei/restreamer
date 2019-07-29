@@ -41,6 +41,8 @@ docs:
         url: docs/guides-embedding.html
       - title: External RTMP
         url: docs/guides-external-rtmp.html
+      - title: Ingest RTMP
+        url: docs/guides-ingest-rtmp.html
       - title: YouTube
         url: docs/guides-youtube.html
       - title: Twitch
