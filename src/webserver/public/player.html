@@ -20,41 +20,42 @@
 <body>
 <div id="player" style="position:absolute;top:0;right:0;bottom:0;left:0"></div>
 <script>
-    function getQueryParam(value, defValue) {
+    function getQueryParam(key, defaultValue) {
         var query = window.location.search.substring(1);
         var vars = query.split("&");
         for(var i = 0; i < vars.length; i++) {
             var pair = vars[i].split("=");
-            if(pair[0] == value) {
+            if(pair[0] == key) {
                 return pair[1];
             }
         }
-        return defValue;
+        return defaultValue;
     }
 
-    var autoplay = getQueryParam("autoplay", false);
-    if(autoplay === "1" || autoplay === "true" || autoplay === "yes" || autoplay === "on") {
-        autoplay = true;
-    }
-    else {
-        autoplay = false;
+    function convertBoolParam(key, defaultValue) {
+        var val = getQueryParam(key, defaultValue);
+        return val === true || val === "true" || val === "1" || val === "yes" || val === "on";
     }
 
-    var mute = getQueryParam("mute", false);
-    if(mute === "1" || mute === "true" || mute === "yes" || mute === "on") {
-        mute = true;
-    }
-    else {
-        mute = false;
+    function convertColorParam(parameter, defaultColor) {
+        var re = new RegExp("^#([0-9a-f]{3}|[0-9a-f]{6})$");
+        var c = getQueryParam(parameter, defaultColor);
+        // decode color as # has to be represented by %23
+        var c = decodeURIComponent(c);
+        // if color was given without leading #, prepend it
+        if (!String(c).startsWith("#")) c = "#" + c;
+
+        if (re.test(c)) {
+            return c;
+        } else {
+            return defaultColor;
+        }
     }
 
-    var stats = getQueryParam("stats", false);
-    if(stats === "1" || stats === "true" || stats === "yes" || stats === "on") {
-        stats = true;
-    }
-    else {
-        stats = false;
-    }
+    var autoplay = convertBoolParam("autoplay", false);
+    var mute = convertBoolParam("mute", false);
+    var stats = convertBoolParam("stats", false);
+    var color = convertColorParam("color", '#3daa48');
 
     var plugins = [];
 
@@ -69,7 +70,7 @@
         baseUrl: 'libs/scripts/',
         plugins: plugins,
         poster: 'images/live.jpg?t=' + String(new Date().getTime()),
-        mediacontrol: {'seekbar': '#3daa48', 'buttons': '#3daa48'},
+        mediacontrol: {'seekbar': color, 'buttons': color},
         height: '100%',
         width: '100%',
         disableCanAutoPlay: true,
