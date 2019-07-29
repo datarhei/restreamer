@@ -479,6 +479,10 @@ class Restreamer {
     static setState(streamType, state, message) {
         let previousState = Restreamer.data.states[streamType].type;
 
+        if(typeof message != 'string') {
+            message = '';
+        }
+
         Restreamer.data.states[streamType] = {
             'type': state,
             'message': message

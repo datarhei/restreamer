@@ -24,10 +24,18 @@ router.get('/ip', (req, res) => {
 router.get('/states', (req, res) => {
     const states = require.main.require('./classes/Restreamer').data.states;
 
-    res.json({
-        'repeat_to_local_nginx': states.repeatToLocalNginx,
-        'repeat_to_optional_output': states.repeatToOptionalOutput
-    });
+    const response = {
+        'repeat_to_local_nginx': {
+            type: states.repeatToLocalNginx.type,
+            message: states.repeatToLocalNginx.message.replace(/\?token=[^\s]+/, '?token=***'),
+        },
+        'repeat_to_optional_output': {
+            type: states.repeatToOptionalOutput.type,
+            message: states.repeatToOptionalOutput.message.replace(/\?token=[^\s]+/, '?token=***'),
+        },
+    };
+
+    res.json(response);
 });
 router.get('/progresses', (req, res) => {
     const progresses = require.main.require('./classes/Restreamer').data.progresses;
