@@ -8,6 +8,7 @@
     <meta name="author" content="datarhei">
     <title>Restreamer</title>
     <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico">
+    <script src="./config.js"></script>
     <script src="./libs/scripts/clappr-0.3.3.min.js"></script>
     <script src="./libs/scripts/clappr-stats-0.1.4.min.js"></script>
     <script src="./libs/scripts/clappr-nerd-stats-0.1.0.min.js"></script>
@@ -52,10 +53,10 @@
         }
     }
 
-    var autoplay = convertBoolParam("autoplay", false);
-    var mute = convertBoolParam("mute", false);
-    var stats = convertBoolParam("stats", false);
-    var color = convertColorParam("color", '#3daa48');
+    var autoplay = convertBoolParam("autoplay", playerConfig.autoplay);
+    var mute = convertBoolParam("mute", playerConfig.mute);
+    var stats = convertBoolParam("stats", playerConfig.stats);
+    var color = convertColorParam("color", playerConfig.color);
 
     var plugins = [];
 
@@ -64,7 +65,7 @@
         plugins.push(ClapprStats);
     }
 
-    var player = new window.Clappr.Player({
+    var config = {
         source: 'hls/live.stream.m3u8',
         parentId: '#player',
         baseUrl: 'libs/scripts/',
@@ -84,7 +85,18 @@
             shortcut: ['command+shift+s', 'ctrl+shift+s'],
             iconPosition: 'top-right'
         }
-    });
+    };
+
+    if(playerConfig.logo.image.length != 0) {
+        config.watermark = playerConfig.logo.image;
+        config.position = playerConfig.logo.position;
+
+        if(playerConfig.logo.link.length != 0) {
+            config.watermarkLink = playerConfig.logo.link;
+        }
+    }
+
+    var player = new window.Clappr.Player(config);
     var posterPlugin = player.core.mediaControl.container.getPlugin('poster');
     player.on(window.Clappr.Events.PLAYER_STOP, function updatePoster () {
         posterPlugin.options.poster = 'images/live.jpg?t=' + String(new Date().getTime());

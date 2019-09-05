@@ -50,23 +50,23 @@ class RestreamerData {
                     // Fill up optional fields if not present
                     if(!('video' in dbdata.options)) {
                         dbdata.options.video = {
-                            'codec': 'copy',
-                            'preset': 'ultrafast',
-                            'bitrate': '4096',
-                            'fps': '25',
-                            'profile': 'auto',
-                            'tune': 'none'
-                        }
+                            codec: 'copy',
+                            preset: 'ultrafast',
+                            bitrate: '4096',
+                            fps: '25',
+                            profile: 'auto',
+                            tune: 'none'
+                        };
                     }
 
                     if(!('audio' in dbdata.options)) {
                         dbdata.options.audio = {
-                            'codec': 'auto',
-                            'preset': 'silence',
-                            'bitrate': '64',
-                            'channels': 'mono',
-                            'sampling': '44100'
-                        }
+                            codec: 'auto',
+                            preset: 'silence',
+                            bitrate: '64',
+                            channels: 'mono',
+                            sampling: '44100'
+                        };
 
                         // Update the defaults according to RS_AUDIO
                         switch(process.env.RS_AUDIO) {
@@ -102,6 +102,20 @@ class RestreamerData {
                         }
                     }
 
+                    if(!('player' in dbdata.options)) {
+                        dbdata.options.player = {
+                            autoplay: false,
+                            mute: false,
+                            statistics: false,
+                            color: '#3daa48',
+                            logo: {
+                                image: '',
+                                position: 'bottom-right',
+                                link: ''
+                            }
+                        };
+                    }
+
                     if (!fs.existsSync(dbPath)) {
                         fs.mkdirSync(dbPath);
                     }
@@ -112,39 +126,50 @@ class RestreamerData {
             })
             .catch((error) => {
                 var defaultStructure = {
-                    'addresses': {
-                        'srcAddress': '',
-                        'optionalOutputAddress': ''
+                    addresses: {
+                        srcAddress: '',
+                        optionalOutputAddress: ''
                     },
-                    'options': {
-                        'rtspTcp': true,
-                        'video': {
-                            'codec': 'copy',
-                            'preset': 'ultrafast',
-                            'bitrate': '4096',
-                            'fps': '25',
-                            'profile': 'auto',
-                            'tune': 'none'
+                    options: {
+                        rtspTcp: true,
+                        video: {
+                            codec: 'copy',
+                            preset: 'ultrafast',
+                            bitrate: '4096',
+                            fps: '25',
+                            profile: 'auto',
+                            tune: 'none'
                         },
-                        'audio': {
-                            'codec': 'auto',
-                            'preset': 'silence',
-                            'bitrate': '64',
-                            'channels': 'mono',
-                            'sampling': '44100'
+                        audio: {
+                            codec: 'auto',
+                            preset: 'silence',
+                            bitrate: '64',
+                            channels: 'mono',
+                            sampling: '44100'
+                        },
+                        player: {
+                            autoplay: false,
+                            mute: false,
+                            statistics: false,
+                            color: '#3daa48',
+                            logo: {
+                                image: '',
+                                position: 'bottom-right',
+                                link: ''
+                            }
                         }
                     },
-                    'states': {
-                        'repeatToLocalNginx': {
-                            'type': 'stopped'
+                    states: {
+                        repeatToLocalNginx: {
+                            type: 'stopped'
                         },
-                        'repeatToOptionalOutput': {
-                            'type': 'stopped'
+                        repeatToOptionalOutput: {
+                            type: 'stopped'
                         }
                     },
-                    'userActions': {
-                        'repeatToLocalNginx': 'stop',
-                        'repeatToOptionalOutput': 'stop'
+                    userActions: {
+                        repeatToLocalNginx: 'stop',
+                        repeatToOptionalOutput: 'stop'
                     }
                 };
 

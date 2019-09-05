@@ -7,6 +7,7 @@
 'use strict';
 
 const path = require('path');
+const fs = require('fs');
 const config = require(path.join(global.__base, 'conf', 'live.json'));
 const logger = require('./Logger')('Restreamer');
 const WebsocketsController = require('./WebsocketsController');
@@ -220,6 +221,8 @@ class Restreamer {
         Restreamer.data.options = db.getData('/options');
         Restreamer.data.userActions = db.getData('/userActions');
 
+        Restreamer.writeToPlayerConfig();
+
         let state = '';
 
         state = Restreamer.getState('repeatToLocalNginx');
@@ -260,6 +263,15 @@ class Restreamer {
         var db = new JsonDB(config.jsondb, true, false);
 
         db.push('/', Restreamer.dataForJsonDb());
+    }
+
+    /**
+     * write player config to public directory
+     */
+    static writeToPlayerConfig () {
+        let data = 'var playerConfig = ' + JSON.stringify(Restreamer.data.options.player);
+
+        fs.writeFileSync('src/webserver/public/config.js', data, 'utf8');
     }
 
     /**
@@ -540,6 +552,15 @@ class Restreamer {
         Restreamer.updateStreamDataOnGui();
 
         return action;
+    }
+
+    static updatePlayerOptions(player) {
+        Restreamer.data.options.player = player;
+
+        logger.debug('Storing player options', 'Restreamer');
+
+        Restreamer.writeToDB();
+        Restreamer.writeToPlayerConfig();
     }
 
     /**
@@ -826,6 +847,10 @@ class Restreamer {
                 logger.debug('Got "checkStates" event');
                 Restreamer.updateStreamDataOnGui()
             });
+            socket.on('playerOptions', (player) => {
+                logger.debug('Got "playerOptions" event');
+                Restreamer.updatePlayerOptions(player);
+            })
         });
     }
 
@@ -900,68 +925,79 @@ class Restreamer {
  define data structure of Restreamer Data
  */
 Restreamer.data = {
-    'timeouts': {
-        'retry': {
-            'repeatToLocalNginx': null,
-            'repeatToOptionalOutput': null
+    timeouts: {
+        retry: {
+            repeatToLocalNginx: null,
+            repeatToOptionalOutput: null
         },
-        'stale': {
-            'repeatToLocalNginx': null,
-            'repeatToOptionalOutput': null
+        stale: {
+            repeatToLocalNginx: null,
+            repeatToOptionalOutput: null
         },
-        'snapshot': {
-            'repeatToLocalNginx': null
+        snapshot: {
+            repeatToLocalNginx: null
         }
     },
-    'options': {
-        'rtspTcp': false,
-        'video': {
-            'codec': 'copy',
-            'preset': 'ultrafast',
-            'bitrate': '4096',
-            'fps': '25',
-            'profile': 'auto',
-            'tune': 'none'
+    options: {
+        rtspTcp: false,
+        video: {
+            codec: 'copy',
+            preset: 'ultrafast',
+            bitrate: '4096',
+            fps: '25',
+            profile: 'auto',
+            tune: 'none'
         },
-        'audio': {
-            'codec': 'auto',
-            'preset': 'silence',
-            'bitrate': '64',
-            'channels': 'mono',
-            'sampling': '44100'
+        audio: {
+            codec: 'auto',
+            preset: 'silence',
+            bitrate: '64',
+            channels: 'mono',
+            sampling: '44100'
+        },
+        player: {
+            autoplay: false,
+            mute: false,
+            statistics: false,
+            color: '#3daa48',
+            logo: {
+                image: '',
+                position: 'bottom-right',
+                link: ''
+            }
         }
     },
-    'states': {
-        'repeatToLocalNginx': {
-            'type': 'disconnected',
-            'message': ''
+    states: {
+        repeatToLocalNginx: {
+            type: 'disconnected',
+            message: ''
         },
-        'repeatToOptionalOutput': {
-            'type': 'disconnected',
-            'message': ''
+        repeatToOptionalOutput: {
+            type: 'disconnected',
+            message: ''
         }
     },
-    'userActions': {
-        'repeatToLocalNginx': 'start',
-        'repeatToOptionalOutput': 'start'
+    userActions: {
+        repeatToLocalNginx: 'start',
+        repeatToOptionalOutput: 'start'
     },
-    'processes': {
-        'repeatToLocalNginx': null,
-        'repeatToOptionalOutput': null
+    processes: {
+        repeatToLocalNginx: null,
+        repeatToOptionalOutput: null
     },
-    'progresses': {
+    progresses: {
         // overwritten with ffmpeg process if stream has been started
-        'repeatToLocalNginx': {},
+        repeatToLocalNginx: {},
 
         // overwritten with ffmpeg process if stream has been started
-        'repeatToOptionalOutput': {}
+        repeatToOptionalOutput: {}
     },
-    'addresses': {
-        'srcAddress': '',
-        'optionalOutputAddress': ''
+    addresses: {
+        srcAddress: '',
+        optionalOutputAddress: ''
     },
-    'updateAvailable': false,
-    'publicIp': '127.0.0.1'
+    updateAvailable: false,
+    publicIp: '127.0.0.1'
 };
 
 module.exports = Restreamer;

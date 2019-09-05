@@ -164,6 +164,49 @@
         </tbody>
         </table>
     </div>
+    <div ng-if="!showStartButton('repeatToLocalNginx')">
+        <h4>
+            Player options:
+            <a href="https://datarhei.github.io/restreamer/docs/guides-embedding.html" target="_blank">
+                <span class="glyphicon glyphicon-question-sign icon14" aria-hidden="true"></span>
+            </a>
+        </h4>
+        <table>
+            <tbody>
+            <tr>
+                <td>Autoplay</td><td><input type="checkbox" ng-change="playerOptions()" ng-model="reStreamerData.options.player.autoplay"></td>
+            </tr><tr>
+                <td>Mute</td><td><input type="checkbox" ng-change="playerOptions()" ng-model="reStreamerData.options.player.mute"></td>
+            </tr><tr>
+                <td>Statistics</td><td><input type="checkbox" ng-change="playerOptions()" ng-model="reStreamerData.options.player.statistics"></td>
+            </tr><tr>
+                <td>Color</td><td><input type="color" value="#3daa48" ng-change="playerOptions()" ng-model="reStreamerData.options.player.color"></td>
+            </tr><tr>
+                <td>Logo</td>
+                <td>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>URL</td><td><input class="form-control input" style="width:100%" type="text" value="" ng-change="playerOptions()" ng-model="reStreamerData.options.player.logo.image"></td>
+                            </tr><tr>
+                                <td>Position</td><td>
+                                    <select class="select" ng-change="playerOptions()" ng-model="reStreamerData.options.player.logo.position">
+                                        <option value="top-left">top-left</option>
+                                        <option value="top-right">top-right</option>
+                                        <option value="bottom-left">bottom-left</option>
+                                        <option value="bottom-right" selected>bottom-right</option>
+                                    </select>
+                                </td>
+                            </tr><tr>
+                                <td>Link</td><td><input class="form-control input" style="width:100%" type="text" value="" ng-change="playerOptions()" ng-model="reStreamerData.options.player.logo.link"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
     <div ng-if="reStreamerData.addresses.srcAddress.indexOf('rtsp') === 0 && showStartButton('repeatToLocalNginx')"
          class="checkbox pull-left">
         <label>

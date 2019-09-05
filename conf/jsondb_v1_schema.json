@@ -119,6 +119,60 @@
               "pattern": "^(.*)$"
             }
           }
+        },
+        "player": {
+          "type": "object",
+          "required": [
+            "autoplay",
+            "mute",
+            "statistics",
+            "color",
+            "logo"
+          ],
+          "properties": {
+            "autoplay": {
+              "type": "boolean",
+              "default": false
+            },
+            "mute": {
+              "type": "boolean",
+              "default": false
+            },
+            "statistics": {
+              "type": "boolean",
+              "default": false
+            },
+            "color": {
+              "type": "string",
+              "default": "#3daa48",
+              "pattern": "^#[0-9a-f]{6}$"
+            },
+            "logo": {
+              "type": "object",
+              "required": [
+                "image",
+                "position",
+                "link"
+              ],
+              "properties": {
+                "image": {
+                  "type": "string",
+                  "default": "",
+                  "pattern": "^(.*)$"
+                },
+                "position": {
+                  "type": "string",
+                  "default": "bottom-right",
+                  "pattern": "^(.*)$"
+                },
+                "link": {
+                  "type": "string",
+                  "default": "",
+                  "pattern": "^(.*)$"
+                }
+              }
+            }
+          }
         }
       }
     },

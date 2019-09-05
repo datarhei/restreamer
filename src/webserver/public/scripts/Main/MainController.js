@@ -7,7 +7,7 @@
 'use strict';
 
 window.angular.module('Main').controller('mainController',
-    ['ws', '$scope', '$location', '$rootScope', '$stateParams', 'config', function mainController (ws, $scope, $location, $rootScope, $stateParams, config) {
+    ['ws', '$scope', '$location', '$rootScope', '$stateParams', 'config', 'loggerService', function mainController (ws, $scope, $location, $rootScope, $stateParams, config, logger) {
         let setup = false;
         let player = null;
         let posterPlugin = null;
@@ -24,15 +24,52 @@ window.angular.module('Main').controller('mainController',
         };
 
         const initClappr = () => {
-            player = new window.Clappr.Player({
-                'source': 'hls/live.stream.m3u8',
-                'parentId': '#player',
-                'baseUrl': 'libs/scripts/',
-                'poster': 'images/live.jpg?t=' + String(new Date().getTime()),
-                'mediacontrol': {'seekbar': '#3daa48', 'buttons': '#3daa48'},
-                'height': '100%',
-                'width': '100%'
-            });
+            console.log($scope.reStreamerData.options.player);
+            const plugins = [];
+            if($scope.reStreamerData.options.player.statistics == true) {
+                plugins.push(ClapprNerdStats);
+                plugins.push(ClapprStats);
+            }
+            console.log(plugins);
+
+            const config = {
+                source: 'hls/live.stream.m3u8',
+                parentId: '#player',
+                baseUrl: 'libs/scripts/',
+                poster: 'images/live.jpg?t=' + String(new Date().getTime()),
+                mediacontrol: {
+                    seekbar: $scope.reStreamerData.options.player.color,
+                    buttons: $scope.reStreamerData.options.player.color
+                },
+                height: '100%',
+                width: '100%',
+                disableCanAutoPlay: true,
+                autoPlay: $scope.reStreamerData.options.player.autoplay,
+                mute: $scope.reStreamerData.options.player.mute,
+                plugins: plugins,
+                clapprStats: {
+                    runEach: 1000,
+                    onReport: (metrics) => {},
+                },
+                clapprNerdStats: {
+                    shortcut: ['command+shift+s', 'ctrl+shift+s'],
+                    iconPosition: 'top-right'
+                }
+            };
+
+            if($scope.reStreamerData.options.player.logo.image.length != 0) {
+                config.watermark = $scope.reStreamerData.options.player.logo.image;
+                config.position = $scope.reStreamerData.options.player.logo.position;
+
+                if($scope.reStreamerData.options.player.logo.link.length != 0) {
+                    config.watermarkLink = $scope.reStreamerData.options.player.logo.link;
+                }
+            }
+
+            $('#player').empty();
+
+            player = new window.Clappr.Player(config);
+            console.log(player);
             posterPlugin = player.core.mediaControl.container.getPlugin('poster');
             player.on(window.Clappr.Events.PLAYER_STOP, () => {
                 posterPlugin.render();
@@ -43,44 +80,55 @@ window.angular.module('Main').controller('mainController',
         $scope.nginxRepeatStreamInputInvalid = false;
 
         $scope.reStreamerData = {
-            'options': {
-                'rtspTcp': false,
-                'video': {
-                    'codec': 'copy',
-                    'preset': 'ultrafast',
-                    'bitrate': 4096,
-                    'profile': 'auto',
-                    'tune': 'none'
+            options: {
+                rtspTcp: false,
+                video: {
+                    codec: 'copy',
+                    preset: 'ultrafast',
+                    bitrate: 4096,
+                    profile: 'auto',
+                    tune: 'none'
                 },
-                'audio': {
-                    'codec': 'copy',
-                    'preset': 'silence',
-                    'bitrate': 64,
-                    'channels': 'mono',
-                    'sampling': 41000
+                audio: {
+                    codec: 'copy',
+                    preset: 'silence',
+                    bitrate: 64,
+                    channels: 'mono',
+                    sampling: 41000
+                },
+                player: {
+                    autoplay: false,
+                    mute: false,
+                    statistics: false,
+                    color: '#3daa48',
+                    logo: {
+                        image: '',
+                        position: 'bottom-right',
+                        link: ''
+                    }
                 }
             },
-            'states': {
-                'repeatToLocalNginx': {
-                    'type': '',
-                    'message': ''
+            states: {
+                repeatToLocalNginx: {
+                    type: '',
+                    message: ''
                 },
-                'repeatToOptionalOutput': {
-                    'type': '',
-                    'message': ''
+                repeatToOptionalOutput: {
+                    type: '',
+                    message: ''
                 }
             },
-            'userActions': {
-                'repeatToLocalNginx': '',
-                'repeatToOptionalOutput': ''
+            userActions: {
+                repeatToLocalNginx: '',
+                repeatToOptionalOutput: ''
             },
-            'progresses': {
-                'repeatToLocalNginx': '',
-                'repeatToOptionalOutput': ''
+            progresses: {
+                repeatToLocalNginx: '',
+                repeatToOptionalOutput: ''
             },
-            'addresses': {
-                'optionalOutputAddress': '',
-                'srcAddress': ''
+            addresses: {
+                optionalOutputAddress: '',
+                srcAddress: ''
             }
         };
 
@@ -104,9 +152,9 @@ window.angular.module('Main').controller('mainController',
         };
 
         $scope.openPlayer = () => {
-            if (player === null) {
-                initClappr();
-            }
+            console.log('opening player');
+            initClappr();
+
             $('#player-modal').modal('show').on('hide.bs.modal', function closeModal (e) {
                 player.stop();
                 $(this).off('hide.bs.modal');
@@ -165,15 +213,19 @@ window.angular.module('Main').controller('mainController',
             }
 
             ws.emit('startStream', {
-                'src': $scope.reStreamerData.addresses.srcAddress,
-                'options': $scope.reStreamerData.options,
-                'streamType': streamType,
-                'optionalOutput': optionalOutput
+                src: $scope.reStreamerData.addresses.srcAddress,
+                options: $scope.reStreamerData.options,
+                streamType: streamType,
+                optionalOutput: optionalOutput
             });
         };
 
         $scope.stopStream = (streamType) => {
             ws.emit('stopStream', streamType);
+        };
+
+        $scope.playerOptions = () => {
+            ws.emit('playerOptions', $scope.reStreamerData.options.player);
         };
     }]
 );

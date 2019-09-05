@@ -23,7 +23,7 @@ body {
 .container-body {
     float: none;
     margin: 0 auto;
-    max-width: 500px;
+    max-width: 600px;
     border: 1px solid #2c2c28;
     border-radius: 10px;
     padding: 50px;
