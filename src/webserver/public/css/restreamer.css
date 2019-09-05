@@ -258,3 +258,9 @@ pre {
 .green {
     color: #3daa48;
 }
+
+.color-picker {
+    border-radius: 4px;
+    background-color: #373734;
+    border: 2px solid rgba(255,255,255,0.15);
+}

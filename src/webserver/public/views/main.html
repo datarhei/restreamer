@@ -173,37 +173,45 @@
         </h4>
         <table>
             <tbody>
-            <tr>
-                <td>Autoplay</td><td><input type="checkbox" ng-change="playerOptions()" ng-model="reStreamerData.options.player.autoplay"></td>
-            </tr><tr>
-                <td>Mute</td><td><input type="checkbox" ng-change="playerOptions()" ng-model="reStreamerData.options.player.mute"></td>
-            </tr><tr>
-                <td>Statistics</td><td><input type="checkbox" ng-change="playerOptions()" ng-model="reStreamerData.options.player.statistics"></td>
-            </tr><tr>
-                <td>Color</td><td><input type="color" value="#3daa48" ng-change="playerOptions()" ng-model="reStreamerData.options.player.color"></td>
-            </tr><tr>
-                <td>Logo</td>
-                <td>
-                    <table>
-                        <tbody>
-                        <tr>
-                            <td>URL</td><td><input class="form-control input" style="width:100%" type="text" value="" ng-change="playerOptions()" ng-model="reStreamerData.options.player.logo.image"></td>
-                            </tr><tr>
-                                <td>Position</td><td>
-                                    <select class="select" ng-change="playerOptions()" ng-model="reStreamerData.options.player.logo.position">
-                                        <option value="top-left">top-left</option>
-                                        <option value="top-right">top-right</option>
-                                        <option value="bottom-left">bottom-left</option>
-                                        <option value="bottom-right" selected>bottom-right</option>
-                                    </select>
-                                </td>
-                            </tr><tr>
-                                <td>Link</td><td><input class="form-control input" style="width:100%" type="text" value="" ng-change="playerOptions()" ng-model="reStreamerData.options.player.logo.link"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
+                <tr>
+                    <td style="width: 25%;"><input type="checkbox" ng-change="playerOptions()" ng-model="reStreamerData.options.player.autoplay"> Autoplay</td>
+                    <td style="width: 25%;"><input type="checkbox" ng-change="playerOptions()" ng-model="reStreamerData.options.player.mute"> Mute</td>
+                    <td style="width: 25%;"><input type="checkbox" ng-change="playerOptions()" ng-model="reStreamerData.options.player.statistics"> Statistics</td>
+                    <td style="width: 25%;"><input class="color-picker" type="color" value="#3daa48" ng-change="playerOptions()" ng-model="reStreamerData.options.player.color"> Color</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table>
+            <tbody>
+                <tr style="vertical-align:top;">
+                    <td style="padding-top:11px;">Logo Settings</td>
+                    <td>
+                        <table style="margin-bottom:0px;">
+                            <tbody>
+                                <tr>
+                                    <td>Source</td>
+                                    <td><input class="form-control input" style="width:100%" type="text" value="" ng-change="playerOptions()" ng-model="reStreamerData.options.player.logo.image"></td>
+                                </tr>
+                                <tr>
+                                    <td>Position</td>
+                                    <td>
+                                        <select class="select" ng-change="playerOptions()" ng-model="reStreamerData.options.player.logo.position">
+                                            <option value="top-left">top-left</option>
+                                            <option value="top-right">top-right</option>
+                                            <option value="bottom-left">bottom-left</option>
+                                            <option value="bottom-right" selected>bottom-right</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Link</td>
+                                    <td><input class="form-control input" style="width:100%" type="text" value="" ng-change="playerOptions()" ng-model="reStreamerData.options.player.logo.link"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
