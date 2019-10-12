@@ -33,31 +33,58 @@ port 32000 (or whatever port you defined in Docker) on your Restreamer device.
 
 You can also change the width and height of the video by adjusting the `width` and `height` parameters in the iframe HTML tag.
 
+## Player Configuration
+
+The player can be configured in different ways. You do this either in the Restreamer GUI by ticking the appropriate checkboxes
+or by providing query parameter to the player URL.
+
+![Configuration](../img/guides-embed-player-configuration.png)
+
 ### Autoplay
 
-If want to enable autoplay, simply add `?autoplay=1` after `player.html` such that it looks like this:
+If want to enable autoplay, simply tick the box "Autoplay" in the Restreamer GUI or add `?autoplay=1` after `player.html` such that it looks like this:
 ```html
 <iframe src="http://.../player.html?autoplay=1" ...></iframe>
 ```
 
-You may have to use `mute=1` as well because some browsers will not respect the autoplay setting if the the player is
+You may have to tick "Mute" (or use `mute=1` in the query string) as well because some browsers will not respect the autoplay setting if the the player is
 not muted.
 
 ### Mute
 
-Load the player muted. This is usefull in conjuction with `autoplay=1` because some browser will not respect the autoplay
-setting if the player is not muted:
+Load the player muted. Tick the box "Autoplay" in the Restreamer GUI or add `?mute=1` to the query string.
+
 ```html
 <iframe src="http://.../player.html?mute=1" ...></iframe>
 ```
 
+This is usefull in conjuction with autoplay enabled (or use `autoplay=1` in the query string) because some browser will
+not respect the autoplay setting if the player is not muted.
+
 ### Statistics
 
 Display statistics about the stream. This will add a little icon in the top right corner of the player that you have to click
-to open the statistics:
+to open the statistics. Tick the box "Statistics" in the Restreamer GUI or add `stats=1` to the query string:
 ```html
 <iframe src="http://.../player.html?stats=1" ...></iframe>
-``` 
+```
+
+### Color
+
+Set the color of the user interface for the player. Select a color in the Restreamer GUI or add `color=[your color]` to the query string:
+```html
+<iframe src="http://.../player.html?color=fb1ff3" ...></iframe>
+```
+
+The color is a 3-digit or 6-digit string that encodes a RGB color as a hexadecimal number, what you usually use in [HTML and CSS](https://en.wikipedia.org/wiki/Web_colors).
+
+### Logo
+
+Add a logo overlay to the player. Enter the URL to the logo image you want to use and select the position of the logo in the player (any
+of the four corners). If you want the logo to be clickable, also provide an URL of a landing page that will be openend when the logo is clicked.
+
+This option will not encode the logo into the stream. It simply displays the logo as an overlay in the player.
+{: .notice--info}
 
 ## Snapshot
 

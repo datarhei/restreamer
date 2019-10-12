@@ -12,15 +12,17 @@ This example for nginx assumes that the Restreamer is listening on `localhost:80
 ```nginx
 ...
     server {
-    	listen 80;
-    	server_name ...;
+        listen 80;
+        server_name ...;
 
-    	[your site configuration]
+        [your site configuration]
 
         location /restreamer/ {
-    		proxy_http_version 1.1;
-    		proxy_pass http://localhost:8080;
-    	}
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_pass http://localhost:8080;
+        }
     }
 ...
 ```
@@ -30,27 +32,33 @@ If you have more than one Restreamer, you can expose them all under different lo
 ```nginx
 ...
     server {
-    	listen 80;
-    	server_name ...;
+        listen 80;
+        server_name ...;
 
-    	[your site configuration]
+        [your site configuration]
 
         location /camera1/ {
-    		proxy_http_version 1.1;
-    		proxy_pass http://192.168.1.50:8080;
-    	}
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_pass http://192.168.1.50:8080;
+        }
 
-    	location /camera2/ {
-    		proxy_http_version 1.1;
-    		proxy_pass http://192.168.1.51:8080;
-    	}
+        location /camera2/ {
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_pass http://192.168.1.51:8080;
+        }
 
-    	location /camera3/ {
-    		proxy_http_version 1.1;
-    		proxy_pass http://192.168.1.52:8080;
-    	}
+        location /camera3/ {
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_pass http://192.168.1.52:8080;
+        }
 
-    	...
+        ...
     }
 ...
 ```
@@ -62,25 +70,27 @@ any other authorization method, or a [combination thereof](https://nginx.org/en/
 ```nginx
 ...
     server {
-    	listen 443 ssl http2;
-    	server_name ...;
+        listen 443 ssl http2;
+        server_name ...;
 
-    	[SSL configuration]
+        [SSL configuration]
 
-    	[your site configuration]
+        [your site configuration]
 
         location /restreamer/ {
-        	satisfy any;
+            satisfy any;
 
-		allow 192.168.1.0/32;
-		deny  all;
+            allow 192.168.1.0/32;
+            deny  all;
 
-		auth_basic           "closed site";
-		auth_basic_user_file conf/htpasswd;
+            auth_basic           "closed site";
+            auth_basic_user_file conf/htpasswd;
 
-    		proxy_http_version 1.1;
-    		proxy_pass http://localhost:8080;
-    	}
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_pass http://localhost:8080;
+        }
     }
 ...
 ```
