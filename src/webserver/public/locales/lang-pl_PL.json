@@ -22,6 +22,8 @@
     "output_optional": "Streaming do YouTube i innych.",
     "output_optional_example": "rtmp://a.rtmp.youtube.com/live2/klucz_streamingu",
     "player_link_title": "Podgląd",
+    "player_logo_example": "https://example.com/logo.png",
+    "player_logolink_example": "https://example.com/",
     "player_modal_help_title": "Kod iFrame do umieszczenia na stronie www:",
     "player_modal_help_content": "Pamiętaj o przekierowaniu odpowiedniego portu na routerze."
 }

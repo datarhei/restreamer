@@ -188,13 +188,18 @@ td {
     margin-bottom: -20px;
 }
 
-label {
+.label {
     display: inline-block;
     max-width: 100%;
     margin-bottom: 5px;
     font-weight: 200;
     font-size: 18px;
     color: #fff;
+}
+
+label {
+    font-weight: normal;
+    font-size: 14px;
 }
 
 .checkbox label, .radio label {
