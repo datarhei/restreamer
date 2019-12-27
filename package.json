@@ -48,6 +48,6 @@
     "grunt-ng-annotate": "3.0.0",
     "grunt-shell": "2.1.0",
     "load-grunt-tasks": "3.5.2",
-    "webpack": "^3.12.0"
+    "webpack": "^4.41.4"
   }
 }
