@@ -1,3 +1,10 @@
+## Changes from 0.4.0 to 0.5.0
+
+* Upgrade ffmpeg to 4.1.5
+* Upgrade node.js dependencies
+* Add locales fr_FR, it_IT, pt_PT
+* Customize player
+
 ## Changes from 0.3.0 to 0.4.0
 
 * Allow audio for raspicam from alsa audio device
