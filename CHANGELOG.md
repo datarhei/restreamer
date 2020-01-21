@@ -1,3 +1,13 @@
+## Changes from 0.5.0 to 0.6.0
+
+* Upgrade base Docker image to Debian "buster"
+* Upgrade node.js to 12.14.1 (LTS)
+* Upgrade nginx to 1.16.1
+* Upgrade x264 to stable branch
+* Optimize ffmpeg commands
+* Add locale sl_SI (Slovenian) to UI
+* Add support for pushing the stream to an external HLS server
+
 ## Changes from 0.4.0 to 0.5.0
 
 * Upgrade ffmpeg to 4.1.5
