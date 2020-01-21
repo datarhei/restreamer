@@ -1,4 +1,4 @@
-ARG IMAGE=amd64/debian:stretch-slim
+ARG IMAGE=amd64/debian:10.2-slim
 
 FROM $IMAGE as builder
 
@@ -6,12 +6,10 @@ MAINTAINER datarhei <info@datarhei.org>
 
 ARG NASM_VERSION=2.14.02
 ARG LAME_VERSION=3.100
-ARG X264_VERSION=20190409-2245-stable
-ARG X265_VERSION=3.0
 ARG FFMPEG_VERSION=4.1.5
-ARG NGINX_VERSION=1.14.2
+ARG NGINX_VERSION=1.16.1
 ARG NGINXRTMP_VERSION=1.2.1
-ARG NODE_VERSION=10.15.3
+ARG NODE_VERSION=12.14.1
 
 ENV SRC="/usr/local/" \
     LD_LIBRARY_PATH="/usr/local/lib" \
@@ -26,8 +24,7 @@ RUN apt-get update && \
         libssl-dev \
         zlib1g-dev \
         libasound2-dev \
-        build-essential \
-        cmake
+        build-essential
 
 # nasm
 RUN mkdir -p /dist && cd /dist && \
@@ -40,19 +37,10 @@ RUN mkdir -p /dist && cd /dist && \
 
 # x264
 RUN mkdir -p /dist && cd /dist && \
-    curl -OL "http://ftp.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-${X264_VERSION}.tar.bz2" && \
-    tar -xvj -f x264-snapshot-${X264_VERSION}.tar.bz2 && \
-    cd x264-snapshot-${X264_VERSION} && \
+    curl -OL https://code.videolan.org/videolan/x264/-/archive/stable/x264-stable.tar.bz2 && \
+    tar -xvj -f x264-stable.tar.bz2 && \
+    cd x264-stable && \
     ./configure --prefix="${SRC}" --bindir="${SRC}/bin" --enable-shared && \
-    make -j$(nproc) && \
-    make install
-
-# x265
-RUN mkdir -p /dist && cd /dist && \
-    curl -OL "http://ftp.videolan.org/pub/videolan/x265/x265_${X265_VERSION}.tar.gz" && \
-    tar -xvz -f x265_${X265_VERSION}.tar.gz && \
-    cd x265_${X265_VERSION}/build && \
-    cmake ../source && \
     make -j$(nproc) && \
     make install
 
@@ -83,7 +71,6 @@ RUN mkdir -p /dist && cd /dist && \
         --enable-version3 \
         --enable-libmp3lame \
         --enable-libx264 \
-        --enable-libx265 \
         --enable-openssl \
         --enable-postproc \
         --enable-small \
@@ -100,6 +87,7 @@ RUN mkdir -p /dist && cd /dist && \
     tar -xvz -f "nginx-${NGINX_VERSION}.tar.gz" && \
     curl -OL "https://github.com/arut/nginx-rtmp-module/archive/v${NGINXRTMP_VERSION}.tar.gz" && \
     tar -xvz -f "v${NGINXRTMP_VERSION}.tar.gz" && \
+    sed -i"" -e '/case ESCAPE:/i /* fall through */' nginx-rtmp-module-${NGINXRTMP_VERSION}/ngx_rtmp_eval.c && \
     cd nginx-${NGINX_VERSION} && \
     ./configure --prefix=/usr/local/nginx --with-http_ssl_module --with-http_v2_module --add-module=/dist/nginx-rtmp-module-${NGINXRTMP_VERSION} && \
     make -j$(nproc) && \
