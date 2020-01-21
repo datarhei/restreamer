@@ -74,9 +74,7 @@
                 ]
             },
             "video_codec_copy": {
-                "inputOptions": [
-                    "-re"
-                ],
+                "inputOptions": [],
                 "outputOptions": [
                     "-codec:v copy",
                     "-map 0:{videoid}",
@@ -86,9 +84,7 @@
                 ]
             },
             "video_codec_h264": {
-                "inputOptions": [
-                    "-re"
-                ],
+                "inputOptions": [],
                 "outputOptions": [
                     "-codec:v libx264",
                     "-preset:v {preset}",
@@ -113,9 +109,7 @@
                 ]
             },
             "video_codec_hevc": {
-                "inputOptions": [
-                    "-re"
-                ],
+                "inputOptions": [],
                 "outputOptions": [
                     "-codec:v libx265",
                     "-preset:v {preset}",
@@ -152,19 +146,19 @@
                 ]
             },
             "hls": {
-                "inputOptions": [
-                    "-fflags nobuffer+genpts"
-                ],
                 "outputOptions": [
                     "-f hls",
                     "-hls_time 2",
                     "-hls_list_size 10",
-                    "-hls_flags delete_segments+temp_file+append_list"
+                    "-hls_flags delete_segments+temp_file+append_list",
+                    "-hls_segment_type mpegts",
+                    "-method {method}",
+                    "-timeout 5"
                 ]
             },
             "hls_segment_ts": {
                 "outputOptions": [
-                    "-hls_segment_type ts",
+                    "-hls_segment_type mpegts",
                     "-hls_segment_filename /tmp/hls/live.stream_%09d.ts"
                 ]
             },

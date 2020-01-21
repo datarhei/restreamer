@@ -116,6 +116,16 @@ class RestreamerData {
                         };
                     }
 
+                    if(!('output' in dbdata.options)) {
+                        dbdata.options.output = {
+                            type: 'rtmp',
+                            rtmp: {},
+                            hls: {
+                                method: 'POST'
+                            }
+                        };
+                    }
+
                     if (!fs.existsSync(dbPath)) {
                         fs.mkdirSync(dbPath);
                     }
@@ -156,6 +166,13 @@ class RestreamerData {
                                 image: '',
                                 position: 'bottom-right',
                                 link: ''
+                            }
+                        },
+                        output: {
+                            type: 'rtmp',
+                            rtmp: {},
+                            hls: {
+                                method: 'POST'
                             }
                         }
                     },

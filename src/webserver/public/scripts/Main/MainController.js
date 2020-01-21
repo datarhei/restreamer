@@ -106,6 +106,13 @@ window.angular.module('Main').controller('mainController',
                         position: 'bottom-right',
                         link: ''
                     }
+                },
+                output: {
+                    type: 'rtmp',
+                    rtmp: {},
+                    hls: {
+                        method: 'POST'
+                    }
                 }
             },
             states: {
@@ -192,7 +199,8 @@ window.angular.module('Main').controller('mainController',
 
         $scope.startStream = (streamType) => {
             const inputRegex = /^(rtmp(s|t)?|rtsp|https?):\/\//;
-            const outputRegex = /^rtmp(s|t)?/;
+            const outputRegexRTMP = /^rtmp(s|t)?:\/\//;
+            const outputRegexHLS = /^https?:\/\/.*\.m3u8/;
 
             var optionalOutput = '';
             if($scope.activateOptionalOutput === true) {
@@ -200,7 +208,15 @@ window.angular.module('Main').controller('mainController',
             }
 
             if(streamType == 'repeatToOptionalOutput') {
-                $scope.optionalOutputInputInvalid = !outputRegex.test(optionalOutput);
+                $scope.optionalOutputInputInvalid = true;
+
+                if($scope.reStreamerData.options.output.type == 'rtmp') {
+                    $scope.optionalOutputInputInvalid = !outputRegexRTMP.test(optionalOutput);
+                }
+                else if($scope.reStreamerData.options.output.type == 'hls') {
+                    $scope.optionalOutputInputInvalid = !outputRegexHLS.test(optionalOutput);
+                }
+
                 if($scope.optionalOutputInputInvalid) {
                     return;
                 }

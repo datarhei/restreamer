@@ -162,6 +162,10 @@ td {
     border: 2px solid #434341;
 }
 
+.width-auto {
+    width: auto !important;
+}
+
 .progress-bar-success {
     background-color: #3d8142;
     color: #fff;

@@ -637,7 +637,15 @@ class Restreamer {
 
             Restreamer.addStreamOptions(command, 'global', null);
             Restreamer.addStreamOptions(command, 'video', null);
-            Restreamer.addStreamOptions(command, 'rtmp', null);
+
+            if(Restreamer.data.options.output.type == 'hls') {
+                Restreamer.addStreamOptions(command, 'hls', {
+                    method: Restreamer.data.options.output.hls.method
+                });
+            }
+            else {
+                Restreamer.addStreamOptions(command, 'rtmp', null);
+            }
 
             // add outputs to the ffmpeg stream
             command.output(streamUrl);
@@ -964,6 +972,13 @@ Restreamer.data = {
                 image: '',
                 position: 'bottom-right',
                 link: ''
+            }
+        },
+        output: {
+            type: 'rtmp',
+            rtmp: {},
+            hls: {
+                method: 'POST'
             }
         }
     },

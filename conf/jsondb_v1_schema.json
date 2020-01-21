@@ -120,6 +120,38 @@
             }
           }
         },
+        "output": {
+            "type": "object",
+            "required": [
+                "type",
+                "rtmp",
+                "hls"
+            ],
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "default": "rtmp",
+                    "pattern": "^(rtmp|hls)$"
+                },
+                "rtmp": {
+                    "type": "object",
+                    "default": {}
+                },
+                "hls": {
+                    "type": "object",
+                    "required": [
+                        "method"
+                    ],
+                    "properties": {
+                        "method": {
+                            "type": "string",
+                            "default": "POST",
+                            "pattern": "^(POST|PUT)$"
+                        }
+                    }
+                }
+            }
+        },
         "player": {
           "type": "object",
           "required": [

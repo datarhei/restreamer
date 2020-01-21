@@ -262,10 +262,31 @@
 </div>
 <div>
     <div class="form-group" ng-show="activateOptionalOutput === true">
-        <input type="text" class="form-control input" id="output_optional_uri"
-               placeholder="{{'output_optional_example' | translate}}"
-               ng-model="reStreamerData.addresses.optionalOutputAddress"
-               ng-disabled="disableInput('repeatToOptionalOutput')">
+        <table>
+        <tbody>
+        <tr>
+            <td>
+                <select class="select width-auto" ng-model="reStreamerData.options.output.type" ng-disabled="disableInput('repeatToOptionalOutput')">
+                    <option value="rtmp">RTMP</option>
+                    <option value="hls">HLS</option>
+                </select>
+            </td><td style="width: 100%">
+                <div ng-show="reStreamerData.options.output.type === 'rtmp'">
+                    <input type="text" class="form-control input" id="output_optional_uri"
+                           placeholder="{{'output_optional_example_rtmp' | translate}}"
+                           ng-model="reStreamerData.addresses.optionalOutputAddress"
+                           ng-disabled="disableInput('repeatToOptionalOutput')">
+                </div>
+                <div ng-show="reStreamerData.options.output.type === 'hls'">
+                    <input type="text" class="form-control input" id="output_optional_uri"
+                           placeholder="{{'output_optional_example_hls' | translate}}"
+                           ng-model="reStreamerData.addresses.optionalOutputAddress"
+                           ng-disabled="disableInput('repeatToOptionalOutput')">
+                </div>
+            </td>
+        </tr>
+        </tbody>
+        </table>
     </div>
 </div>
 
