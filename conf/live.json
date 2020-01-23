@@ -148,12 +148,12 @@
             "hls": {
                 "outputOptions": [
                     "-f hls",
-                    "-hls_time 2",
-                    "-hls_list_size 10",
+                    "-hls_time {time}",
+                    "-hls_list_size {listSize}",
                     "-hls_flags delete_segments+temp_file+append_list",
                     "-hls_segment_type mpegts",
                     "-method {method}",
-                    "-timeout 5"
+                    "-timeout {timeout}"
                 ]
             },
             "hls_segment_ts": {

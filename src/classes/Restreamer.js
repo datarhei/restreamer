@@ -639,9 +639,7 @@ class Restreamer {
             Restreamer.addStreamOptions(command, 'video', null);
 
             if(Restreamer.data.options.output.type == 'hls') {
-                Restreamer.addStreamOptions(command, 'hls', {
-                    method: Restreamer.data.options.output.hls.method
-                });
+                Restreamer.addStreamOptions(command, 'hls', Restreamer.data.options.output.hls);
             }
             else {
                 Restreamer.addStreamOptions(command, 'rtmp', null);
@@ -978,7 +976,10 @@ Restreamer.data = {
             type: 'rtmp',
             rtmp: {},
             hls: {
-                method: 'POST'
+                method: 'POST',
+                time: 2,
+                listSize: 10,
+                timeout: 5,
             }
         }
     },

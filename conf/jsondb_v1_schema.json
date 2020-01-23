@@ -140,13 +140,31 @@
                 "hls": {
                     "type": "object",
                     "required": [
-                        "method"
+                        "method",
+                        "time",
+                        "listSize",
+                        "timeout"
                     ],
                     "properties": {
                         "method": {
                             "type": "string",
                             "default": "POST",
                             "pattern": "^(POST|PUT)$"
+                        },
+                        "time": {
+                            "type": "string",
+                            "default": "2",
+                            "pattern": "^(.*)$"
+                        },
+                        "listSize": {
+                            "type": "string",
+                            "default": "10",
+                            "pattern": "^(.*)$"
+                        },
+                        "timeout": {
+                            "type": "string",
+                            "default": "5",
+                            "pattern": "^(.*)$"
                         }
                     }
                 }
