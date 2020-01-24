@@ -1,17 +1,17 @@
 ---
-title: External RTMP
+title: External RTMP streaming
 ---
 
 With Restreamer you can forward your stream to an external video streaming provider like YouTube.
 
-Simply check "External RTMP-Streaming-Server" and enter the RTMP URL of the video service provider.
+Simply check "External Streaming-Server", select "RTMP", and enter the RTMP URL of the video service provider.
 
-![External RTMP](../img/guides-streaming-external-youtube.png)
+![External RTMP](../img/guides-external-rtmp.png)
 
 Press "Start". Once the process has been successfully initiated, the stream should also be seen at the external video provider (e.g. YouTube-Live).
 Please be patient, this may take a couple of seconds.
 
-![External RTMP](../img/guides-streaming-external-youtube-streaming.png)
+![External RTMP](../img/guides-external-rtmp-streaming.png)
 
 ## Video Streaming Provider
 

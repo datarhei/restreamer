@@ -33,7 +33,7 @@ the key from above.
 
 ## Push to Twitch
 
-To push your video stream to Twitch, you have to check the field "External RTMP-Streaming-Server" and enter the RTMP-URL from above into the field ...
+To push your video stream to Twitch, you have to check the field "External Streaming-Server", select "RTMP", and enter the RTMP-URL from above into the field ...
 ![Twitch Streaming](../img/guides-streaming-external-twitch.png)
 
 ... and press "Start":

@@ -31,7 +31,7 @@ Your RTMP-URL that you need for Restreamer will look like `rtmp://a.rtmp.youtube
 
 ## Push to YouTube
 
-To push your video stream to YouTube, you have to check the field "External RTMP-Streaming-Server" and enter the RTMP-URL from above into the field ...
+To push your video stream to YouTube, you have to check the field "External RStreaming-Server", select "RTMP", and enter the RTMP-URL from above into the field ...
 ![YouTube Streaming](../img/guides-streaming-external-youtube.png)
 
 ... and press "Start":
