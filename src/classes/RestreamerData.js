@@ -122,9 +122,9 @@ class RestreamerData {
                             rtmp: {},
                             hls: {
                                 method: 'POST',
-                                time: 2,
-                                listSize: 10,
-                                timeout: 5
+                                time: '2',
+                                listSize: '10',
+                                timeout: '5'
                             }
                         };
                     }
@@ -176,9 +176,9 @@ class RestreamerData {
                             rtmp: {},
                             hls: {
                                 method: 'POST',
-                                time: 2,
-                                listSize: 10,
-                                timeout: 5
+                                time: '2',
+                                listSize: '10',
+                                timeout: '5000'
                             }
                         }
                     },
