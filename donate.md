@@ -18,3 +18,5 @@ Use this button or ...
 ![QR Code](img/donate-qr-code.png)
 
 Thank you 😃
+
+Alternatively, you can support us via [Patreon](https://www.patreon.com/datarhei) or [Flattr](https://flattr.com/@datarhei).
