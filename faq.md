@@ -73,8 +73,10 @@ To be honest we do not know yet. If you have tested this with Icecast please tel
 
 ## Support the project
 
-### Ways to support Restreamer  
-The easiest way to support us is to tell everyone how cool Restreamer is. Post it on Facebook, Twitter or G + .☺ For financial support use Flatter <a href="https://flattr.com/submit/auto?user_id=datarhei&url=https%3A%2F%2Fgithub.com%2Fdatarhei%2F" target="_blank"><img src="http://datarhei.org/wiki/pic/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0"></a> or Paypal <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M7TPT4VN7759G" target="_blank"> 
+The easiest way to support us is to tell everyone how cool Restreamer is. Post it on Facebook, Twitter, Linkedin, or any social network you prefer.
+
+### Donation  
+For financial support use Flatter <a href="https://flattr.com/submit/auto?user_id=datarhei&url=https%3A%2F%2Fgithub.com%2Fdatarhei%2F" target="_blank"><img src="http://datarhei.org/wiki/pic/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0"></a> or Paypal <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M7TPT4VN7759G" target="_blank"> 
 <img src="http://datarhei.org/wiki/pic/btn_donate_SM.gif" width="86" height="21" border="0"></a>.
 
 ### Software developer  
