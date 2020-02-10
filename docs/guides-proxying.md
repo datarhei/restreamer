@@ -3,7 +3,7 @@ title: Proxying
 ---
 
 If you already have a webserver running (e.g. nginx) that serves your website, and you want Restreamer to be part of the
-website, you can proxy the requests to a specific loaction to your Restreamer.
+website, you can proxy the requests to a specific location to your Restreamer.
 
 ### nginx
 
