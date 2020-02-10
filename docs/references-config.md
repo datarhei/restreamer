@@ -42,7 +42,7 @@ The path to the JSON database. More about the [JSON database](https://www.npmjs.
 }
 ```
 Default values for the login credentials if they are not set by the environment variables.
-More about the [environment variables|(references-environment-vars.html).
+More about the [environment variables](references-environment-vars.html).
 
 ## FFmpeg options
 
