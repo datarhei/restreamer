@@ -5,7 +5,7 @@ title: Configuration
 This is the basic configuration file for Restreamer and it is is located in `conf/live.json`. It hosts settings for different
 internal aspects of the Restreamer.
 
-Usually you don't need to change these values. You can safely control them with the available [enviroment variables](docs/references-environment-vars.html).
+Usually you don't need to change these values. You can safely control them with the available [enviroment variables](references-environment-vars.html).
 {: .notice--success}
 
 Please don't change these settings if you don't understand the internals of Restreamer.
