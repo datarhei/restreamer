@@ -28,7 +28,7 @@ port 32000 (or whatever port you defined in Docker) on your Restreamer device.
 ```html
 <iframe src="http://123.245.789.123:8080/player.html" ...></iframe>
 
-<iframe src="http://foobar.zapto.org.123:8080/player.html" ...></iframe>
+<iframe src="http://foobar.zapto.org:8080/player.html" ...></iframe>
 ```
 
 You can also change the width and height of the video by adjusting the `width` and `height` parameters in the iframe HTML tag.
@@ -102,7 +102,7 @@ port 32000 (or whatever port you defined in Docker) on your Restreamer device.
 ```html
 <img src="http://123.245.789.123:8080/images/live.jpg" ...>
 
-<img src="http://foobar.zapto.org.123:8080/images/live.jpg" ...>
+<img src="http://foobar.zapto.org:8080/images/live.jpg" ...>
 ```
 
 You can also change the width and height of the image by adjusting the `width` and `height` parameters in the img HTML tag.
