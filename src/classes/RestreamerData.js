@@ -178,7 +178,7 @@ class RestreamerData {
                                 method: 'POST',
                                 time: '2',
                                 listSize: '10',
-                                timeout: '5000'
+                                timeout: '2000'
                             }
                         }
                     },
