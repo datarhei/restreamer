@@ -10,11 +10,13 @@
         "options": {
             "audio_codec_copy": {
                 "outputOptions": [
+                    "-map 0:{audioid}",
                     "-codec:a copy"
                 ]
             },
             "audio_codec_copy_aac": {
                 "outputOptions": [
+                    "-map 0:{audioid}",
                     "-codec:a copy",
                     "-bsf:a aac_adtstoasc"
                 ]
@@ -42,8 +44,7 @@
             },
             "audio_preset_encode": {
                 "outputOptions": [
-                    "-b:a {bitrate}k",
-                    "-map 0:{audioid}"
+                    "-b:a {bitrate}k"
                 ]
             },
             "audio_preset_silence": {
@@ -53,8 +54,8 @@
                     "-thread_queue_size 512"
                 ],
                 "outputOptions": [
-                    "-b:a {bitrate}k",
                     "-map 1:a",
+                    "-b:a {bitrate}k",
                     "-shortest"
                 ]
             },
@@ -76,8 +77,8 @@
             "video_codec_copy": {
                 "inputOptions": [],
                 "outputOptions": [
-                    "-codec:v copy",
                     "-map 0:{videoid}",
+                    "-codec:v copy",
                     "-vsync 0",
                     "-copyts",
                     "-start_at_zero"
@@ -86,6 +87,7 @@
             "video_codec_h264": {
                 "inputOptions": [],
                 "outputOptions": [
+                    "-map 0:{videoid}",
                     "-codec:v libx264",
                     "-preset:v {preset}",
                     "-b:v {bitrate}k",
@@ -94,7 +96,6 @@
                     "-r {fps}",
                     "-g {gop}",
                     "-pix_fmt yuv420p",
-                    "-map 0:{videoid}",
                     "-vsync 1"
                 ]
             },
@@ -111,6 +112,7 @@
             "video_codec_hevc": {
                 "inputOptions": [],
                 "outputOptions": [
+                    "-map 0:{videoid}",
                     "-codec:v libx265",
                     "-preset:v {preset}",
                     "-b:v {bitrate}k",
@@ -118,7 +120,6 @@
                     "-bufsize {bitrate}k",
                     "-r {fps}",
                     "-x265-params keyint={gop}",
-                    "-map 0:{videoid}",
                     "-vsync 1"
                 ]
             },
@@ -150,7 +151,7 @@
                     "-f hls",
                     "-hls_time {time}",
                     "-hls_list_size {listSize}",
-                    "-hls_flags delete_segments+temp_file+append_list",
+                    "-hls_flags delete_segments+append_list",
                     "-hls_segment_type mpegts",
                     "-http_persistent 1",
                     "-method {method}",
