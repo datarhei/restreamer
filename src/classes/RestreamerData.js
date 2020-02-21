@@ -124,9 +124,13 @@ class RestreamerData {
                                 method: 'POST',
                                 time: '2',
                                 listSize: '10',
-                                timeout: '5'
+                                timeout: '10'
                             }
                         };
+                    }
+
+                    if(parseInt(dbdata.options.output.hls.timeout) > 2147) {
+                        dbdata.options.output.hls.timeout = '10';
                     }
 
                     if (!fs.existsSync(dbPath)) {
@@ -178,7 +182,7 @@ class RestreamerData {
                                 method: 'POST',
                                 time: '2',
                                 listSize: '10',
-                                timeout: '5000'
+                                timeout: '10'
                             }
                         }
                     },

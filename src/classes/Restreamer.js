@@ -979,7 +979,7 @@ Restreamer.data = {
                 method: 'POST',
                 time: '2',
                 listSize: '10',
-                timeout: '5'
+                timeout: '10'
             }
         }
     },

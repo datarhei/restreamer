@@ -163,7 +163,7 @@
                         },
                         "timeout": {
                             "type": "string",
-                            "default": "5",
+                            "default": "10",
                             "pattern": "^(.*)$"
                         }
                     }

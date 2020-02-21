@@ -152,6 +152,7 @@
                     "-hls_list_size {listSize}",
                     "-hls_flags delete_segments+temp_file+append_list",
                     "-hls_segment_type mpegts",
+                    "-http_persistent 1",
                     "-method {method}",
                     "-timeout {timeout}"
                 ]
