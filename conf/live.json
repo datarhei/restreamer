@@ -10,13 +10,11 @@
         "options": {
             "audio_codec_copy": {
                 "outputOptions": [
-                    "-map 0:{audioid}",
                     "-codec:a copy"
                 ]
             },
             "audio_codec_copy_aac": {
                 "outputOptions": [
-                    "-map 0:{audioid}",
                     "-codec:a copy",
                     "-bsf:a aac_adtstoasc"
                 ]
