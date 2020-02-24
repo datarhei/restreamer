@@ -1,3 +1,8 @@
+## Changes from 0.6.0 to 0.6.1
+
+* Fix occasional reset of configuration
+* Fix pushing to external HLS server
+
 ## Changes from 0.5.0 to 0.6.0
 
 * Upgrade base Docker image to Debian "buster"
