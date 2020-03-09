@@ -1,3 +1,8 @@
+## Changes from 0.6.1 to 0.6.2
+
+* Fix audio stream mappings
+* Fix audio "auto" setting
+
 ## Changes from 0.6.0 to 0.6.1
 
 * Fix occasional reset of configuration
