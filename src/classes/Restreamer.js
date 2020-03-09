@@ -380,6 +380,10 @@ class Restreamer {
                         options.audio.push('audio_codec_none');
                     }
                     else if(Restreamer.data.options.audio.codec == 'aac' || Restreamer.data.options.audio.codec == 'mp3') {
+                        if(Restreamer.data.options.audio.preset == 'encode') {
+                            options.audio.push('audio_preset_copy');
+                        }
+
                         if(Restreamer.data.options.audio.codec == 'aac') {
                             options.audio.push('audio_codec_aac');
                         }
@@ -399,17 +403,29 @@ class Restreamer {
                             options.audio.push('audio_filter_sampling');
                         }
                     }
+                    else if(Restreamer.data.options.audio.codec == 'auto') {
+                        options.audio.push('audio_preset_copy');
+
+                        if(audio.codec_name == 'aac') {
+                            options.audio.push('audio_codec_copy_aac');
+                        } else if(audio.codec_name == 'mp3') {
+                            options.audio.push('audio_codec_copy');
+                        }  else {
+                            options.audio.push('audio_codec_aac');
+                            options.audio.push('audio_preset_encode');
+                        }
+                    }
                     else {
+                        options.audio.push('audio_preset_copy');
+
                         switch(audio.codec_name) {  // consider all allowed audio codecs for FLV
                             case 'mp3':
                             case 'pcm_alaw':
                             case 'pcm_mulaw':
                                 options.audio.push('audio_codec_copy');
-                                options.audio.push('audio_preset_copy');
                                 break;
                             case 'aac':
                                 options.audio.push('audio_codec_copy_aac');
-                                options.audio.push('audio_preset_copy');
                                 break;
                             default:
                                 if(Restreamer.data.options.audio.codec == 'copy') {
@@ -442,14 +458,14 @@ class Restreamer {
                 options.video.push('video_codec_copy');
 
                 if(audio !== null) {
+                    options.audio.push('audio_preset_copy');
+
                     if(audio.codec_name == 'aac') {
                         options.audio.push('audio_codec_copy_aac');
                     }
                     else {
                         options.audio.push('audio_codec_copy');
                     }
-
-                    options.audio.push('audio_preset_copy');
                 }
                 else {
                     options.audio.push('audio_codec_none');
