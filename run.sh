@@ -8,10 +8,11 @@ if [ "$RS_DEBUG" = "true" ]; then
     export FFREPORT="file=/restreamer/src/webserver/public/debug/%p-%t.log:level=48"
 fi
 
+echo "/opt/vc/lib" > /etc/ld.so.conf.d/00-vmcs.conf
+ldconfig
+
 CPU_TYPE=$(uname -m | cut -c 1-3)
 if [ "${RS_MODE}" = "RASPICAM" ] && [ "$CPU_TYPE" = "arm" ]; then
-    echo "/opt/vc/lib" > /etc/ld.so.conf.d/00-vmcs.conf
-    ldconfig
     npm start &
     NGINX_RUNNING=0
     until [ "$NGINX_RUNNING" = "1" ]; do
@@ -70,7 +71,7 @@ if [ "${RS_MODE}" = "RASPICAM" ] && [ "$CPU_TYPE" = "arm" ]; then
     # h264 profile: baseline (no B-frames), main, high
     RASPICAM_H264PROFILE=${RS_RASPICAM_H264PROFILE:="high"}
     # h264 level: 4, 4.1, 4.2 (1080p30, 720p60 and 640 × 480p60/90)
-    RASPICAM_H264LEVEL=${RS_RASPICAM_H264PROFILE:=4}
+    RASPICAM_H264LEVEL=${RS_RASPICAM_H264LEVEL:=4}
     RASPICAM_CODEC=${RS_RASPICAM_CODEC:="H264"}
 
     ## image parameter
