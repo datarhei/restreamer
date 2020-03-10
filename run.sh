@@ -183,6 +183,7 @@ elif [ "${RS_MODE}" = "USBCAM" ]; then
 
     USBCAM_BITRATE=${RS_USBCAM_BITRATE:=5000000}
     USBCAM_H264PRESET=${RS_USBCAM_H264PRESET:="ultrafast"}
+    USBCAM_H264PROFILE=${RS_USBCAM_H264PROFILE:="baseline"}
     USBCAM_WIDTH=${RS_USBCAM_WIDTH:=1280}
     USBCAM_HEIGHT=${RS_USBCAM_HEIGHT:=720}
 
@@ -201,7 +202,7 @@ elif [ "${RS_MODE}" = "USBCAM" ]; then
         USBCAM_AUDIO="-thread_queue_size 512 -f alsa -ac 1 -ar 44100 -i hw:${USBCAM_AUDIODEVICE} -b:a 64k"
     fi
 
-    ffmpeg -thread_queue_size 512 -f v4l2 -framerate "$USBCAM_FPS" -video_size "${USBCAM_WIDTH}x${USBCAM_HEIGHT}" -i "${USBCAM_VIDEODEVICE}" ${USBCAM_AUDIO} -vcodec libx264 -preset "${USBCAM_H264PRESET}" -r "$USBCAM_FPS" -g "${USBCAM_GOP}" -b:v "${USBCAM_BITRATE}k" -bufsize "${USBCAM_BUFFER}k" -acodec aac -map 0:v -map 1:a -shortest -f flv "${RTMP_URL}" > /dev/null 2>&1
+    ffmpeg -thread_queue_size 512 -f v4l2 -framerate "$USBCAM_FPS" -video_size "${USBCAM_WIDTH}x${USBCAM_HEIGHT}" -i "${USBCAM_VIDEODEVICE}" ${USBCAM_AUDIO} -codec:v h264_omx -profile:v "${USBCAM_H264PROFILE}" -r "$USBCAM_FPS" -g "${USBCAM_GOP}" -b:v "${USBCAM_BITRATE}k" -bufsize "${USBCAM_BUFFER}k" -acodec aac -map 0:v -map 1:a -shortest -f flv "${RTMP_URL}" > /dev/null 2>&1
 else
     npm start
 fi
