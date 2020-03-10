@@ -94,7 +94,7 @@
                     "-bufsize {bitrate}k",
                     "-r {fps}",
                     "-g {gop}",
-                    "-zerocopy 1"
+                    "-zerocopy 1",
                     "-pix_fmt yuv420p",
                     "-vsync 1"
                 ]
