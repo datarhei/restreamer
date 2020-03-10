@@ -101,7 +101,7 @@
             },
             "video_codec_h264_profile": {
                 "outputOptions": [
-                    "-profile: {profile}"
+                    "-profile:v {profile}"
                 ]
             },
             "video_codec_h264_tune": {
