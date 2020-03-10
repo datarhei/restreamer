@@ -4,20 +4,21 @@ title: Installation Raspberry Pi / ARM
 
 ## Requirements
 
-* Raspberry Pi 1 / Pi 2 / Pi 3 or Odroid U3
+* Raspberry Pi 1 / Pi 2 / Pi 3 / Pi 4 or Odroid U3
 * ARM CPU that supports the `arm32v6`, `arm32v7`, or `arm64v8` architecture
 
-## Raspberry Pi 1 / Pi 2 / Pi 3
+## Raspberry Pi 1 / Pi 2 / Pi 3 / Pi 4
 
 Verified with:
 
 * [Raspberry Pi 1 Model B+](https://www.raspberrypi.org/products/model-b-plus/)
 * [Raspberry Pi 2 Model B](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/)
 * [Raspberry Pi 3 Model B+](https://www.raspberrypi.org/products/raspberry-pi-3-model-b-plus/)
+* [Raspberry Pi 4 Model B](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/)
 
 Instructions:
 
-1. Install the latest [Raspian Stretch](https://www.raspberrypi.org/downloads/raspbian/) image on the SD card
+1. Install the latest [Raspian Buster](https://www.raspberrypi.org/downloads/raspbian/) image on the SD card
 
 2. Login to the Pi and install Docker CE according to the [Debian install instructions](https://docs.docker.com/install/linux/docker-ce/debian/#install-from-a-package)
 
