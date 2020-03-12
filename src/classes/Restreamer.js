@@ -637,9 +637,13 @@ class Restreamer {
             Restreamer.addStreamOptions(command, 'video', null);
             Restreamer.addStreamOptions(command, 'rtmp', null);
 
-            // GUI option
-            if(Restreamer.data.options.rtspTcp && streamUrl.indexOf('rtsp') == 0) {
-                Restreamer.addStreamOptions(command, 'rtsp-tcp', null);
+            // RTSP options
+            if(streamUrl.indexOf('rtsp') == 0) {
+                Restreamer.addStreamOptions(command, 'rtsp', null);
+
+                if(Restreamer.data.options.rtspTcp) {
+                    Restreamer.addStreamOptions(command, 'rtsp-tcp', null);
+                }
             }
 
             // add outputs to the ffmpeg stream
