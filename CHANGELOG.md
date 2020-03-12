@@ -1,3 +1,7 @@
+## Changes from 0.6.2 to 0.6.3
+
+* Fix timeout for RTSP streams
+
 ## Changes from 0.6.1 to 0.6.2
 
 * Fix audio stream mappings
