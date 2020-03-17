@@ -37,7 +37,8 @@ If you are running this on an ARM device, please use the `datarhei/restreamer-ar
 Please read the [Video Support](#video-support) section in order to find out what USB camera devices are available.
 
 In order to stream what your USB camera is recording, you have to put `rtmp://127.0.0.1/live/usbcam.stream` into
-the "RTMP/RTSP/HLS Video Source" field and press "Start".
+the "RTMP/RTSP/HLS Video Source" field and press "Start". Keep in mind that you should set the video setting to `copy`
+because the RTMP stream from the USB camera is already H.264 encoded.
 
 ![USB camera](../img/guides-usbcam-url.png)
 

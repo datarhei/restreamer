@@ -34,7 +34,8 @@ docker run -d --restart always \
 ```
 
 In order to stream what your RaspiCam is recording, you have to put `rtmp://127.0.0.1/live/raspicam.stream` into
-the "RTMP/RTSP/HLS Video Source" field and press "Start".
+the "RTMP/RTSP/HLS Video Source" field and press "Start". Keep in mind that you should set the video setting to `copy` because
+the RTMP stream from the RaspiCam is already H.264 encoded.
 
 ![RaspiCam](../img/guides-raspicam-url.png)
 
