@@ -21,6 +21,5 @@ Now you can push a RTMP-Stream to, e.g. `rtmp://[address of your box]/live/exter
 Navigate to the Restreamer web interface, e.g. `http://[address of your box]:8080/`. For the video source you enter the same address
 you are pushing to, and replace the public address and port with localhost, i.e. `rtmp://localhost/live/external.stream?token=...`.
 
-Now you can forward it to an other RTMP-Server or embed the player in a website.
-
-With Restreamer you can forward your stream to an [external video streaming provider](guides-external-rtmp.html) like YouTube.
+Now you can embed the player in a website or forward it to an [external video streaming provider](guides-external-rtmp.html) like
+[YouTube](giudes-youtube.html), [Twitch](guides-twitch.html), Facebook, or others.

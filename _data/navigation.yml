@@ -53,6 +53,8 @@ docs:
         url: docs/guides-twitch.html
       - title: Wowza
         url: docs/guides-wowza.html
+      - title: OBS
+        url: docs/guides-obs.html
       - title: Updating
         url: docs/guides-updates.html
       - title: Multiple Restreamer
