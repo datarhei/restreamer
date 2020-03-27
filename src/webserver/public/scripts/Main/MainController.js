@@ -24,13 +24,11 @@ window.angular.module('Main').controller('mainController',
         };
 
         const initClappr = () => {
-            console.log($scope.reStreamerData.options.player);
             const plugins = [];
             if($scope.reStreamerData.options.player.statistics == true) {
                 plugins.push(ClapprNerdStats);
                 plugins.push(ClapprStats);
             }
-            console.log(plugins);
 
             const config = {
                 source: 'hls/live.stream.m3u8',
@@ -69,7 +67,6 @@ window.angular.module('Main').controller('mainController',
             $('#player').empty();
 
             player = new window.Clappr.Player(config);
-            console.log(player);
             posterPlugin = player.core.mediaControl.container.getPlugin('poster');
             player.on(window.Clappr.Events.PLAYER_STOP, () => {
                 posterPlugin.render();
@@ -159,7 +156,6 @@ window.angular.module('Main').controller('mainController',
         };
 
         $scope.openPlayer = () => {
-            console.log('opening player');
             initClappr();
 
             $('#player-modal').modal('show').on('hide.bs.modal', function closeModal (e) {
