@@ -10,3 +10,6 @@ bin
 db
 *.log
 _site
+Gemfile.lock
+src/webserver/public/config.js
+src/webserver/public/images/live.jpg
