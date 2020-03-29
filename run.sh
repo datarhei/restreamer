@@ -111,10 +111,12 @@ if [ "${RS_MODE}" = "RASPICAM" ] && [ "$CPU_TYPE" = "arm" ]; then
     ## audio
 
     RASPICAM_AUDIODEVICE=${RS_RASPICAM_AUDIODEVICE:="0"}
-    RASPICAM_AUDIO="-f lavfi -i anullsrc=r=44100:cl=mono -b:a 0k"
+    RASPICAM_AUDIO="-f lavfi -i anullsrc=r=44100:cl=mono"
+    RASPICAM_AUDIOBITRATE="-b:a 0k"
 
     if [ "$RS_RASPICAM_AUDIO" = "true" ]; then
-        RASPICAM_AUDIO="-thread_queue_size 512 -f alsa -ac 1 -ar 44100 -i hw:${RASPICAM_AUDIODEVICE} -b:a 64k"
+        RASPICAM_AUDIO="-thread_queue_size 512 -f alsa -ac 1 -ar 44100 -i hw:${RASPICAM_AUDIODEVICE}"
+        RASPICAM_AUDIOBITRATE="-b:a 64k"
     fi
 
     ## RTMP URL
@@ -147,7 +149,7 @@ if [ "${RS_MODE}" = "RASPICAM" ] && [ "$CPU_TYPE" = "arm" ]; then
         --imxfx "$RASPICAM_IMXFX" \
         --metering "$RASPICAM_METERING" \
         --drc "$RASPICAM_DRC" \
-        -o - | ffmpeg -i - ${RASPICAM_AUDIO} -vcodec copy -acodec aac -map 0:v -map 1:a -shortest -f flv "${RTMP_URL}" > /dev/null 2>&1
+        -o - | ffmpeg -i - ${RASPICAM_AUDIO} -map 0:v -map 1:a -codec:v copy -codec:a aac ${RASPICAM_AUDIOBITRATE} -shortest -f flv "${RTMP_URL}" > /dev/null 2>&1
 elif [ "${RS_MODE}" = "USBCAM" ]; then
     npm start &
     NGINX_RUNNING=0
@@ -196,13 +198,15 @@ elif [ "${RS_MODE}" = "USBCAM" ]; then
         RTMP_URL="${RTMP_URL}?token=${RS_TOKEN}"
     fi
 
-    USBCAM_AUDIO="-f lavfi -i anullsrc=r=44100:cl=mono -b:a 0k"
+    USBCAM_AUDIO="-f lavfi -i anullsrc=r=44100:cl=mono"
+    USBCAM_AUDIOBITRATE="-b:a 0k"
 
     if [ "$RS_USBCAM_AUDIO" = "true" ]; then
-        USBCAM_AUDIO="-thread_queue_size 512 -f alsa -ac 1 -ar 44100 -i hw:${USBCAM_AUDIODEVICE} -b:a 64k"
+        USBCAM_AUDIO="-thread_queue_size 512 -f alsa -ac 1 -ar 44100 -i hw:${USBCAM_AUDIODEVICE}"
+        USBCAM_AUDIOBITRATE="-b:a 64k"
     fi
 
-    ffmpeg -thread_queue_size 512 -f v4l2 -framerate "$USBCAM_FPS" -video_size "${USBCAM_WIDTH}x${USBCAM_HEIGHT}" -i "${USBCAM_VIDEODEVICE}" ${USBCAM_AUDIO} -codec:v h264_omx -profile:v "${USBCAM_H264PROFILE}" -r "$USBCAM_FPS" -g "${USBCAM_GOP}" -b:v "${USBCAM_BITRATE}k" -bufsize "${USBCAM_BUFFER}k" -acodec aac -map 0:v -map 1:a -shortest -f flv "${RTMP_URL}" > /dev/null 2>&1
+    ffmpeg -thread_queue_size 512 -f v4l2 -framerate "$USBCAM_FPS" -video_size "${USBCAM_WIDTH}x${USBCAM_HEIGHT}" -i "${USBCAM_VIDEODEVICE}" ${USBCAM_AUDIO} -map 0:v -map 1:a -codec:v libx264 -preset:v "${USBCAM_H264PRESET}" -vf format=yuv420p -r "$USBCAM_FPS" -g "${USBCAM_GOP}" -b:v "${USBCAM_BITRATE}k" -bufsize "${USBCAM_BUFFER}k" -codec:a aac ${USBCAM_AUDIOBITRATE} -shortest -f flv "${RTMP_URL}" > /dev/null 2>&1
 else
     npm start
 fi
