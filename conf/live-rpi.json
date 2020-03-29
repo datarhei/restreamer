@@ -168,6 +168,11 @@
                     "-hls_segment_filename /tmp/hls/live.stream_%09d.m4s"
                 ]
             },
+            "rtsp": {
+                "inputOptions": [
+                    "-stimeout 5000000"
+                ]
+            },
             "rtsp-tcp": {
                 "inputOptions": [
                     "-rtsp_transport tcp"
