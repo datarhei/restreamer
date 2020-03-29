@@ -1,3 +1,7 @@
+## Changes from 0.6.3 to 0.6.4
+
+* Fix compatibility of stream from USB camera
+
 ## Changes from 0.6.2 to 0.6.3
 
 * Fix timeout for RTSP streams
