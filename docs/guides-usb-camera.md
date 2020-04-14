@@ -57,6 +57,9 @@ These environment variables enable you to control the encoding of the video stre
 | `RS_USBCAM_HEIGHT` | `720` | Video stream height in pixels. You have to set this values according to the [capabilities of your USB camera](#video-support). |
 | `RS_USBCAM_AUDIO` | `false` | Set this to `true` to enable audio from your USB camera. Please read more below in the [Audio Support](#audio-support) section. |
 | `RS_USBCAM_AUDIODEVICE` | `0` | The audio device number according to the ALSA utilities. Please read more below in the [Audio Support](#audio-support) section. |
+| `RS_USBCAM_AUDIOBITRATE` | `64000` | Bitrate of the audio stream in bit/s, e.g. `64000` is 64Kbit/s. |
+| `RS_USBCAM_AUDIOCHANNELS` | `1` | Number of audio channels. Please read more below in the [Audio Support](#audio-support) section. |
+| `RS_USBCAM_AUDIOSAMPLING` | `44100` | Sampling rate of the audio signal. Please read more below in the [Audio Support](#audio-support) section. |
 
 Change the defaults of these environment variable with care and make sure that you know what you are doing.
 
@@ -159,6 +162,44 @@ card 2: C170 [Webcam C170], device 0: USB Audio [USB Audio]
 The value for `RS_USBCAM_AUDIODEVICE` is the number after `card`. In this example it is `1` for the audio from the LifeCam. It is also possible that
 there are several devices with the same `card` number. Then you also have to specify the `device` number in the value, separated with a `,` after
 the card number, e.g. `1,0`.
+
+For the audio environment variables `RS_RASPICAM_AUDIOCHANNELS` and `RS_RASPICAM_AUDIOSAMPLING` you need to know the capabilities of the device. You
+can list those with the command:
+
+```sh
+arecord --dump-hw-params  --device hw:1,0
+```
+
+The output could be similar to this:
+
+```
+Recording WAVE 'stdin' : Unsigned 8 bit, Rate 8000 Hz, Mono
+HW Params of device "hw:1,0":
+--------------------
+ACCESS:  MMAP_INTERLEAVED RW_INTERLEAVED
+FORMAT:  S8 S16_LE
+SUBFORMAT:  STD
+SAMPLE_BITS: [8 16]
+FRAME_BITS: [8 16]
+CHANNELS: 1
+RATE: [8000 48000]
+PERIOD_TIME: [1000 65536000]
+PERIOD_SIZE: [32 524288]
+PERIOD_BYTES: [64 524288]
+PERIODS: [2 1024]
+BUFFER_TIME: (1333 131072000]
+BUFFER_SIZE: [64 1048576]
+BUFFER_BYTES: [64 1048576]
+TICK_TIME: ALL
+--------------------
+arecord: set_params:1339: Sample format non available
+Available formats:
+- S8
+- S16_LE
+```
+
+The field `CHANNELS` tells you which channel setups are available (here `1`, i.e. mono) and `RATE` tells you in which range the value for `RS_RASPICAM_AUDIOSAMPLING`
+can be (here between `8000` and `48000`).
 
 ```sh
 docker run -d --restart always \
