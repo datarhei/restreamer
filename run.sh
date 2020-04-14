@@ -228,7 +228,7 @@ elif [ "${RS_MODE}" = "USBCAM" ]; then
 
     USBCAM_AUDIOBITRATE=$(($USBCAM_AUDIOBITRATE / 1024))
 
-    ffmpeg -thread_queue_size 512 -f v4l2 -framerate "$USBCAM_FPS" -video_size "${USBCAM_WIDTH}x${USBCAM_HEIGHT}" -i "${USBCAM_VIDEODEVICE}" ${USBCAM_AUDIO} -map 0:v -map 1:a ${$USBCAM_VIDEOENCODER} -r "$USBCAM_FPS" -g "${USBCAM_GOP}" -b:v "${USBCAM_BITRATE}k" -bufsize "${USBCAM_BUFFER}k" -codec:a aac -b:a "${USBCAM_AUDIOBITRATE}k" -shortest -f flv "${RTMP_URL}" > /dev/null 2>&1
+    ffmpeg -thread_queue_size 512 -f v4l2 -framerate "$USBCAM_FPS" -video_size "${USBCAM_WIDTH}x${USBCAM_HEIGHT}" -i "${USBCAM_VIDEODEVICE}" ${USBCAM_AUDIO} -map 0:v -map 1:a ${USBCAM_VIDEOENCODER} -r "$USBCAM_FPS" -g "${USBCAM_GOP}" -b:v "${USBCAM_BITRATE}k" -bufsize "${USBCAM_BUFFER}k" -codec:a aac -b:a "${USBCAM_AUDIOBITRATE}k" -shortest -f flv "${RTMP_URL}" > /dev/null 2>&1
 else
     npm start
 fi
