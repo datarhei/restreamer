@@ -148,9 +148,11 @@ RUN cd /restreamer && \
         curl && \
     apt autoremove -y
 
+ENV DEVICE=raspi
+
 EXPOSE 8080
 EXPOSE 8181
 
 VOLUME ["/restreamer/db"]
 
-CMD ["./run-rpi.sh"]
+CMD ["./run.sh"]
