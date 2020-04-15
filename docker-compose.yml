@@ -5,6 +5,7 @@ services:
     container_name: restreamer
     ports:
       - 1935:1935
+      - 8080:8080
     networks:
       - frontend
     volumes:
@@ -24,7 +25,7 @@ services:
 
   fblive:
     image: dweomer/stunnel
-    container_name: stunnel
+    container_name: fblive
     expose:
       - 1936
     networks:
@@ -39,6 +40,7 @@ services:
 
   https-portal:
     image: steveltn/https-portal:1
+    container_name: https-portal
     ports:
       - 80:80
       - 443:443

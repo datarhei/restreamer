@@ -26,5 +26,6 @@
     "player_logo_example": "z.B. https://example.com/logo.png",
     "player_logolink_example": "z.B. https://example.com/",
     "player_modal_help_title": "Der iFrame-Code und ein Preview-Image zur Einbettung in der Webseite:",
-    "player_modal_help_content": "Zusätzlich muss der Port aus den Beispielen auf die IP-Adresse des Rechners weitergeleitet werden"
+    "player_modal_help_content": "Zusätzlich muss der Port aus den Beispielen auf die IP-Adresse des Rechners weitergeleitet werden",
+    "embed_use_domain_name": "Verwenden Sie den FQDN-Domänennamen anstelle der öffentlichen IP-Adresse in der Videoeinbettung"
 }

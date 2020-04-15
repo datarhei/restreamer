@@ -26,5 +26,6 @@
     "player_logo_example": "https://example.com/logo.png",
     "player_logolink_example": "https://example.com/",
     "player_modal_help_title": "Kod iFrame do umieszczenia na stronie www:",
-    "player_modal_help_content": "Pamiętaj o przekierowaniu odpowiedniego portu na routerze."
+    "player_modal_help_content": "Pamiętaj o przekierowaniu odpowiedniego portu na routerze.",
+    "embed_use_domain_name": "Użyj nazwy domeny FQDN zamiast publicznego adresu IP w osadzonym wideo"
 }

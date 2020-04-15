@@ -26,5 +26,6 @@
     "player_logo_example": "e.g. https://example.com/logo.png",
     "player_logolink_example": "e.g. https://example.com/",
     "player_modal_help_title": "iFrame code and preview of image to embed in website:",
-    "player_modal_help_content": "In addition the port of the examples have to be forwarded from the router to IP address of the computer"
+    "player_modal_help_content": "In addition the port of the examples have to be forwarded from the router to IP address of the computer",
+    "embed_use_domain_name": "Use the FQDN domain name instead of public IP address in video embed"
 }

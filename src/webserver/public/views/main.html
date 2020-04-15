@@ -230,6 +230,11 @@
         <a class="underline" ng-click="openPlayer()">
             {{'player_link_title' | translate}}
         </a>
+        <div class="checkbox">
+            <label class="embed-use-domain-text">
+                <input type="checkbox" ng-model="reStreamerData.embed.useDomainName"> {{'embed_use_domain_name' | translate}}
+            </label>
+        </div>
     </div>
     <button type="button" class="btn btn-success pull-right"
             ng-if="showStartButton('repeatToLocalNginx')"

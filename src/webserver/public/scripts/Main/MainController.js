@@ -133,10 +133,21 @@ window.angular.module('Main').controller('mainController',
             addresses: {
                 optionalOutputAddress: '',
                 srcAddress: ''
-            }
+            },
+            embed: {
+                useDomainName: false,
+            },
         };
 
-        $rootScope.windowLocationPort = window.location.port;
+        $rootScope.useDomainName = false;
+
+        $scope.$watch('reStreamerData.embed.useDomainName', (value) => {
+            $rootScope.useDomainName = value;
+        });
+
+        $rootScope.windowProtocol = window.location.protocol;
+        $rootScope.windowDomainName = window.location.hostname;
+        $rootScope.windowLocationPort = window.location.port ? `:${window.location.port}` : '';
         $rootScope.windowLocationPath = window.location.pathname;
 
         $scope.optionalOutput = '';
