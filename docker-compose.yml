@@ -27,14 +27,14 @@ services:
     image: dweomer/stunnel
     container_name: fblive
     expose:
-      - 1936
+      - 1935
     networks:
       - frontend
     restart: always
     environment:
       - STUNNEL_SERVICE=fb-live
       - STUNNEL_CLIENT=yes
-      - STUNNEL_ACCEPT=1936
+      - STUNNEL_ACCEPT=1935
       - STUNNEL_CONNECT=live-api-s.facebook.com:443
       - STUNNEL_VERIFY_CHAIN=NO
 
