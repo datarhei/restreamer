@@ -273,9 +273,3 @@ pre {
     background-color: #373734;
     border: 2px solid rgba(255,255,255,0.15);
 }
-
-.embed-use-domain-text {
-    max-width: 70%;
-    text-indent: -18px;
-    margin-left: 18px;
-}
