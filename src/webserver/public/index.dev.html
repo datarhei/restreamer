@@ -94,14 +94,8 @@
                         <span class="glyphicon glyphicon-question-sign icon16" aria-hidden="true"></span>
                     </a>
                 </h4>
-                <div ng-if="useDomainName">
-                    <pre>&lt;iframe src="{{windowProtocol}}//{{windowDomainName}}{{windowLocationPort}}{{windowLocationPath}}player.html" name="restreamer-player" width="800" height="450" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"&gt;&lt;/iframe&gt;</pre>
-                    <pre>&lt;img src="{{windowProtocol}}//{{windowDomainName}}{{windowLocationPort}}{{windowLocationPath}}images/live.jpg" width="800" height="450"&gt;</pre>
-                </div>
-                <div ng-if="!useDomainName">
-                    <pre>&lt;iframe src="{{windowProtocol}}//{{publicIp}}{{windowLocationPort}}{{windowLocationPath}}player.html" name="restreamer-player" width="800" height="450" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"&gt;&lt;/iframe&gt;</pre>
-                    <pre>&lt;img src="{{windowProtocol}}//{{publicIp}}{{windowLocationPort}}{{windowLocationPath}}images/live.jpg" width="800" height="450"&gt;</pre>
-                </div>
+                <pre>&lt;iframe src="{{windowProtocol}}//{{publicIp}}{{windowLocationPort}}{{windowLocationPath}}player.html" name="restreamer-player" width="800" height="450" scrolling="no" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true"&gt;&lt;/iframe&gt;</pre>
+                <pre>&lt;img src="{{windowProtocol}}//{{publicIp}}{{windowLocationPort}}{{windowLocationPath}}images/live.jpg" width="800" height="450"&gt;</pre>
                 <p>{{'player_modal_help_content' | translate}}
                     <a href="{{config.urls.portForwardingHelp}}" target="_blank" class="underline">
                         <span class="glyphicon glyphicon-question-sign icon14" aria-hidden="true"></span>

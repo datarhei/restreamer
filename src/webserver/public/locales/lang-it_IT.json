@@ -26,6 +26,5 @@
     "player_logo_example": "e.g. https://example.com/logo.png",
     "player_logolink_example": "e.g. https://example.com/",
     "player_modal_help_title": "Codice iFrame e anteprima dell'immagine da incorporare nel sito web:",
-    "player_modal_help_content": "Inoltre la porta degli esempi deve essere inoltrata dal router all'indirizzo IP del computer.",
-    "embed_use_domain_name": "Utilizzare il nome di dominio FQDN anziché l'indirizzo IP pubblico nell'incorporamento video"
+    "player_modal_help_content": "Inoltre la porta degli esempi deve essere inoltrata dal router all'indirizzo IP del computer."
 }

@@ -26,7 +26,6 @@
     "player_logo_example": "e.g. https://example.com/logo.png",
     "player_logolink_example": "e.g. https://example.com/",
     "player_modal_help_title": "iFrame koda in predogled slike za vdelavo v spletno stran:",
-    "player_modal_help_content": "Poleg tega je potrebno vrata (port) preusmeriti z usmerjevalnika na IP naslov računalnika",
-    "embed_use_domain_name": "Namestite ime domene FQDN namesto javnega naslova IP v vdelavo videoposnetka"
+    "player_modal_help_content": "Poleg tega je potrebno vrata (port) preusmeriti z usmerjevalnika na IP naslov računalnika"
 }
 
