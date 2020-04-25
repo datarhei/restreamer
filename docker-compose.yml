@@ -16,6 +16,7 @@ services:
       - RS_LOGLEVEL=4
       - RS_TIMEZONE=Europe/Berlin
       - RS_SNAPSHOT_INTERVAL=1m
+      - RS_USE_DOMAIN=false
     deploy:
       replicas: 1
       restart_policy:
