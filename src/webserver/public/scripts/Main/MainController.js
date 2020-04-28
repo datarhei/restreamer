@@ -133,10 +133,11 @@ window.angular.module('Main').controller('mainController',
             addresses: {
                 optionalOutputAddress: '',
                 srcAddress: ''
-            }
+            },
         };
 
-        $rootScope.windowLocationPort = window.location.port;
+        $rootScope.windowProtocol = window.location.protocol;
+        $rootScope.windowLocationPort = window.location.port ? `:${window.location.port}` : '';
         $rootScope.windowLocationPath = window.location.pathname;
 
         $scope.optionalOutput = '';
