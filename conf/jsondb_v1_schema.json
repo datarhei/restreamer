@@ -13,16 +13,10 @@
     "addresses": {
       "type": "object",
       "required": [
-        "srcAddress",
-        "optionalOutputAddress"
+        "srcAddress"
       ],
       "properties": {
         "srcAddress": {
-          "type": "string",
-          "default": "",
-          "pattern": "^(.*)$"
-        },
-        "optionalOutputAddress": {
           "type": "string",
           "default": "",
           "pattern": "^(.*)$"
@@ -120,14 +114,22 @@
             }
           }
         },
-        "output": {
+        "outputs": {
+          "type": "array",
+          "items": {
             "type": "object",
             "required": [
+                "label",
                 "type",
                 "rtmp",
-                "hls"
+                "hls",
+                "outputAddress"
             ],
             "properties": {
+                "label": {
+                  "type": "string",
+                  "default":""
+                },
                 "type": {
                     "type": "string",
                     "default": "rtmp",
@@ -167,8 +169,14 @@
                             "pattern": "^(.*)$"
                         }
                     }
+                },
+                "outputAddress": {
+                  "type": "string",
+                  "default": "",
+                  "pattern": "^(.*)$"
                 }
             }
+          }
         },
         "player": {
           "type": "object",
@@ -230,7 +238,11 @@
       "type": "object",
       "required": [
         "repeatToLocalNginx",
-        "repeatToOptionalOutput"
+        "repeatToOptionalOutput_0",
+        "repeatToOptionalOutput_1",
+        "repeatToOptionalOutput_2",
+        "repeatToOptionalOutput_3",
+        "repeatToOptionalOutput_4"
       ],
       "properties": {
         "repeatToLocalNginx": {
@@ -246,7 +258,59 @@
             }
           }
         },
-        "repeatToOptionalOutput": {
+        "repeatToOptionalOutput_0": {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "default": "",
+              "pattern": "^(.*)$"
+            }
+          }
+        },
+        "repeatToOptionalOutput_1": {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "default": "",
+              "pattern": "^(.*)$"
+            }
+          }
+        },
+        "repeatToOptionalOutput_2": {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "default": "",
+              "pattern": "^(.*)$"
+            }
+          }
+        },
+        "repeatToOptionalOutput_3": {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "default": "",
+              "pattern": "^(.*)$"
+            }
+          }
+        }
+        ,"repeatToOptionalOutput_4": {
           "type": "object",
           "required": [
             "type"
@@ -265,7 +329,11 @@
       "type": "object",
       "required": [
         "repeatToLocalNginx",
-        "repeatToOptionalOutput"
+        "repeatToOptionalOutput_0",
+        "repeatToOptionalOutput_1",
+        "repeatToOptionalOutput_2",
+        "repeatToOptionalOutput_3",
+        "repeatToOptionalOutput_4"
       ],
       "properties": {
         "repeatToLocalNginx": {
@@ -273,7 +341,27 @@
           "default": "",
           "pattern": "^(.*)$"
         },
-        "repeatToOptionalOutput": {
+        "repeatToOptionalOutput_0": {
+          "type": "string",
+          "default": "",
+          "pattern": "^(.*)$"
+        },
+        "repeatToOptionalOutput_1": {
+          "type": "string",
+          "default": "",
+          "pattern": "^(.*)$"
+        },
+        "repeatToOptionalOutput_2": {
+          "type": "string",
+          "default": "",
+          "pattern": "^(.*)$"
+        },
+        "repeatToOptionalOutput_3": {
+          "type": "string",
+          "default": "",
+          "pattern": "^(.*)$"
+        },
+        "repeatToOptionalOutput_4": {
           "type": "string",
           "default": "",
           "pattern": "^(.*)$"

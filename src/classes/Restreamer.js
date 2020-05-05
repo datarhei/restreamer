@@ -228,9 +228,6 @@ class Restreamer {
         state = Restreamer.getState('repeatToLocalNginx');
         let repeatToLocalNginxReconnecting = (state == 'connected' || state == 'connecting');
 
-        state = Restreamer.getState('repeatToOptionalOutput');
-        let repeatToOptionalOutputReconnecting = (state == 'connected' || state == 'connecting');
-
         // check if a stream was repeated locally
         if(Restreamer.data.addresses.srcAddress && repeatToLocalNginxReconnecting) {
             Restreamer.startStream(
@@ -243,16 +240,21 @@ class Restreamer {
             Restreamer.updateState('repeatToLocalNginx', 'disconnected')
         }
 
-        // check if the stream was repeated to an output address
-        if(Restreamer.data.addresses.optionalOutputAddress && repeatToOptionalOutputReconnecting) {
-            Restreamer.startStream(
-                Restreamer.data.addresses.optionalOutputAddress,
-                'repeatToOptionalOutput',
-                true
-            );
-        }
-        else {
-            Restreamer.updateState('repeatToOptionalOutput', 'disconnected')
+        for (let i = 0; i < 5; i++) {
+            let stateKey = 'repeatToOptionalOutput_' + i;
+            state = Restreamer.getState(stateKey);
+            let repeatToOptionalOutputReconnecting = (state == 'connected' || state == 'connecting');
+
+            // check if the stream was repeated to an output address
+            if (Restreamer.data.options.outputs[i].outputAddress && repeatToOptionalOutputReconnecting) {
+                Restreamer.startStream(
+                    Restreamer.data.options.outputs[i].outputAddress,
+                    stateKey,
+                    true
+                );
+            } else {
+                Restreamer.updateState(stateKey, 'disconnected');
+            }
         }
     }
 
@@ -850,12 +852,23 @@ class Restreamer {
                 Restreamer.updateOptions(options.options);
 
                 let streamUrl = '';
-                if(options.streamType == 'repeatToLocalNginx') {
+                const streamRegex = /(repeatToOptionalOutput)_(\d)$/;
+                let streamMatch = false;
+                let indexMatch = false;
+                const matches = options.streamType.match(streamRegex);
+                if (matches && matches.length > 2) {
+                    streamMatch = matches[1];
+                    indexMatch = matches[2];
+                }
+                if (options.streamType === 'repeatToLocalNginx') {
                     Restreamer.data.addresses.srcAddress = options.src;
                     streamUrl = options.src;
-                }
-                else if(options.streamType == 'repeatToOptionalOutput') {
-                    Restreamer.data.addresses.optionalOutputAddress = options.optionalOutput;
+                } else if (streamMatch === 'repeatToOptionalOutput') {
+                    if (indexMatch < 0 || indexMatch > 4) {
+                        return;
+                    }
+
+                    Restreamer.data.options.outputs[indexMatch].outputAddress = options.optionalOutput;
                     streamUrl = options.optionalOutput;
                 }
                 else {
@@ -954,11 +967,19 @@ Restreamer.data = {
     timeouts: {
         retry: {
             repeatToLocalNginx: null,
-            repeatToOptionalOutput: null
+            repeatToOptionalOutput_0: null,
+            repeatToOptionalOutput_1: null,
+            repeatToOptionalOutput_2: null,
+            repeatToOptionalOutput_3: null,
+            repeatToOptionalOutput_4: null
         },
         stale: {
             repeatToLocalNginx: null,
-            repeatToOptionalOutput: null
+            repeatToOptionalOutput_0: null,
+            repeatToOptionalOutput_1: null,
+            repeatToOptionalOutput_2: null,
+            repeatToOptionalOutput_3: null,
+            repeatToOptionalOutput_4: null
         },
         snapshot: {
             repeatToLocalNginx: null
@@ -992,7 +1013,8 @@ Restreamer.data = {
                 link: ''
             }
         },
-        output: {
+        outputs: [{
+            label: '',
             type: 'rtmp',
             rtmp: {},
             hls: {
@@ -1000,37 +1022,84 @@ Restreamer.data = {
                 time: '2',
                 listSize: '10',
                 timeout: '10'
-            }
-        }
+            },
+            outputAddress: ''
+        }, {
+            label: '',
+            type: 'rtmp',
+            rtmp: {},
+            hls: {
+                method: 'POST',
+                time: '2',
+                listSize: '10',
+                timeout: '10'
+            },
+            outputAddress: ''
+        }]
     },
     states: {
         repeatToLocalNginx: {
             type: 'disconnected',
             message: ''
         },
-        repeatToOptionalOutput: {
+        repeatToOptionalOutput_0: {
+            type: 'disconnected',
+            message: ''
+        },
+        repeatToOptionalOutput_1: {
+            type: 'disconnected',
+            message: ''
+        },
+        repeatToOptionalOutput_2: {
+            type: 'disconnected',
+            message: ''
+        },
+        repeatToOptionalOutput_3: {
+            type: 'disconnected',
+            message: ''
+        },
+        repeatToOptionalOutput_4: {
             type: 'disconnected',
             message: ''
         }
     },
     userActions: {
         repeatToLocalNginx: 'start',
-        repeatToOptionalOutput: 'start'
+        repeatToOptionalOutput_0: 'start',
+        repeatToOptionalOutput_1: 'start',
+        repeatToOptionalOutput_2: 'start',
+        repeatToOptionalOutput_3: 'start',
+        repeatToOptionalOutput_4: 'start'
     },
     processes: {
         repeatToLocalNginx: null,
-        repeatToOptionalOutput: null
+        repeatToOptionalOutput_0: null,
+        repeatToOptionalOutput_1: null,
+        repeatToOptionalOutput_2: null,
+        repeatToOptionalOutput_3: null,
+        repeatToOptionalOutput_4: null
     },
     progresses: {
         // overwritten with ffmpeg process if stream has been started
         repeatToLocalNginx: {},
 
         // overwritten with ffmpeg process if stream has been started
-        repeatToOptionalOutput: {}
+        repeatToOptionalOutput_0: {},
+
+        // overwritten with ffmpeg process if stream has been started
+        repeatToOptionalOutput_1: {},
+
+        // overwritten with ffmpeg process if stream has been started
+        repeatToOptionalOutput_2: {},
+
+        // overwritten with ffmpeg process if stream has been started
+        repeatToOptionalOutput_3: {},
+
+        // overwritten with ffmpeg process if stream has been started
+        repeatToOptionalOutput_4: {},
     },
     addresses: {
-        srcAddress: '',
-        optionalOutputAddress: ''
+        srcAddress: ''
     },
     updateAvailable: false,
     publicIp: '127.0.0.1'

@@ -144,8 +144,7 @@ class RestreamerData {
             .catch((error) => {
                 var defaultStructure = {
                     addresses: {
-                        srcAddress: '',
-                        optionalOutputAddress: ''
+                        srcAddress: ''
                     },
                     options: {
                         rtspTcp: true,
@@ -175,7 +174,8 @@ class RestreamerData {
                                 link: ''
                             }
                         },
-                        output: {
+                        outputs: [{
+                            label: '',
                             type: 'rtmp',
                             rtmp: {},
                             hls: {
@@ -183,20 +183,48 @@ class RestreamerData {
                                 time: '2',
                                 listSize: '10',
                                 timeout: '10'
-                            }
-                        }
+                            },
+                            outputAddress: '',
+                        }, {
+                            label: '',
+                            type: 'rtmp',
+                            rtmp: {},
+                            hls: {
+                                method: 'POST',
+                                time: '2',
+                                listSize: '10',
+                                timeout: '10'
+                            },
+                            outputAddress: ''
+                        }]
                     },
                     states: {
                         repeatToLocalNginx: {
                             type: 'stopped'
                         },
-                        repeatToOptionalOutput: {
+                        repeatToOptionalOutput_0: {
+                            type: 'stopped'
+                        },
+                        repeatToOptionalOutput_1: {
+                            type: 'stopped'
+                        },
+                        repeatToOptionalOutput_2: {
+                            type: 'stopped'
+                        },
+                        repeatToOptionalOutput_3: {
+                            type: 'stopped'
+                        },
+                        repeatToOptionalOutput_4: {
                             type: 'stopped'
                         }
                     },
                     userActions: {
                         repeatToLocalNginx: 'stop',
-                        repeatToOptionalOutput: 'stop'
+                        repeatToOptionalOutput_0: 'stop',
+                        repeatToOptionalOutput_1: 'stop',
+                        repeatToOptionalOutput_2: 'stop',
+                        repeatToOptionalOutput_3: 'stop',
+                        repeatToOptionalOutput_4: 'stop',
                     }
                 };
 
