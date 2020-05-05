@@ -185,7 +185,36 @@ class RestreamerData {
                                 timeout: '10'
                             },
                             outputAddress: '',
-                        }, {
+                        }]
+                    },
+                    states: {
+                        repeatToLocalNginx: {
+                            type: 'stopped'
+                        },
+                        repeatToOptionalOutput_0: {
+                            type: 'stopped'
+                        }
+                    },
+                    userActions: {
+                        repeatToLocalNginx: 'stop',
+                        repeatToOptionalOutput_0: 'stop',
+                    }
+                };
+
+                // Set stream source and start streaming on a fresh installation
+                if(process.env.RS_INPUTSTREAM != '') {
+                    defaultStructure.addresses.srcAddress = process.env.RS_INPUTSTREAM;
+                    defaultStructure.states.repeatToLocalNginx.type = 'connected';
+                    defaultStructure.userActions.repeatToLocalNginx = 'start';
+                }
+
+                // Adjust the structure for multiple outputs
+                if (process.env.RS_EXTRA_OUTPUTS > 1) {
+                    for (let i = 1; i < process.env.RS_EXTRA_OUTPUTS; i++) {
+                        const id = 'repeatToOptionalOutput_' + i;
+                        defaultStructure.states[id] = {'type': 'stopped'};
+                        defaultStructure.userActions[id] = 'stop';
+                        defaultStructure.options.outputs.push({
                             label: '',
                             type: 'rtmp',
                             rtmp: {},
@@ -196,43 +225,8 @@ class RestreamerData {
                                 timeout: '10'
                             },
                             outputAddress: ''
-                        }]
-                    },
-                    states: {
-                        repeatToLocalNginx: {
-                            type: 'stopped'
-                        },
-                        repeatToOptionalOutput_0: {
-                            type: 'stopped'
-                        },
-                        repeatToOptionalOutput_1: {
-                            type: 'stopped'
-                        },
-                        repeatToOptionalOutput_2: {
-                            type: 'stopped'
-                        },
-                        repeatToOptionalOutput_3: {
-                            type: 'stopped'
-                        },
-                        repeatToOptionalOutput_4: {
-                            type: 'stopped'
-                        }
-                    },
-                    userActions: {
-                        repeatToLocalNginx: 'stop',
-                        repeatToOptionalOutput_0: 'stop',
-                        repeatToOptionalOutput_1: 'stop',
-                        repeatToOptionalOutput_2: 'stop',
-                        repeatToOptionalOutput_3: 'stop',
-                        repeatToOptionalOutput_4: 'stop',
+                        });
                     }
-                };
-
-                // Set stream source and start streaming on a fresh installation
-                if(process.env.RS_INPUTSTREAM != '') {
-                    defaultStructure.addresses.srcAddress = process.env.RS_INPUTSTREAM;
-                    defaultStructure.states.repeatToLocalNginx.type = 'connected';
-                    defaultStructure.userActions.repeatToLocalNginx = 'start';
                 }
 
                 logger.debug(`Error reading "v1.db": ${error.toString()}`);

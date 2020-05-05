@@ -45,8 +45,16 @@ class Restreamer {
      * generate output snapshot-path from config-file
      * @returns {string}
      */
-    static getSnapshotPath() {
+    static getSnapshotPath () {
         return path.join(global.__public, 'images', 'live.jpg');
+    }
+
+    /**
+     * Get number of optional outputs available
+     * @returns {number}
+     */
+    static getExtraOutputs () {
+        return process.env.RS_EXTRA_OUTPUTS || 1;
     }
 
     /**
@@ -240,13 +248,13 @@ class Restreamer {
             Restreamer.updateState('repeatToLocalNginx', 'disconnected')
         }
 
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < process.env.RS_EXTRA_OUTPUTS; i++) {
             let stateKey = 'repeatToOptionalOutput_' + i;
             state = Restreamer.getState(stateKey);
             let repeatToOptionalOutputReconnecting = (state == 'connected' || state == 'connecting');
 
             // check if the stream was repeated to an output address
-            if (Restreamer.data.options.outputs[i].outputAddress && repeatToOptionalOutputReconnecting) {
+            if (Restreamer.data.options.outputs[i] && Restreamer.data.options.outputs[i].outputAddress && repeatToOptionalOutputReconnecting) {
                 Restreamer.startStream(
                     Restreamer.data.options.outputs[i].outputAddress,
                     stateKey,
@@ -815,6 +823,23 @@ class Restreamer {
     }
 
     /**
+     * enableMultipleOutputs adjusts the restreamerData so the timeouts, processes
+     * and progresses have all the extra output streams available too
+     */
+    static enableMultipleOutputs () {
+        // Adjust the structure for multiple outputs
+        if (process.env.RS_EXTRA_OUTPUTS > 1) {
+            for (let i = 1; i < process.env.RS_EXTRA_OUTPUTS; i++) {
+                const id = 'repeatToOptionalOutput_' + i;
+                Restreamer.data.timeouts.retry[id] = null;
+                Restreamer.data.timeouts.stale[id] = null;
+                Restreamer.data.processes[id] = null;
+                Restreamer.data.progresses[id] = {};
+            }
+        }
+    }
+
+    /**
      * set a timeout
      * @param {string} streamType Either 'repeatToLocalNginx' or 'repeatToOptionalOutput'
      * @param {string} target Kind of timeout, either 'retry' or 'stale'
@@ -852,6 +877,10 @@ class Restreamer {
                 Restreamer.updateOptions(options.options);
 
                 let streamUrl = '';
+
+                /** Validate and figure out which output stream we're dealing
+                 *  with using regex group matches
+                 */
                 const streamRegex = /(repeatToOptionalOutput)_(\d)$/;
                 let streamMatch = false;
                 let indexMatch = false;
@@ -860,6 +889,7 @@ class Restreamer {
                     streamMatch = matches[1];
                     indexMatch = matches[2];
                 }
+
                 if (options.streamType === 'repeatToLocalNginx') {
                     Restreamer.data.addresses.srcAddress = options.src;
                     streamUrl = options.src;
@@ -967,19 +997,11 @@ Restreamer.data = {
     timeouts: {
         retry: {
             repeatToLocalNginx: null,
-            repeatToOptionalOutput_0: null,
-            repeatToOptionalOutput_1: null,
-            repeatToOptionalOutput_2: null,
-            repeatToOptionalOutput_3: null,
-            repeatToOptionalOutput_4: null
+            repeatToOptionalOutput_0: null
         },
         stale: {
             repeatToLocalNginx: null,
-            repeatToOptionalOutput_0: null,
-            repeatToOptionalOutput_1: null,
-            repeatToOptionalOutput_2: null,
-            repeatToOptionalOutput_3: null,
-            repeatToOptionalOutput_4: null
+            repeatToOptionalOutput_0: null
         },
         snapshot: {
             repeatToLocalNginx: null
@@ -1045,39 +1067,15 @@ Restreamer.data = {
         repeatToOptionalOutput_0: {
             type: 'disconnected',
             message: ''
-        },
-        repeatToOptionalOutput_1: {
-            type: 'disconnected',
-            message: ''
-        },
-        repeatToOptionalOutput_2: {
-            type: 'disconnected',
-            message: ''
-        },
-        repeatToOptionalOutput_3: {
-            type: 'disconnected',
-            message: ''
-        },
-        repeatToOptionalOutput_4: {
-            type: 'disconnected',
-            message: ''
         }
     },
     userActions: {
         repeatToLocalNginx: 'start',
-        repeatToOptionalOutput_0: 'start',
-        repeatToOptionalOutput_1: 'start',
-        repeatToOptionalOutput_2: 'start',
-        repeatToOptionalOutput_3: 'start',
-        repeatToOptionalOutput_4: 'start'
+        repeatToOptionalOutput_0: 'start'
     },
     processes: {
         repeatToLocalNginx: null,
-        repeatToOptionalOutput_0: null,
-        repeatToOptionalOutput_1: null,
-        repeatToOptionalOutput_2: null,
-        repeatToOptionalOutput_3: null,
-        repeatToOptionalOutput_4: null
+        repeatToOptionalOutput_0: null
     },
     progresses: {
         // overwritten with ffmpeg process if stream has been started
