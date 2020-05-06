@@ -175,7 +175,6 @@ class RestreamerData {
                             }
                         },
                         outputs: [{
-                            label: '',
                             type: 'rtmp',
                             rtmp: {},
                             hls: {
@@ -215,7 +214,6 @@ class RestreamerData {
                         defaultStructure.states[id] = {'type': 'stopped'};
                         defaultStructure.userActions[id] = 'stop';
                         defaultStructure.options.outputs.push({
-                            label: '',
                             type: 'rtmp',
                             rtmp: {},
                             hls: {

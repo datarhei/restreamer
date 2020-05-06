@@ -119,17 +119,12 @@
           "items": {
             "type": "object",
             "required": [
-                "label",
                 "type",
                 "rtmp",
                 "hls",
                 "outputAddress"
             ],
             "properties": {
-                "label": {
-                  "type": "string",
-                  "default":""
-                },
                 "type": {
                     "type": "string",
                     "default": "rtmp",

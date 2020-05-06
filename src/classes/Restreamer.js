@@ -50,14 +50,6 @@ class Restreamer {
     }
 
     /**
-     * Get number of optional outputs available
-     * @returns {number}
-     */
-    static getExtraOutputs () {
-        return process.env.RS_EXTRA_OUTPUTS || 1;
-    }
-
-    /**
      * receive snapshot by using first frame of repeated video
      */
     static fetchSnapshot () {
@@ -1050,7 +1042,6 @@ Restreamer.data = {
             }
         },
         outputs: [{
-            label: '',
             type: 'rtmp',
             rtmp: {},
             hls: {
