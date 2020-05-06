@@ -142,6 +142,7 @@ window.angular.module('Main').controller('mainController',
         $rootScope.windowLocationPath = window.location.pathname;
 
         $scope.optionalOutput = '';
+        $scope.hasMultipleOutputs = $scope.reStreamerData.options.outputs.length > 1;
 
         $scope.showStartButton = (streamType) => {
             return ($scope.reStreamerData.states[streamType].type == 'disconnected');
@@ -187,6 +188,7 @@ window.angular.module('Main').controller('mainController',
             });
             ws.on('updateStreamData', (reStreamerData) => {
                 $scope.reStreamerData = reStreamerData;
+                $scope.hasMultipleOutputs = $scope.reStreamerData.options.outputs.length > 1;
                 if ($scope.showStopButton('repeatToOptionalOutput_0')) {
                     // checkbox
                     $scope.activateOptionalOutput = true;

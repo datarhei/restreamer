@@ -284,9 +284,9 @@ pre {
     padding-left: 0;
 }
 
-.output-source-wrapper {
+.output-source-wrapper.has-multiple {
     padding: 5px;
-    margin: 5px 0;
+    margin: 10px 0;
     border: 1px solid #2c2c28;
     border-radius: 5px;
 }

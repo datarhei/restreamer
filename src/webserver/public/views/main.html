@@ -262,9 +262,9 @@
 </div>
 <div>
     <div class="form-group" ng-show="activateOptionalOutput === true">
-        <div class="output-source-wrapper" ng-repeat="output in reStreamerData.options.outputs">
+        <div ng-class="{'has-multiple': hasMultipleOutputs}" class="output-source-wrapper" ng-repeat="output in reStreamerData.options.outputs">
             {{id='repeatToOptionalOutput_'+$index;""}}
-            <span class="source-header">Output {{$index}}</span>
+            <span ng-if="hasMultipleOutputs"  class="source-header">Output {{$index}}</span>
             <div class="output-fields-wrapper">
                 <div class="output-select">
                     <select class="select width-auto" ng-model="output.type" ng-disabled="disableInput(id)" style="height:35px;">

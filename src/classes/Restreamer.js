@@ -250,8 +250,22 @@ class Restreamer {
 
         for (let i = 0; i < process.env.RS_EXTRA_OUTPUTS; i++) {
             let stateKey = 'repeatToOptionalOutput_' + i;
-            state = Restreamer.getState(stateKey);
-            let repeatToOptionalOutputReconnecting = (state == 'connected' || state == 'connecting');
+            try {
+                state = Restreamer.getState(stateKey);
+            } catch (e) {
+                /** The new ouputs don't exist yet in the existing DB, we need to fix this */
+                const warnMessageParts = [
+                    'Database is not yet adjusted for ',
+                    process.env.RS_EXTRA_OUTPUTS,
+                    ' extra outputs. ',
+                    'Current value DB value is ', i, '. ',
+                    'Please clear the database so it can build the correct settings.'
+                ];
+                logger.warn(warnMessageParts.join(''));
+                return;
+            }
+
+            let repeatToOptionalOutputReconnecting = (state === 'connected' || state === 'connecting');
 
             // check if the stream was repeated to an output address
             if (Restreamer.data.options.outputs[i] && Restreamer.data.options.outputs[i].outputAddress && repeatToOptionalOutputReconnecting) {
@@ -1046,17 +1060,6 @@ Restreamer.data = {
                 timeout: '10'
             },
             outputAddress: ''
-        }, {
-            label: '',
-            type: 'rtmp',
-            rtmp: {},
-            hls: {
-                method: 'POST',
-                time: '2',
-                listSize: '10',
-                timeout: '10'
-            },
-            outputAddress: ''
         }]
     },
     states: {
@@ -1083,18 +1086,6 @@ Restreamer.data = {
 
         // overwritten with ffmpeg process if stream has been started
         repeatToOptionalOutput_0: {},
-
-        // overwritten with ffmpeg process if stream has been started
-        repeatToOptionalOutput_1: {},
-
-        // overwritten with ffmpeg process if stream has been started
-        repeatToOptionalOutput_2: {},
-
-        // overwritten with ffmpeg process if stream has been started
-        repeatToOptionalOutput_3: {},
-
-        // overwritten with ffmpeg process if stream has been started
-        repeatToOptionalOutput_4: {},
     },
     addresses: {
         srcAddress: ''
