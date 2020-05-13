@@ -20,6 +20,12 @@ const packageJson = require(path.join(global.__base, 'package.json'));
 const https = require('https');
 
 /**
+ * @typedef {Object} IndexStreamType
+ * @property {string} type - The Steam Type
+ * @property {number} index - The Stream Index
+ */
+
+/**
  * class Restreamer creates and manages streams through ffmpeg
  */
 class Restreamer {
@@ -259,10 +265,12 @@ class Restreamer {
 
             let repeatToOptionalOutputReconnecting = (state === 'connected' || state === 'connecting');
 
+            const currentOutput = Restreamer.data.options.outputs[i];
+
             // check if the stream was repeated to an output address
-            if (Restreamer.data.options.outputs[i] && Restreamer.data.options.outputs[i].outputAddress && repeatToOptionalOutputReconnecting) {
+            if (currentOutput && currentOutput.outputAddress && repeatToOptionalOutputReconnecting) {
                 Restreamer.startStream(
-                    Restreamer.data.options.outputs[i].outputAddress,
+                    currentOutput.outputAddress,
                     stateKey,
                     true
                 );
@@ -536,6 +544,30 @@ class Restreamer {
     }
 
     /**
+     *
+     * @param {string} streamType
+     * @return {IndexStreamType}
+     */
+    static getStreamTypeAndIndex (streamType) {
+        /** Validate and figure out which output stream we're dealing
+        *  with using regex group matches
+        */
+        const streamRegex = /(repeatToOptionalOutput)_(\d)$/;
+        let streamMatch = false;
+        let indexMatch = false;
+        const matches = streamType.match(streamRegex);
+        if (matches && matches.length > 2) {
+            streamMatch = matches[1];
+            indexMatch = matches[2];
+        }
+
+        return {
+            'type': streamMatch || '',
+            'index': indexMatch,
+        };
+    }
+
+    /**
      * get the state of the stream
      * @param {string} streamType
      * @return {string} name of the new state
@@ -665,8 +697,7 @@ class Restreamer {
             // add outputs to the ffmpeg stream
             command.output(rtmpUrl);
             probePromise = Restreamer.probeStream(command, streamType)
-        }
-        else {  // repeat to optional output
+        } else {  // repeat to optional output
             command = new FfmpegCommand(rtmpUrl, {
                 stdoutLines: 1
             });
@@ -674,10 +705,12 @@ class Restreamer {
             Restreamer.addStreamOptions(command, 'global', null);
             Restreamer.addStreamOptions(command, 'video', null);
 
-            if(Restreamer.data.options.output.type == 'hls') {
-                Restreamer.addStreamOptions(command, 'hls', Restreamer.data.options.output.hls);
-            }
-            else {
+            const {type,index} = Restreamer.getStreamTypeAndIndex(streamType);
+            const currentOption = type ? Restreamer.data.options.outputs[index] : false;
+
+            if(currentOption && currentOption.type == 'hls') {
+                Restreamer.addStreamOptions(command, 'hls', currentOption.hls);
+            } else {
                 Restreamer.addStreamOptions(command, 'rtmp', null);
             }
 
@@ -874,7 +907,7 @@ class Restreamer {
     /**
      * bind websocket events on application start
      */
-    static bindWebsocketEvents() {
+    static bindWebsocketEvents () {
         WebsocketsController.setConnectCallback((socket) => {
             socket.emit('publicIp', Restreamer.data.publicIp);
             socket.on('startStream', (options) => {
@@ -884,30 +917,19 @@ class Restreamer {
 
                 let streamUrl = '';
 
-                /** Validate and figure out which output stream we're dealing
-                 *  with using regex group matches
-                 */
-                const streamRegex = /(repeatToOptionalOutput)_(\d)$/;
-                let streamMatch = false;
-                let indexMatch = false;
-                const matches = options.streamType.match(streamRegex);
-                if (matches && matches.length > 2) {
-                    streamMatch = matches[1];
-                    indexMatch = matches[2];
-                }
+                const {type, index} = Restreamer.getStreamTypeAndIndex(options.streamType);
 
                 if (options.streamType === 'repeatToLocalNginx') {
                     Restreamer.data.addresses.srcAddress = options.src;
                     streamUrl = options.src;
-                } else if (streamMatch === 'repeatToOptionalOutput') {
-                    if (indexMatch < 0 || indexMatch > 4) {
+                } else if (type === 'repeatToOptionalOutput') {
+                    if (index < 0 || index > 4) {
                         return;
                     }
 
-                    Restreamer.data.options.outputs[indexMatch].outputAddress = options.optionalOutput;
+                    Restreamer.data.options.outputs[index].outputAddress = options.optionalOutput;
                     streamUrl = options.optionalOutput;
-                }
-                else {
+                } else {
                     return;
                 }
 
