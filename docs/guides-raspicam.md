@@ -74,12 +74,17 @@ These environment variables enable you to control the Raspberry Pi camera.
 | `RS_RASPICAM_AUDIODEVICE` | `0` | The audio device number according to the ALSA utilities. Please read more below in the [Audio Support](#audio-support) section. |
 | `RS_RASPICAM_AUDIOBITRATE` | `64000` | Bitrate of the audio stream in bit/s, e.g. `64000` is 64Kbit/s. |
 | `RS_RASPICAM_AUDIOCHANNELS` | `1` | Number of audio channels. Please read more below in the [Audio Support](#audio-support) section. |
+| `RS_RASPICAM_AUDIOLAYOUT` | `mono` | Layout of audio channels. Please read more below in the [Audio Support](#audio-support) section. |
 | `RS_RASPICAM_AUDIOSAMPLING` | `44100` | Sampling rate of the audio signal. Please read more below in the [Audio Support](#audio-support) section. |
 
 Change the defaults of these environment variable with care and make sure that you know what you are doing. Read more about the available camera
 settings in the [Raspberry Pi camera documentation](https://www.raspberrypi.org/documentation/raspbian/applications/camera.md).
 
 ## Audio Support
+
+Audio support is disabled by default, however an audio track with silence encoded as AAC will be added to the stream. Use the environment variables
+`RS_RASPICAM_AUDIOBITRATE`, `RS_RASPICAM_AUDIOLAYOUT`, and `RS_RASPICAM_AUDIOSAMPLING` to modifiy the parameter of the audio stream. Values for `RS_RASPICAM_AUDIOLAYOUT`
+are usually `mono` or `stereo`. There are [more known layouts](http://ffmpeg.org/ffmpeg-utils.html#channel-layout-syntax), but they are less common.
 
 Audio is currently only supported on Linux Docker hosts that have the `/dev/snd` device available. In order to make the sound device
 available inside of the docker container, you have to add it to the container and enable audio with `RS_RASPICAM_AUDIO=true`:

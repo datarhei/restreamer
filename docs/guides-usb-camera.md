@@ -59,6 +59,7 @@ These environment variables enable you to control the encoding of the video stre
 | `RS_USBCAM_AUDIODEVICE` | `0` | The audio device number according to the ALSA utilities. Please read more below in the [Audio Support](#audio-support) section. |
 | `RS_USBCAM_AUDIOBITRATE` | `64000` | Bitrate of the audio stream in bit/s, e.g. `64000` is 64Kbit/s. |
 | `RS_USBCAM_AUDIOCHANNELS` | `1` | Number of audio channels. Please read more below in the [Audio Support](#audio-support) section. |
+| `RS_USBCAM_AUDIOLAYOUT` | `mono` | Layout of audio channels. Please read more below in the [Audio Support](#audio-support) section. |
 | `RS_USBCAM_AUDIOSAMPLING` | `44100` | Sampling rate of the audio signal. Please read more below in the [Audio Support](#audio-support) section. |
 
 Change the defaults of these environment variable with care and make sure that you know what you are doing.
@@ -124,6 +125,10 @@ There you see, that you can stream e.g. in a resolution of 1280x720 with 10 fram
 just to name a few examples. Use these values for the respective environment variables.
 
 ## Audio Support
+
+Audio support is disabled by default, however an audio track with silence encoded as AAC will be added to the stream. Use the environment variables
+`RS_USBCAM_AUDIOBITRATE`, `RS_USBCAM_AUDIOLAYOUT`, and `RS_USBCAM_AUDIOSAMPLING` to modifiy the parameter of the audio stream. Values for `RS_USBCAM_AUDIOLAYOUT`
+are usually `mono` or `stereo`. There are [more known layouts](http://ffmpeg.org/ffmpeg-utils.html#channel-layout-syntax), but they are less common.
 
 Audio is currently only supported on Linux Docker hosts that have the `/dev/snd` device available. In order to make the sound device
 available inside of the docker container, you have to add it to the container and enable audio with `RS_USBCAM_AUDIO=true`:
