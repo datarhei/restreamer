@@ -44,6 +44,22 @@ work, especially if you have higher resolutions and frame rates.
 Untick the box "Use B-Frames". They are used to achieve a higher compression (lower bitrate) but are more complex and require
 more buffering in the decoder/player which in turn increases the latency. This is usually not wanted for a live stream.
 
+![OBS](../img/guides-obs-output-x264.png)
+
+If you prefer the `x264` software encoder you have more options available.
+
+The "Rate Control" gives you different options to control the bitrate. It is reported that `VBR` (variable bitrate) works best with
+Restreamer whereas the others might cause some problems.
+
+"CRF" is a encoding quality setting where the value of `23` is the default for `x264`. The lower the value the higher the quality but
+also the bitrate will increase. Usually values between `18` and `28` are sane.
+
+The "CPU Usage Preset" ranges from `ultrafast` to `veryslow` where the first one uses the least CPU. You can choose whatever fits
+your needs and your available hardware. The slower presets use more sophisticated encoding alogithms and may require a higher profile.
+
+The "Tune" option lets you tweak the preset in a way that matches the kind of stream you encode. For streaming, `zerolatency` is
+recommended. It basically disables B-Frames. It reduces the playback latency in the decoder/player.
+
 ![OBS](../img/guides-obs-video.png)
 
 In the "Video" tab you can adjust what part of the input and in which resolution you're going to stream. "Output Resolution" is the
