@@ -1,3 +1,12 @@
+## Changes from 0.6.4 to 0.6.5
+
+* Upgrade base Docker image to Debian "buster" 10.4
+* Upgrade node.js to 12.16.3
+* Upgrade nginx to 1.18.0
+* Upgrade arm32v6 Dockerfile (thanks to @rossbachp)
+* Add audio channels, layout, and sampling environment variables for RaspiCam and USB cameras
+* Add automatic HTTPS support with Docker Compose (pull request #161, thanks to @wdalmijn)
+
 ## Changes from 0.6.3 to 0.6.4
 
 * Fix compatibility of stream from USB camera
