@@ -2,6 +2,11 @@
 MODE=${MODE:="default"}
 RS_MODE=${RS_MODE:=$MODE}
 
+envsubst '$${RS_RTMP_PORT}' < /restreamer/conf/nginx.conf.template > /restreamer/conf/nginx.conf
+envsubst '$${RS_RTMP_PORT}' < /restreamer/conf/nginx_ssl.conf.template > /restreamer/conf/nginx_ssl.conf
+envsubst '$${RS_RTMP_PORT}' < /restreamer/conf/live.json.template > /restreamer/conf/live.json
+envsubst '$${RS_RTMP_PORT}' < /restreamer/conf/live-rpi.json.template > /restreamer/conf/live-rpi.json
+
 # debug reporting
 RS_DEBUG=${RS_DEBUG:="false"}
 if [ "$RS_DEBUG" = "true" ]; then
@@ -133,7 +138,7 @@ if [ "${RS_MODE}" = "RASPICAM" ] && [ "$CPU_TYPE" = "arm" ]; then
 
     ## RTMP URL
 
-    RTMP_URL="rtmp://127.0.0.1:1935/live/raspicam.stream"
+    RTMP_URL="rtmp://127.0.0.1:${RS_RTMP_PORT}/live/raspicam.stream"
 
     if [ -n "$RS_TOKEN" ]; then
         RTMP_URL="${RTMP_URL}?token=${RS_TOKEN}"
@@ -204,7 +209,7 @@ elif [ "${RS_MODE}" = "USBCAM" ]; then
     USBCAM_BITRATE=$(($USBCAM_BITRATE / 1024))
     USBCAM_BUFFER=$(($USBCAM_BITRATE * 2))
 
-    RTMP_URL="rtmp://127.0.0.1:1935/live/usbcam.stream"
+    RTMP_URL="rtmp://127.0.0.1:${RS_RTMP_PORT}/live/usbcam.stream"
 
     if [ -n "$RS_TOKEN" ]; then
         RTMP_URL="${RTMP_URL}?token=${RS_TOKEN}"

@@ -107,6 +107,8 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 COPY --from=builder /usr/local/nginx /usr/local/nginx
 COPY --from=builder /usr/local/lib /usr/local/lib
 
+ENV RS_RTMP_PORT=1935
+
 RUN apt-get update && \
     apt-get install -y \
         ca-certificates \
@@ -118,7 +120,8 @@ RUN apt-get update && \
         zlib1g \
         v4l-utils \
         libv4l-0 \
-        alsa-utils
+        alsa-utils \
+        gettext-base
 
 COPY . /restreamer
 WORKDIR /restreamer

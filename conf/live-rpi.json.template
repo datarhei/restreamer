@@ -201,7 +201,7 @@
         ],
         "streaming": {
             "ip": "127.0.0.1",
-            "rtmp_port": "1935",
+            "rtmp_port": "${RS_RTMP_PORT}",
             "rtmp_hls_path": "/hls/",
             "http_port": "8080",
             "http_health_path": "/ping"
