@@ -304,7 +304,7 @@ class Restreamer {
 
         function doProbe(rtmpUrl) {
             let probeCmd = `ffprobe -of json -v error -show_streams -show_format ${rtmpUrl}`
-            exec(probeCmd, { timeout: config.ffmpeg.probe.timeout }, (err, stdout) => {
+            exec(probeCmd, { timeout: parseInt(config.ffmpeg.probe.timeout) }, (err, stdout) => {
                 if(err){
                     let lines = err.toString().split(/\r\n|\r|\n/);
                     lines = lines.filter(function (line) {
