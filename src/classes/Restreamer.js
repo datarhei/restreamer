@@ -653,7 +653,7 @@ class Restreamer {
 
             // add outputs to the ffmpeg stream
             command.output(rtmpUrl);
-            probePromise = Restreamer.probeStream(rtmpUrl, streamType)
+            probePromise = Restreamer.probeStream(streamUrl, streamType)
         }
         else {  // repeat to optional output
             command = new FfmpegCommand(rtmpUrl, {
@@ -672,7 +672,7 @@ class Restreamer {
 
             // add outputs to the ffmpeg stream
             command.output(streamUrl);
-            probePromise = Restreamer.probeStream(streamUrl, streamType)
+            probePromise = Restreamer.probeStream(rtmpUrl, streamType)
         }
 
         if(probePromise === null) {
