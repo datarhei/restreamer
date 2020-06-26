@@ -184,6 +184,9 @@
                 ]
             }
         },
+        "probe":{
+            "timeout": "30000"
+        },
         "monitor": {
             "restart_wait": "6000",
             "stale_wait": "60000"
