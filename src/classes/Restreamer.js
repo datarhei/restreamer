@@ -290,191 +290,196 @@ class Restreamer {
 
     /**
      * append the ffmpeg options of the config file to an output
-     * @param {FfmpegCommand} ffmpegCommand
+     * @param {string} rtmpUrl
      * @return {Promise}
      */
-    static probeStream(ffmpegCommand, streamType) {
+    static probeStream(rtmpUrl, streamType) {
         var deferred = Q.defer();
 
         let state = Restreamer.getState(streamType);
         if(state != 'connecting') {
             logger.debug('Skipping "startStream" because state is not "connecting". Current state is "' + state + '".', streamType);
             return null;
-        }
+        } 
 
-        ffmpegCommand.ffprobe((err, data) => {
-            if(err) {
-                let lines = err.toString().split(/\r\n|\r|\n/);
-                lines = lines.filter(function (line) {
-                    return line.length > 0;
-                });
+        function doProbe(rtmpUrl) {
+            let probeCmd = `ffprobe -of json -v error -show_streams -show_format ${rtmpUrl}`
+            exec(probeCmd, { timeout: parseInt(config.ffmpeg.probe.timeout) }, (err, stdout) => {
+                if(err){
+                    let lines = err.toString().split(/\r\n|\r|\n/);
+                    lines = lines.filter(function (line) {
+                        return line.length > 0;
+                    });
 
-                return deferred.reject(lines[lines.length - 1]);
-            }
-
-            let video = null;
-            let audio = null;
-
-            for(let s of data.streams) {
-                if(s.codec_type == 'video') {
-                    if(video === null) {
-                        video = s;
-                        continue;
-                    }
-
-                    // Select the video stream with the highest number of pixels
-                    if((s.width * s.height) > (video.width * video.height)) {
-                        video = s;
-                    }
-                }
-                else if(s.codec_type == 'audio') {
-                    if(audio === null) {
-                        audio = s;
-                        continue;
-                    }
-
-                    // Select the audio stream with highest number of channels
-                    if(s.channels > audio.channels) {
-                        audio = s;
-                    }
-                }
-            }
-
-            if(video === null) {
-                return deferred.reject("no video stream detected");
-            }
-
-            Restreamer.data.options.video.id = video.index;
-            Restreamer.data.options.audio.id = 'a';
-            if(audio !== null) {
-                Restreamer.data.options.audio.id = audio.index;
-            }
-
-            let options = {
-                audio: [],
-                video: []
-            };
-
-            if(streamType == 'repeatToLocalNginx') {
-                if(Restreamer.data.options.video.codec == 'h264') {
-                    options.video.push('video_codec_h264');
-
-                    if(Restreamer.data.options.video.profile != 'auto') {
-                        options.video.push('video_codec_h264_profile');
-                    }
-
-                    if(Restreamer.data.options.video.tune != 'none') {
-                        options.video.push('video_codec_h264_tune');
-                    }
-                }
-                else {
-                    if(video.codec_name != 'h264') {
-                        return deferred.reject("video stream must be h264, found " + video.codec_name);
-                    }
-
-                    options.video.push('video_codec_copy');
+                    return deferred.reject(lines[lines.length - 1]);
                 }
 
-                if(audio !== null) {
-                    if(Restreamer.data.options.audio.codec == 'none') {
-                        options.audio.push('audio_codec_none');
-                    }
-                    else if(Restreamer.data.options.audio.codec == 'aac' || Restreamer.data.options.audio.codec == 'mp3') {
-                        if(Restreamer.data.options.audio.preset == 'encode') {
-                            options.audio.push('audio_preset_copy');
+                let video = null;
+                let audio = null;
+    
+                let data = JSON.parse(stdout)
+                for(let s of data.streams) {
+                    if(s.codec_type == 'video') {
+                        if(video === null) {
+                            video = s;
+                            continue;
                         }
-
-                        if(Restreamer.data.options.audio.codec == 'aac') {
-                            options.audio.push('audio_codec_aac');
+    
+                        // Select the video stream with the highest number of pixels
+                        if((s.width * s.height) > (video.width * video.height)) {
+                            video = s;
+                        }
+                    }
+                    else if(s.codec_type == 'audio') {
+                        if(audio === null) {
+                            audio = s;
+                            continue;
+                        }
+    
+                        // Select the audio stream with highest number of channels
+                        if(s.channels > audio.channels) {
+                            audio = s;
+                        }
+                    }
+                }
+    
+                if(video === null) {
+                    return deferred.reject("no video stream detected");
+                }
+    
+                Restreamer.data.options.video.id = video.index;
+                Restreamer.data.options.audio.id = 'a';
+                if(audio !== null) {
+                    Restreamer.data.options.audio.id = audio.index;
+                }
+    
+                let options = {
+                    audio: [],
+                    video: []
+                };
+    
+                if(streamType == 'repeatToLocalNginx') {
+                    if(Restreamer.data.options.video.codec == 'h264') {
+                        options.video.push('video_codec_h264');
+    
+                        if(Restreamer.data.options.video.profile != 'auto') {
+                            options.video.push('video_codec_h264_profile');
+                        }
+    
+                        if(Restreamer.data.options.video.tune != 'none') {
+                            options.video.push('video_codec_h264_tune');
+                        }
+                    }
+                    else {
+                        if(video.codec_name != 'h264') {
+                            return deferred.reject("video stream must be h264, found " + video.codec_name);
+                        }
+    
+                        options.video.push('video_codec_copy');
+                    }
+    
+                    if(audio !== null) {
+                        if(Restreamer.data.options.audio.codec == 'none') {
+                            options.audio.push('audio_codec_none');
+                        }
+                        else if(Restreamer.data.options.audio.codec == 'aac' || Restreamer.data.options.audio.codec == 'mp3') {
+                            if(Restreamer.data.options.audio.preset == 'encode') {
+                                options.audio.push('audio_preset_copy');
+                            }
+    
+                            if(Restreamer.data.options.audio.codec == 'aac') {
+                                options.audio.push('audio_codec_aac');
+                            }
+                            else {
+                                options.audio.push('audio_codec_mp3');
+                            }
+    
+                            options.audio.push('audio_preset_' + Restreamer.data.options.audio.preset);
+    
+                            if(Restreamer.data.options.audio.channels != 'inherit' && Restreamer.data.options.audio.sampling != 'inherit') {
+                                options.audio.push('audio_filter_all');
+                            }
+                            else if(Restreamer.data.options.audio.channels != 'inherit') {
+                                options.audio.push('audio_filter_channels');
+                            }
+                            else if(Restreamer.data.options.audio.sampling != 'inherit') {
+                                options.audio.push('audio_filter_sampling');
+                            }
+                        }
+                        else if(Restreamer.data.options.audio.codec == 'auto') {
+                            options.audio.push('audio_preset_copy');
+    
+                            if(audio.codec_name == 'aac') {
+                                options.audio.push('audio_codec_copy_aac');
+                            } else if(audio.codec_name == 'mp3') {
+                                options.audio.push('audio_codec_copy');
+                            }  else {
+                                options.audio.push('audio_codec_aac');
+                                options.audio.push('audio_preset_encode');
+                            }
                         }
                         else {
-                            options.audio.push('audio_codec_mp3');
-                        }
-
-                        options.audio.push('audio_preset_' + Restreamer.data.options.audio.preset);
-
-                        if(Restreamer.data.options.audio.channels != 'inherit' && Restreamer.data.options.audio.sampling != 'inherit') {
-                            options.audio.push('audio_filter_all');
-                        }
-                        else if(Restreamer.data.options.audio.channels != 'inherit') {
-                            options.audio.push('audio_filter_channels');
-                        }
-                        else if(Restreamer.data.options.audio.sampling != 'inherit') {
-                            options.audio.push('audio_filter_sampling');
-                        }
-                    }
-                    else if(Restreamer.data.options.audio.codec == 'auto') {
-                        options.audio.push('audio_preset_copy');
-
-                        if(audio.codec_name == 'aac') {
-                            options.audio.push('audio_codec_copy_aac');
-                        } else if(audio.codec_name == 'mp3') {
-                            options.audio.push('audio_codec_copy');
-                        }  else {
-                            options.audio.push('audio_codec_aac');
-                            options.audio.push('audio_preset_encode');
+                            options.audio.push('audio_preset_copy');
+    
+                            switch(audio.codec_name) {  // consider all allowed audio codecs for FLV
+                                case 'mp3':
+                                case 'pcm_alaw':
+                                case 'pcm_mulaw':
+                                    options.audio.push('audio_codec_copy');
+                                    break;
+                                case 'aac':
+                                    options.audio.push('audio_codec_copy_aac');
+                                    break;
+                                default:
+                                    if(Restreamer.data.options.audio.codec == 'copy') {
+                                        return deferred.reject("can't copy audio stream, found unsupported codec " + audio.codec_name);
+                                    }
+                                    else {
+                                        options.audio.push('audio_codec_aac');
+                                        options.audio.push('audio_preset_encode');
+                                    }
+                            }
                         }
                     }
                     else {
-                        options.audio.push('audio_preset_copy');
-
-                        switch(audio.codec_name) {  // consider all allowed audio codecs for FLV
-                            case 'mp3':
-                            case 'pcm_alaw':
-                            case 'pcm_mulaw':
-                                options.audio.push('audio_codec_copy');
-                                break;
-                            case 'aac':
-                                options.audio.push('audio_codec_copy_aac');
-                                break;
-                            default:
-                                if(Restreamer.data.options.audio.codec == 'copy') {
-                                    return deferred.reject("can't copy audio stream, found unsupported codec " + audio.codec_name);
-                                }
-                                else {
-                                    options.audio.push('audio_codec_aac');
-                                    options.audio.push('audio_preset_encode');
-                                }
+                        if(Restreamer.data.options.audio.codec == 'aac' || Restreamer.data.options.audio.codec == 'auto') {
+                            options.audio.push('audio_codec_aac');
+                            options.audio.push('audio_preset_silence');
+                            options.audio.push('audio_filter_all');
+                        }
+                        else if(Restreamer.data.options.audio.codec == 'mp3') {
+                            options.audio.push('audio_codec_mp3');
+                            options.audio.push('audio_preset_silence');
+                            options.audio.push('audio_filter_all');
+                        }
+                        else {
+                            options.audio.push('audio_codec_none');
                         }
                     }
                 }
                 else {
-                    if(Restreamer.data.options.audio.codec == 'aac' || Restreamer.data.options.audio.codec == 'auto') {
-                        options.audio.push('audio_codec_aac');
-                        options.audio.push('audio_preset_silence');
-                        options.audio.push('audio_filter_all');
-                    }
-                    else if(Restreamer.data.options.audio.codec == 'mp3') {
-                        options.audio.push('audio_codec_mp3');
-                        options.audio.push('audio_preset_silence');
-                        options.audio.push('audio_filter_all');
+                    options.video.push('video_codec_copy');
+    
+                    if(audio !== null) {
+                        options.audio.push('audio_preset_copy');
+    
+                        if(audio.codec_name == 'aac') {
+                            options.audio.push('audio_codec_copy_aac');
+                        }
+                        else {
+                            options.audio.push('audio_codec_copy');
+                        }
                     }
                     else {
                         options.audio.push('audio_codec_none');
                     }
                 }
-            }
-            else {
-                options.video.push('video_codec_copy');
+    
+                return deferred.resolve(options);
+            })
+        }
 
-                if(audio !== null) {
-                    options.audio.push('audio_preset_copy');
-
-                    if(audio.codec_name == 'aac') {
-                        options.audio.push('audio_codec_copy_aac');
-                    }
-                    else {
-                        options.audio.push('audio_codec_copy');
-                    }
-                }
-                else {
-                    options.audio.push('audio_codec_none');
-                }
-            }
-
-            return deferred.resolve(options);
-        });
-
+        doProbe(rtmpUrl);
         return deferred.promise;
     }
 
@@ -648,7 +653,7 @@ class Restreamer {
 
             // add outputs to the ffmpeg stream
             command.output(rtmpUrl);
-            probePromise = Restreamer.probeStream(command, streamType)
+            probePromise = Restreamer.probeStream(streamUrl, streamType)
         }
         else {  // repeat to optional output
             command = new FfmpegCommand(rtmpUrl, {
@@ -667,7 +672,7 @@ class Restreamer {
 
             // add outputs to the ffmpeg stream
             command.output(streamUrl);
-            probePromise = Restreamer.probeStream(command, streamType)
+            probePromise = Restreamer.probeStream(rtmpUrl, streamType)
         }
 
         if(probePromise === null) {
@@ -740,6 +745,9 @@ class Restreamer {
                     Restreamer.setTimeout(streamType, 'retry', null);
                     Restreamer.setTimeout(streamType, 'stale', null);
 
+                    Restreamer.data.progresses[streamType]['currentFps'] = 0;
+                    Restreamer.data.progresses[streamType]['currentKbps'] = 0;
+
                     Restreamer.updateState(streamType, 'stopped');
 
                     if(Restreamer.data.userActions[streamType] == 'stop') {
@@ -759,6 +767,9 @@ class Restreamer {
 
                     Restreamer.setTimeout(streamType, 'retry', null);
                     Restreamer.setTimeout(streamType, 'stale', null);
+
+                    Restreamer.data.progresses[streamType]['currentFps'] = 0;
+                    Restreamer.data.progresses[streamType]['currentKbps'] = 0;
 
                     if(Restreamer.data.userActions[streamType] == 'stop') {
                         Restreamer.updateState(streamType, 'disconnected');
