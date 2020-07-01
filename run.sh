@@ -1,6 +1,7 @@
 #!/bin/sh
 MODE=${MODE:="default"}
 RS_MODE=${RS_MODE:=$MODE}
+RS_RTMP_PORT=${RS_RTMP_PORT:=1935}
 
 envsubst '$${RS_RTMP_PORT}' < /restreamer/conf/nginx.conf.template > /restreamer/conf/nginx.conf
 envsubst '$${RS_RTMP_PORT}' < /restreamer/conf/nginx_ssl.conf.template > /restreamer/conf/nginx_ssl.conf
