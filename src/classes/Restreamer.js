@@ -20,6 +20,12 @@ const packageJson = require(path.join(global.__base, 'package.json'));
 const https = require('https');
 
 /**
+ * @typedef {Object} IndexStreamType
+ * @property {string} type - The Steam Type
+ * @property {number} index - The Stream Index
+ */
+
+/**
  * class Restreamer creates and manages streams through ffmpeg
  */
 class Restreamer {
@@ -45,7 +51,7 @@ class Restreamer {
      * generate output snapshot-path from config-file
      * @returns {string}
      */
-    static getSnapshotPath() {
+    static getSnapshotPath () {
         return path.join(global.__public, 'images', 'live.jpg');
     }
 
@@ -228,9 +234,6 @@ class Restreamer {
         state = Restreamer.getState('repeatToLocalNginx');
         let repeatToLocalNginxReconnecting = (state == 'connected' || state == 'connecting');
 
-        state = Restreamer.getState('repeatToOptionalOutput');
-        let repeatToOptionalOutputReconnecting = (state == 'connected' || state == 'connecting');
-
         // check if a stream was repeated locally
         if(Restreamer.data.addresses.srcAddress && repeatToLocalNginxReconnecting) {
             Restreamer.startStream(
@@ -243,16 +246,37 @@ class Restreamer {
             Restreamer.updateState('repeatToLocalNginx', 'disconnected')
         }
 
-        // check if the stream was repeated to an output address
-        if(Restreamer.data.addresses.optionalOutputAddress && repeatToOptionalOutputReconnecting) {
-            Restreamer.startStream(
-                Restreamer.data.addresses.optionalOutputAddress,
-                'repeatToOptionalOutput',
-                true
-            );
-        }
-        else {
-            Restreamer.updateState('repeatToOptionalOutput', 'disconnected')
+        for (let i = 0; i < process.env.RS_EXTRA_OUTPUTS; i++) {
+            let stateKey = 'repeatToOptionalOutput_' + i;
+            try {
+                state = Restreamer.getState(stateKey);
+            } catch (e) {
+                /** The new ouputs don't exist yet in the existing DB, we need to fix this */
+                const warnMessageParts = [
+                    'Database is not yet adjusted for ',
+                    process.env.RS_EXTRA_OUTPUTS,
+                    ' extra outputs. ',
+                    'Current value DB value is ', i, '. ',
+                    'Please clear the database so it can build the correct settings.'
+                ];
+                logger.warn(warnMessageParts.join(''));
+                return;
+            }
+
+            let repeatToOptionalOutputReconnecting = (state === 'connected' || state === 'connecting');
+
+            const currentOutput = Restreamer.data.options.outputs[i];
+
+            // check if the stream was repeated to an output address
+            if (currentOutput && currentOutput.outputAddress && repeatToOptionalOutputReconnecting) {
+                Restreamer.startStream(
+                    currentOutput.outputAddress,
+                    stateKey,
+                    true
+                );
+            } else {
+                Restreamer.updateState(stateKey, 'disconnected');
+            }
         }
     }
 
@@ -520,6 +544,30 @@ class Restreamer {
     }
 
     /**
+     *
+     * @param {string} streamType
+     * @return {IndexStreamType}
+     */
+    static getStreamTypeAndIndex (streamType) {
+        /** Validate and figure out which output stream we're dealing
+        *  with using regex group matches
+        */
+        const streamRegex = /(repeatToOptionalOutput)_(\d)$/;
+        let streamMatch = false;
+        let indexMatch = false;
+        const matches = streamType.match(streamRegex);
+        if (matches && matches.length > 2) {
+            streamMatch = matches[1];
+            indexMatch = matches[2];
+        }
+
+        return {
+            'type': streamMatch || '',
+            'index': indexMatch,
+        };
+    }
+
+    /**
      * get the state of the stream
      * @param {string} streamType
      * @return {string} name of the new state
@@ -649,8 +697,7 @@ class Restreamer {
             // add outputs to the ffmpeg stream
             command.output(rtmpUrl);
             probePromise = Restreamer.probeStream(command, streamType)
-        }
-        else {  // repeat to optional output
+        } else {  // repeat to optional output
             command = new FfmpegCommand(rtmpUrl, {
                 stdoutLines: 1
             });
@@ -658,10 +705,12 @@ class Restreamer {
             Restreamer.addStreamOptions(command, 'global', null);
             Restreamer.addStreamOptions(command, 'video', null);
 
-            if(Restreamer.data.options.output.type == 'hls') {
-                Restreamer.addStreamOptions(command, 'hls', Restreamer.data.options.output.hls);
-            }
-            else {
+            const {type,index} = Restreamer.getStreamTypeAndIndex(streamType);
+            const currentOption = type ? Restreamer.data.options.outputs[index] : false;
+
+            if(currentOption && currentOption.type == 'hls') {
+                Restreamer.addStreamOptions(command, 'hls', currentOption.hls);
+            } else {
                 Restreamer.addStreamOptions(command, 'rtmp', null);
             }
 
@@ -813,6 +862,23 @@ class Restreamer {
     }
 
     /**
+     * enableMultipleOutputs adjusts the restreamerData so the timeouts, processes
+     * and progresses have all the extra output streams available too
+     */
+    static enableMultipleOutputs () {
+        // Adjust the structure for multiple outputs
+        if (process.env.RS_EXTRA_OUTPUTS > 1) {
+            for (let i = 1; i < process.env.RS_EXTRA_OUTPUTS; i++) {
+                const id = 'repeatToOptionalOutput_' + i;
+                Restreamer.data.timeouts.retry[id] = null;
+                Restreamer.data.timeouts.stale[id] = null;
+                Restreamer.data.processes[id] = null;
+                Restreamer.data.progresses[id] = {};
+            }
+        }
+    }
+
+    /**
      * set a timeout
      * @param {string} streamType Either 'repeatToLocalNginx' or 'repeatToOptionalOutput'
      * @param {string} target Kind of timeout, either 'retry' or 'stale'
@@ -841,7 +907,7 @@ class Restreamer {
     /**
      * bind websocket events on application start
      */
-    static bindWebsocketEvents() {
+    static bindWebsocketEvents () {
         WebsocketsController.setConnectCallback((socket) => {
             socket.emit('publicIp', Restreamer.data.publicIp);
             socket.on('startStream', (options) => {
@@ -850,15 +916,20 @@ class Restreamer {
                 Restreamer.updateOptions(options.options);
 
                 let streamUrl = '';
-                if(options.streamType == 'repeatToLocalNginx') {
+
+                const {type, index} = Restreamer.getStreamTypeAndIndex(options.streamType);
+
+                if (options.streamType === 'repeatToLocalNginx') {
                     Restreamer.data.addresses.srcAddress = options.src;
                     streamUrl = options.src;
-                }
-                else if(options.streamType == 'repeatToOptionalOutput') {
-                    Restreamer.data.addresses.optionalOutputAddress = options.optionalOutput;
+                } else if (type === 'repeatToOptionalOutput') {
+                    if (index < 0 || index > 4) {
+                        return;
+                    }
+
+                    Restreamer.data.options.outputs[index].outputAddress = options.optionalOutput;
                     streamUrl = options.optionalOutput;
-                }
-                else {
+                } else {
                     return;
                 }
 
@@ -954,11 +1025,11 @@ Restreamer.data = {
     timeouts: {
         retry: {
             repeatToLocalNginx: null,
-            repeatToOptionalOutput: null
+            repeatToOptionalOutput_0: null
         },
         stale: {
             repeatToLocalNginx: null,
-            repeatToOptionalOutput: null
+            repeatToOptionalOutput_0: null
         },
         snapshot: {
             repeatToLocalNginx: null
@@ -992,7 +1063,7 @@ Restreamer.data = {
                 link: ''
             }
         },
-        output: {
+        outputs: [{
             type: 'rtmp',
             rtmp: {},
             hls: {
@@ -1000,37 +1071,37 @@ Restreamer.data = {
                 time: '2',
                 listSize: '10',
                 timeout: '10'
-            }
-        }
+            },
+            outputAddress: ''
+        }]
     },
     states: {
         repeatToLocalNginx: {
             type: 'disconnected',
             message: ''
         },
-        repeatToOptionalOutput: {
+        repeatToOptionalOutput_0: {
             type: 'disconnected',
             message: ''
         }
     },
     userActions: {
         repeatToLocalNginx: 'start',
-        repeatToOptionalOutput: 'start'
+        repeatToOptionalOutput_0: 'start'
     },
     processes: {
         repeatToLocalNginx: null,
-        repeatToOptionalOutput: null
+        repeatToOptionalOutput_0: null
     },
     progresses: {
         // overwritten with ffmpeg process if stream has been started
         repeatToLocalNginx: {},
 
         // overwritten with ffmpeg process if stream has been started
-        repeatToOptionalOutput: {}
+        repeatToOptionalOutput_0: {},
     },
     addresses: {
-        srcAddress: '',
-        optionalOutputAddress: ''
+        srcAddress: ''
     },
     updateAvailable: false,
     publicIp: '127.0.0.1'

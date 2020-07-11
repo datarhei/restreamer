@@ -30,8 +30,8 @@ router.get('/states', (req, res) => {
             message: states.repeatToLocalNginx.message.replace(/\?token=[^\s]+/, '?token=***'),
         },
         'repeat_to_optional_output': {
-            type: states.repeatToOptionalOutput.type,
-            message: states.repeatToOptionalOutput.message.replace(/\?token=[^\s]+/, '?token=***'),
+            type: states.repeatToOptionalOutput_0.type,
+            message: states.repeatToOptionalOutput_0.message.replace(/\?token=[^\s]+/, '?token=***'),
         },
     };
 
@@ -49,11 +49,11 @@ router.get('/progresses', (req, res) => {
             'timemark': progresses.repeatToLocalNginx.timemark
         },
         'repeat_to_optional_output': {
-            'frames': progresses.repeatToOptionalOutput.frames,
-            'current_fps': progresses.repeatToOptionalOutput.currentFps,
-            'current_kbps': progresses.repeatToOptionalOutput.currentKbps,
-            'target_size': progresses.repeatToOptionalOutput.targetSize,
-            'timemark': progresses.repeatToOptionalOutput.timemark
+            'frames': progresses.repeatToOptionalOutput_0.frames,
+            'current_fps': progresses.repeatToOptionalOutput_0.currentFps,
+            'current_kbps': progresses.repeatToOptionalOutput_0.currentKbps,
+            'target_size': progresses.repeatToOptionalOutput_0.targetSize,
+            'timemark': progresses.repeatToOptionalOutput_0.timemark
         }
     });
 });

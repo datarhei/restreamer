@@ -57,6 +57,7 @@ nginxrtmp.start(process.env.RS_HTTPS == "true")
     })
     .then(() => {
         Restreamer.checkForUpdates();
+        Restreamer.enableMultipleOutputs();
         Restreamer.getPublicIp();
         Restreamer.bindWebsocketEvents();
         return restreamerApp.startWebserver();

@@ -13,16 +13,10 @@
     "addresses": {
       "type": "object",
       "required": [
-        "srcAddress",
-        "optionalOutputAddress"
+        "srcAddress"
       ],
       "properties": {
         "srcAddress": {
-          "type": "string",
-          "default": "",
-          "pattern": "^(.*)$"
-        },
-        "optionalOutputAddress": {
           "type": "string",
           "default": "",
           "pattern": "^(.*)$"
@@ -120,12 +114,15 @@
             }
           }
         },
-        "output": {
+        "outputs": {
+          "type": "array",
+          "items": {
             "type": "object",
             "required": [
                 "type",
                 "rtmp",
-                "hls"
+                "hls",
+                "outputAddress"
             ],
             "properties": {
                 "type": {
@@ -167,8 +164,14 @@
                             "pattern": "^(.*)$"
                         }
                     }
+                },
+                "outputAddress": {
+                  "type": "string",
+                  "default": "",
+                  "pattern": "^(.*)$"
                 }
             }
+          }
         },
         "player": {
           "type": "object",
@@ -230,7 +233,7 @@
       "type": "object",
       "required": [
         "repeatToLocalNginx",
-        "repeatToOptionalOutput"
+        "repeatToOptionalOutput_0"
       ],
       "properties": {
         "repeatToLocalNginx": {
@@ -246,7 +249,7 @@
             }
           }
         },
-        "repeatToOptionalOutput": {
+        "repeatToOptionalOutput_0": {
           "type": "object",
           "required": [
             "type"
@@ -265,7 +268,7 @@
       "type": "object",
       "required": [
         "repeatToLocalNginx",
-        "repeatToOptionalOutput"
+        "repeatToOptionalOutput_0"
       ],
       "properties": {
         "repeatToLocalNginx": {
@@ -273,7 +276,7 @@
           "default": "",
           "pattern": "^(.*)$"
         },
-        "repeatToOptionalOutput": {
+        "repeatToOptionalOutput_0": {
           "type": "string",
           "default": "",
           "pattern": "^(.*)$"

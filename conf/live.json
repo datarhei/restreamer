@@ -328,6 +328,14 @@
             "defaultValue": "",
             "required": false,
             "description": "Automatically start pulling from this stream on a fresh Restreamer installation."
+        },
+        {
+            "name": "RS_EXTRA_OUTPUTS",
+            "alias": [],
+            "type": "int",
+            "defaultValue": "1",
+            "required": false,
+            "description": "Enables multiple output streams in the webinterface and in the streaming server."
         }
     ]
 }

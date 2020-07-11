@@ -262,43 +262,48 @@
 </div>
 <div>
     <div class="form-group" ng-show="activateOptionalOutput === true">
-        <table>
-        <tbody>
-        <tr>
-            <td>
-                <select class="select width-auto" ng-model="reStreamerData.options.output.type" ng-disabled="disableInput('repeatToOptionalOutput')" style="height:35px;">
-                    <option value="rtmp">RTMP</option>
-                    <option value="hls">HLS</option>
-                </select>
-            </td><td style="width: 100%">
-                <div ng-show="reStreamerData.options.output.type === 'rtmp'">
-                    <input type="text" class="form-control input" id="output_optional_uri"
-                           placeholder="{{'output_optional_example_rtmp' | translate}}"
-                           ng-model="reStreamerData.addresses.optionalOutputAddress"
-                           ng-disabled="disableInput('repeatToOptionalOutput')">
+        <div ng-class="{'has-multiple': hasMultipleOutputs}" class="output-source-wrapper" ng-repeat="output in reStreamerData.options.outputs">
+            {{id='repeatToOptionalOutput_'+$index;""}}
+            <span ng-if="hasMultipleOutputs"  class="source-header">Output {{$index}}</span>
+            <div class="output-fields-wrapper">
+                <div class="output-select">
+                    <select class="select width-auto" ng-model="output.type" ng-disabled="disableInput(id)" style="height:35px;">
+                        <option value="rtmp">RTMP</option>
+                        <option value="hls">HLS</option>
+                    </select>
                 </div>
-                <div ng-show="reStreamerData.options.output.type === 'hls'">
-                    <input type="text" class="form-control input" id="output_optional_uri"
-                           placeholder="{{'output_optional_example_hls' | translate}}"
-                           ng-model="reStreamerData.addresses.optionalOutputAddress"
-                           ng-disabled="disableInput('repeatToOptionalOutput')">
+                <div class="output-input">
+                    <div ng-show="output.type === 'rtmp'">
+                        <input type="text" class="form-control input" id="output_optional_uri_{{$index}}"
+                            placeholder="{{'output_optional_example_rtmp' | translate}}"
+                            ng-model="output.outputAddress"
+                            ng-disabled="disableInput(id)">
+                    </div>
+                    <div ng-show="output.type === 'hls'">
+                        <input type="text" class="form-control input" id="output_optional_hls_uri_{{$index}}"
+                            placeholder="{{'output_optional_example_hls' | translate}}"
+                            ng-model="output.outputAddress"
+                            ng-disabled="disableInput(id)">
+                    </div>
                 </div>
-            </td>
-        </tr>
-        </tbody>
-        </table>
-    </div>
-</div>
-
-<streaming-status name="repeatToOptionalOutput" data="reStreamerData"></streaming-status>
-
-<div class="text-right">
-    <div class="btn btn-danger" ng-click="stopStream('repeatToOptionalOutput')"
-         ng-if="showStopButton('repeatToOptionalOutput')">{{'button_stop' | translate}}
-    </div>
-    <div ng-show="activateOptionalOutput === true">
-        <div class="btn btn-success" ng-click="startStream('repeatToOptionalOutput')"
-             ng-if="showStartButton('repeatToOptionalOutput')">{{'button_start' | translate}}
+            </div>
+            <div class="output-controls-wrapper">
+                <div class="stream-status">
+                    <streaming-status name="repeatToOptionalOutput_{{$index}}" data="reStreamerData"></streaming-status>
+                </div>
+                <div class="control-button">
+                    <div class="text-right">
+                        <div class="btn btn-danger" ng-click="stopStream(id)"
+                                ng-if="showStopButton(id)">{{'button_stop' | translate}}
+                        </div>
+                        <div ng-show="activateOptionalOutput === true">
+                            <div class="btn btn-success" ng-click="startStream(id)"
+                                    ng-if="showStartButton(id)">{{'button_start' | translate}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

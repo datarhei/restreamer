@@ -104,34 +104,35 @@ window.angular.module('Main').controller('mainController',
                         link: ''
                     }
                 },
-                output: {
+                outputs: [{
+                    label: '',
                     type: 'rtmp',
                     rtmp: {},
                     hls: {
                         method: 'POST'
-                    }
-                }
+                    },
+                    outputAddress: ''
+                }],
             },
             states: {
                 repeatToLocalNginx: {
                     type: '',
                     message: ''
                 },
-                repeatToOptionalOutput: {
+                repeatToOptionalOutput_0: {
                     type: '',
                     message: ''
                 }
             },
             userActions: {
                 repeatToLocalNginx: '',
-                repeatToOptionalOutput: ''
+                repeatToOptionalOutput_0: ''
             },
             progresses: {
                 repeatToLocalNginx: '',
-                repeatToOptionalOutput: ''
+                repeatToOptionalOutput_0: ''
             },
             addresses: {
-                optionalOutputAddress: '',
                 srcAddress: ''
             },
         };
@@ -141,6 +142,7 @@ window.angular.module('Main').controller('mainController',
         $rootScope.windowLocationPath = window.location.pathname;
 
         $scope.optionalOutput = '';
+        $scope.hasMultipleOutputs = $scope.reStreamerData.options.outputs.length > 1;
 
         $scope.showStartButton = (streamType) => {
             return ($scope.reStreamerData.states[streamType].type == 'disconnected');
@@ -186,7 +188,8 @@ window.angular.module('Main').controller('mainController',
             });
             ws.on('updateStreamData', (reStreamerData) => {
                 $scope.reStreamerData = reStreamerData;
-                if ($scope.showStopButton('repeatToOptionalOutput')) {
+                $scope.hasMultipleOutputs = $scope.reStreamerData.options.outputs.length > 1;
+                if ($scope.showStopButton('repeatToOptionalOutput_0')) {
                     // checkbox
                     $scope.activateOptionalOutput = true;
                 }
@@ -198,19 +201,36 @@ window.angular.module('Main').controller('mainController',
             const inputRegex = /^(rtmp(s|t)?|rtsp|https?):\/\//;
             const outputRegexRTMP = /^rtmp(s|t)?:\/\//;
             const outputRegexHLS = /^https?:\/\/.*\.m3u8/;
+            const outputRegexOptionalOutput = /(repeatToOptionalOutput)_(\d)$/;
 
             var optionalOutput = '';
-            if($scope.activateOptionalOutput === true) {
-                optionalOutput = $scope.reStreamerData.addresses.optionalOutputAddress;
+            const optionalMatches = streamType.match(outputRegexOptionalOutput);
+            let streamTypeMatch = null;
+            let streamIndexMatch = null;
+            if (optionalMatches && optionalMatches.length > 2) {
+                streamTypeMatch = optionalMatches[1];
+                streamIndexMatch = optionalMatches[2];
             }
 
-            if(streamType == 'repeatToOptionalOutput') {
+            if ($scope.activateOptionalOutput === true && streamTypeMatch === 'repeatToOptionalOutput') {
                 $scope.optionalOutputInputInvalid = true;
 
-                if($scope.reStreamerData.options.output.type == 'rtmp') {
+                let currentOption = false;
+
+                if (streamIndexMatch >= 0 || streamIndexMatch < 5) {
+                    currentOption = $scope.reStreamerData.options.outputs[streamIndexMatch];
+                }
+
+                if (!currentOption) {
+                    return;
+                }
+
+                optionalOutput = currentOption.outputAddress;
+
+                if (currentOption.type == 'rtmp') {
                     $scope.optionalOutputInputInvalid = !outputRegexRTMP.test(optionalOutput);
                 }
-                else if($scope.reStreamerData.options.output.type == 'hls') {
+                else if(currentOption.type == 'hls') {
                     $scope.optionalOutputInputInvalid = !outputRegexHLS.test(optionalOutput);
                 }
 

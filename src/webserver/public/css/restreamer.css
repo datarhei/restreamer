@@ -273,3 +273,50 @@ pre {
     background-color: #373734;
     border: 2px solid rgba(255,255,255,0.15);
 }
+
+.no-gutter {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.no-gutter > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.output-source-wrapper.has-multiple {
+    padding: 5px;
+    margin: 10px 0;
+    border: 1px solid #2c2c28;
+    border-radius: 5px;
+}
+
+.output-source-wrapper .source-header {
+    margin: 0;
+    margin-bottom: .5em;
+    margin-left: 5px;
+    color: #e0e0e0;
+}
+
+.output-fields-wrapper, .output-controls-wrapper {
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.output-fields-wrapper > div, .output-controls-wrapper > div {
+    flex: 0 0 auto;
+}
+
+.output-fields-wrapper .output-input {
+    flex-grow: 1;
+}
+
+.output-controls-wrapper {
+    justify-content: space-between;
+    max-width: 100%;
+}
+
+.output-controls-wrapper .stream-status {
+    flex-basis: 90%;
+    padding-right: 10px;
+}
