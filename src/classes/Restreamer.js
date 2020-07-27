@@ -294,37 +294,42 @@ class Restreamer {
      * @return {Promise}
      */
     static probeStream(rtmpUrl, streamType) {
-        var deferred = Q.defer();
+        let deferred = Q.defer();
 
         let state = Restreamer.getState(streamType);
         if(state != 'connecting') {
             logger.debug('Skipping "startStream" because state is not "connecting". Current state is "' + state + '".', streamType);
             return null;
-        } 
+        }
 
-        function doProbe(rtmpUrl) {
-            let probeCmd = `ffprobe -of json -v error -show_streams -show_format ${rtmpUrl}`
+        (function doProbe(rtmpUrl) {
+            let probeCmd = `ffprobe -of json -v error -show_streams -show_format ${rtmpUrl}`;
+
             exec(probeCmd, { timeout: parseInt(config.ffmpeg.probe.timeout) }, (err, stdout) => {
-                if(err){
+                if(err) {
                     let lines = err.toString().split(/\r\n|\r|\n/);
                     lines = lines.filter(function (line) {
                         return line.length > 0;
                     });
+
+                    if(lines.length == 0) {
+                        return deferred.reject("failed to execute ffprobe");
+                    }
 
                     return deferred.reject(lines[lines.length - 1]);
                 }
 
                 let video = null;
                 let audio = null;
-    
-                let data = JSON.parse(stdout)
+
+                let data = JSON.parse(stdout);
                 for(let s of data.streams) {
                     if(s.codec_type == 'video') {
                         if(video === null) {
                             video = s;
                             continue;
                         }
-    
+
                         // Select the video stream with the highest number of pixels
                         if((s.width * s.height) > (video.width * video.height)) {
                             video = s;
@@ -335,37 +340,37 @@ class Restreamer {
                             audio = s;
                             continue;
                         }
-    
+
                         // Select the audio stream with highest number of channels
                         if(s.channels > audio.channels) {
                             audio = s;
                         }
                     }
                 }
-    
+
                 if(video === null) {
                     return deferred.reject("no video stream detected");
                 }
-    
+
                 Restreamer.data.options.video.id = video.index;
                 Restreamer.data.options.audio.id = 'a';
                 if(audio !== null) {
                     Restreamer.data.options.audio.id = audio.index;
                 }
-    
+
                 let options = {
                     audio: [],
                     video: []
                 };
-    
+
                 if(streamType == 'repeatToLocalNginx') {
                     if(Restreamer.data.options.video.codec == 'h264') {
                         options.video.push('video_codec_h264');
-    
+
                         if(Restreamer.data.options.video.profile != 'auto') {
                             options.video.push('video_codec_h264_profile');
                         }
-    
+
                         if(Restreamer.data.options.video.tune != 'none') {
                             options.video.push('video_codec_h264_tune');
                         }
@@ -374,10 +379,10 @@ class Restreamer {
                         if(video.codec_name != 'h264') {
                             return deferred.reject("video stream must be h264, found " + video.codec_name);
                         }
-    
+
                         options.video.push('video_codec_copy');
                     }
-    
+
                     if(audio !== null) {
                         if(Restreamer.data.options.audio.codec == 'none') {
                             options.audio.push('audio_codec_none');
@@ -386,16 +391,16 @@ class Restreamer {
                             if(Restreamer.data.options.audio.preset == 'encode') {
                                 options.audio.push('audio_preset_copy');
                             }
-    
+
                             if(Restreamer.data.options.audio.codec == 'aac') {
                                 options.audio.push('audio_codec_aac');
                             }
                             else {
                                 options.audio.push('audio_codec_mp3');
                             }
-    
+
                             options.audio.push('audio_preset_' + Restreamer.data.options.audio.preset);
-    
+
                             if(Restreamer.data.options.audio.channels != 'inherit' && Restreamer.data.options.audio.sampling != 'inherit') {
                                 options.audio.push('audio_filter_all');
                             }
@@ -408,7 +413,7 @@ class Restreamer {
                         }
                         else if(Restreamer.data.options.audio.codec == 'auto') {
                             options.audio.push('audio_preset_copy');
-    
+
                             if(audio.codec_name == 'aac') {
                                 options.audio.push('audio_codec_copy_aac');
                             } else if(audio.codec_name == 'mp3') {
@@ -420,7 +425,7 @@ class Restreamer {
                         }
                         else {
                             options.audio.push('audio_preset_copy');
-    
+
                             switch(audio.codec_name) {  // consider all allowed audio codecs for FLV
                                 case 'mp3':
                                 case 'pcm_alaw':
@@ -459,10 +464,10 @@ class Restreamer {
                 }
                 else {
                     options.video.push('video_codec_copy');
-    
+
                     if(audio !== null) {
                         options.audio.push('audio_preset_copy');
-    
+
                         if(audio.codec_name == 'aac') {
                             options.audio.push('audio_codec_copy_aac');
                         }
@@ -474,12 +479,11 @@ class Restreamer {
                         options.audio.push('audio_codec_none');
                     }
                 }
-    
-                return deferred.resolve(options);
-            })
-        }
 
-        doProbe(rtmpUrl);
+                return deferred.resolve(options);
+            });
+        })(rtmpUrl);
+
         return deferred.promise;
     }
 
@@ -745,8 +749,8 @@ class Restreamer {
                     Restreamer.setTimeout(streamType, 'retry', null);
                     Restreamer.setTimeout(streamType, 'stale', null);
 
-                    Restreamer.data.progresses[streamType]['currentFps'] = 0;
-                    Restreamer.data.progresses[streamType]['currentKbps'] = 0;
+                    Restreamer.data.progresses[streamType].currentFps = 0;
+                    Restreamer.data.progresses[streamType].currentKbps = 0;
 
                     Restreamer.updateState(streamType, 'stopped');
 
@@ -768,8 +772,8 @@ class Restreamer {
                     Restreamer.setTimeout(streamType, 'retry', null);
                     Restreamer.setTimeout(streamType, 'stale', null);
 
-                    Restreamer.data.progresses[streamType]['currentFps'] = 0;
-                    Restreamer.data.progresses[streamType]['currentKbps'] = 0;
+                    Restreamer.data.progresses[streamType].currentFps = 0;
+                    Restreamer.data.progresses[streamType].currentKbps = 0;
 
                     if(Restreamer.data.userActions[streamType] == 'stop') {
                         Restreamer.updateState(streamType, 'disconnected');
