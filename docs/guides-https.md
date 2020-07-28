@@ -22,7 +22,8 @@ file in the following order: the primary certificate comes first, then the inter
 The key also has to be in PEM format.
 
 Place the certificate and key file as `cert.pem` and `key.pem` in a subdirectory called `ssl` into the directory that you
-mount to `/restreamer/db`, i.e. inside the Docker container Restreamer expects the certificate and key file as `/restreamer/db/ssl/cert.pem`
+mount to `/restreamer/db`. E.g. if you mount `/mnt/restreamer/db` to  `/restreamer/db`, then place the PEM files into `/mnt/restreamer/db/ssl`.
+Inside the Docker container, Restreamer expects the certificate and key file as `/restreamer/db/ssl/cert.pem`
 and `/restreamer/db/ssl/key.pem`.
 
 In order enable HTTPS and make Restreamer use the certificate, set the environment variable `RS_HTTPS` to `true` and
@@ -32,7 +33,7 @@ and can be exposed as well.
 The Docker command line would look like:
 
 ```bash
-docker run ... -p 443:8181 ... -e RS_HTTPS=true ...
+docker run ... -p 443:8181 -e RS_HTTPS=true -v /mnt/restreamer/db:/restreamer/db ...
 ```
 
 Of course, you can map the HTTPS port to any port you prefer.
