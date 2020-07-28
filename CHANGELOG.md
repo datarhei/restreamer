@@ -1,3 +1,8 @@
+## Changes from 0.6.5 to 0.6.6
+
+* Fix hanging ffprobe (#180) (thanks to Scott Robinson @scottgrobinson)
+* Fix node.js dependencies
+
 ## Changes from 0.6.4 to 0.6.5
 
 * Upgrade base Docker image to Debian "buster" 10.4
