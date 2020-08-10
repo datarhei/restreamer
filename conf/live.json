@@ -331,6 +331,14 @@
             "defaultValue": "",
             "required": false,
             "description": "Automatically start pulling from this stream on a fresh Restreamer installation."
+        },
+        {
+            "name": "RS_OUTPUTSTREAM",
+            "alias": [],
+            "type": "string",
+            "defaultValue": "",
+            "required": false,
+            "description": "Automatically start pushing to this stream on a fresh Restreamer installation."
         }
     ]
 }
