@@ -9,7 +9,7 @@ events {
 
 rtmp {
     server {
-        listen ${RS_RTMP_PORT};
+        listen ###RS_RTMP_PORT###;
         chunk_size 4000;
 
         application live {
