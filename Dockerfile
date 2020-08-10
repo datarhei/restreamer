@@ -118,8 +118,7 @@ RUN apt-get update && \
         zlib1g \
         v4l-utils \
         libv4l-0 \
-        alsa-utils \
-        gettext-base
+        alsa-utils
 
 COPY . /restreamer
 WORKDIR /restreamer
