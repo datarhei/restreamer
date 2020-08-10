@@ -3,10 +3,10 @@ MODE=${MODE:="default"}
 RS_MODE=${RS_MODE:=$MODE}
 RS_RTMP_PORT=${RS_RTMP_PORT:=1935}
 
-envsubst '$${RS_RTMP_PORT}' < /restreamer/conf/nginx.conf.template > /restreamer/conf/nginx.conf
-envsubst '$${RS_RTMP_PORT}' < /restreamer/conf/nginx_ssl.conf.template > /restreamer/conf/nginx_ssl.conf
-envsubst '$${RS_RTMP_PORT}' < /restreamer/conf/live.json.template > /restreamer/conf/live.json
-envsubst '$${RS_RTMP_PORT}' < /restreamer/conf/live-rpi.json.template > /restreamer/conf/live-rpi.json
+sed -e 's@###RS_RTMP_PORT###@'"$RS_RTMP_PORT"'@' ./conf/nginx.conf.template > ./conf/nginx.conf
+sed -e 's@###RS_RTMP_PORT###@'"$RS_RTMP_PORT"'@' ./conf/nginx_ssl.conf.template > ./conf/nginx_ssl.conf
+sed -e 's@###RS_RTMP_PORT###@'"$RS_RTMP_PORT"'@' ./conf/live.json.template > ./conf/live.json
+sed -e 's@###RS_RTMP_PORT###@'"$RS_RTMP_PORT"'@' ./conf/live-rpi.json.template > ./conf/live-rpi.json
 
 # debug reporting
 RS_DEBUG=${RS_DEBUG:="false"}
