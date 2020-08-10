@@ -205,14 +205,15 @@ class RestreamerData {
                     defaultStructure.addresses.srcAddress = process.env.RS_INPUTSTREAM;
                     defaultStructure.states.repeatToLocalNginx.type = 'connected';
                     defaultStructure.userActions.repeatToLocalNginx = 'start';
+
+                    // Set stream destination and start streaming on a fresh installation
+                    if(process.env.RS_OUTPUTSTREAM != '') {
+                        defaultStructure.addresses.optionalOutputAddress = process.env.RS_OUTPUTSTREAM;
+                        defaultStructure.states.repeatToOptionalOutput.type = 'connected';
+                        defaultStructure.userActions.repeatToOptionalOutput = 'start';
+                    }
                 }
 
-                // Set stream destination and start streaming on a fresh installation
-                if(process.env.RS_OUTPUTSTREAM != '') {
-                    defaultStructure.addresses.optionalOutputAddress = process.env.RS_OUTPUTSTREAM;
-                    defaultStructure.states.repeatToOptionalOutput.type = 'connected';
-                    defaultStructure.userActions.repeatToOptionalOutput = 'start';
-                }
 
                 logger.debug(`Error reading "v1.db": ${error.toString()}`);
                 if (!fs.existsSync(dbPath)) {
