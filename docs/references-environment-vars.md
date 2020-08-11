@@ -45,6 +45,31 @@ docker run ...
 **Kitematic example:**
 ![Kitematic Environment Variables](../img/references-environment-variables.png)
 
+**Docker Compose example:**
+
+Change environment variables on your `docker-compose.yml` file
+```sh
+version: "3"
+services:
+  restreamer:
+    image: datarhei/restreamer
+    ...
+    environment:
+      - RS_LOGLEVEL=4
+      - RS_SNAPSHOT_INTERVAL=10000
+    ...
+  ...
+...
+```
+From your `docker-compose.yml` directory, execute
+```sh
+docker-compose up
+```
+or
+```sh
+docker-compose -f /path/to/docker-compose.yml up
+```
+
 
 ## RS_USERNAME
 
