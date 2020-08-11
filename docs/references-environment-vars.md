@@ -113,7 +113,7 @@ Whether to enable [HTTPS support](guides-https.html).
 
 ## RS_LOGLEVEL
 
-Restreamer writes some information to the console (stdout). With this environment variable you can crontrol how "chatty" Restreamer is.
+Restreamer writes some information to the console (stdout). With this environment variable you can control how "chatty" Restreamer is.
 The different logging levels are
 
 | Value | Level   | Description |

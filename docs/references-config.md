@@ -150,7 +150,7 @@ More about the [environment variables](references-environment-vars.html).
 }
 ```
 
-Preset for FFmpeg. The selected presets depend on the incoming stream and the environmet variable for the audio setting. By default, it is assumed, that
+Preset for FFmpeg. The selected presets depend on the incoming stream and the environment variable for the audio setting. By default, it is assumed, that
 the stream has no audio (`native_h264_no_audio`). If there is an audio track, `native_h264_native_audio` will be selected. In case the audio track
 is encoded with AAC, then the preset `native_h264_native_aac` gets selected (to fix possible errors in the audio stream). If the audio stream is
 not supported by the FLV container, it will be transcoded to AAC with the preset `native_h264_transcode_aac`. 
@@ -171,7 +171,7 @@ The selection of the incoming video stream preset can be influenced by the `RS_A
 }
 ```
 
-The running FFmpeg process is monitord. If the process stops, it will be automatically restarted after `restart_wait` milliseconds. If the process
+The running FFmpeg process is monitored. If the process stops, it will be automatically restarted after `restart_wait` milliseconds. If the process
 is stale, i.e. no incoming data is processed, FFmpeg will be automatically restart after `stale_wait` milliseconds.
 
 ## NGINX
