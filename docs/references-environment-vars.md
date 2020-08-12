@@ -45,6 +45,31 @@ docker run ...
 **Kitematic example:**
 ![Kitematic Environment Variables](../img/references-environment-variables.png)
 
+**Docker Compose example:**
+
+Change environment variables on your `docker-compose.yml` file
+```sh
+version: "3"
+services:
+  restreamer:
+    image: datarhei/restreamer
+    ...
+    environment:
+      - RS_LOGLEVEL=4
+      - RS_SNAPSHOT_INTERVAL=10000
+    ...
+  ...
+...
+```
+From your `docker-compose.yml` directory, execute
+```sh
+docker-compose up
+```
+or
+```sh
+docker-compose -f /path/to/docker-compose.yml up
+```
+
 
 ## RS_USERNAME
 
@@ -113,7 +138,7 @@ Whether to enable [HTTPS support](guides-https.html).
 
 ## RS_LOGLEVEL
 
-Restreamer writes some information to the console (stdout). With this environment variable you can crontrol how "chatty" Restreamer is.
+Restreamer writes some information to the console (stdout). With this environment variable you can control how "chatty" Restreamer is.
 The different logging levels are
 
 | Value | Level   | Description |
