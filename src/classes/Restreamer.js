@@ -302,6 +302,13 @@ class Restreamer {
             return null;
         }
 
+        Restreamer.data.addresses.srcStreams = {
+            audio: null,
+            video: null
+        };
+
+        Restreamer.writeToDB();
+
         (function doProbe(rtmpUrl) {
             let probeCmd = `ffprobe -of json -v error -show_streams -show_format ${rtmpUrl}`;
 
@@ -491,6 +498,28 @@ class Restreamer {
                         options.audio.push('audio_codec_none');
                     }
                 }
+
+                Restreamer.data.addresses.srcStreams.video = {
+                    index: video.index,
+                    type: "video",
+                    codec: video.codec_name,
+                    width: video.width,
+                    height: video.height,
+                    format: video.pix_fmt
+                };
+
+                if(audio !== null) {
+                    Restreamer.data.addresses.srcStreams.audio = {
+                        index: audio.index,
+                        type: "audio",
+                        codec: audio.codec_name,
+                        layout: audio.channel_layout,
+                        channels: audio.channels,
+                        sampling: audio.sample_rate
+                    };
+                }
+
+                Restreamer.writeToDB();
 
                 return deferred.resolve(options);
             });
@@ -1057,7 +1086,11 @@ Restreamer.data = {
     },
     addresses: {
         srcAddress: '',
-        optionalOutputAddress: ''
+        optionalOutputAddress: '',
+        srcStreams: {
+            audio: null,
+            video: null
+        }
     },
     updateAvailable: false,
     publicIp: '127.0.0.1'
