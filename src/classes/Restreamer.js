@@ -305,15 +305,15 @@ class Restreamer {
         (function doProbe(rtmpUrl) {
             let probeCmd = `ffprobe -of json -v error -show_streams -show_format ${rtmpUrl}`;
 
-            exec(probeCmd, { timeout: parseInt(config.ffmpeg.probe.timeout) }, (err, stdout) => {
+            exec(probeCmd, { timeout: parseInt(config.ffmpeg.probe.timeout) }, (err, stdout, stderr) => {
                 if(err) {
-                    let lines = err.toString().split(/\r\n|\r|\n/);
+                    let lines = stderr.toString().split(/\r\n|\r|\n/);
                     lines = lines.filter(function (line) {
                         return line.length > 0;
                     });
 
                     if(lines.length == 0) {
-                        return deferred.reject("failed to execute ffprobe");
+                        return deferred.reject("failed to execute ffprobe: " + err.message);
                     }
 
                     return deferred.reject(lines[lines.length - 1]);
@@ -322,7 +322,19 @@ class Restreamer {
                 let video = null;
                 let audio = null;
 
-                let data = JSON.parse(stdout);
+                let data = '';
+
+                try {
+                    data = JSON.parse(stdout);
+                }
+                catch(e) {
+                    return deferred.reject("failed to parse probe result: " + e.message);
+                }
+
+                if(!('streams' in data)) {
+                    data.streams = [];
+                }
+
                 for(let s of data.streams) {
                     if(s.codec_type == 'video') {
                         if(video === null) {
