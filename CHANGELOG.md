@@ -1,3 +1,12 @@
+## Changes from 0.6.6 to 0.6.7
+
+* Fix error checking after probing (#200)
+* Fix restarting without SSL option set
+* Upgrade ffmpeg to version 4.3.1
+* Upgrade various node dependencies
+* Add RS_OUTPUTSTREAM (#195) (thanks to @jairbj)
+* Bind to IPv6 addresses (#198, #201) (thanks to @database64128) 
+
 ## Changes from 0.6.5 to 0.6.6
 
 * Fix hanging ffprobe (#180) (thanks to Scott Robinson @scottgrobinson)
