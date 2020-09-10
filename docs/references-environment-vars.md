@@ -20,6 +20,7 @@ These environment variables enable you to control the default behaviour of Restr
 | `RS_NODEJS_ENV` | `prod` | Node.js environment. [Details](#rs_nodejs_env) |
 | `RS_MODE` | (not set) | Enable different input devices. [Details](#rs_mode) |
 | `RS_INPUTSTREAM` | (not set) | Set default value for source stream. [Details](#rs_inputstream) |
+| `RS_OUTPUTSTREAM` | (not set) | Set default value for external streaming server. [Details](#rs_outputstream) |
 
 You can define new values for these environment variables in different ways, depending on how you run Restreamer.
 
@@ -215,3 +216,9 @@ Check out our [Raspberry Pi camera guide](guides-raspicam.html) or [USB camera g
 On a fresh Restreamer installation you can use this environment variable to set an URL for the RTSP, RTMP, or HLS source. This will also
 automatically start the streaming from this source. On a later restart, this environment variable will be ignored.
 
+
+## RS_INPUTSTREAM
+
+On a fresh Restreamer installation you can use this environment variable to set an URL for the external streaming server. This will also
+automatically start the streaming to this server. This environment variable will be ignored if `RS_INPUTSTREAM` is not set. On a later
+restart, this environment variable will be ignored.
