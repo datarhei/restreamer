@@ -217,7 +217,7 @@ On a fresh Restreamer installation you can use this environment variable to set 
 automatically start the streaming from this source. On a later restart, this environment variable will be ignored.
 
 
-## RS_INPUTSTREAM
+## RS_OUTPUTSTREAM
 
 On a fresh Restreamer installation you can use this environment variable to set an URL for the external streaming server. This will also
 automatically start the streaming to this server. This environment variable will be ignored if `RS_INPUTSTREAM` is not set. On a later
