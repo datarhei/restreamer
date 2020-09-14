@@ -15,7 +15,7 @@ const FfmpegCommand = require('fluent-ffmpeg');
 const Q = require('q');
 const JsonDB = require('node-json-db');
 const publicIp = require('public-ip');
-const exec = require('child_process').exec;
+const execFile = require('child_process').execFile;
 const packageJson = require(path.join(global.__base, 'package.json'));
 const https = require('https');
 
@@ -293,7 +293,7 @@ class Restreamer {
      * @param {string} rtmpUrl
      * @return {Promise}
      */
-    static probeStream(rtmpUrl, streamType) {
+    static probeStream(streamUrl, streamType) {
         let deferred = Q.defer();
 
         let state = Restreamer.getState(streamType);
@@ -302,17 +302,32 @@ class Restreamer {
             return null;
         }
 
-        Restreamer.data.addresses.srcStreams = {
-            audio: null,
-            video: null
-        };
+        if(streamType == 'repeatToLocalNginx') {
+            Restreamer.data.addresses.srcStreams = {
+                audio: null,
+                video: null
+            };
 
-        Restreamer.writeToDB();
+            Restreamer.writeToDB();
+        }
 
-        (function doProbe(rtmpUrl) {
-            let probeCmd = `ffprobe -of json -v error -show_streams -show_format ${rtmpUrl}`;
+        (function doProbe(streamUrl) {
+            const probeArgs = [
+                '-of',
+                'json',
+                '-v',
+                'error',
+                '-show_streams',
+                '-show_format'
+            ];
 
-            exec(probeCmd, { timeout: parseInt(config.ffmpeg.probe.timeout) }, (err, stdout, stderr) => {
+            if(streamUrl.indexOf('rtsp') == 0 && Restreamer.data.options.rtspTcp == true) {
+                probeArgs.push('-rtsp_transport', 'tcp');
+            }
+
+            probeArgs.push(streamUrl);
+
+            execFile('ffprobe', probeArgs, { timeout: parseInt(config.ffmpeg.probe.timeout) }, (err, stdout, stderr) => {
                 if(err) {
                     let lines = stderr.toString().split(/\r\n|\r|\n/);
                     lines = lines.filter(function (line) {
@@ -499,31 +514,33 @@ class Restreamer {
                     }
                 }
 
-                Restreamer.data.addresses.srcStreams.video = {
-                    index: video.index,
-                    type: "video",
-                    codec: video.codec_name,
-                    width: video.width,
-                    height: video.height,
-                    format: video.pix_fmt
-                };
-
-                if(audio !== null) {
-                    Restreamer.data.addresses.srcStreams.audio = {
-                        index: audio.index,
-                        type: "audio",
-                        codec: audio.codec_name,
-                        layout: audio.channel_layout,
-                        channels: audio.channels,
-                        sampling: audio.sample_rate
+                if(streamType == 'repeatToLocalNginx') {
+                    Restreamer.data.addresses.srcStreams.video = {
+                        index: video.index,
+                        type: "video",
+                        codec: video.codec_name,
+                        width: video.width,
+                        height: video.height,
+                        format: video.pix_fmt
                     };
-                }
 
-                Restreamer.writeToDB();
+                    if(audio !== null) {
+                        Restreamer.data.addresses.srcStreams.audio = {
+                            index: audio.index,
+                            type: "audio",
+                            codec: audio.codec_name,
+                            layout: audio.channel_layout,
+                            channels: audio.channels,
+                            sampling: audio.sample_rate
+                        };
+                    }
+
+                    Restreamer.writeToDB();
+                }
 
                 return deferred.resolve(options);
             });
-        })(rtmpUrl);
+        })(streamUrl);
 
         return deferred.promise;
     }

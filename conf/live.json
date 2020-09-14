@@ -125,7 +125,8 @@
                 "inputOptions": [
                     "-stats",
                     "-loglevel quiet",
-                    "-err_detect ignore_err"
+                    "-err_detect ignore_err",
+                    "-fflags +genpts"
                 ]
             },
             "video": {
@@ -203,7 +204,7 @@
             "/restreamer/conf/nginx_ssl.conf"
         ],
         "streaming": {
-            "ip": "127.0.0.1",
+            "ip": "localhost",
             "rtmp_port": "1935",
             "rtmp_hls_path": "/hls/",
             "http_port": "8080",
