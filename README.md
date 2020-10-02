@@ -45,4 +45,4 @@ Special thanks for supporting this project [Andrew Shulgin](https://github.com/a
 
 Code released under the [Apache license](LICENSE). Images are copyrighted by datarhei.org
 
-#### Happy streaming
+#### Happy streaming :smile:
