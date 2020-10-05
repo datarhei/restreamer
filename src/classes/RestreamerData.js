@@ -205,6 +205,13 @@ class RestreamerData {
                     defaultStructure.addresses.srcAddress = process.env.RS_INPUTSTREAM;
                     defaultStructure.states.repeatToLocalNginx.type = 'connected';
                     defaultStructure.userActions.repeatToLocalNginx = 'start';
+
+                    // Set stream destination and start streaming on a fresh installation
+                    if(process.env.RS_OUTPUTSTREAM != '') {
+                        defaultStructure.addresses.optionalOutputAddress = process.env.RS_OUTPUTSTREAM;
+                        defaultStructure.states.repeatToOptionalOutput_0.type = 'connected';
+                        defaultStructure.userActions.repeatToOptionalOutput_0 = 'start';
+                    }
                 }
 
                 // Adjust the structure for multiple outputs

@@ -125,11 +125,12 @@
                 "inputOptions": [
                     "-stats",
                     "-loglevel quiet",
-                    "-err_detect ignore_err"
+                    "-err_detect ignore_err",
+                    "-fflags +genpts"
                 ]
             },
             "video": {
-                 "outputOptions": [
+                "outputOptions": [
                     "-map_metadata -1",
                     "-metadata application=datarhei/Restreamer"
                 ]
@@ -184,7 +185,7 @@
                 ]
             }
         },
-        "probe":{
+        "probe": {
             "timeout": "30000"
         },
         "monitor": {
@@ -203,7 +204,7 @@
             "/restreamer/conf/nginx_ssl.conf"
         ],
         "streaming": {
-            "ip": "127.0.0.1",
+            "ip": "localhost",
             "rtmp_port": "1935",
             "rtmp_hls_path": "/hls/",
             "http_port": "8080",
@@ -331,6 +332,13 @@
             "defaultValue": "",
             "required": false,
             "description": "Automatically start pulling from this stream on a fresh Restreamer installation."
+        }, {
+            "name": "RS_OUTPUTSTREAM",
+            "alias": [],
+            "type": "string",
+            "defaultValue": "",
+            "required": false,
+            "description": "Automatically start pushing to this stream on a fresh Restreamer installation."
         },
         {
             "name": "RS_EXTRA_OUTPUTS",
