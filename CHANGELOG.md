@@ -1,3 +1,21 @@
+## Changes from 0.6.7 to 0.6.8
+
+* Fix probing RTSP sources
+
+## Changes from 0.6.6 to 0.6.7
+
+* Fix error checking after probing (#200)
+* Fix restarting without SSL option set
+* Upgrade ffmpeg to version 4.3.1
+* Upgrade various node dependencies
+* Add RS_OUTPUTSTREAM (#195) (thanks to @jairbj)
+* Bind to IPv6 addresses (#198, #201) (thanks to @database64128) 
+
+## Changes from 0.6.5 to 0.6.6
+
+* Fix hanging ffprobe (#180) (thanks to Scott Robinson @scottgrobinson)
+* Fix node.js dependencies
+
 ## Changes from 0.6.4 to 0.6.5
 
 * Upgrade base Docker image to Debian "buster" 10.4

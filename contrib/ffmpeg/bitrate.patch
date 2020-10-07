@@ -1,8 +1,8 @@
 diff --git a/fftools/ffmpeg.c b/fftools/ffmpeg.c
-index f502961..d2b4bf9 100644
+index 2e9448e..bbae300 100644
 --- a/fftools/ffmpeg.c
 +++ b/fftools/ffmpeg.c
-@@ -1651,8 +1651,7 @@ static void print_report(int is_last_report, int64_t timer_start, int64_t cur_ti
+@@ -1635,8 +1635,7 @@ static void print_report(int is_last_report, int64_t timer_start, int64_t cur_ti
  {
      AVBPrint buf, buf_script;
      OutputStream *ost;
@@ -12,10 +12,10 @@ index f502961..d2b4bf9 100644
      AVCodecContext *enc;
      int frame_number, vid, i;
      double bitrate;
-@@ -1680,13 +1679,6 @@ static void print_report(int is_last_report, int64_t timer_start, int64_t cur_ti
- 
+@@ -1664,13 +1663,6 @@ static void print_report(int is_last_report, int64_t timer_start, int64_t cur_ti
+
      t = (cur_time-timer_start) / 1000000.0;
- 
+
 -
 -    oc = output_files[0]->ctx;
 -
@@ -26,7 +26,7 @@ index f502961..d2b4bf9 100644
      vid = 0;
      av_bprint_init(&buf, 0, AV_BPRINT_SIZE_AUTOMATIC);
      av_bprint_init(&buf_script, 0, AV_BPRINT_SIZE_AUTOMATIC);
-@@ -1761,6 +1753,9 @@ static void print_report(int is_last_report, int64_t timer_start, int64_t cur_ti
+@@ -1745,6 +1737,9 @@ static void print_report(int is_last_report, int64_t timer_start, int64_t cur_ti
                                            ost->st->time_base, AV_TIME_BASE_Q));
          if (is_last_report)
              nb_frames_drop += ost->last_dropped;
@@ -34,5 +34,5 @@ index f502961..d2b4bf9 100644
 +        total_size += ost->data_size;
 +        total_size += ost->enc_ctx->extradata_size;
      }
- 
+
      secs = FFABS(pts) / AV_TIME_BASE;

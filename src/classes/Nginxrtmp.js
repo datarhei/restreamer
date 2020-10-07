@@ -86,7 +86,7 @@ class Nginxrtmp {
                 let self = this;
                 setTimeout(() => {
                     self.logger.info('Trying to restart ...');
-                    self.start();
+                    self.start(useSSL);
                 }, timeout);
             }
         });
