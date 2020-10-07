@@ -348,9 +348,15 @@ class Restreamer {
             if(streamUrl.indexOf('rtsp') == 0 && Restreamer.data.options.rtspTcp == true) {
                 probeArgs.push('-rtsp_transport', 'tcp');
             }
+<<<<<<< HEAD
 
             probeArgs.push(streamUrl);
 
+=======
+
+            probeArgs.push(streamUrl);
+
+>>>>>>> upstream/master
             execFile('ffprobe', probeArgs, { timeout: parseInt(config.ffmpeg.probe.timeout) }, (err, stdout, stderr) => {
                 if(err) {
                     let lines = stderr.toString().split(/\r\n|\r|\n/);

@@ -234,6 +234,7 @@ class RestreamerData {
                     }
                 }
 
+
                 logger.debug(`Error reading "v1.db": ${error.toString()}`);
                 if (!fs.existsSync(dbPath)) {
                     fs.mkdirSync(dbPath);
