@@ -70,6 +70,16 @@ Restreamer is supporting video streaming with audio
 ### Icecast  
 To be honest we do not know yet. If you have tested this with Icecast please tell us your results :) 
 
+### Auto resume 
+If you have set up a stream the way you like, for example, from OBS to restreamer, then to youtube, what happens when you stop the stream in OBS? 
+
+The streams in Restreamer that are currently connected will try to reconnect on loss of connection. Restreamer stores the wanted state ("connected" or "disconnected") on disk such that it can reconstruct them after a reboot.
+
+In the example, you are pulling the stream from the local RTMP. This is the stream you send to Restreamer from OBS. If you stop OBS, Restreamer gets disconnected from the RTMP and will try to reconnect every few seconds. As soon as you start OBS again, it will be able to connect to the local RTMP.
+
+The same happens for the stream that you send to Youtube. This one also pulls the stream from the local RTMP and forwards it to Youtube. This will also try to reconnect if the incoming stream stops.
+
+You do not have to have the browser open for this process.
 
 ## Support the project
 
