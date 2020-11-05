@@ -155,7 +155,7 @@ the stream has no audio (`native_h264_no_audio`). If there is an audio track, `n
 is encoded with AAC, then the preset `native_h264_native_aac` gets selected (to fix possible errors in the audio stream). If the audio stream is
 not supported by the FLV container, it will be transcoded to AAC with the preset `native_h264_transcode_aac`. 
 
-The selection of the incoming video stream preset can be influenced by the `RS_AUDIO` [enviroment variable](docs/references-environment-vars.html).
+The selection of the incoming video stream preset can be influenced by the `RS_AUDIO` [enviroment variable](references-environment-vars.html).
 {: .notice--info}
         
 ## FFmpeg monitor
