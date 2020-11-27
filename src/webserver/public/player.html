@@ -1,107 +1,445 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Restreamer">
-    <meta name="author" content="datarhei">
-    <title>Restreamer</title>
-    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico">
-    <script src="./config.js"></script>
-    <script src="./libs/scripts/clappr-0.3.12.min.js"></script>
-    <script src="./libs/scripts/clappr-stats-0.1.4.min.js"></script>
-    <script src="./libs/scripts/clappr-nerd-stats-0.1.0.min.js"></script>
-    <style>
-        .player-poster[data-poster] .poster-background[data-poster] {
-            height: initial !important;
-        }
-    </style>
+<body style="background-color: #000000">
+<title>badincite.com</title>
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/video.js@latest/dist/video-js.min.css'>
+
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/DJ-PD/test/videojs-http-source-selector.css'>
 </head>
-<body>
-<div id="player" style="position:absolute;top:0;right:0;bottom:0;left:0"></div>
-<script>
-    function getQueryParam(key, defaultValue) {
-        var query = window.location.search.substring(1);
-        var vars = query.split("&");
-        for(var i = 0; i < vars.length; i++) {
-            var pair = vars[i].split("=");
-            if(pair[0] == key) {
-                return pair[1];
-            }
-        }
-        return defaultValue;
-    }
+<div style="width: 100%; align-content: center; text-align: center; align-self: center; ">
+<center><video id="streamplayer" class="video-js vjs-default-skin" width="720px" poster="logob.png">
+<source src="/hls/live.stream.m3u8" type="application/x-mpegurl"><source>
+</video></center>
+<br></br>
 
-    function convertBoolParam(key, defaultValue) {
-        var val = getQueryParam(key, defaultValue);
-        return val === true || val === "true" || val === "1" || val === "yes" || val === "on";
-    }
+</div>
 
-    function convertColorParam(parameter, defaultColor) {
-        var re = new RegExp("^#([0-9a-f]{3}|[0-9a-f]{6})$");
-        var c = getQueryParam(parameter, defaultColor);
-        // decode color as # has to be represented by %23
-        var c = decodeURIComponent(c);
-        // if color was given without leading #, prepend it
-        if (!String(c).startsWith("#")) c = "#" + c;
+<style>
 
-        if (re.test(c)) {
-            return c;
-        } else {
-            return defaultColor;
-        }
-    }
 
-    var autoplay = convertBoolParam("autoplay", playerConfig.autoplay);
-    var mute = convertBoolParam("mute", playerConfig.mute);
-    var stats = convertBoolParam("stats", playerConfig.stats);
-    var color = convertColorParam("color", playerConfig.color);
 
-    var plugins = [];
+.vjs-chromecast-button .vjs-icon-placeholder {
+    background: url("cast.svg") center center no-repeat;
+    background-size: contain;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+}
 
-    if(stats == true) {
-        plugins.push(ClapprNerdStats);
-        plugins.push(ClapprStats);
-    }
+.vjs-chromecast-button:hover {
+    cursor: pointer
+}
 
-    var config = {
-        source: 'hls/live.stream.m3u8',
-        parentId: '#player',
-        baseUrl: 'libs/scripts/',
-        plugins: plugins,
-        poster: 'images/live.jpg?t=' + String(new Date().getTime()),
-        mediacontrol: {'seekbar': color, 'buttons': color},
-        height: '100%',
-        width: '100%',
-        disableCanAutoPlay: true,
-        autoPlay: autoplay,
-        mute: mute,
-        clapprStats: {
-            runEach: 1000,
-            onReport: (metrics) => {},
-        },
-        clapprNerdStats: {
-            shortcut: ['command+shift+s', 'ctrl+shift+s'],
-            iconPosition: 'top-right'
-        }
+
+
+
+}
+.vjs-chromecast-casting-state {
+    background-image: url("casting.svg") center center no-repeat;
+    background-size: contain;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+}
+
+
+
+.vjs-chromecast-button:hover {
+    background-image: url("casting.svg")center center no-repeat;
+    background-size: contain;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+
+}
+.vjs-tech-chromecast {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    overflow: hidden
+}
+
+.vjs-tech-chromecast .vjs-tech-chromecast-poster::after {
+    content: " ";
+    display: block;
+    height: 2px;
+    width: 100px;
+    background-color: #ccc;
+    position: absolute;
+    left: calc(50% - 50px)
+}
+
+.vjs-tech-chromecast .vjs-tech-chromecast-poster-img {
+    max-height: 180px;
+    width: auto;
+    border: 2px solid #ccc
+}
+
+.vjs-tech-chromecast .vjs-tech-chromecast-poster-img.vjs-tech-chromecast-poster-img-empty {
+    width: 160px;
+    height: 90px
+}
+
+.vjs-tech-chromecast .vjs-tech-chromecast-title-container {
+    position: absolute;
+    bottom: 50%;
+    margin-bottom: 100px;
+    color: #ccc;
+    text-align: center
+}
+
+.vjs-tech-chromecast .vjs-tech-chromecast-title {
+    font-size: 22px
+}
+
+.vjs-tech-chromecast .vjs-tech-chromecast-title.vjs-tech-chromecast-title-empty {
+    display: none
+}
+
+.vjs-tech-chromecast .vjs-tech-chromecast-subtitle {
+    font-size: 18px;
+    padding-top: 0.5em
+}
+
+.vjs-tech-chromecast .vjs-tech-chromecast-subtitle.vjs-tech-chromecast-subtitle-empty {
+    display: none
+}
+
+.video-js .vjs-menu-button-inline.vjs-slider-active,.video-js .vjs-menu-button-inline:focus,.video-js .vjs-menu-button-inline:hover,.video-js.vjs-no-flex .vjs-menu-button-inline {
+    width: 10em
+}
+
+.video-js .vjs-controls-disabled .vjs-big-play-button {
+    display: none!important
+}
+
+.video-js .vjs-control {
+    width: 3em
+}
+
+.video-js .vjs-menu-button-inline:before {
+    width: 1.5em
+}
+
+.vjs-menu-button-inline .vjs-menu {
+    left: 3em
+}
+
+.vjs-paused.vjs-has-started.video-js .vjs-big-play-button,.video-js.vjs-ended .vjs-big-play-button,.video-js.vjs-paused .vjs-big-play-button {
+    display: block
+}
+
+.video-js .vjs-load-progress div,.vjs-seeking .vjs-big-play-button,.vjs-waiting .vjs-big-play-button {
+    display: none!important
+}
+
+.video-js .vjs-mouse-display:after,.video-js .vjs-play-progress:after {
+    padding: 0 .4em .3em
+}
+
+.video-js.vjs-ended .vjs-loading-spinner {
+    display: none;
+}
+
+.video-js.vjs-ended .vjs-big-play-button {
+    display: block !important;
+}
+
+.video-js *,.video-js:after,.video-js:before {
+    box-sizing: inherit;
+    font-size: inherit;
+    color: inherit;
+    line-height: inherit
+}
+
+.video-js.vjs-fullscreen,.video-js.vjs-fullscreen .vjs-tech {
+    width: 100%!important;
+    height: 100%!important
+}
+
+.video-js {
+    font-size: 14px;
+    overflow: hidden
+}
+
+.video-js .vjs-control {
+    color: inherit
+}
+
+.video-js .vjs-menu-button-inline:hover,.video-js.vjs-no-flex .vjs-menu-button-inline {
+    width: 8.35em
+}
+
+.video-js .vjs-volume-menu-button.vjs-volume-menu-button-horizontal:hover .vjs-menu .vjs-menu-content {
+    height: 3em;
+    width: 6.35em
+}
+
+.video-js .vjs-control:focus:before,.video-js .vjs-control:hover:before {
+    text-shadow: 0 0 1em #fff,0 0 1em #fff,0 0 1em #fff
+}
+
+.video-js .vjs-spacer,.video-js .vjs-time-control {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-flex: 1 1 auto;
+    -moz-box-flex: 1 1 auto;
+    -webkit-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto
+}
+
+.video-js .vjs-time-control {
+    -webkit-box-flex: 0 1 auto;
+    -moz-box-flex: 0 1 auto;
+    -webkit-flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    width: auto
+}
+
+.video-js .vjs-time-control.vjs-time-divider {
+    width: 14px
+}
+
+.video-js .vjs-time-control.vjs-time-divider div {
+    width: 100%;
+    text-align: center
+}
+
+.video-js .vjs-time-control.vjs-current-time {
+    margin-left: 1em
+}
+
+.video-js .vjs-time-control .vjs-current-time-display,.video-js .vjs-time-control .vjs-duration-display {
+    width: 100%
+}
+
+.video-js .vjs-time-control .vjs-current-time-display {
+    text-align: right
+}
+
+.video-js .vjs-time-control .vjs-duration-display {
+    text-align: left
+}
+
+.video-js .vjs-play-progress:before,.video-js .vjs-progress-control .vjs-play-progress:before,.video-js .vjs-remaining-time,.video-js .vjs-volume-level:after,.video-js .vjs-volume-level:before,.video-js.vjs-live .vjs-time-control.vjs-current-time,.video-js.vjs-live .vjs-time-control.vjs-duration,.video-js.vjs-live .vjs-time-control.vjs-time-divider,.video-js.vjs-no-flex .vjs-time-control.vjs-remaining-time {
+    display: none
+}
+
+.video-js.vjs-no-flex .vjs-time-control {
+    display: table-cell;
+    width: 4em
+}
+
+.video-js .vjs-progress-control {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: .5em;
+    top: -.5em
+}
+
+.video-js .vjs-progress-control .vjs-load-progress,.video-js .vjs-progress-control .vjs-play-progress,.video-js .vjs-progress-control .vjs-progress-holder {
+    height: 100%
+}
+
+.video-js .vjs-progress-control .vjs-progress-holder {
+    margin: 0
+}
+
+.video-js .vjs-progress-control:hover {
+    height: 1.5em;
+    top: -1.5em
+}
+
+.video-js .vjs-control-bar {
+    -webkit-transition: -webkit-transform .1s ease 0s;
+    -moz-transition: -moz-transform .1s ease 0s;
+    -ms-transition: -ms-transform .1s ease 0s;
+    -o-transition: -o-transform .1s ease 0s;
+    transition: transform .1s ease 0s
+}
+
+.video-js.not-hover.vjs-has-started.vjs-paused.vjs-user-active .vjs-control-bar,.video-js.not-hover.vjs-has-started.vjs-paused.vjs-user-inactive .vjs-control-bar,.video-js.not-hover.vjs-has-started.vjs-playing.vjs-user-active .vjs-control-bar,.video-js.not-hover.vjs-has-started.vjs-playing.vjs-user-inactive .vjs-control-bar,.video-js.vjs-has-started.vjs-playing.vjs-user-inactive .vjs-control-bar {
+    visibility: visible;
+    opacity: 1;
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translateY(3em);
+    -moz-transform: translateY(3em);
+    -ms-transform: translateY(3em);
+    -o-transform: translateY(3em);
+    transform: translateY(3em);
+    -webkit-transition: -webkit-transform 1s ease 0s;
+    -moz-transition: -moz-transform 1s ease 0s;
+    -ms-transition: -ms-transform 1s ease 0s;
+    -o-transition: -o-transform 1s ease 0s;
+    transition: transform 1s ease 0s
+}
+
+.video-js.not-hover.vjs-has-started.vjs-paused.vjs-user-active .vjs-progress-control,.video-js.not-hover.vjs-has-started.vjs-paused.vjs-user-inactive .vjs-progress-control,.video-js.not-hover.vjs-has-started.vjs-playing.vjs-user-active .vjs-progress-control,.video-js.not-hover.vjs-has-started.vjs-playing.vjs-user-inactive .vjs-progress-control,.video-js.vjs-has-started.vjs-playing.vjs-user-inactive .vjs-progress-control {
+    height: .25em;
+    top: -.25em;
+    pointer-events: none;
+    -webkit-transition: height 1s,top 1s;
+    -moz-transition: height 1s,top 1s;
+    -ms-transition: height 1s,top 1s;
+    -o-transition: height 1s,top 1s;
+    transition: height 1s,top 1s
+}
+
+.video-js.not-hover.vjs-has-started.vjs-paused.vjs-user-active.vjs-fullscreen .vjs-progress-control,.video-js.not-hover.vjs-has-started.vjs-paused.vjs-user-inactive.vjs-fullscreen .vjs-progress-control,.video-js.not-hover.vjs-has-started.vjs-playing.vjs-user-active.vjs-fullscreen .vjs-progress-control,.video-js.not-hover.vjs-has-started.vjs-playing.vjs-user-inactive.vjs-fullscreen .vjs-progress-control,.video-js.vjs-has-started.vjs-playing.vjs-user-inactive.vjs-fullscreen .vjs-progress-control {
+    opacity: 0;
+    -webkit-transition: opacity 1s ease 1s;
+    -moz-transition: opacity 1s ease 1s;
+    -ms-transition: opacity 1s ease 1s;
+    -o-transition: opacity 1s ease 1s;
+    transition: opacity 1s ease 1s
+}
+
+.video-js.vjs-live .vjs-live-control {
+    margin-left: 1em
+}
+
+.video-js .vjs-big-play-button {
+    top: 50%;
+    left: 50%;
+    margin-left: -1em;
+    margin-top: -1em;
+    width: 2em;
+    height: 2em;
+    line-height: 2em;
+    border: none;
+    border-radius: 50%;
+    font-size: 3.5em;
+    background-color: rgba(0,0,0,.45);
+    color: #fff;
+    -webkit-transition: border-color .4s,outline .4s,background-color .4s;
+    -moz-transition: border-color .4s,outline .4s,background-color .4s;
+    -ms-transition: border-color .4s,outline .4s,background-color .4s;
+    -o-transition: border-color .4s,outline .4s,background-color .4s;
+    transition: border-color .4s,outline .4s,background-color .4s
+}
+
+.video-js .vjs-menu-button-popup .vjs-menu {
+    left: -3em
+}
+
+.video-js .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
+    background-color: transparent;
+    width: 12em;
+    left: -1.5em;
+    padding-bottom: .5em
+}
+
+.video-js .vjs-menu-button-popup .vjs-menu .vjs-menu-item,.video-js .vjs-menu-button-popup .vjs-menu .vjs-menu-title {
+    background-color: #151b17;
+    margin: .3em 0;
+    padding: .5em;
+    border-radius: .3em
+}
+
+.video-js .vjs-menu-button-popup .vjs-menu .vjs-menu-item.vjs-selected {
+    background-color: #2483d5
+}
+
+.video-js .vjs-big-play-button {
+    background-color: rgba(0,0,0,0.5);
+    font-size: 2.5em;
+    border-radius: 20%;
+    height: 1.4em !important;
+    line-height: 1.4em !important;
+    margin-top: -0.7em !important
+}
+
+.video-js:hover .vjs-big-play-button,.video-js .vjs-big-play-button:focus,.video-js .vjs-big-play-button:active {
+    background-color: #cc181e
+}
+
+.video-js .vjs-loading-spinner {
+    border-color: #cc181e
+}
+
+.video-js .vjs-control-bar2 {
+    background-color: #000000
+}
+
+.video-js .vjs-control-bar {
+    background-color: rgba(0,0,0,0.3) !important;
+    color: #ffffff;
+    font-size: 12px
+}
+
+.video-js .vjs-play-progress,.video-js  .vjs-volume-level {
+    background-color: #cc181e
+}
+
+.video-js .vjs-load-progress {
+    background: rgba(255,255,255,0.3);
+}
+
+</style>
+
+<script src='https://cdn.jsdelivr.net/npm/video.js@latest/dist/video.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/@silvermine/videojs-chromecast@latest/dist/silvermine-videojs-chromecast.min.js'></script>
+<script src='https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1'></script>
+<script src='https://cdn.jsdelivr.net/gh/DJ-PD/test/videojs-http-source-selector.js'></script>
+<script src='https://cdn.plyr.io/3.5.6/plyr.js'></script>
+<script id="rendered-js">
+
+var options;
+
+                            options = {
+                                 autoplay: true,
+
+                            plugins: {
+                                httpSourceSelector:
+                                {
+                                default: 'auto'
+                                }
+                            },
+                          
+                            controls: true,
+                           
+                            preload: 'none',
+                            techOrder: [ 'chromecast', 'html5', 'youtube' ],
+                            html5: {
+                                hls: {
+                                overrideNative: !videojs.browser.IS_SAFARI,
+                                },
+                            }
+                            };
+
+(function(window, videojs) {
+    var player = window.player = videojs('streamplayer', options);
+    player.httpSourceSelector();
+    player.chromecast();
+    }(window, window.videojs));
+    
+    function loadStream(){
+    console.log("Change stream to : "+document.getElementById("streamURL").value );
+    player.src({ type: "application/x-mpegURL", src: document.getElementById("streamURL").value });
+    player.controls(true);
     };
-
-    if(playerConfig.logo.image.length != 0) {
-        config.watermark = playerConfig.logo.image;
-        config.position = playerConfig.logo.position;
-
-        if(playerConfig.logo.link.length != 0) {
-            config.watermarkLink = playerConfig.logo.link;
-        }
-    }
-
-    var player = new window.Clappr.Player(config);
-    var posterPlugin = player.core.mediaControl.container.getPlugin('poster');
-    player.on(window.Clappr.Events.PLAYER_STOP, function updatePoster () {
-        posterPlugin.options.poster = 'images/live.jpg?t=' + String(new Date().getTime());
-        posterPlugin.render();
-    });
-</script>
+    </script>
 </body>
 </html>
