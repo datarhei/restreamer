@@ -1,0 +1,12 @@
+<svg width="22" height="18" xmlns="http://www.w3.org/2000/svg">
+
+ <title>cast</title>
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <path fill="#cc181e" id="svg_1" d="m0,15l0,3l3,0a3,3 0 0 0 -3,-3zm0,-4l0,2a5,5 0 0 1 5,5l2,0a7,7 0 0 0 -7,-7zm0,-4l0,2a9,9 0 0 1 9,9l2,0a11,11 0 0 0 -11,-11zm20,-7l-18,0a2,2 0 0 0 -2,2l0,3l2,0l0,-3l18,0l0,14l-7,0l0,2l7,0a2,2 0 0 0 2,-2l0,-14a2,2 0 0 0 -2,-2z" class="cls-1"/>
+ </g>
+</svg>
