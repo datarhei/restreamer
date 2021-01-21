@@ -31,7 +31,7 @@
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
     "semver": "5.4.1",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.4.0"
   },
   "devDependencies": {
     "babel-core": "6.26.0",
