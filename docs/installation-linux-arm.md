@@ -105,4 +105,7 @@ the state in a different directory on your device, change it to e.g. `-v /tmp/re
 #### `datarhei/restreamer-armv7l:latest`
 
 This is the docker image of the lastest Restreamer on the Docker Hub. Docker will check if the image is locally available
-and download it if it is not available or a newer image is available.
+and download it if it is not available or a newer image is available. Depending on the installed operating system, you need
+to use the right docker image. If you use an operating system in `arm32v7` mode like Raspian, then use the `datarhei/restreamer-armv7l:latest` image.
+If you use an operating system in `arm32v6` mode, then use the `datarhei/restreamer-armv6l:latest` image. If you use an operating system in
+`arm64v8` or `aarch64` mode, then use the `datarhei/restreamer-aarch64:latest` image.
