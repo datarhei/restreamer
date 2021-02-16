@@ -109,3 +109,14 @@ You can also change the width and height of the image by adjusting the `width` a
 
 The snapshot will be updated every 60 seconds by default. You can change this value by adjusting the `RS_SNAPSHOT_INTERVAL` [environment variable](references-environment-vars.html).
 {: .notice--info}
+
+## External player
+
+If you wish to play the stream with a different player than the provided one (VLC, JW, video.js, ...), you have to provide this URL
+as source for the player:
+
+```
+http://123.245.789.123:8080/hls/live.stream.m3u8
+```
+
+You have to adjust the address and port to your actual settings.
