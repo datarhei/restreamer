@@ -18,9 +18,9 @@ Verified with:
 
 Instructions:
 
-1. Install the latest [Raspian Buster](https://www.raspberrypi.org/downloads/raspbian/) image on the SD card
+1. Install the latest [Raspberry Pi OS](https://www.raspberrypi.org/software/operating-systems/) image on the SD card
 
-2. Login to the Pi and install Docker CE according to the [Debian install instructions](https://docs.docker.com/install/linux/docker-ce/debian/#install-from-a-package)
+2. Login to the Pi and install Docker CE according to the [Debian install instructions for armhf](https://docs.docker.com/engine/install/debian/)
 
 ## Odroid U3
 
