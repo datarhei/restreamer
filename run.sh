@@ -161,7 +161,7 @@ if [ "${RS_MODE}" = "RASPICAM" ] && [ "$CPU_TYPE" = "arm" ]; then
         --imxfx "$RASPICAM_IMXFX" \
         --metering "$RASPICAM_METERING" \
         --drc "$RASPICAM_DRC" \
-        -o - | ffmpeg -i - ${RASPICAM_AUDIO} -map 0:v -map 1:a -codec:v copy -codec:a aac -b:a "${RASPICAM_AUDIOBITRATE}k" -shortest -f flv "${RTMP_URL}" > /dev/null 2>&1
+        -o - | ffmpeg -framerate "$RASPICAM_FPS" -i - ${RASPICAM_AUDIO} -map 0:v -map 1:a -codec:v copy -codec:a aac -b:a "${RASPICAM_AUDIOBITRATE}k" -shortest -f flv "${RTMP_URL}" > /dev/null 2>&1
 elif [ "${RS_MODE}" = "USBCAM" ]; then
     npm start &
     NGINX_RUNNING=0
