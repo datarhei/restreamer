@@ -984,7 +984,7 @@ class Restreamer {
      * check for updates
      */
     static checkForUpdates() {
-        const url = {'host': 'datarhei.org', 'path': '/apps.json'};
+        const url = {'host': 'datarhei.com', 'path': '/apps.json'};
         logger.debug('Checking for updates...', 'checkForUpdates');
         https.get(url, (response) => {
             if (response.statusCode === 200) {
