@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "babel-core": "6.26.0",
-    "babel-loader": "7.1.2",
+    "babel-loader": "8.2.2",
     "babel-preset-env": "^1.7.0",
     "coffeescript": "^2.3.2",
     "eslint": "4.18.2",
@@ -48,6 +48,6 @@
     "grunt-ng-annotate": "4.0.0",
     "grunt-shell": "2.1.0",
     "load-grunt-tasks": "3.5.2",
-    "webpack": "^4.41.4"
+    "webpack": "^5.52.1"
   }
 }
