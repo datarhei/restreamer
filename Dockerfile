@@ -9,7 +9,7 @@ ARG LAME_VERSION=3.100
 ARG FFMPEG_VERSION=4.3.1
 ARG NGINX_VERSION=1.18.0
 ARG NGINXRTMP_VERSION=1.2.1
-ARG NODE_VERSION=12.16.3
+ARG NODE_VERSION=16.9.1
 
 ENV SRC="/usr/local/" \
     LD_LIBRARY_PATH="/usr/local/lib" \
@@ -17,14 +17,14 @@ ENV SRC="/usr/local/" \
 
 RUN apt-get update && \
     apt-get install -y \
-        pkg-config \
-        curl \
-        libpcre3-dev \
-        libtool \
-        libssl-dev \
-        zlib1g-dev \
-        libasound2-dev \
-        build-essential
+    pkg-config \
+    curl \
+    libpcre3-dev \
+    libtool \
+    libssl-dev \
+    zlib1g-dev \
+    libasound2-dev \
+    build-essential
 
 # nasm
 RUN mkdir -p /dist && cd /dist && \
@@ -62,22 +62,22 @@ RUN mkdir -p /dist && cd /dist && \
     cd ffmpeg-${FFMPEG_VERSION} && \
     patch -p1 < /dist/restreamer/contrib/ffmpeg/bitrate.patch && \
     ./configure \
-        --bindir="${SRC}/bin" \
-        --extra-cflags="-I${SRC}/include" \
-        --extra-ldflags="-L${SRC}/lib" \
-        --prefix="${SRC}" \
-        --enable-nonfree \
-        --enable-gpl \
-        --enable-version3 \
-        --enable-libmp3lame \
-        --enable-libx264 \
-        --enable-openssl \
-        --enable-postproc \
-        --enable-small \
-        --enable-static \
-        --disable-debug \
-        --disable-doc \
-        --disable-shared && \
+    --bindir="${SRC}/bin" \
+    --extra-cflags="-I${SRC}/include" \
+    --extra-ldflags="-L${SRC}/lib" \
+    --prefix="${SRC}" \
+    --enable-nonfree \
+    --enable-gpl \
+    --enable-version3 \
+    --enable-libmp3lame \
+    --enable-libx264 \
+    --enable-openssl \
+    --enable-postproc \
+    --enable-small \
+    --enable-static \
+    --disable-debug \
+    --disable-doc \
+    --disable-shared && \
     make -j$(nproc) && \
     make install
 
@@ -109,16 +109,16 @@ COPY --from=builder /usr/local/lib /usr/local/lib
 
 RUN apt-get update && \
     apt-get install -y \
-        ca-certificates \
-        git \
-        procps \
-        libpcre3 \
-        openssl \
-        libssl1.1 \
-        zlib1g \
-        v4l-utils \
-        libv4l-0 \
-        alsa-utils
+    ca-certificates \
+    git \
+    procps \
+    libpcre3 \
+    openssl \
+    libssl1.1 \
+    zlib1g \
+    v4l-utils \
+    libv4l-0 \
+    alsa-utils
 
 COPY . /restreamer
 WORKDIR /restreamer
@@ -132,8 +132,8 @@ RUN cd /restreamer && \
     npm uninstall -g grunt-cli nodemon eslint && \
     npm prune --production && \
     apt-get remove -y \
-        git \
-        curl && \
+    git \
+    curl && \
     apt autoremove -y
 
 EXPOSE 8080
