@@ -200,6 +200,7 @@ elif [ "${RS_MODE}" = "USBCAM" ]; then
     USBCAM_H264PROFILE=${RS_USBCAM_H264PROFILE:="baseline"}
     USBCAM_WIDTH=${RS_USBCAM_WIDTH:=1280}
     USBCAM_HEIGHT=${RS_USBCAM_HEIGHT:=720}
+    USBCAM_INPUT_FORMAT=${RS_USBCAM_INPUT_FORMAT:=""}
 
     USBCAM_BITRATE=$(($USBCAM_BITRATE / 1024))
     USBCAM_BUFFER=$(($USBCAM_BITRATE * 2))
@@ -210,10 +211,14 @@ elif [ "${RS_MODE}" = "USBCAM" ]; then
         RTMP_URL="${RTMP_URL}?token=${RS_TOKEN}"
     fi
 
-    USBCAM_VIDEOENCODER="-codec:v libx264 -preset:v ${USBCAM_H264PRESET} -vf format=yuv420p"
+    USBCAM_VIDEOENCODER="-codec:v libx264 -preset:v ${USBCAM_H264PRESET} -vf format=yuv420pi -r ${USBCAM_FPS} -g ${USBCAM_GOP} -b:v ${USBCAM_BITRATE}k -bufsize ${USBCAM_BUFFER}k"
 
     if [ "$DEVICE" = "raspi" ]; then
         USBCAM_VIDEOENCODER="-codec:v h264_omx -profile:v ${USBCAM_H264PROFILE}"
+    fi
+
+    if [ "$USBCAM_INPUT_FORMAT" = "h264" ]; then
+        USBCAM_VIDEOENCODER="-codec:v copy"
     fi
 
     USBCAM_AUDIOBITRATE=${RS_USBCAM_AUDIOBITRATE:="0"}
@@ -228,9 +233,15 @@ elif [ "${RS_MODE}" = "USBCAM" ]; then
         USBCAM_AUDIOBITRATE=${RS_USBCAM_AUDIOBITRATE:="64000"}
     fi
 
+    if [ -n "$USBCAM_INPUT_FORMAT" ]; then
+        USBCAM_INPUT_FORMAT_ARG="-input_format ${USBCAM_INPUT_FORMAT}"
+    else
+        USBCAM_INPUT_FORMAT_ARG=""
+    fi
+
     USBCAM_AUDIOBITRATE=$(($USBCAM_AUDIOBITRATE / 1024))
 
-    ffmpeg -thread_queue_size 512 -f v4l2 -framerate "$USBCAM_FPS" -video_size "${USBCAM_WIDTH}x${USBCAM_HEIGHT}" -i "${USBCAM_VIDEODEVICE}" ${USBCAM_AUDIO} -map 0:v -map 1:a ${USBCAM_VIDEOENCODER} -r "$USBCAM_FPS" -g "${USBCAM_GOP}" -b:v "${USBCAM_BITRATE}k" -bufsize "${USBCAM_BUFFER}k" -codec:a aac -b:a "${USBCAM_AUDIOBITRATE}k" -shortest -f flv "${RTMP_URL}" > /dev/null 2>&1
+    ffmpeg -thread_queue_size 512 -f v4l2 -framerate "$USBCAM_FPS" -video_size "${USBCAM_WIDTH}x${USBCAM_HEIGHT}" ${USBCAM_INPUT_FORMAT_ARG} -i "${USBCAM_VIDEODEVICE}" ${USBCAM_AUDIO} -map 0:v -map 1:a ${USBCAM_VIDEOENCODER} -codec:a aac -b:a "${USBCAM_AUDIOBITRATE}k" -shortest -f flv "${RTMP_URL}" > /dev/null 2>&1
 else
     npm start
 fi
