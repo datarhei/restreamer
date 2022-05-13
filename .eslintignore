@@ -1,4 +1,0 @@
-node_modules
-src/webserver/public/dist
-src/webserver/public/libs
-*.min.js
