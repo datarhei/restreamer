@@ -73,7 +73,7 @@ docker run -d --restart=always -name restreamer \
 
 ## Documentation
 
-Documentation is available on docs.datarhei.com/restreamer. We give many pieces of information, from setting up a camera, embedding your player upon your website, and streaming to services like, e.g., YouTube-Live, and many more.
+Documentatio is available on [docs.datarhei.com/restreamer](https://docs.datarhei.com/restreamer). We give many pieces of information, from setting up a camera, embedding your player upon your website, and streaming to services like, e.g., YouTube-Live, and many more.
 
 - Quick start
 - Installation
@@ -82,8 +82,6 @@ Documentation is available on docs.datarhei.com/restreamer. We give many pieces 
 - Developer
 
 ## Development
-
-Learn more details about the structure of the Restreamer in our documentation (docs.datarhei.com/restreamer/devolpment/concept).
 
 **For the Restreamer interface:**
 
@@ -105,7 +103,7 @@ Learn more about the datarhei Core in our Repository.
 
 ## Community support
 
-For general help using Restreamer, please refer to the official documentation. For additional support, you can use Github to ask a question (Bug reports, Contributions, Features).
+For general help using Restreamer, please refer to the official [documentation](https://docs.datarhei.com/restreamer). For additional support, you can use Github to ask a question (Bug reports, Contributions, Features).
 
 ## License
 See the [LICENSE](./LICENSE) file for licensing information.
