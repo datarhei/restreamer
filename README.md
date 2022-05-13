@@ -5,7 +5,7 @@
 
 <p align="center">
   <a href="https://datarhei.com">
-    <img src="https://github.com/datarhei/restreamer-ui/raw/master/readme.png" alt="Restreamer Interface" />
+    <img src="https://raw.githubusercontent.com/datarhei/restreamer/2.x/readme.png" alt="Restreamer Interface" />
   </a>
 </p>
 
