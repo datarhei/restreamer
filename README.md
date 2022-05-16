@@ -42,7 +42,7 @@ docker run -d --restart=always --name restreamer \
    -p 8080:8080 -p 8181:8181 -p 1935:1935 datarhei/restreamer:latest
 ```
 
-*`--privileged` just for local devces like soundcard or hdmi-out.*
+*`--privileged` just for local devices like soundcard or HDMI-out.*
 
 **ARMv7 Raspberry Pi:**
 ```sh
@@ -72,7 +72,7 @@ docker run -d --restart=always --name restreamer \
 
 ## Documentation
 
-Documentatio is available on [docs.datarhei.com/restreamer](https://docs.datarhei.com/restreamer). We give many pieces of information, from setting up a camera, embedding your player upon your website, and streaming to services like, e.g., YouTube-Live, and many more.
+Documentation is available on [docs.datarhei.com/restreamer](https://docs.datarhei.com/restreamer). We give many pieces of information, from setting up a camera, embedding your player upon your website, and streaming to services like, e.g., YouTube-Live, and many more.
 
 - Quick start
 - Installation
