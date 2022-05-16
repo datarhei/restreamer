@@ -37,7 +37,7 @@
 
 **AMD64/ARMv7/ARM64:**
 ```sh
-docker run -d --restart=always -name restreamer \
+docker run -d --restart=always --name restreamer \
    -v /opt/restreamer/config:/core/config -v /opt/restreamer/data:/core/data \
    -p 8080:8080 -p 8181:8181 -p 1935:1935 datarhei/restreamer:latest
 ```
@@ -46,28 +46,27 @@ docker run -d --restart=always -name restreamer \
 
 **ARMv7 Raspberry Pi:**
 ```sh
-docker run -d --restart=always -name restreamer \
+docker run -d --restart=always --name restreamer \
    -v /opt/restreamer/config:/core/config -v /opt/restreamer/data:/core/data \
-   --privileged 
-   -p 8080:8080 -p 8181:8181 -p 1935:1935 datarhei/restreamer:rpi-lastest
+   --privileged \
+   -p 8080:8080 -p 8181:8181 -p 1935:1935 datarhei/restreamer:rpi-latest
 ```
 
 **AMD64 Nvidia Cuda:**
 ```sh
-docker run -d --restart=always -name restreamer \
+docker run -d --restart=always --name restreamer \
    -v /opt/restreamer/config:/core/config -v /opt/restreamer/data:/core/data \
-   --runtime=nvidia 
-   -p 8080:8080 -p 8181:8181 -p 1935:1935 datarhei/restreamer:cuda-lastest
+   --runtime=nvidia \
+   -p 8080:8080 -p 8181:8181 -p 1935:1935 datarhei/restreamer:cuda-latest
 ```
 
 **AMD64 Intel VAAPI:**
 ```sh
-docker run -d --restart=always -name restreamer \
+docker run -d --restart=always --name restreamer \
    -v /opt/restreamer/config:/core/config -v /opt/restreamer/data:/core/data \
    --privileged \
-   -p 8080:8080 -p 8181:8181 -p 1935:1935 datarhei/restreamer:vaapi-lastest
+   -p 8080:8080 -p 8181:8181 -p 1935:1935 datarhei/restreamer:vaapi-latest
 ```
-
 
 *For external access, port forwarding from 80/TCP to 8080/TCP and 443/TCP to 8181/TCP to the Restreamer's internal IP address may need to be set up.*
 
