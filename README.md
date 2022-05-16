@@ -85,8 +85,8 @@ Documentatio is available on [docs.datarhei.com/restreamer](https://docs.datarhe
 **For the Restreamer interface:**
 
 ```
-$ git clone github.com/datarhei/restreamer
-$ cd restreamer
+$ git clone github.com/datarhei/restreamer-ui
+$ cd restreamer-ui
 $ yarn install
 $ npm run start
 ```
