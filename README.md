@@ -5,6 +5,12 @@
 
 <p align="center">
   <a href="https://datarhei.com">
+    <img src="https://github.com/datarhei/restreamer/blob/2.x/readme-promo.gif" alt="Restreamer Promo Video" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://datarhei.com">
     <img src="https://raw.githubusercontent.com/datarhei/restreamer/2.x/readme.png" alt="Restreamer Interface" />
   </a>
 </p>
