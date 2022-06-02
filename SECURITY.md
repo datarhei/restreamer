@@ -2,8 +2,7 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+All versions in the list receive security updates.
 
 | Version | Supported          |
 | ------- | ------------------ |
@@ -12,8 +11,6 @@ currently being supported with security updates.
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+If you have found or just suspect a security problem somewhere in Restreamer or Core, report it on support@datarhei.com.
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+We treat security issues with confidentiality until controlled and disclosed responsibly.
