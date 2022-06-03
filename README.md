@@ -50,7 +50,7 @@ docker run -d --restart=always --name restreamer \
 
 *`--privileged` just for local devices like soundcard or HDMI-out.*
 
-**ARMv7 Raspberry Pi:**
+**ARMv7/ARM64 Raspberry Pi:**
 ```sh
 docker run -d --restart=always --name restreamer \
    -v /opt/restreamer/config:/core/config -v /opt/restreamer/data:/core/data \
@@ -62,7 +62,7 @@ docker run -d --restart=always --name restreamer \
 ```sh
 docker run -d --restart=always --name restreamer \
    -v /opt/restreamer/config:/core/config -v /opt/restreamer/data:/core/data \
-   --runtime=nvidia \
+   --runtime=nvidia --privileged \
    -p 8080:8080 -p 8181:8181 -p 1935:1935 datarhei/restreamer:cuda-latest
 ```
 
@@ -70,7 +70,7 @@ docker run -d --restart=always --name restreamer \
 ```sh
 docker run -d --restart=always --name restreamer \
    -v /opt/restreamer/config:/core/config -v /opt/restreamer/data:/core/data \
-   --privileged \
+   -v /dev/dri:/dev/dri --privileged \
    -p 8080:8080 -p 8181:8181 -p 1935:1935 datarhei/restreamer:vaapi-latest
 ```
 
