@@ -49,7 +49,7 @@ jobs:
         with:
           builder: ${{ steps.buildx.outputs.name }}
           context: .
-          file: ./Dockerfile.bundle
+          file: ./Dockerfile
           build-args: |
             RESTREAMER_UI_IMAGE=datarhei/restreamer-ui:${{ env.RESTREAMER_UI_VERSION }}
             FFMPEG_IMAGE=datarhei/base:${{ env.OS_NAME }}-ffmpeg-rpi-${{ env.OS_VERSION }}-${{ env.FFMPEG_VERSION }}
