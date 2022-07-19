@@ -1,5 +1,49 @@
 # Restreamer
 
+### 2.2.0
+
+#### Restreamer UI v1.1.0 > v1.2.0
+
+-   Add allow writing HLS to disk
+-   Add audio pan filter
+-   Add video rotation filter ([#347](https://github.com/datarhei/restreamer/discussions/347))
+-   Add video h/v flip filter
+-   Add audio volume filter ([#313](https://github.com/datarhei/restreamer/issues/313))
+-   Add audio loudness normalization filter
+-   Add audio resample filter, that was before part of the encoders
+-   Add HLS Master playlist (requires FFmpeg hlsbitrate.patch) (thx Dwaynarang, Electra Player compatibility)
+-   Add linkedIn & Azure Media Services to publication services (thx kalashnikov)
+-   Add AirPlay support with silvermine videojs plugin
+-   Add Chromecast support (thx badincite, [#10](https://github.com/datarhei/restreamer-ui/pull/10))
+-   Add stream distribution across multiple internal servers
+-   Add SRT settings
+-   Add HLS version selection (thx Dwaynarang, Electra Player compatibility)
+-   Add Owncast to publication services ([#369](https://github.com/datarhei/restreamer/issues/369))
+-   Add Telegram to publication services (thx Martin Held)
+-   Add Polish translations (thx Robert Rykała)
+-   Mod extends the datarhei Core publication service with srt streaming
+-   Mod allow decoders and encoders to set global options
+-   Mod allow trailing slash on Core address
+-   Fix player problem with different stream formats (9:16)
+-   Fix process report naming
+-   Fix publication service icon styles
+-   Fix VAAPI encoder
+
+#### Core v16.8.0 > v16.9.0
+
+-   Add new placeholders and parameters for placeholder
+-   Add optional escape character to process placeholder
+-   Add experimental SRT connection stats and logs API
+-   Add experimental SRT server (datarhei/gosrt)
+-   Add trailing slash for routed directories (datarhei/restreamer#340)
+-   Mod allow RTMP server if RTMPS server is enabled
+-   Mod create v16 in go.mod
+-   Mod allow relative URLs in content in static routes
+-   Fix output address validation for tee outputs
+-   Fix updating process config
+-   Fix hide /config/reload endpoint in reade-only mode
+-   Fix data races, tests, lint, and update dependencies
+
 ### v2.1.0
 
 -   Fix Dockerfile (bundles frontend, backend and FFmpeg)

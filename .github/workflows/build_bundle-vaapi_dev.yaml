@@ -1,0 +1,62 @@
+name: 'Build restreamer:vaapi-dev'
+
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore:
+      - '**'
+
+jobs:
+  docker:
+    runs-on: [self-hosted]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: cardinalby/export-env-action@v1
+        with:
+          envFile: '.github_build/Build.bundle.vaapi.env'
+          export: 'true'
+          expandWithJobEnv: 'true'
+          expand: 'true'
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@master
+        with:
+          platforms: all
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@master
+
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Login to DockerHub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Multi-Arch
+        uses: docker/build-push-action@v2
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          context: .
+          file: ./Dockerfile
+          build-args: |
+            RESTREAMER_UI_IMAGE=datarhei/restreamer-ui:dev
+            FFMPEG_IMAGE=datarhei/base:${{ env.OS_NAME }}-ffmpeg-vaapi-${{ env.OS_VERSION }}-${{ env.FFMPEG_VERSION }}
+            CORE_IMAGE=datarhei/base:${{ env.OS_NAME }}-core-dev
+          platforms: linux/amd64
+          push: true
+          tags: |
+            datarhei/restreamer:vaapi-dev
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
