@@ -22,19 +22,20 @@
 ## Features
 
 - Simplified User-Interface
-- REST-API (JSON) and 100% Swagger documented
-- Multiple A/V Inputs, Outputs, protocols, and codecs
+- Easy wizard configuration
+- Multiple audio/video inputs, outputs, protocols, and codecs
+- ReStreaming to platforms such as YouTube-Live, to software such as Wowza Media Server, and others based on protocols such as RTMP, SRT, ...
 - Option to mux a separate audio channel to the video
+- Build-in VideoJS-Player for your Website
+- Configurable publication website for streaming without player embedding
+- Content license with Creative Commons
+- HTTP/S- (HLS), RTMP/S- & SRT-Streaming Server
+- Automatic Let's Encrypt HTTPS certification
+- Viewer/Bandwidth Monitoring and limiting
 - Raspberry Pi (MMAL/OMX), Nvidia Cuda, Intel VAAPI support
 - Support for Hardware- and Virtual-Devices
 - FFmpeg Video-Processing (as native as possible)
-- Build-in VideoJS-Player for your Website
-- Configurable publication website for streaming without player embedding
-- HTTP/S- (HLS) and RTMP/S-Streaming Server
-- Automatic Let's Encrypt HTTPS certification
-- Content license with Creative Commons
-- Easy wizard configuration
-- Viewer/Bandwidth Monitoring and limiting
+- REST-API (JSON) and 100% Swagger documented
 - Resource Monitoring (optionally by Prom-Metrics)
 - Server- and Process-Logging
 - GDPR compliant without third-party providers and does not save audience data
@@ -48,7 +49,7 @@ docker run -d --restart=always --name restreamer \
    -p 8080:8080 -p 8181:8181 -p 1935:1935 datarhei/restreamer:latest
 ```
 
-*`--privileged` just for local devices like soundcard or HDMI-out.*
+*`--privileged` just for local devices like usb cameras.*
 
 **ARMv7/ARM64 Raspberry Pi:**
 ```sh
@@ -58,6 +59,8 @@ docker run -d --restart=always --name restreamer \
    -p 8080:8080 -p 8181:8181 -p 1935:1935 datarhei/restreamer:rpi-latest
 ```
 
+*`--privileged` just for local devices like usb cameras.*
+
 **AMD64 Nvidia Cuda:**
 ```sh
 docker run -d --restart=always --name restreamer \
@@ -66,6 +69,8 @@ docker run -d --restart=always --name restreamer \
    -p 8080:8080 -p 8181:8181 -p 1935:1935 datarhei/restreamer:cuda-latest
 ```
 
+*`--privileged` just for local devices like usb cameras.*
+
 **AMD64 Intel VAAPI:**
 ```sh
 docker run -d --restart=always --name restreamer \
@@ -73,6 +78,8 @@ docker run -d --restart=always --name restreamer \
    -v /dev/dri:/dev/dri --privileged \
    -p 8080:8080 -p 8181:8181 -p 1935:1935 datarhei/restreamer:vaapi-latest
 ```
+
+*`--privileged` just for local devices like usb cameras.*
 
 *For external access, port forwarding from 80/TCP to 8080/TCP and 443/TCP to 8181/TCP to the Restreamer's internal IP address may need to be set up.*
 
