@@ -29,6 +29,11 @@
 -   Fix publication service icon styles
 -   Fix VAAPI encoder
 
+#### Core v16.9.0 > v16.9.1
+
+-   Fix v1 import app
+-   Fix race condition
+
 #### Core v16.8.0 > v16.9.0
 
 -   Add new placeholders and parameters for placeholder
