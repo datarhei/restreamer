@@ -1,17 +1,19 @@
 <h1 align="center">Restreamer</h1>
 <h3 align="center">Smart free video streaming.</h3>
-<p align="center"><a href="https://demo.datarhei.com/ui">Try live demo</a><br />Username: admin<br />Password: demo</p>
-<p align="center"><a href="https://docs.datarhei.com/restreamer">Documentation</a></p>
+<p align="center">
+<a href="https://github.com/datarhei/restreamer/blob/2.x/LICENSE" target="_blank"><img src="https://img.shields.io/github/license/datarhei/restreamer" alt="License" /></a>
+<a href="https://github.com/datarhei/restreamer/releases" target="_blank"><img src="https://img.shields.io/github/v/release/datarhei/restreamer?include_prereleases" alt="License" /></a>
+<a href="https://hub.docker.com/r/datarhei/restreamer" target="_blank"><img src="https://img.shields.io/docker/pulls/datarhei/restreamer" alt="Docker pulls" /></a>
+<a href="https://discord.gg/33JCDkPmmj" target="_blank"><img src="https://img.shields.io/discord/669914488723734548?label=Discord&logo=discord" alt="Discord" /></a>
+<a href="https://docs.datarhei.com/restreamer/getting-started/quick-start" target="_blank"><img src="https://img.shields.io/badge/documentation-get%20started-green" alt="Documentation" /></a>
+</p>
+<p align="center"><a href="https://demo.datarhei.com/ui" target="_blank">Try live demo</a><br />
+<a href="https://demo.datarhei.com/ui" target="_blank"><img src="https://img.shields.io/badge/username-admin-blue" alt="demo username" /></a>
+<a href="https://demo.datarhei.com/ui" target="_blank"><img src="https://img.shields.io/badge/password-demo-blue" alt="demo password" /></a>
 
 <p align="center">
   <a href="https://datarhei.com">
     <img src="https://github.com/datarhei/restreamer/blob/2.x/readme-promo.gif" alt="Restreamer Promo Video" />
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://datarhei.com">
-    <img src="https://raw.githubusercontent.com/datarhei/restreamer/2.x/readme.png" alt="Restreamer Interface" />
   </a>
 </p>
 
@@ -42,7 +44,7 @@
 
 ## Quick setup
 
-**AMD64/ARMv7/ARM64:**
+### AMD64/ARMv7/ARM64:
 ```sh
 docker run -d --restart=always --name restreamer \
    -v /opt/restreamer/config:/core/config -v /opt/restreamer/data:/core/data \
@@ -52,9 +54,10 @@ docker run -d --restart=always --name restreamer \
    datarhei/restreamer:latest
 ```
 
-*`--privileged` just for local devices like usb cameras.*
+*`--privileged` just for local devices like usb cameras.*    
+*Try `--security-opt seccomp=unconfined` if no network source can be reached.*
 
-**ARMv7/ARM64 Raspberry Pi:**
+### ARMv7/ARM64 Raspberry Pi:
 ```sh
 docker run -d --restart=always --name restreamer \
    -v /opt/restreamer/config:/core/config -v /opt/restreamer/data:/core/data \
@@ -65,9 +68,10 @@ docker run -d --restart=always --name restreamer \
    datarhei/restreamer:rpi-latest
 ```
 
-*`--privileged` just for local devices like usb cameras.*
+*`--privileged` just for local devices like usb cameras.*    
+*Try `--security-opt seccomp=unconfined` if no network source can be reached.*
 
-**AMD64 Nvidia Cuda:**
+### AMD64 Nvidia Cuda:
 ```sh
 docker run -d --restart=always --name restreamer \
    -v /opt/restreamer/config:/core/config -v /opt/restreamer/data:/core/data \
@@ -78,9 +82,10 @@ docker run -d --restart=always --name restreamer \
    datarhei/restreamer:cuda-latest
 ```
 
-*`--privileged` just for local devices like usb cameras.*
+*`--privileged` just for local devices like usb cameras.*    
+*Try `--security-opt seccomp=unconfined` if no network source can be reached.*
 
-**AMD64 Intel VAAPI:**
+### AMD64 Intel VAAPI:
 ```sh
 docker run -d --restart=always --name restreamer \
    -v /opt/restreamer/config:/core/config -v /opt/restreamer/data:/core/data \
@@ -100,31 +105,51 @@ docker run -d --restart=always --name restreamer \
 
 Documentation is available on [docs.datarhei.com/restreamer](https://docs.datarhei.com/restreamer). We give many pieces of information, from setting up a camera, embedding your player upon your website, and streaming to services like, e.g., YouTube-Live, and many more.
 
-- Quick start
-- Installation
-- Manual
-- Guides
-- Developer
+- [Quick start](https://docs.datarhei.com/restreamer/getting-started/quick-start)
+- [Installation](https://docs.datarhei.com/restreamer/installing/minimum-requirements)
+- [Manual](https://docs.datarhei.com/restreamer/knowledge-base/manual)
+- [Guides](https://docs.datarhei.com/restreamer/knowledge-base/user-guides)
 
 ## Development
 
-**For the Restreamer interface:**
+### Create a custom image (bundle):
 
+#### [Restreamer FFmpeg](https://github.com/datarhei/ffmpeg):
+```
+$ git clone github.com/datarhei/ffmpeg
+$ cd ffmpeg
+$ docker build -f Dockerfile.alpine -t myffmpeg .
+```
+
+#### [Restreamer backend](https://github.com/datarhei/core) (Golang):
+
+```
+$ git clone github.com/datarhei/core
+$ cd core
+$ docker build -t mycore .
+```
+
+#### [Restreamer interface](https://github.com/datarhei/restreamer-ui) (React):
 ```
 $ git clone github.com/datarhei/restreamer-ui
 $ cd restreamer-ui
-$ yarn install
-$ npm run start
+$ docker build -t myrsui .
 ```
 
-**To add/fix translations:**
-Locales are located in `src/locals`
+#### Restreamer bundle:
 ```
-$ npm run i18n-extract:clean
-$ npm run i18n-compile
+$ git clone github.com/datarhei/restreamer
+$ cd restreamer
+$ docker build --build-arg FFMPEG_IMAGE=myffmpeg --build-arg CORE_IMAGE=mycore --build-arg RESTREAMER_UI_IMAGE=myrsui -t myrestreamer .
+$ docker run -it --rm -p 8080:8080 myrestreamer
 ```
 
-Learn more about the datarhei Core in our Repository. 
+### To add/fix translations in the [Restreamer interface](https://github.com/datarhei/restreamer-ui):
+
+The Restreamer interface is currently translated in different languages, such as German, French, Italian, Spanish, and more. If you find errors in the translations or have better suggestions for some sentences, you can become a translation contributor on [poeditor.com](https://poeditor.com/join/project/ogATl3F48K).
+There you can also start a translation into a language that is not yet available in the Restreamer interface.
+
+Contribute to the translations on: [https://poeditor.com/join/project/ogATl3F48K](https://poeditor.com/join/project/ogATl3F48K)
 
 ## Community support
 
