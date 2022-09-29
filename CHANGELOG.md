@@ -1,5 +1,9 @@
 # Restreamer
 
+### 2.x.x
+
+-   Mod exposes ports (Docker desktop)
+
 ### 2.2.0
 
 #### Restreamer UI v1.1.0 > v1.2.0
