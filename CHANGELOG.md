@@ -1,8 +1,40 @@
 # Restreamer
 
-### 2.x.x
+### 2.3.0
 
 -   Mod exposes ports (Docker desktop)
+
+#### Restreamer UI v1.2.0 > v1.3.0
+
+-   Add low_delay option to processing (default: true)
+-   Mod uses the ingest stream for publication (datarhei/restreamer#411)
+-   Add dlive & Trovo publication services
+-   Mod optimized DVR on DiskFS
+-   Mod updates packages
+-   Fix SRT bitstream on tee
+-   Fix typo
+-   Fix viewer count (datarhei/restreamer#394)
+-   Fix user registration if username and/or password are set via environment (datarhei/restreamer-ui#13)
+-   Fix Dockerfile, Reduce size, serve production build (datarhei/restreamer-ui#12)
+
+### Core v16.9.1 > v16.10.0
+
+-   Add HLS session middleware to diskfs
+-   Add /v3/metrics (get) endpoint to list all known metrics
+-   Add logging HTTP request and response body sizes
+-   Add process id and reference glob pattern matching
+-   Add cache block list for extensions not to cache
+-   Mod exclude .m3u8 and .mpd files from disk cache by default
+-   Mod replaces x/crypto/acme/autocert with caddyserver/certmagic
+-   Mod exposes ports (Docker desktop)
+-   Fix assigning cleanup rules for diskfs
+-   Fix wrong path for swagger definition
+-   Fix process cleanup on delete, remove empty directories from disk
+-   Fix SRT blocking port on restart (upgrade datarhei/gosrt)
+-   Fix RTMP communication (Blackmagic Web Presenter, thx 235 MEDIA)
+-   Fix RTMP communication (Blackmagic ATEM Mini, datarhei/restreamer#385)
+-   Fix injecting commit, branch, and build info
+-   Fix API metadata endpoints responses
 
 ### 2.2.0
 
