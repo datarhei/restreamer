@@ -4,8 +4,9 @@
 
 -   Mod exposes ports (Docker desktop)
 
-#### Restreamer UI v1.2.0 > v1.3.0
+#### Restreamer UI v1.2.0 > v1.4.0
 
+-   Add email field for Let's Encrypt certification
 -   Add low_delay option to processing (default: true)
 -   Mod uses the ingest stream for publication (datarhei/restreamer#411)
 -   Add dlive & Trovo publication services
@@ -17,8 +18,9 @@
 -   Fix user registration if username and/or password are set via environment (datarhei/restreamer-ui#13)
 -   Fix Dockerfile, Reduce size, serve production build (datarhei/restreamer-ui#12)
 
-### Core v16.9.1 > v16.10.0
+### Core v16.9.1 > v16.10.1
 
+-   Add email address in TLS config for Let's Encrypt
 -   Add HLS session middleware to diskfs
 -   Add /v3/metrics (get) endpoint to list all known metrics
 -   Add logging HTTP request and response body sizes
@@ -27,6 +29,7 @@
 -   Mod exclude .m3u8 and .mpd files from disk cache by default
 -   Mod replaces x/crypto/acme/autocert with caddyserver/certmagic
 -   Mod exposes ports (Docker desktop)
+-   Fix use of Let's Encrypt production CA
 -   Fix assigning cleanup rules for diskfs
 -   Fix wrong path for swagger definition
 -   Fix process cleanup on delete, remove empty directories from disk
