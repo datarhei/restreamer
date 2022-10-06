@@ -157,3 +157,6 @@ For general help using Restreamer, please refer to the official [documentation](
 
 ## License
 See the [LICENSE](./LICENSE) file for licensing information.
+
+## Business inquiries
+**We provide support for commercial requirements with professional support, agile software development, and consulting.** If you have a commercial request, be it a bug or a feature enhancement, please contact us directly at support@datarhei.com.
