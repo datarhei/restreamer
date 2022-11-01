@@ -3,10 +3,8 @@ title: Contact
 ---
 
 ## Email  
-Probably the best method to contact us. Feel free to email us at <a href="mailto:open@datarhei.org?subject=Restreamer">open@datarhei.org</a> to provide some feedback on our software, give us suggestions for new features and cool things or to just say hello!  
-
-## Forum  
-Ask a question in our (<a target= "_blank" href="https://groups.google.com/forum/#!forum/datarhei">Forum</a>) on Google Groups.  
+Probably the best method to contact us. Feel free to email us at <a href="mailto:info@datarhei.com?subject=Restreamer">info@datarhei.com</a> to provide some feedback on our software, 
+give us suggestions for new features and cool things or to just say hello!  
 
 ## Twitter  
 Follow us on Twitter: <a target= "_blank" href="https://www.twitter.com/datarhei">https://www.twitter.com/datarhei</a>
