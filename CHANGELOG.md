@@ -7,7 +7,7 @@ Attention:
 Restreamer Version v2.4.0 includes an update to FFmpeg 5.1.2. 
 All necessary process adjustments are activated at the first start of the Restreamer.
 
-If you want to switch back to the old version follow these steps:
+If you want to switch back to the old version follow these steps:    
 [https://docs.datarhei.com/restreamer/installing/migration](https://docs.datarhei.com/restreamer/installing/migration)
 
 Hint: The backup restores only the previous processes.
