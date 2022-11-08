@@ -13,6 +13,7 @@ FROM $FFMPEG_IMAGE
 COPY --from=core /core /core
 COPY --from=restreamer-ui /ui/build /core/ui
 
+ADD https://raw.githubusercontent.com/datarhei/restreamer/2.x/CHANGELOG.md /core/ui/public/CHANGELOG.md
 COPY ./run.sh /core/bin/run.sh
 COPY ./ui-root /core/ui-root
 
