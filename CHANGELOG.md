@@ -1,10 +1,69 @@
 # Restreamer
 
-### 2.3.0
+## 2.4.0
+
+Attention:
+
+Restreamer Version v2.4.0 includes an update to FFmpeg 5.1.2. 
+All necessary process adjustments are activated at the first start of the Restreamer.
+
+If you want to switch back to the old version follow these steps:
+[https://docs.datarhei.com/restreamer/installing/migration](https://docs.datarhei.com/restreamer/installing/migration)
+
+Hint: The backup restores only the previous processes.
+
+
+### Restreamer UI v1.4.0 > v1.5.0
+
+-   Add skills props to encoder and decoder components
+-   Add fps_mode to x264, x265, vp9 encoder
+-   Add scale filter to non-hwaccel encoders
+-   Add PeerTube and Media Network to publication services (plattforms, software)
+-   Add reset button to hide a player logo ([#431](https://github.com/datarhei/restreamer/issues/431))
+-   Mod switches to the improved SRT syntax (thx to SA Consulting)
+-   Mod improves display of progress data
+-   Mod uses deprecated param ocl - now ochl (ff5)
+-   Mod simplifies the setup of Restreamer-to-Restreamer connections
+-   Mod adds Istafeed.me as StreamKey service to Instagram's publishing service
+-   Mod renames "Low delay" to "Low latency (buffer)" and set false as default (requires more feedback)
+-   Del removes support for clappr player
+-   Fix npm dependencies (security fixes)
+-   Fix videojs-overlay logo size ([#431](https://github.com/datarhei/restreamer/issues/431))
+-   Fix use of TLS for input from local RTMP server
+-   Fix Icecast publication service settings ([#429](https://github.com/datarhei/restreamer/issues/429))
+-   Fix removes SRT bitstream on tee (OBS > RTMP > SRT is faulty)
+
+### Core v16.10.1 > v16.11.0
+
+-   Add FFmpeg 4.4 to FFmpeg 5.1 migration tool
+-   Add alternative SRT streamid
+-   Mod bump FFmpeg to v5.1.2 (datarhei/core:tag bundles)
+-   Fix crash with custom SSL certificates ([restreamer/#425](https://github.com/datarhei/restreamer/issues/425))
+-   Fix proper version handling for config
+-   Fix widged session data
+-   Fix resetting process stats when process stopped
+-   Fix stale FFmpeg process detection for streams with only audio
+-   Fix wrong return status code ([#6](https://github.com/datarhei/core/issues/6)))
+-   Fix use SRT defaults for key material exchange
+
+### FFmpeg v4.4.2 > 5.1.2
+
+-   Mod FFmpeg v4.4.2 > v5.1.2 (+ patches)
+-   Mod Nvidia CUDA v11.4.2 > v11.7.1
+-   Mod Intel Media Driver v22.4.2 > v22.5.2
+
+### Documentation
+
+-   Add [v2.4+ to v2.3.x (downgrade) migration guide](https://docs.datarhei.com/restreamer/installing/migration)
+-   Add [Windows install guides (Docker Desktop, Terminal)](https://docs.datarhei.com/restreamer/installing/windows)
+-   Add [OSX installation guide (Docker Desktop, Terminal)](https://docs.datarhei.com/restreamer/installing/mac)
+-   Mod small adjustments
+
+## 2.3.0
 
 -   Mod exposes ports (Docker desktop)
 
-#### Restreamer UI v1.2.0 > v1.4.0
+### Restreamer UI v1.2.0 > v1.4.0
 
 -   Add email field for Let's Encrypt certification
 -   Add low_delay option to processing (default: true)
@@ -39,9 +98,9 @@
 -   Fix injecting commit, branch, and build info
 -   Fix API metadata endpoints responses
 
-### 2.2.0
+## 2.2.0
 
-#### Restreamer UI v1.1.0 > v1.2.0
+### Restreamer UI v1.1.0 > v1.2.0
 
 -   Add allow writing HLS to disk
 -   Add audio pan filter
@@ -68,12 +127,12 @@
 -   Fix publication service icon styles
 -   Fix VAAPI encoder
 
-#### Core v16.9.0 > v16.9.1
+### Core v16.9.0 > v16.9.1
 
 -   Fix v1 import app
 -   Fix race condition
 
-#### Core v16.8.0 > v16.9.0
+### Core v16.8.0 > v16.9.0
 
 -   Add new placeholders and parameters for placeholder
 -   Add optional escape character to process placeholder
@@ -88,11 +147,11 @@
 -   Fix hide /config/reload endpoint in reade-only mode
 -   Fix data races, tests, lint, and update dependencies
 
-### v2.1.0
+## v2.1.0
 
 -   Fix Dockerfile (bundles frontend, backend and FFmpeg)
 
-#### Restreamer UI v1.0.0 > v1.1.0
+### Restreamer UI v1.0.0 > v1.1.0
 
 -   Add "HLS cleanup" as an optional function ([Philipp Trenz](https://github.com/philipptrenz))
 -   Add /ui info to / ([#326](https://github.com/datarhei/restreamer/issues/326))
@@ -119,7 +178,7 @@ Preparation for FFmpeg v5.0 (migration will not work)
 -   Add FFmpeg v5.0 commands (preparation)
 -   Mod allows FFmpeg v5.0 (preparation)
 
-#### Core v16.7.2 > v16.8.0
+### Core v16.7.2 > v16.8.0
 
 -   Add purge_on_delete function
 -   Mod updated dependencies
@@ -129,18 +188,18 @@ Preparation for FFmpeg v5.0 (migration will not work)
 -   Fix ignores processes with invalid references (thx Patron Ramakrishna Chillara)
 -   Fix code scanning alerts
 
-#### FFmpeg v4.2.2 > v4.2.2-1
+### FFmpeg v4.2.2 > v4.2.2-1
 
 -   Mod enables libv4l2 + v4l2_m2m for all Docker images ([#339](https://github.com/datarhei/restreamer/issues/339))
 -   Mod updates packages (freetype, libxml2, VAAPI-Libs (gmmlib, media-driver, media-sdk))
 -   Fix cuda Docker image ([#328](https://github.com/datarhei/restreamer/issues/328))
 -   Fix VAAPI Docker image
 
-#### FFmpeg v5.0.1
+### FFmpeg v5.0.1
 
 -   Add FFmpeg v5.0 JSONSTATS patch (preparation)
 
-#### Documentation
+### Documentation
 
 -   Add [Basic troubleshooting guide](https://docs.datarhei.com/restreamer/knowledge-base/troubleshooting/basic-troubleshooting)
 -   Add [custom playersite guide](https://docs.datarhei.com/restreamer/knowledge-base/user-guides/how-to-integrate-a-website) ([#337](https://github.com/datarhei/restreamer/issues/337))
