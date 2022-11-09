@@ -50,7 +50,7 @@ If you want to switch back to the old version follow these steps:
 
 -   Mod FFmpeg v4.4.2 > v5.1.2 (+ patches)
 -   Mod Nvidia CUDA v11.4.2 > v11.7.1
--   Mod Intel Media Driver v22.4.2 > v22.5.2
+-   Mod Intel Media Driver v20.1.1
 
 ### Documentation
 
