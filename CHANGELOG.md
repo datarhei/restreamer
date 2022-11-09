@@ -43,7 +43,7 @@ Hint: The backup restores only the previous processes.
 -   Fix widged session data
 -   Fix resetting process stats when process stopped
 -   Fix stale FFmpeg process detection for streams with only audio
--   Fix wrong return status code ([#6](https://github.com/datarhei/core/issues/6)))
+-   Fix wrong return status code ([#6](https://github.com/datarhei/core/issues/6))
 -   Fix use SRT defaults for key material exchange
 
 ### FFmpeg v4.4.2 > 5.1.2
