@@ -2,16 +2,15 @@
 
 ## 2.4.0
 
-Attention:
+### Attention
 
-Restreamer Version v2.4.0 includes an update to FFmpeg 5.1.2. 
+Restreamer v2.4.0 includes an update to FFmpeg v5.1.2. 
 All necessary process adjustments are activated at the first start of the Restreamer.
 
 If you want to switch back to the old version follow these steps:    
 [https://docs.datarhei.com/restreamer/installing/migration](https://docs.datarhei.com/restreamer/installing/migration)
 
-Hint: The backup restores only the previous processes.
-
+*Hint: The backup restores only the previous processes.*
 
 ### Restreamer UI v1.4.0 > v1.5.0
 
@@ -205,5 +204,3 @@ Preparation for FFmpeg v5.0 (migration will not work)
 -   Add [custom playersite guide](https://docs.datarhei.com/restreamer/knowledge-base/user-guides/how-to-integrate-a-website) ([#337](https://github.com/datarhei/restreamer/issues/337))
 -   Add [guide for custom RTMP port](https://docs.datarhei.com/restreamer/knowledge-base/user-guides/how-to-change-the-rtmp-port)
 -   Add [encoding compatiblity list](https://docs.datarhei.com/restreamer/knowledge-base/troubleshooting/encoding-compatibility-list))
-
----
