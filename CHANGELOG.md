@@ -14,6 +14,7 @@ If you want to switch back to the old version follow these steps:
 
 ### Restreamer UI v1.4.0 > v1.5.0
 
+-   Add changelog viewer
 -   Add skills props to encoder and decoder components
 -   Add fps_mode to x264, x265, vp9 encoder
 -   Add scale filter to non-hwaccel encoders
@@ -21,7 +22,7 @@ If you want to switch back to the old version follow these steps:
 -   Add reset button to hide a player logo ([#431](https://github.com/datarhei/restreamer/issues/431))
 -   Mod switches to the improved SRT syntax (thx to SA Consulting)
 -   Mod improves display of progress data
--   Mod uses deprecated param ocl - now ochl (ff5)
+-   Mod removes deprecated param ocl - now ochl (ff5)
 -   Mod simplifies the setup of Restreamer-to-Restreamer connections
 -   Mod adds Istafeed.me as StreamKey service to Instagram's publishing service
 -   Mod renames "Low delay" to "Low latency (buffer)" and set false as default (requires more feedback)
@@ -34,7 +35,7 @@ If you want to switch back to the old version follow these steps:
 
 ### Core v16.10.1 > v16.11.0
 
--   Add FFmpeg 4.4 to FFmpeg 5.1 migration tool
+-   Add FFmpeg v4.4 to FFmpeg v5.1 migration tool
 -   Add alternative SRT streamid
 -   Mod bump FFmpeg to v5.1.2 (datarhei/core:tag bundles)
 -   Fix crash with custom SSL certificates ([restreamer/#425](https://github.com/datarhei/restreamer/issues/425))
@@ -42,10 +43,10 @@ If you want to switch back to the old version follow these steps:
 -   Fix widged session data
 -   Fix resetting process stats when process stopped
 -   Fix stale FFmpeg process detection for streams with only audio
--   Fix wrong return status code ([#6](https://github.com/datarhei/core/issues/6))
+-   Fix wrong return status code ([#6](https://github.com/datarhei/core/issues/6)))
 -   Fix use SRT defaults for key material exchange
 
-### FFmpeg v4.4.2 > 5.1.2
+### FFmpeg v4.4.2 > v5.1.2
 
 -   Mod FFmpeg v4.4.2 > v5.1.2 (+ patches)
 -   Mod Nvidia CUDA v11.4.2 > v11.7.1
@@ -146,7 +147,7 @@ If you want to switch back to the old version follow these steps:
 -   Fix hide /config/reload endpoint in reade-only mode
 -   Fix data races, tests, lint, and update dependencies
 
-## v2.1.0
+## 2.1.0
 
 -   Fix Dockerfile (bundles frontend, backend and FFmpeg)
 
