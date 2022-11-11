@@ -20,6 +20,8 @@ If you want to switch back to the old version follow these steps:
 -   Add scale filter to non-hwaccel encoders
 -   Add PeerTube and Media Network to publication services (plattforms, software)
 -   Add reset button to hide a player logo ([#431](https://github.com/datarhei/restreamer/issues/431))
+-   Mod expands V4L2_M2M options (an unstable RPI 64bit encoder)
+-   Mod indicates a faulty cache configuration
 -   Mod switches to the improved SRT syntax (thx to SA Consulting)
 -   Mod improves display of progress data
 -   Mod removes deprecated param ocl - now ochl (ff5)
@@ -52,6 +54,8 @@ If you want to switch back to the old version follow these steps:
 -   Mod Nvidia CUDA v11.4.2 > v11.7.1
 -   Mod Intel Media Driver v20.1.1
 
+*We recommend OpenMAX IL for Raspberry PI (3/4) with a 32-bit operating system.*
+
 ### Documentation
 
 -   Add [v2.4+ to v2.3.x (downgrade) migration guide](https://docs.datarhei.com/restreamer/installing/migration)
@@ -67,14 +71,14 @@ If you want to switch back to the old version follow these steps:
 
 -   Add email field for Let's Encrypt certification
 -   Add low_delay option to processing (default: true)
--   Mod uses the ingest stream for publication (datarhei/restreamer#411)
+-   Mod uses the ingest stream for publication ([#411](https://github.com/datarhei/restreamer/issues/411))
 -   Add dlive & Trovo publication services
 -   Mod optimized DVR on DiskFS
 -   Mod updates packages
 -   Fix SRT bitstream on tee
 -   Fix typo
 -   Fix viewer count (datarhei/restreamer#394)
--   Fix user registration if username and/or password are set via environment (datarhei/restreamer-ui#13)
+-   Fix user registration if username and/or password are set via environment ([#13](https://github.com/datarhei/restreamer-ui/issues/13))
 -   Fix Dockerfile, Reduce size, serve production build (datarhei/restreamer-ui#12)
 
 ### Core v16.9.1 > v16.10.1
@@ -138,7 +142,7 @@ If you want to switch back to the old version follow these steps:
 -   Add optional escape character to process placeholder
 -   Add experimental SRT connection stats and logs API
 -   Add experimental SRT server (datarhei/gosrt)
--   Add trailing slash for routed directories (datarhei/restreamer#340)
+-   Add trailing slash for routed directories ([#340](https://github.com/datarhei/restreamer/issues/340))
 -   Mod allow RTMP server if RTMPS server is enabled
 -   Mod create v16 in go.mod
 -   Mod allow relative URLs in content in static routes
