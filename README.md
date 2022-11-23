@@ -1,5 +1,5 @@
 <h1 align="center">Restreamer</h1>
-<h3 align="center">Smart free video streaming.</h3>
+<h3 align="center">A really nice and free alternative for handling live streams.</h3>
 <p align="center">
 <a href="https://github.com/datarhei/restreamer/blob/2.x/LICENSE" target="_blank"><img src="https://img.shields.io/github/license/datarhei/restreamer" alt="License" /></a>
 <a href="https://github.com/datarhei/restreamer/releases" target="_blank"><img src="https://img.shields.io/github/v/release/datarhei/restreamer?include_prereleases" alt="License" /></a>
