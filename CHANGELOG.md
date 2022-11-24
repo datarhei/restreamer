@@ -1,5 +1,15 @@
 # Restreamer
 
+## 2.4.2
+
+### Restreamer UI v1.5.1 > v1.6.0
+
+-   Add Bob Weaver Deinterlacing Filter ([#465](https://github.com/datarhei/restreamer/issues/465))
+-   Add tests for wizard, network source, and coders
+-   Add Korean translation (thanks to Jihaeng)
+-   Mod splitting wizard in components
+-   Fix wrong call to encoder defaults ([#467](https://github.com/datarhei/restreamer/issues/467))
+
 ## 2.4.1
 
 ### Restreamer UI v1.5.0 > v1.5.1
