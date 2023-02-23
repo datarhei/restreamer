@@ -1,5 +1,36 @@
 # Restreamer
 
+## 2.5.0
+
+## Restreamer UI v1.6.0 > v1.7.0
+
+-   Add analyzeduration, probesize and max_probe_packets input options
+-   Add avoid_negative_ts input option
+-   Add http_proxy input option ([#513](https://github.com/datarhei/restreamer/issues/513))
+-   Add copyts, start_at_zero and use_wallclock_as_timestamps input options
+-   Add heuristic to find core address if UI is proxied
+-   Add Turkish translation (thanks to Ramazan Sancar) ([#22](https://github.com/datarhei/restreamer-ui/issues/22))
+-   Add Danish translation (Thanks to Filip Stadler and Info)
+-   Add Slovenian translation (thanks to Grega)
+-   Add Greek translation
+-   Mod allows general input settings for pull and push streams
+-   Mod updates npm dependencies
+-   Fix Creative Commons icons
+-   Fix positioning of the deinterlacing filter ([#465](https://github.com/datarhei/restreamer/issues/465))
+
+### Core v16.11.0 > v16.12.0
+
+-   Add S3 storage support
+-   Add support for variables in placeholde parameter
+-   Add support for RTMP token as stream key as last element in path
+-   Add support for soft memory limit with debug.memory_limit_mbytes in config
+-   Add support for partial process config updates
+-   Add support for alternative syntax for auth0 tenants as environment variable
+-   Fix config timestamps created_at and loaded_at
+-   Fix /config/reload return type
+-   Fix modifying DTS in RTMP packets ([#487](https://github.com/datarhei/restreamer/issues/487), [#367](https://github.com/datarhei/restreamer/issues/367))
+-   Fix default internal SRT latency to 20ms
+
 ## 2.4.2
 
 ### Restreamer UI v1.5.1 > v1.6.0
