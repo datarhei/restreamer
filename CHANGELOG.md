@@ -1,5 +1,48 @@
 # Restreamer
 
+## 2.6.0
+
+## v1.7.0 > v1.8.0
+
+-   Add Ukrainian translation (thanks to Yurii Denys)
+-   Add Add stream key field and protocol detection to RTMP publication service
+-   Add Chinese (simplified) translation (thanks to Huyg0180110559)
+-   Fix empty force_key_frames value
+-   Fix Icecast publication service
+-   Fix imprint, terms and credit without share ([#525](https://github.com/datarhei/restreamer/issues/529))
+-   Fix proxy error on the playersite ([#525](https://github.com/datarhei/restreamer/issues/525))
+-   Fix saving RTMP advanced options ([#518](https://github.com/datarhei/restreamer/issues/518))
+-   Fix help buttons for other languages than English and German ([#24](https://github.com/datarhei/restreamer-ui/issues/24))
+-   Fix internal player skin (volume bar)
+-   Fix security hints (npm dep.)
+
+### Core v16.12.0 > v16.13.0
+
+-   Add updated_at field in process infos
+-   Add preserve process log history when updating a process
+-   Add support for input framerate data from jsonstats patch
+-   Add number of keyframes and extradata size to process progress data
+-   Mod bumps FFmpeg to v5.1.3 (datarhei/core:tag bundles)
+-   Fix better naming for storage endpoint documentation
+-   Fix freeing up S3 mounts
+-   Fix URL validation if the path contains FFmpeg specific placeholders
+-   Fix purging default file from HTTP cache
+-   Fix parsing S3 storage definition from environment variable
+-   Fix checking length of CPU time array ([#10](https://github.com/datarhei/core/issues/10))
+-   Fix possible infinite loop with HLS session rewriter
+-   Fix not propagating process limits
+-   Fix URL validation if the path contains FFmpeg specific placeholders
+-   Fix RTMP DoS attack (thx Johannes Frank)
+-   Deprecate ENV names that do not correspond to JSON name
+
+### FFmpeg v5.1.2 > v5.1.3
+
+-   Add alsa support by default
+-   Add min, max, avg of incoming framerates for each input and output (jsonstats patch)
+-   Add keyframe count for each input and output (jsonstats patch) 
+-   Add size in bytes for each input and output (jsonstats patch) 
+-   Mod bumps FFmpeg to v5.1.3
+
 ## 2.5.0
 
 ## Restreamer UI v1.6.0 > v1.7.0
