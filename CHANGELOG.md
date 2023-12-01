@@ -1,5 +1,64 @@
 # Restreamer
 
+## 2.7.0
+
+### UI v1.8.0 > v1.9.0
+
+-   Add enlarged channel overview
+-   Add new publication services: Dailymotion, Livepush, kick.com, NimoTV, PicartoTV, Rumble
+-   Add frame interpolation (framerate) filter (thanks to orryverducci)
+-   Add -referer option for pulling HTTP streams ([PR 40](https://github.com/datarhei/restreamer-ui/pull/40), thanks to mdastgheib)
+-   Add a/v filter to the publication components ([#593](https://github.com/datarhei/restreamer-ui/issues/593))
+-   Add video or image loop as input ([#528](https://github.com/datarhei/restreamer/discussions/528))
+-   Add option for custom poster image in player ([#632](https://github.com/datarhei/restreamer/issues/632))
+-   Add option to allow to set limits for ingest and egress processes ([#636](https://github.com/datarhei/restreamer/issues/636))
+-   Mod extends twitch's server list
+-   Mod uses placeholders for ingress setups ([#560](https://github.com/datarhei/restreamer-ui/issues/560))
+-   Mod updates npm
+-   Fix Owncast typo
+-   Fix Restream grid
+-   Fix the advanced settings in the MPEG-TS publication service ([#597](https://github.com/datarhei/restreamer/issues/597), thanks to orryverducci)
+-   Fix ALSA demuxer option names
+-   Fix index out-of-range warning, list ALSA devices for Raspicam video source
+-   Fix MUI warning
+-   Fix videojs skin
+
+### Core v16.13.0 > v16.13.1
+
+-   Fix transfer of reports to updated process
+-   Fix calling Wait after process has been read
+-   Fix 509 return code if non-existing stream is requested
+-   Fix default search paths for config file
+-   Fix sized filesystem
+-   Update dependencies
+
+### Thank you to all Patrons and donors
+
+-   Jacob Fritsche
+-   Martin H.
+-   Paulo Gonçalves
+-   Philipp Burkart
+-   Mark Stephens
+-   Fabian Stoll
+-   Perry Johnson
+-   Alex O'Carroll
+-   Fiberian
+-   Ivan Hašek
+-   krischan941
+-   Doug Roberts
+-   Bassim Charafeddine
+-   josue osorto
+-   Raketenbaum
+-   Byron Garcia
+-   Jeff Moe
+-   Ramakrishna Chillara
+-   Eduardo Sarabia
+-   Giovanni Russo
+-   Gioele Cerati
+-   Blueman2 (Robert G. Pearse)
+-   Alex Fuhr
+-   Frank Schulz
+
 ## 2.6.0
 
 ## v1.7.0 > v1.8.0
