@@ -1,5 +1,51 @@
 # Restreamer
 
+## 2.8.0
+
+### UI v1.9.0 > v1.10.0
+
+-   Add resource usage and ffmpeg command to process details
+-   Add audio loop source
+-   Add to allow to select from already publishing RTMP and SRT streams
+-   Fix wrongly displayed SRT URL ([#635](https://github.com/datarhei/restreamer/issues/635))
+-   Fix RTMPS address with custom ports ([#658](https://github.com/datarhei/restreamer/issues/658))
+-   Fix allow RTSPS protocol ([#677](https://github.com/datarhei/restreamer/issues/677))
+
+### Core v16.13.1 > v16.14.0
+
+-   Add support for SRTv4 clients
+-   Add support for Enhanced RTMP in internal RTMP server
+-   Fix require positive persist interval (session)
+-   Fix race condition (process)
+-   Update dependencies
+
+### 🧡💚💜 Thank you to all Patrons and donors
+
+-   Jacob Fritsche
+-   Martin H.
+-   Paulo Gonçalves
+-   Philipp Burkart
+-   Mark Stephens
+-   Fabian Stoll
+-   Perry Johnson
+-   Alex O'Carroll
+-   Fiberian
+-   Ivan Hašek
+-   krischan941
+-   Doug Roberts
+-   Bassim Charafeddine
+-   josue osorto
+-   Raketenbaum
+-   Byron Garcia
+-   Jeff Moe
+-   Ramakrishna Chillara
+-   Eduardo Sarabia
+-   Giovanni Russo
+-   Gioele Cerati
+-   Blueman2 (Robert G. Pearse)
+-   Alex Fuhr
+-   Frank Schulz
+
 ## 2.7.0
 
 ### UI v1.8.0 > v1.9.0
