@@ -52,7 +52,7 @@ jobs:
           file: ./Dockerfile
           build-args: |
             RESTREAMER_UI_IMAGE=datarhei/restreamer-ui:${{ env.RESTREAMER_UI_VERSION }}
-            FFMPEG_IMAGE=datarhei/base:${{ env.OS_NAME }}-ffmpeg-rpi-${{ env.OS_VERSION }}-${{ env.FFMPEG_VERSION }}
+            FFMPEG_IMAGE=datarhei/base:${{ env.OS_NAME }}-ffmpeg-rpi-${{ env.OS_VERSION_FFMPEG }}-${{ env.FFMPEG_VERSION }}
             CORE_IMAGE=datarhei/base:${{ env.OS_NAME }}-core-${{ env.OS_VERSION }}-${{ env.CORE_VERSION }}
           platforms: linux/arm64,linux/arm/v7
           push: true
