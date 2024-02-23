@@ -38,6 +38,12 @@ jobs:
               run: |
                   echo "version=$(cat ./core/app/version.go | grep -E -o '(Major|Minor|Patch): [0-9]+,' | sed -E 's/^.*: ([0-9]+),.*$/\1/g' | paste -sd '.' - )" >> "$GITHUB_OUTPUT"
 
+            - name: Show versions
+              run: |
+                  echo "ui: ${{ steps.restreamerui.outputs.version }}"
+                  echo "bundle: ${{ steps.restreamerui.outputs.bundle }}"
+                  echo "core: ${{ steps.core.outputs.version }}"
+
     docker:
         needs: versions
         runs-on: [self-hosted]
@@ -46,22 +52,22 @@ jobs:
                 include:
                     - ui: ${{ needs.versions.outputs.uiversion }}
                       core: core${{ needs.versions.outputs.coreversion }}-alpine3.19
-                      ffmpeg: ffmpeg6.1.1-alpine3.19
+                      ffmpeg: ffmpeg5.1.3-alpine3.16
                       platforms: linux/amd64,linux/arm64,linux/arm/v7
                       name: ${{ needs.versions.outputs.bundleversion }}
                     - ui: ${{ needs.versions.outputs.uiversion }}
                       core: core${{ needs.versions.outputs.coreversion }}-alpine3.19
-                      ffmpeg: ffmpeg6.1.1-rpi-alpine3.19
+                      ffmpeg: ffmpeg5.1.3-rpi-alpine3.16
                       platforms: linux/arm64,linux/arm/v7
                       name: rpi-${{ needs.versions.outputs.bundleversion }}
                     - ui: ${{ needs.versions.outputs.uiversion }}
                       core: core${{ needs.versions.outputs.coreversion }}-ubuntu20.04
-                      ffmpeg: ffmpeg6.1.1-vaapi-ubuntu20.04
+                      ffmpeg: ffmpeg5.1.3-vaapi-ubuntu20.04
                       platforms: linux/amd64
                       name: vaapi-${{ needs.versions.outputs.bundleversion }}
                     - ui: ${{ needs.versions.outputs.uiversion }}
                       core: core${{ needs.versions.outputs.coreversion }}-ubuntu20.04
-                      ffmpeg: ffmpeg6.1.1-cuda-ubuntu20.04-cuda11.7.1
+                      ffmpeg: ffmpeg5.1.3-cuda-ubuntu20.04-cuda11.7.1
                       platforms: linux/amd64
                       name: cuda-${{ needs.versions.outputs.bundleversion }}
         steps:
