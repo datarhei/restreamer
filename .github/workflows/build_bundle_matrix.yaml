@@ -1,0 +1,110 @@
+name: 'Build restreamer images'
+
+on:
+    workflow_dispatch:
+    workflow_call:
+    push:
+        branches-ignore:
+            - '**'
+
+jobs:
+    versions:
+        runs-on: ubuntu-latest
+        outputs:
+            uiversion: ${{ steps.restreamerui.outputs.version }}
+            bundleversion: ${{ steps.restreamerui.outputs.bundle }}
+            coreversion: ${{ steps.core.outputs.version }}
+        steps:
+            - name: Checkout restreamr-ui repo
+              uses: actions/checkout@v4
+              with:
+                  repository: datarhei/restreamer-ui
+                  path: ./ui
+
+            - name: Get latest version and bundle from UI
+              id: restreamerui
+              run: |
+                  echo "version=$(cat ./ui/package.json | jq '.version' | sed 's/\"//g')" >> "$GITHUB_OUTPUT"
+                  echo "bundle=$(cat ./ui/package.json | jq '.bundle' | sed 's/\"//g' | sed 's/restreamer-v//g' )" >> "$GITHUB_OUTPUT"
+
+            - name: Checkout core repo
+              uses: actions/checkout@v4
+              with:
+                  repository: datarhei/core
+                  path: ./core
+
+            - name: Get latest version from core
+              id: core
+              run: |
+                  echo "version=$(cat ./core/app/version.go | grep -E -o '(Major|Minor|Patch): [0-9]+,' | sed -E 's/^.*: ([0-9]+),.*$/\1/g' | paste -sd '.' - )" >> "$GITHUB_OUTPUT"
+
+    docker:
+        needs: versions
+        runs-on: [self-hosted]
+        strategy:
+            matrix:
+                include:
+                    - ui: ${{ needs.versions.outputs.uiversion }}
+                      core: core${{ needs.versions.outputs.coreversion }}-alpine3.19
+                      ffmpeg: ffmpeg6.1.1-alpine3.19
+                      platforms: linux/amd64,linux/arm64,linux/arm/v7
+                      name: ${{ needs.versions.outputs.bundleversion }}
+                    - ui: ${{ needs.versions.outputs.uiversion }}
+                      core: core${{ needs.versions.outputs.coreversion }}-alpine3.19
+                      ffmpeg: ffmpeg6.1.1-rpi-alpine3.19
+                      platforms: linux/arm64,linux/arm/v7
+                      name: rpi-${{ needs.versions.outputs.bundleversion }}
+                    - ui: ${{ needs.versions.outputs.uiversion }}
+                      core: core${{ needs.versions.outputs.coreversion }}-ubuntu20.04
+                      ffmpeg: ffmpeg6.1.1-vaapi-ubuntu20.04
+                      platforms: linux/amd64
+                      name: vaapi-${{ needs.versions.outputs.bundleversion }}
+                    - ui: ${{ needs.versions.outputs.uiversion }}
+                      core: core${{ needs.versions.outputs.coreversion }}-ubuntu20.04
+                      ffmpeg: ffmpeg6.1.1-cuda-ubuntu20.04-cuda11.7.1
+                      platforms: linux/amd64
+                      name: cuda-${{ needs.versions.outputs.bundleversion }}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Docker meta
+              id: meta
+              uses: docker/metadata-action@v5
+              with:
+                  images: |
+                      datarhei/restreamer
+                  tags: |
+                      type=raw,value=${{ matrix.name }}
+
+#
+#            - name: Set up QEMU
+#              uses: docker/setup-qemu-action@master
+#              with:
+#                  platforms: all
+#
+#            - name: Set up Docker Buildx
+#              id: buildx
+#              uses: docker/setup-buildx-action@master
+#
+#            - name: Login to DockerHub
+#              if: github.event_name != 'pull_request'
+#              uses: docker/login-action@v3
+#              with:
+#                  username: ${{ secrets.DOCKER_USERNAME }}
+#                  password: ${{ secrets.DOCKER_PASSWORD }}
+#
+#            - name: Build Multi-Arch
+#              uses: docker/build-push-action@v5
+#              with:
+#                  builder: ${{ steps.buildx.outputs.name }}
+#                  context: .
+#                  file: ./Dockerfile
+#                  build-args: |
+#                      RESTREAMER_UI_IMAGE=datarhei/restreamer-ui:${{ matrix.ui }}
+#                      CORE_IMAGE=datarhei/base:${{ matrix.core }}
+#                      FFMPEG_IMAGE=datarhei/base:${{ matrix.ffmpeg }}
+#                  platforms: ${{ matrix.platforms }}
+#                  push: true
+#                  tags: ${{ steps.meta.outputs.tags }}
+#                  labels: ${{ steps.meta.outputs.labels }}
