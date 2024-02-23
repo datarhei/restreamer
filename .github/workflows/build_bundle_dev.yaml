@@ -1,4 +1,4 @@
-name: 'Build restreamer:dev images'
+name: 'Build restreamer dev images'
 
 on:
     workflow_dispatch:
