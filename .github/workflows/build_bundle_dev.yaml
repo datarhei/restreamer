@@ -3,6 +3,8 @@ name: 'Build restreamer dev images'
 on:
     workflow_dispatch:
     workflow_call:
+    schedule:
+        - cron: '37 5 * * *'
     push:
         branches-ignore:
             - '**'
