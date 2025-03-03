@@ -4,7 +4,6 @@
 <a href="https://github.com/datarhei/restreamer/blob/2.x/LICENSE" target="_blank"><img src="https://img.shields.io/github/license/datarhei/restreamer" alt="License" /></a>
 <a href="https://github.com/datarhei/restreamer/releases" target="_blank"><img src="https://img.shields.io/github/v/release/datarhei/restreamer?include_prereleases" alt="License" /></a>
 <a href="https://hub.docker.com/r/datarhei/restreamer" target="_blank"><img src="https://img.shields.io/docker/pulls/datarhei/restreamer" alt="Docker pulls" /></a>
-<a href="https://discord.gg/33JCDkPmmj" target="_blank"><img src="https://img.shields.io/discord/669914488723734548?label=Discord&logo=discord" alt="Discord" /></a>
 <a href="https://docs.datarhei.com/restreamer/getting-started/quick-start" target="_blank"><img src="https://img.shields.io/badge/documentation-get%20started-green" alt="Documentation" /></a>
 </p>
 <p align="center"><a href="https://demo.datarhei.com/ui" target="_blank">Try live demo</a><br />
