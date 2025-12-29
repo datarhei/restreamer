@@ -32,7 +32,7 @@ jobs:
                       name: vaapi-dev
                     - ui: dev
                       core: core-dev-ubuntu24.04
-                      ffmpeg: ffmpeg7.1.1-cuda-ubuntu24.04-cuda12.8.0
+                      ffmpeg: ffmpeg7.1.1-cuda-ubuntu24.04-cuda12.8.1
                       platforms: linux/amd64
                       name: cuda-dev
         steps:
