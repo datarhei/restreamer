@@ -16,23 +16,23 @@ jobs:
             matrix:
                 include:
                     - ui: dev
-                      core: core-dev-alpine3.21
-                      ffmpeg: ffmpeg7.1.1-alpine3.21
+                      core: core-dev-alpine3.23
+                      ffmpeg: ffmpeg8.1.1-alpine3.23
                       platforms: linux/amd64,linux/arm64,linux/arm/v7
                       name: dev
                     - ui: dev
-                      core: core-dev-alpine3.21
-                      ffmpeg: ffmpeg7.1.1-rpi-alpine3.21
+                      core: core-dev-alpine3.23
+                      ffmpeg: ffmpeg8.1.1-rpi-alpine3.23
                       platforms: linux/arm64,linux/arm/v7
                       name: rpi-dev
                     - ui: dev
                       core: core-dev-ubuntu24.04
-                      ffmpeg: ffmpeg7.1.1-vaapi-ubuntu24.04
+                      ffmpeg: ffmpeg8.1.1-vaapi-ubuntu24.04
                       platforms: linux/amd64
                       name: vaapi-dev
                     - ui: dev
                       core: core-dev-ubuntu24.04
-                      ffmpeg: ffmpeg7.1.1-cuda-ubuntu24.04-cuda12.8.1
+                      ffmpeg: ffmpeg8.1.1-cuda-ubuntu24.04-cuda12.9.1
                       platforms: linux/amd64
                       name: cuda-dev
         steps:
