@@ -37,6 +37,7 @@
 - Support for Hardware- and Virtual-Devices
 - FFmpeg Video-Processing (as native as possible)
 - REST-API (JSON) and 100% Swagger documented
+- Optional TOTP two-factor authentication for login
 - Resource Monitoring (optionally by Prom-Metrics)
 - Server- and Process-Logging
 - GDPR compliant without third-party providers and does not save audience data
