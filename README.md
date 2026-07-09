@@ -37,6 +37,7 @@
 - Support for Hardware- and Virtual-Devices
 - FFmpeg Video-Processing (as native as possible)
 - REST-API (JSON) and 100% Swagger documented
+- Optional TOTP two-factor authentication for login
 - Resource Monitoring (optionally by Prom-Metrics)
 - Server- and Process-Logging
 - GDPR compliant without third-party providers and does not save audience data
@@ -99,6 +100,20 @@ docker run -d --restart=always --name restreamer \
 *Try `--security-opt seccomp=unconfined` if no network source can be reached.*
 
 *For external access (http/s, rtmp/s, srt), port forwarding from your Internet-Router to the Restreamer's internal IP address may need to be set up.*
+
+## TOTP recovery
+
+If two-factor authentication (TOTP) is enabled and you no longer have the authenticator app, there is no in-app reset. An administrator with access to the config volume can remove the TOTP files and restart Restreamer:
+
+```sh
+sudo rm /opt/restreamer/config/totp.json
+sudo rm /opt/restreamer/config/totp_trust.json   # optional
+docker restart restreamer
+```
+
+Use your actual config mount path if it differs from `/opt/restreamer/config`. After restart, log in with password only and optionally set up TOTP again in **Settings → Authentication**.
+
+Full details (other install types, trusted devices, password recovery): [core/docs/TOTP.md](https://github.com/datarhei/core/blob/main/docs/TOTP.md).
 
 ## Documentation
 
