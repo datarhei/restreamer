@@ -100,6 +100,18 @@ docker run -d --restart=always --name restreamer \
 
 *For external access (http/s, rtmp/s, srt), port forwarding from your Internet-Router to the Restreamer's internal IP address may need to be set up.*
 
+### API authentication example
+
+When API authentication is configured with `CORE_API_AUTH_USERNAME` and `CORE_API_AUTH_PASSWORD`, use the same username/password mapping in the login request:
+
+```sh
+curl -X POST https://<host>:8181/api/login \
+  -H 'Content-Type: application/json' \
+  -d '{"username":"<CORE_API_AUTH_USERNAME>","password":"<CORE_API_AUTH_PASSWORD>"}'
+```
+
+For example, if the username is `zzz` and the password is `xxx`, send `{"username":"zzz","password":"xxx"}`.
+
 ## Documentation
 
 Documentation is available on [docs.datarhei.com/restreamer](https://docs.datarhei.com/restreamer). We give many pieces of information, from setting up a camera, embedding your player upon your website, and streaming to services like, e.g., YouTube-Live, and many more.
