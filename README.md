@@ -100,6 +100,25 @@ docker run -d --restart=always --name restreamer \
 
 *For external access (http/s, rtmp/s, srt), port forwarding from your Internet-Router to the Restreamer's internal IP address may need to be set up.*
 
+### SRT ingest
+
+Enabling the SRT server and exposing UDP port `6000` makes the listener available, but the ingest address is not just `srt://<host>:6000`. Restreamer routes an incoming SRT stream by its `streamid`.
+
+When you configure a network source and choose **Send stream to address ...**, the UI displays the complete address to use. For a channel named `example` with the default SRT port, the generated ingest URL has this form:
+
+```text
+srt://<restreamer-host>:6000?mode=caller&transtype=live&streamid=example.stream,mode:publish
+```
+
+Use that complete generated address in FFmpeg, OBS, or another SRT sender. For example:
+
+```sh
+ffmpeg -re -i input.mp4 -c copy -f mpegts \
+  "srt://<restreamer-host>:6000?mode=caller&transtype=live&streamid=example.stream,mode:publish"
+```
+
+The host shown by Restreamer comes from the hostname/network configuration and the port comes from the SRT server address. If the displayed host is not reachable from the sending machine, update the Restreamer network/hostname settings rather than removing the `streamid` parameters. Configured SRT tokens and passphrases are appended to the generated URL automatically.
+
 ## Documentation
 
 Documentation is available on [docs.datarhei.com/restreamer](https://docs.datarhei.com/restreamer). We give many pieces of information, from setting up a camera, embedding your player upon your website, and streaming to services like, e.g., YouTube-Live, and many more.
