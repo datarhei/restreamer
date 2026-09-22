@@ -100,6 +100,21 @@ docker run -d --restart=always --name restreamer \
 
 *For external access (http/s, rtmp/s, srt), port forwarding from your Internet-Router to the Restreamer's internal IP address may need to be set up.*
 
+## Logs and fail2ban
+
+Restreamer/Core does not write its application log to a dedicated log file by default. The latest application log lines are kept in memory by Core and are available in the UI and through the authenticated `/api/v3/log` endpoint. The number of retained application log lines is controlled by `CORE_LOG_MAX_LINES`.
+
+When Restreamer runs in Docker, use the container log for host-side log processing:
+
+```sh
+docker logs restreamer
+docker logs --follow restreamer
+```
+
+For tools such as fail2ban that need a host-side log source, configure a Docker logging driver that your host can read reliably (for example `journald`) and point fail2ban at that logging backend. Avoid depending on Docker's internal `json-file` path under `/var/lib/docker/containers`; Docker manages that path and its layout is not a stable Restreamer interface.
+
+FFmpeg/process logs are also maintained by Core as process log/history data rather than as separate files. Their retention is controlled by `CORE_FFMPEG_LOG_MAX_LINES` and `CORE_FFMPEG_LOG_MAX_HISTORY`.
+
 ## Documentation
 
 Documentation is available on [docs.datarhei.com/restreamer](https://docs.datarhei.com/restreamer). We give many pieces of information, from setting up a camera, embedding your player upon your website, and streaming to services like, e.g., YouTube-Live, and many more.
