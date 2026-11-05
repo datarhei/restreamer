@@ -1,0 +1,132 @@
+ARG BUILD_IMAGE=nvidia/cuda:12.6.1-devel-ubuntu24.04
+ARG DEPLOY_IMAGE=nvidia/cuda:12.6.1-runtime-ubuntu24.04
+
+FROM $BUILD_IMAGE AS builder
+
+ARG FFNVCODEC_VERSION=12.2.72.0
+ARG BUILD_DATE=1970-01-01T00:00:00Z
+ARG BUILD_COMMIT=unknown
+ARG FFMPEG_VERSION=none
+
+ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+ENV SRC=/usr/local
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update -y && \
+  apt-get install -y \
+  pkg-config \
+  curl \
+  libcurl4-openssl-dev \
+  git \
+  nasm \
+  openssl \
+  libssl-dev \
+  cmake \
+  yasm \
+  build-essential \
+  libtool \
+  autoconf \
+  libv4l-dev \
+  libasound2-dev \
+  libx264-dev \
+  libx265-dev \
+  librav1e-dev \
+  libaom-dev \
+  libdav1d-dev \
+  libvpx-dev \
+  libmp3lame-dev \
+  libopus-dev \
+  libvorbis-dev \
+  libogg-dev \
+  libfreetype-dev \
+  libharfbuzz-dev \
+  libsrt-openssl-dev \
+  libxml2-dev \
+  libfdk-aac-dev \
+  libharfbuzz-dev \
+  libxml2-dev \
+  libxcb1-dev \
+  libxcb-xfixes0-dev \
+  libxcb-shm0-dev \
+  libxcb-shape0-dev \
+  zlib1g-dev
+
+# install and patch ffmpeg
+RUN mkdir -p /dist && cd /dist && \
+  curl -OLk http://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz && \
+  curl -OLk https://github.com/FFmpeg/nv-codec-headers/releases/download/n${FFNVCODEC_VERSION}/nv-codec-headers-${FFNVCODEC_VERSION}.tar.gz && \
+  tar -xvz -f ffmpeg-${FFMPEG_VERSION}.tar.gz && \
+  tar -xvz -f nv-codec-headers-${FFNVCODEC_VERSION}.tar.gz && \
+  rm ffmpeg-${FFMPEG_VERSION}.tar.gz nv-codec-headers-${FFNVCODEC_VERSION}.tar.gz && \
+  cd nv-codec-headers-${FFNVCODEC_VERSION} && \
+  make install
+
+COPY ./contrib /contrib
+
+RUN cd /dist/ffmpeg-${FFMPEG_VERSION} && \
+  patch -p1 < /contrib/ffmpeg-jsonstats.patch && \
+  patch -p1 < /contrib/ffmpeg-hls.patch && \
+  ./configure \
+  --extra-version="datarhei-${BUILD_COMMIT}-${BUILD_DATE}" \
+  --extra-libs="-lpthread -lxml2 -lm -lz -lsupc++ -lstdc++ -lssl -lcrypto -lc -ldl -lcurl" \
+  --prefix="${SRC}" \
+  --extra-cflags=-I/usr/local/cuda/include \
+  --extra-ldflags=-L/usr/local/cuda/lib64 \
+  --enable-nonfree \
+  --enable-gpl \
+  --enable-version3 \
+  --enable-static \
+  --enable-openssl \
+  --enable-libxml2 \
+  --enable-cuda \
+  --enable-cuda-llvm \
+  --enable-cuda-nvcc \
+  --enable-nvdec \
+  --enable-nvenc \
+  --enable-cuvid \
+  --enable-libv4l2 \
+  --enable-libfreetype \
+  --enable-libharfbuzz \
+  --enable-alsa \
+  --enable-libsrt \
+  --enable-libx264 \
+  --enable-libx265 \
+  --enable-libvpx \
+  --enable-libmp3lame \
+  --enable-libfdk-aac \
+  --enable-libopus \
+  --enable-libvorbis \
+  --enable-libdav1d \
+  --enable-librav1e \
+  --enable-libaom \
+  --enable-libxcb \
+  --disable-ffplay \
+  --disable-ffprobe \
+  --disable-debug \
+  --disable-doc && \
+  make -j$(nproc) && \
+  make install && \
+  hash -r
+
+RUN mkdir -p /ffmpeglibs && \
+  ldd /usr/local/bin/ffmpeg | grep -o -e '/lib/[a-z0-9_]*-linux-gnu/[^ ]*' | xargs -I % cp -v % /ffmpeglibs
+
+FROM $DEPLOY_IMAGE
+
+COPY --from=builder /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
+COPY --from=builder /ffmpeglibs /ffmpeglibs
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN echo "/ffmpeglibs" > /etc/ld.so.conf.d/ffmpeg.conf && \
+  ldconfig && \
+  apt-get update && \
+  apt-get install -y ca-certificates openssl tzdata v4l-utils fbset libasound2-dev && \
+  ffmpeg -buildconf
+
+ENV NVIDIA_VISIBLE_DEVICES=all
+ENV NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
+
+WORKDIR /tmp
+ENTRYPOINT ["/usr/local/bin/ffmpeg"]
+CMD ["-version"]

@@ -1,0 +1,253 @@
+ARG BUILD_IMAGE=nvidia/cuda:11.8.0-devel-ubuntu22.04
+ARG DEPLOY_IMAGE=nvidia/cuda:11.8.0-runtime-ubuntu22.04
+
+FROM $BUILD_IMAGE AS builder
+
+ARG FFNVCODEC_VERSION=11.1.5.3
+ARG BUILD_DATE=1970-01-01T00:00:00Z
+ARG BUILD_COMMIT=unknown
+ARG FFMPEG_VERSION=none
+
+ARG FREETYPE_VERSION=2.13.2
+ARG XML2_VERSION=2.9.14
+ARG SRT_VERSION=1.5.3
+ARG X264_VERSION=stable
+ARG VPX_VERSION=1.14.0
+ARG OPUS_VERSION=1.4
+ARG OGG_VERSION=1.3.5
+ARG VORBIS_VERSION=1.3.7
+ARG RAV1E_VERSION=0.7.1
+ARG DAV1D_VERSION=1.4.1
+
+ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+ENV SRC=/usr/local
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update -y && \
+  apt-get install -y \
+  pkg-config \
+  curl \
+  git \
+  nasm \
+  openssl \
+  libssl-dev \
+  cmake \
+  yasm \
+  build-essential \
+  libtool \
+  autoconf \
+  libx265-dev \
+  libmp3lame-dev \
+  libfdk-aac-dev \
+  libv4l-dev \
+  libasound2-dev \
+  meson \
+  zlib1g-dev
+
+# install rust
+RUN curl --proto '=https' --tlsv1.3 https://sh.rustup.rs -sSf | sh -s -- -y
+
+# install librav1e
+RUN mkdir -p /dist && cd /dist && \
+  curl -OLk https://github.com/xiph/rav1e/archive/refs/tags/v${RAV1E_VERSION}.tar.gz && \
+  tar xfvz v${RAV1E_VERSION}.tar.gz && \
+  rm v${RAV1E_VERSION}.tar.gz && \
+  cd rav1e-${RAV1E_VERSION} && \
+  /root/.cargo/bin/cargo install cargo-c && \
+  /root/.cargo/bin/cargo cinstall --release
+
+# install libxml2
+RUN mkdir -p /dist && cd /dist && \
+  curl -OLk https://gitlab.gnome.org/GNOME/libxml2/-/archive/v${XML2_VERSION}/libxml2-v${XML2_VERSION}.tar.gz && \
+  tar xfvz libxml2-v${XML2_VERSION}.tar.gz && \
+  rm libxml2-v${XML2_VERSION}.tar.gz && \
+  cd libxml2-v${XML2_VERSION} && \
+  ./autogen.sh --prefix="${SRC}" \
+  --with-ftp=no \
+  --with-http=no \
+  --with-python=no && \
+  make -j$(nproc) && \
+  make install
+
+# install libdav1d
+RUN mkdir -p /dist && cd /dist && \
+  curl -OLk https://code.videolan.org/videolan/dav1d/-/archive/${DAV1D_VERSION}/dav1d-${DAV1D_VERSION}.tar.gz && \
+  tar xfvz dav1d-${DAV1D_VERSION}.tar.gz && \
+  rm dav1d-${DAV1D_VERSION}.tar.gz && \
+  cd dav1d-${DAV1D_VERSION} && \
+  mkdir build && cd build && \
+  meson setup .. && \
+  ninja && ninja install
+
+# install x264
+RUN mkdir -p /dist && cd /dist && \
+  curl -OLk https://code.videolan.org/videolan/x264/-/archive/stable/x264-${X264_VERSION}.tar.gz && \
+  tar xfvz x264-${X264_VERSION}.tar.gz && \
+  rm x264-${X264_VERSION}.tar.gz && \
+  cd x264-${X264_VERSION}* && \
+  ./configure \
+  --SRC="${SRC}" \
+  --bindir="${SRC}/bin" \
+  --enable-shared && \
+  make -j$(nproc) && \
+  make install
+
+# install opus
+RUN mkdir -p /dist && cd /dist && \
+  curl -OLk https://downloads.xiph.org/releases/opus/opus-${OPUS_VERSION}.tar.gz && \
+  tar xfvz opus-${OPUS_VERSION}.tar.gz && \
+  rm opus-${OPUS_VERSION}.tar.gz && \
+  cd opus-${OPUS_VERSION} && \
+  autoreconf -fiv && \
+  ./configure --prefix="${SRC}" \
+  --enable-shared && \
+  make -j$(nproc) && \
+  make install
+
+# install ogg
+RUN mkdir -p /dist && cd /dist && \
+  curl -OLk http://downloads.xiph.org/releases/ogg/libogg-${OGG_VERSION}.tar.gz && \
+  tar xfvz libogg-${OGG_VERSION}.tar.gz && \
+  rm libogg-${OGG_VERSION}.tar.gz && \
+  cd libogg-${OGG_VERSION} && \
+  ./configure --prefix="${SRC}" \
+  --enable-shared  && \
+  make -j$(nproc) && \
+  make install
+
+# install vorbis
+RUN mkdir -p /dist && cd /dist && \
+  curl -OLk http://downloads.xiph.org/releases/vorbis/libvorbis-${VORBIS_VERSION}.tar.gz && \
+  tar xfvz libvorbis-${VORBIS_VERSION}.tar.gz && \
+  rm libvorbis-${VORBIS_VERSION}.tar.gz && \
+  cd libvorbis-${VORBIS_VERSION} && \
+  ./configure --prefix="${SRC}" --with-ogg="${SRC}" \
+  --enable-shared && \
+  make -j$(nproc) && \
+  make install
+
+# install vpx
+RUN mkdir -p /dist && cd /dist && \
+  curl -OLk https://github.com/webmproject/libvpx/archive/refs/tags/v${VPX_VERSION}.tar.gz && \
+  tar xfvz v${VPX_VERSION}.tar.gz && \
+  rm v${VPX_VERSION}.tar.gz && \
+  cd libvpx-${VPX_VERSION} && \
+  ./configure --prefix="${SRC}" \
+  --enable-vp8 \
+  --enable-vp9 \
+  --enable-vp9-highbitdepth \
+  --enable-pic \
+  --enable-shared \
+  --disable-debug \
+  --disable-examples \
+  --disable-docs \
+  --disable-install-bins && \
+  make -j$(nproc) && \
+  make install
+
+# install freetype
+RUN mkdir -p /dist && cd /dist && \
+  curl -OLk https://download.savannah.gnu.org/releases/freetype/freetype-${FREETYPE_VERSION}.tar.gz && \
+  tar xfvz freetype-${FREETYPE_VERSION}.tar.gz && \
+  rm freetype-${FREETYPE_VERSION}.tar.gz && \
+  cd freetype-${FREETYPE_VERSION} && \
+  ./configure --prefix="${SRC}" \
+  --disable-static \
+  --enable-shared && \
+  make -j$(nproc) && \
+  make install
+
+# install srt
+RUN mkdir -p /dist && cd /dist && \
+  curl -OLk https://github.com/Haivision/srt/archive/refs/tags/v${SRT_VERSION}.tar.gz && \
+  tar xfvz v${SRT_VERSION}.tar.gz && \
+  rm v${SRT_VERSION}.tar.gz && \
+  cd srt-${SRT_VERSION} && \
+  cmake \
+  -G "Unix Makefiles" \
+  -DCMAKE_INSTALL_BINDIR="$SRC/bin" \
+  -DCMAKE_INSTALL_INCLUDEDIR="$SRC/include" \
+  -DCMAKE_INSTALL_LIBDIR="$SRC/lib" \
+  -DCMAKE_INSTALL_SRC="$SRC" && \
+  make -j$(nproc) && \
+  make install
+
+# install and patch ffmpeg
+RUN mkdir -p /dist && cd /dist && \
+  curl -OLk http://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz && \
+  curl -OLk https://github.com/FFmpeg/nv-codec-headers/releases/download/n${FFNVCODEC_VERSION}/nv-codec-headers-${FFNVCODEC_VERSION}.tar.gz && \
+  tar -xvz -f ffmpeg-${FFMPEG_VERSION}.tar.gz && \
+  tar -xvz -f nv-codec-headers-${FFNVCODEC_VERSION}.tar.gz && \
+  rm ffmpeg-${FFMPEG_VERSION}.tar.gz nv-codec-headers-${FFNVCODEC_VERSION}.tar.gz && \
+  cd nv-codec-headers-${FFNVCODEC_VERSION} && \
+  make install
+
+COPY ./contrib /contrib
+
+RUN cd /dist/ffmpeg-${FFMPEG_VERSION} && \
+  patch -p1 < /contrib/ffmpeg-jsonstats.patch && \
+  patch -p1 < /contrib/ffmpeg-hls.patch && \
+  ./configure \
+  --extra-version="datarhei-${BUILD_COMMIT}-${BUILD_DATE}" \
+  --prefix="${SRC}" \
+  --extra-cflags=-I/usr/local/cuda/include \
+  --extra-ldflags=-L/usr/local/cuda/lib64 \
+  --enable-nonfree \
+  --enable-gpl \
+  --enable-version3 \
+  --enable-static \
+  --enable-openssl \
+  --enable-libxml2 \
+  --enable-cuda \
+  --enable-cuvid \
+  --enable-nvenc \
+  --enable-libnpp \
+  --enable-libv4l2 \
+  --enable-libfreetype \
+  --enable-alsa \
+  --enable-libsrt \
+  --enable-libx264 \
+  --enable-libx265 \
+  --enable-libvpx \
+  --enable-libmp3lame \
+  --enable-libfdk-aac \
+  --enable-libopus \
+  --enable-libvorbis \
+  --enable-libdav1d \
+  --enable-librav1e \
+  --disable-ffplay \
+  --disable-ffprobe \
+  --disable-debug \
+  --disable-doc && \
+  make -j$(nproc) && \
+  make install && \
+  hash -r
+
+RUN echo "/usr/local/lib" > /etc/ld.so.conf.d/ffmpeg.conf && \
+  ldconfig && \
+  mkdir -p /ffmpeglibs && \
+  ldd /usr/local/bin/ffmpeg | grep -o -E -e ' (/usr/local/lib|/lib/[a-z0-9_]+-linux-gnu)/[^ ]*' | xargs -I % cp -v % /ffmpeglibs
+
+FROM $DEPLOY_IMAGE
+
+COPY --from=builder /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
+COPY --from=builder /ffmpeglibs /ffmpeglibs
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN echo "/ffmpeglibs" > /etc/ld.so.conf.d/ffmpeg.conf && \
+  ldconfig && \
+  apt-get update && \
+  apt-get install -y \
+  v4l-utils \
+  fbset \
+  zlib1g \
+  libasound2-dev && \
+  ffmpeg -buildconf
+
+ENV NVIDIA_VISIBLE_DEVICES=all
+ENV NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
+
+WORKDIR /tmp
+ENTRYPOINT ["/usr/local/bin/ffmpeg"]
+CMD ["-version"]

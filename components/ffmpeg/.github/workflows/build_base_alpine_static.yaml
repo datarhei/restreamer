@@ -1,0 +1,57 @@
+name: "static:ffmpeg-alpine"
+
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore:
+      - "**"
+
+jobs:
+  build-static:
+    runs-on: [self-hosted]
+    strategy:
+      matrix:
+        include:
+          - ffmpeg_version: "8.1.1"
+            os: alpine
+            os_version: "3.23"
+            platforms: linux/amd64,linux/arm64,linux/arm/v7
+
+    steps:
+      - name: Get current date
+        run: echo "CURRENT_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> "$GITHUB_ENV"
+
+      - name: Get current commit
+        run: echo "CURRENT_COMMIT=$(echo ${GITHUB_SHA} | head -c 7)" >> "$GITHUB_ENV"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: all
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build static FFmpeg binary
+        uses: docker/build-push-action@v5
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          context: .
+          file: ./Dockerfile.static
+          build-args: |
+            BUILD_IMAGE=${{ matrix.os }}:${{ matrix.os_version }}
+            BUILD_DATE=${{ env.CURRENT_DATE }}
+            BUILD_COMMIT=${{ env.CURRENT_COMMIT }}
+            FFMPEG_VERSION=${{ matrix.ffmpeg_version }}
+          platforms: ${{ matrix.platforms }}
+          outputs: type=local,dest=./out
+
+      - name: Upload static ffmpeg binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: ffmpeg-${{ matrix.platforms }}
+          path: ./out/bin/ffmpeg

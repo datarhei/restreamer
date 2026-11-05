@@ -1,0 +1,73 @@
+name: "base:ffmpeg-cuda-ubuntu"
+
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore:
+      - "**"
+
+jobs:
+  docker:
+    runs-on: [self-hosted]
+    strategy:
+      matrix:
+        include:
+          - cuda: 12
+            os: ubuntu
+            os_version: "24.04"
+            platforms: linux/amd64
+            cuda_version: "12.9.1"
+            ffnvcodec_version: "12.2.72.0"
+            ffmpeg_version: "8.1.2"
+          - cuda: 13
+            os: ubuntu
+            os_version: "26.04"
+            platforms: linux/amd64
+            cuda_version: "13.3.0"
+            ffnvcodec_version: "13.0.19.0"
+            ffmpeg_version: "8.1.2"
+    steps:
+      - name: Get current date
+        run: |
+          echo "CURRENT_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> "$GITHUB_ENV"
+
+      - name: Get current commit
+        run: |
+          echo "CURRENT_COMMIT=$(echo ${GITHUB_SHA} | head -c 7)" >> "$GITHUB_ENV"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@master
+        with:
+          platforms: all
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@master
+
+      - name: Login to DockerHub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Multi-Arch
+        uses: docker/build-push-action@v5
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          context: .
+          file: ./Dockerfile.ubuntu.cuda${{ matrix.cuda }}
+          build-args: |
+            BUILD_IMAGE=nvidia/cuda:${{ matrix.cuda_version }}-devel-${{ matrix.os }}${{ matrix.os_version }}
+            DEPLOY_IMAGE=nvidia/cuda:${{ matrix.cuda_version }}-runtime-${{ matrix.os }}${{ matrix.os_version }}
+            BUILD_DATE=${{ env.CURRENT_DATE }}
+            BUILD_COMMIT=${{ env.CURRENT_COMMIT }}
+            FFNVCODEC_VERSION=${{ matrix.ffnvcodec_version }}
+            FFMPEG_VERSION=${{ matrix.ffmpeg_version }}
+          platforms: ${{ matrix.platforms }}
+          push: true
+          tags: |
+            datarhei/base:ffmpeg${{ matrix.ffmpeg_version }}-cuda-${{ matrix.os }}${{ matrix.os_version }}-cuda${{ matrix.cuda_version }}
