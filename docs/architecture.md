@@ -1,0 +1,52 @@
+# Restreamer modernization architecture
+
+## Repository layout
+
+- `components/core`: the Go process manager and streaming services.
+- `components/ui`: the React administration and player interface.
+- `components/ffmpeg`: the patched FFmpeg build system.
+- repository root: the final image, deployment assets, and release automation.
+
+The components are imported with `git subtree --squash`. This keeps each upstream
+project's license and provenance while allowing one checkout to produce the whole
+application. Upstream updates can still be reviewed and imported independently.
+
+## Image model
+
+`Dockerfile` builds Core and UI from the source in this repository. The final stage
+uses the hardware FFmpeg image produced from
+`components/ffmpeg/Dockerfile.ubuntu.hardware`.
+
+The AMD64 hardware image intentionally contains all three Linux GPU stacks:
+
+- NVIDIA NVENC/NVDEC and CUDA through the NVIDIA container runtime;
+- Intel VA-API and oneVPL/Quick Sync through `/dev/dri`;
+- AMD VA-API and Vulkan Video through Mesa and `/dev/dri`.
+
+Compiled support is not the same as runtime support. The host must expose the GPU,
+install a compatible kernel driver, and—only for NVIDIA—install NVIDIA Container
+Toolkit. Encoder availability must be detected at runtime rather than inferred from
+the image tag.
+
+## Latency planes
+
+LAN viewing and public web viewing have different constraints and must not share one
+buffering profile:
+
+1. LAN: camera passthrough whenever possible, RTSP over UDP/TCP or WebRTC, short GOP,
+   no B-frames, and bounded probe/analyze queues. Target glass-to-glass latency is
+   below one second.
+2. Public web: HLS is allowed to buffer and prioritize resilience through the reverse
+   proxy. This path can transcode independently from the LAN feed.
+
+The existing Core accepts RTSP inputs and can publish *to* an RTSP server, but it is
+not itself a general RTSP origin. A small RTSP/WebRTC origin will therefore be added
+as an internal service rather than pretending an RTMP port becomes RTSP if we stare
+at it sternly enough.
+
+## Release policy
+
+The unified workflow resolves the newest FFmpeg release on scheduled and manual
+builds, builds the patched hardware image first, then pins the final Restreamer build
+to the resulting immutable digest. Patch drift is expected to fail loudly in CI so
+it can be rebased and reviewed instead of silently publishing an unpatched binary.

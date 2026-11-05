@@ -1,31 +1,52 @@
-ARG RESTREAMER_UI_IMAGE=datarhei/restreamer-ui:latest
-ARG CORE_IMAGE=datarhei/base:alpine-core-latest
-ARG FFMPEG_IMAGE=datarhei/base:alpine-ffmpeg-latest
+# syntax=docker/dockerfile:1.7
 
-FROM $RESTREAMER_UI_IMAGE AS restreamer-ui
-FROM $CORE_IMAGE AS core
-FROM $FFMPEG_IMAGE
+ARG NODE_IMAGE=node:24-alpine3.22
+ARG GOLANG_IMAGE=golang:1.25-alpine3.22
+ARG FFMPEG_IMAGE=ghcr.io/kaibsora/restreamer-ffmpeg:hardware-latest
+ARG YARN_VERSION=1.22.22
 
-COPY --from=core /core /core
-COPY --from=restreamer-ui /ui/build /core/ui
+FROM --platform=$BUILDPLATFORM ${NODE_IMAGE} AS ui-builder
+ARG YARN_VERSION
+ENV PUBLIC_URL=./
+WORKDIR /src/ui
+COPY components/ui/package.json components/ui/yarn.lock components/ui/.yarnrc.yml ./
+RUN corepack enable && \
+    corepack prepare yarn@${YARN_VERSION} --activate && \
+    yarn install --frozen-lockfile
+COPY components/ui/ ./
+RUN yarn build
 
-ADD https://raw.githubusercontent.com/datarhei/restreamer/2.x/CHANGELOG.md /core/ui/CHANGELOG.md
-COPY ./run.sh /core/bin/run.sh
-COPY ./ui-root /core/ui-root
+FROM --platform=$BUILDPLATFORM ${GOLANG_IMAGE} AS core-builder
+ARG TARGETOS
+ARG TARGETARCH
+ARG TARGETVARIANT
+ENV GOOS=${TARGETOS} GOARCH=${TARGETARCH} GOARM=${TARGETVARIANT}
+WORKDIR /src/core
+RUN apk add --no-cache git make
+COPY components/core/ ./
+RUN make release && make import && make ffmigrate
 
-RUN ffmpeg -buildconf
+FROM ${FFMPEG_IMAGE}
 
-ENV CORE_CONFIGFILE=/core/config/config.json
-ENV CORE_DB_DIR=/core/config
-ENV CORE_ROUTER_UI_PATH=/core/ui
-ENV CORE_STORAGE_DISK_DIR=/core/data
+COPY --from=core-builder /src/core/core /core/bin/core
+COPY --from=core-builder /src/core/import /core/bin/import
+COPY --from=core-builder /src/core/ffmigrate /core/bin/ffmigrate
+COPY --from=core-builder /src/core/mime.types /core/mime.types
+COPY --from=ui-builder /src/ui/build /core/ui
+COPY run.sh /core/bin/run.sh
+COPY ui-root /core/ui-root
+COPY scripts/hardware-report.sh /usr/local/bin/restreamer-hardware-report
 
-EXPOSE 8080/tcp
-EXPOSE 8181/tcp
-EXPOSE 1935/tcp
-EXPOSE 1936/tcp
-EXPOSE 6000/udp
+RUN mkdir -p /core/config /core/data && \
+    chmod +x /core/bin/run.sh /usr/local/bin/restreamer-hardware-report && \
+    ffmpeg -hide_banner -buildconf
 
+ENV CORE_CONFIGFILE=/core/config/config.json \
+    CORE_DB_DIR=/core/config \
+    CORE_ROUTER_UI_PATH=/core/ui \
+    CORE_STORAGE_DISK_DIR=/core/data
+
+EXPOSE 8080/tcp 8181/tcp 1935/tcp 1936/tcp 6000/udp
 VOLUME ["/core/data", "/core/config"]
 ENTRYPOINT ["/core/bin/run.sh"]
 WORKDIR /core

@@ -1,0 +1,18 @@
+services:
+  restreamer:
+    image: ghcr.io/kaibsora/restreamer:latest
+    container_name: restreamer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+      - "8181:8181"
+      - "1935:1935"
+      - "1936:1936"
+      - "6000:6000/udp"
+    volumes:
+      - restreamer-config:/core/config
+      - restreamer-data:/core/data
+
+volumes:
+  restreamer-config:
+  restreamer-data:

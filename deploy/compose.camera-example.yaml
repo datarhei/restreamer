@@ -1,0 +1,7 @@
+services:
+  restreamer:
+    devices:
+      - /dev/video0:/dev/video0
+      - /dev/video1:/dev/video1
+    group_add:
+      - "${VIDEO_GID:-44}"

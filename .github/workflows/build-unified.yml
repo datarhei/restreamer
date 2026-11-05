@@ -1,0 +1,142 @@
+name: Build unified Restreamer
+
+on:
+  workflow_dispatch:
+    inputs:
+      ffmpeg_version:
+        description: FFmpeg release to build (blank selects the latest release)
+        required: false
+        type: string
+  schedule:
+    - cron: "23 6 * * 1"
+  push:
+    branches:
+      - 2.x
+      - main
+    paths:
+      - "components/**"
+      - "ui-root/**"
+      - "Dockerfile"
+      - "run.sh"
+      - ".github/workflows/build-unified.yml"
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: unified-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  FFMPEG_IMAGE_NAME: ${{ github.repository_owner }}/restreamer-ffmpeg
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      ffmpeg: ${{ steps.resolve.outputs.ffmpeg }}
+    steps:
+      - name: Resolve FFmpeg release
+        id: resolve
+        env:
+          REQUESTED_VERSION: ${{ inputs.ffmpeg_version }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -n "${REQUESTED_VERSION}" ]]; then
+            version="${REQUESTED_VERSION#v}"
+          else
+            version="$(curl --fail --silent --show-error https://ffmpeg.org/releases/ \
+              | grep -oE 'ffmpeg-[0-9]+\.[0-9]+(\.[0-9]+)?\.tar\.xz' \
+              | sed -E 's/^ffmpeg-|\.tar\.xz$//g' \
+              | sort -V \
+              | tail -n 1)"
+          fi
+          test -n "${version}"
+          echo "ffmpeg=${version}" >> "${GITHUB_OUTPUT}"
+
+  ffmpeg:
+    needs: version
+    runs-on: ubuntu-latest
+    outputs:
+      digest: ${{ steps.build.outputs.digest }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build hardware FFmpeg
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: components/ffmpeg
+          file: components/ffmpeg/Dockerfile.ubuntu.hardware
+          platforms: linux/amd64
+          push: true
+          build-args: |
+            BUILD_IMAGE=nvidia/cuda:12.9.1-devel-ubuntu24.04
+            DEPLOY_IMAGE=nvidia/cuda:12.9.1-runtime-ubuntu24.04
+            BUILD_DATE=${{ github.run_id }}
+            BUILD_COMMIT=${{ github.sha }}
+            FFNVCODEC_VERSION=12.2.72.0
+            FFMPEG_VERSION=${{ needs.version.outputs.ffmpeg }}
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.FFMPEG_IMAGE_NAME }}:hardware-${{ needs.version.outputs.ffmpeg }}
+            ${{ env.REGISTRY }}/${{ env.FFMPEG_IMAGE_NAME }}:hardware-latest
+          cache-from: type=gha,scope=ffmpeg-hardware
+          cache-to: type=gha,mode=max,scope=ffmpeg-hardware
+          provenance: mode=max
+          sbom: true
+
+  restreamer:
+    needs:
+      - version
+      - ffmpeg
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate image tags
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=ffmpeg-${{ needs.version.outputs.ffmpeg }}
+            type=sha
+
+      - name: Build unified image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile
+          platforms: linux/amd64
+          push: true
+          build-args: |
+            FFMPEG_IMAGE=${{ env.REGISTRY }}/${{ env.FFMPEG_IMAGE_NAME }}@${{ needs.ffmpeg.outputs.digest }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha,scope=restreamer-unified
+          cache-to: type=gha,mode=max,scope=restreamer-unified
+          provenance: mode=max
+          sbom: true
