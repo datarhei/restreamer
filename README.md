@@ -78,6 +78,19 @@ Verify what the running container can actually see:
 docker exec restreamer restreamer-hardware-report
 ```
 
+On the target GPU host, require every detected runtime to encode a real H.264 test
+frame instead of merely trusting FFmpeg's compiled encoder list:
+
+```sh
+docker exec restreamer restreamer-hardware-report --verify
+```
+
+The command probes NVENC when the NVIDIA runtime is present, VA-API for an exposed
+DRM render node, Quick Sync on Intel VA-API drivers, and Vulkan Video on a discrete
+or integrated Vulkan GPU. It exits nonzero when a detected backend cannot encode or
+when no hardware runtime is available. For multi-GPU Vulkan hosts, select the FFmpeg
+device index with `RESTREAMER_VULKAN_DEVICE` on the container.
+
 See [deploy/README.md](deploy/README.md) for device mapping, WebRTC connectivity,
 Crowsnest, Moonraker, and low-latency camera topology.
 

@@ -46,10 +46,23 @@ After startup, inspect what the container can actually use:
 docker exec restreamer restreamer-hardware-report
 ```
 
+Then run an active encode acceptance test on the deployment host:
+
+```sh
+docker exec restreamer restreamer-hardware-report --verify
+```
+
+This encodes a real frame with every detected backend: NVENC, VA-API, Intel Quick
+Sync, and hardware Vulkan Video. A compiled encoder is listed even when Docker cannot
+reach its driver; `--verify` turns that decorative optimism into a failing exit code.
+For a Vulkan GPU that is not FFmpeg device `0`, set
+`RESTREAMER_VULKAN_DEVICE=<index>` in the Restreamer service environment.
+
 An encoder appearing in `ffmpeg -encoders` proves it was compiled. Successful
 `vainfo`, `vulkaninfo`, or `nvidia-smi` output proves that the corresponding host
-runtime reached the container. Those are separate facts, despite decades of GPU
-software trying to make them feel like one exciting mystery.
+runtime reached the container. A successful `--verify` additionally proves the
+runtime accepted an encode. Those are separate facts, despite decades of GPU software
+trying to make them feel like one exciting mystery.
 
 ## LAN RTSP and WebRTC
 
