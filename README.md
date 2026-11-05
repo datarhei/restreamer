@@ -105,11 +105,11 @@ can be certified by compiling an encoder inside Docker Desktop.
 Build the hardware FFmpeg base first:
 
 ```sh
-docker buildx build --load \
-  --file components/ffmpeg/Dockerfile.ubuntu.hardware \
-  --tag restreamer-ffmpeg:hardware \
-  components/ffmpeg
+IMAGE_NAME=restreamer-ffmpeg:hardware components/ffmpeg/Build.sh
 ```
+
+The helper and GitHub Actions share the same stable-release resolver. Pass a
+specific release as the first argument only when reproducing an older build.
 
 Then build the unified application:
 
@@ -139,10 +139,18 @@ RESTREAMER_IMAGE=restreamer:local scripts/smoke-compose.sh
 1. resolves the newest stable FFmpeg source release unless a version is supplied;
 2. builds the redistributable hardware FFmpeg image;
 3. fails if required hardware support or Restreamer patches disappear;
-4. runs the Core tests and vet checks plus all UI tests;
-5. pins the unified build to the FFmpeg image digest;
-6. boots and probes the application before publishing to GitHub Container Registry;
-7. emits provenance and an SBOM for both images.
+4. rejects high or critical production dependency vulnerabilities;
+5. runs the Core tests and vet checks plus all UI tests;
+6. validates the Compose and MediaMTX deployment configuration;
+7. pins the unified build to the FFmpeg image digest;
+8. boots and probes the application before publishing to GitHub Container Registry;
+9. emits provenance and an SBOM for both images.
+
+Pull requests run the quality gates without publishing images. The two inherited
+bundle workflows were removed because they built external datarhei components with
+obsolete FFmpeg images and attempted to publish to the upstream Docker Hub account.
+One repository now has one release pipeline, a concept CI systems traditionally
+survive without emotional distress.
 
 An upstream FFmpeg release that no longer accepts the Restreamer patches is expected
 to fail loudly. Silently publishing an unpatched binary would be impressively tidy

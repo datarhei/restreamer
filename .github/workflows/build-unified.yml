@@ -20,6 +20,17 @@ on:
       - "Dockerfile"
       - ".dockerignore"
       - "run.sh"
+      - "deploy/**"
+      - ".github/workflows/build-unified.yml"
+  pull_request:
+    paths:
+      - "components/**"
+      - "scripts/**"
+      - "ui-root/**"
+      - "deploy/**"
+      - "Dockerfile"
+      - ".dockerignore"
+      - "run.sh"
       - ".github/workflows/build-unified.yml"
 
 permissions:
@@ -36,11 +47,54 @@ env:
   FFMPEG_IMAGE_NAME: ${{ github.repository_owner }}/restreamer-ffmpeg
 
 jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Test and build UI
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm \
+            --volume "${PWD}/components/ui:/src:ro" \
+            node:24-alpine3.22 \
+            sh -lc 'cp -R /src /tmp/ui && cd /tmp/ui && corepack enable && corepack prepare yarn@1.22.22 --activate >/dev/null && yarn install --frozen-lockfile && yarn audit-production && yarn test-ci && yarn build'
+
+      - name: Test and vet Core
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm \
+            --volume "${PWD}/components/core:/src:ro" \
+            golang:1.25-alpine3.22 \
+            sh -c 'cp -R /src /tmp/core && cd /tmp/core && apk add --no-cache git >/dev/null && go test ./... && go vet ./...'
+
+      - name: Validate deployment configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker compose \
+            --env-file deploy/.env.example \
+            --file deploy/compose.yaml \
+            --file deploy/compose.dri.yaml \
+            --file deploy/compose.nvidia.yaml \
+            --file deploy/compose.camera-example.yaml \
+            config >/dev/null
+          docker run --rm \
+            --volume "${PWD}/deploy/mediamtx.yml:/mediamtx.yml:ro" \
+            bluenviron/mediamtx:1.21.3 \
+            --validate-conf=/mediamtx.yml
+
   version:
+    if: github.event_name != 'pull_request'
+    needs: quality
     runs-on: ubuntu-latest
     outputs:
       ffmpeg: ${{ steps.resolve.outputs.ffmpeg }}
     steps:
+      - uses: actions/checkout@v4
+
       - name: Resolve FFmpeg release
         id: resolve
         env:
@@ -48,20 +102,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [[ -n "${REQUESTED_VERSION}" ]]; then
-            version="${REQUESTED_VERSION#v}"
-          else
-            version="$(curl --fail --silent --show-error https://ffmpeg.org/releases/ \
-              | grep -oE 'ffmpeg-[0-9]+\.[0-9]+(\.[0-9]+)?\.tar\.xz' \
-              | sed -E 's/^ffmpeg-|\.tar\.xz$//g' \
-              | sort -V \
-              | tail -n 1)"
-          fi
-          test -n "${version}"
+          version="$(scripts/resolve-ffmpeg-version.sh "${REQUESTED_VERSION}")"
           echo "ffmpeg=${version}" >> "${GITHUB_OUTPUT}"
 
   ffmpeg:
-    needs: version
+    needs:
+      - quality
+      - version
     runs-on: ubuntu-latest
     outputs:
       digest: ${{ steps.build.outputs.digest }}
@@ -103,6 +150,7 @@ jobs:
 
   restreamer:
     needs:
+      - quality
       - version
       - ffmpeg
     runs-on: ubuntu-latest
@@ -110,22 +158,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: docker/setup-buildx-action@v3
-
-      - name: Validate deployment configuration
-        shell: bash
-        run: |
-          set -euo pipefail
-          docker compose \
-            --env-file deploy/.env.example \
-            --file deploy/compose.yaml \
-            --file deploy/compose.dri.yaml \
-            --file deploy/compose.nvidia.yaml \
-            --file deploy/compose.camera-example.yaml \
-            config >/dev/null
-          docker run --rm \
-            --volume "${PWD}/deploy/mediamtx.yml:/mediamtx.yml:ro" \
-            bluenviron/mediamtx:1.21.3 \
-            --validate-conf=/mediamtx.yml
 
       - name: Log in to GHCR
         uses: docker/login-action@v3

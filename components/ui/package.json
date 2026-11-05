@@ -43,6 +43,7 @@
 		"test": "react-scripts test",
 		"test-ci": "react-scripts test --watchAll=false --testTimeout 50000",
 		"test-coverage": "react-scripts test --watchAll=false --testTimeout 50000 --coverage",
+		"audit-production": "node scripts/audit-production.js",
 		"eject": "react-scripts eject",
 		"i18n-extract": "lingui extract",
 		"i18n-extract:clean": "lingui extract --clean",
