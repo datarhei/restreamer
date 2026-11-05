@@ -2,9 +2,8 @@
 .github
 **/.git
 **/node_modules
-**/build
-**/dist
+components/ui/build
+components/ui/dist
 **/.cache
-components/core/docs
 readme-promo.gif
 readme.png

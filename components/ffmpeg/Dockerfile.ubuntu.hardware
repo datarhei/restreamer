@@ -1,9 +1,10 @@
-ARG BUILD_IMAGE=nvidia/cuda:12.6.1-devel-ubuntu24.04
-ARG DEPLOY_IMAGE=nvidia/cuda:12.6.1-runtime-ubuntu24.04
+ARG BUILD_IMAGE=nvidia/cuda:12.9.1-devel-ubuntu24.04
+ARG DEPLOY_IMAGE=nvidia/cuda:12.9.1-runtime-ubuntu24.04
 
 FROM $BUILD_IMAGE AS builder
 
 ARG FFNVCODEC_VERSION=12.2.72.0
+ARG VULKAN_HEADERS_VERSION=1.4.362
 ARG BUILD_DATE=1970-01-01T00:00:00Z
 ARG BUILD_COMMIT=unknown
 ARG FFMPEG_VERSION=none
@@ -59,11 +60,14 @@ RUN apt-get update -y && \
 
 # install and patch ffmpeg
 RUN mkdir -p /dist && cd /dist && \
+  curl --fail --location --show-error --output Vulkan-Headers-${VULKAN_HEADERS_VERSION}.tar.gz https://github.com/KhronosGroup/Vulkan-Headers/archive/refs/tags/v${VULKAN_HEADERS_VERSION}.tar.gz && \
   curl --fail --location --show-error --remote-name https://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz && \
   curl --fail --location --show-error --remote-name https://github.com/FFmpeg/nv-codec-headers/releases/download/n${FFNVCODEC_VERSION}/nv-codec-headers-${FFNVCODEC_VERSION}.tar.gz && \
-  tar -xvz -f ffmpeg-${FFMPEG_VERSION}.tar.gz && \
-  tar -xvz -f nv-codec-headers-${FFNVCODEC_VERSION}.tar.gz && \
-  rm ffmpeg-${FFMPEG_VERSION}.tar.gz nv-codec-headers-${FFNVCODEC_VERSION}.tar.gz && \
+  tar -xz -f Vulkan-Headers-${VULKAN_HEADERS_VERSION}.tar.gz && \
+  tar -xz -f ffmpeg-${FFMPEG_VERSION}.tar.gz && \
+  tar -xz -f nv-codec-headers-${FFNVCODEC_VERSION}.tar.gz && \
+  cp -R Vulkan-Headers-${VULKAN_HEADERS_VERSION}/include/. /usr/local/include/ && \
+  rm Vulkan-Headers-${VULKAN_HEADERS_VERSION}.tar.gz ffmpeg-${FFMPEG_VERSION}.tar.gz nv-codec-headers-${FFNVCODEC_VERSION}.tar.gz && \
   cd nv-codec-headers-${FFNVCODEC_VERSION} && \
   make install
 
@@ -76,7 +80,7 @@ RUN cd /dist/ffmpeg-${FFMPEG_VERSION} && \
   --extra-version="datarhei-${BUILD_COMMIT}-${BUILD_DATE}" \
   --extra-libs="-lpthread -lxml2 -lm -lz -lsupc++ -lstdc++ -lssl -lcrypto -lc -ldl -lcurl" \
   --prefix="${SRC}" \
-  --extra-cflags=-I/usr/local/cuda/include \
+  --extra-cflags="-I/usr/local/include -I/usr/local/cuda/include" \
   --extra-ldflags=-L/usr/local/cuda/lib64 \
   --enable-nonfree \
   --enable-gpl \
@@ -94,6 +98,7 @@ RUN cd /dist/ffmpeg-${FFMPEG_VERSION} && \
   --enable-vaapi \
   --enable-libvpl \
   --enable-vulkan \
+  --enable-libglslang \
   --enable-libv4l2 \
   --enable-libfreetype \
   --enable-libharfbuzz \
@@ -112,7 +117,7 @@ RUN cd /dist/ffmpeg-${FFMPEG_VERSION} && \
   --enable-libxcb \
   --disable-ffplay \
   --disable-debug \
-  --disable-doc && \
+  --disable-doc || { grep -n -A20 -B10 -i vulkan ffbuild/config.log | tail -n 240; exit 1; }; \
   make -j$(nproc) && \
   make install && \
   hash -r
@@ -123,6 +128,7 @@ RUN mkdir -p /ffmpeglibs && \
 FROM $DEPLOY_IMAGE
 
 COPY --from=builder /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
+COPY --from=builder /usr/local/bin/ffprobe /usr/local/bin/ffprobe
 COPY --from=builder /ffmpeglibs /ffmpeglibs
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -138,7 +144,7 @@ RUN echo "/ffmpeglibs" > /etc/ld.so.conf.d/ffmpeg.conf && \
   vainfo \
   vulkan-tools \
   fbset \
-  libasound2 \
+  libasound2t64 \
   libdrm2 \
   libva2 \
   libva-drm2 \

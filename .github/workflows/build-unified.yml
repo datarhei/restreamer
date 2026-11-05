@@ -15,8 +15,10 @@ on:
       - main
     paths:
       - "components/**"
+      - "scripts/**"
       - "ui-root/**"
       - "Dockerfile"
+      - ".dockerignore"
       - "run.sh"
       - ".github/workflows/build-unified.yml"
 
@@ -89,6 +91,7 @@ jobs:
             BUILD_DATE=${{ github.run_id }}
             BUILD_COMMIT=${{ github.sha }}
             FFNVCODEC_VERSION=12.2.72.0
+            VULKAN_HEADERS_VERSION=1.4.362
             FFMPEG_VERSION=${{ needs.version.outputs.ffmpeg }}
           tags: |
             ${{ env.REGISTRY }}/${{ env.FFMPEG_IMAGE_NAME }}:hardware-${{ needs.version.outputs.ffmpeg }}
