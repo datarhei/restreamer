@@ -127,7 +127,7 @@ index 957b9a5d..0e62ee2b 100644
      const char *m3u8_rel_name = NULL;
      const char *vtt_m3u8_rel_name = NULL;
      const char *ccgroup;
-@@ -1459,12 +1466,34 @@ static int create_master_playlist(AVFormatContext *s,
+@@ -1459,13 +1466,35 @@ static int create_master_playlist(AVFormatContext *s,
          if (final) {
              bandwidth = vs->max_bitrate;
              avg_bandwidth = vs->avg_bitrate;
@@ -136,6 +136,7 @@ index 957b9a5d..0e62ee2b 100644
 +            }
          } else {
              bandwidth = 0;
+             avg_bandwidth = 0;
              if (vid_st)
                  bandwidth += get_stream_bit_rate(vid_st);
              if (aud_st)
@@ -217,12 +218,12 @@ index 957b9a5d..0e62ee2b 100644
      }
  
      if (vs->start_pts == AV_NOPTS_VALUE) {
-@@ -2485,8 +2534,8 @@ static int hls_write_packet(AVFormatContext *s, AVPacket *pkt)
+@@ -2516,8 +2565,8 @@ static int hls_write_packet(AVFormatContext *s, AVPacket *pkt)
      }
  
      can_split = can_split && (pkt->pts - vs->end_pts > 0);
--    if (vs->packets_written && can_split && av_compare_ts(pkt->pts - vs->start_pts, st->time_base,
--                                                          end_pts, AV_TIME_BASE_Q) >= 0) {
+-    if (vs->packets_written && can_split && (av_rescale_q(pkt->pts, st->time_base, AV_TIME_BASE_Q) - vs->start_pts
+-                                                          >= end_pts)) {
 +    if (vs->packets_written && can_split && av_compare_ts(pkt->pts - vs->end_pts, st->time_base,
 +                                                          hls->recording_time, AV_TIME_BASE_Q) >= 0) {
          int64_t new_start_pos;

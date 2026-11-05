@@ -73,7 +73,7 @@ RUN mkdir -p /dist && cd /dist && \
 COPY ./contrib /contrib
 
 RUN cd /dist/ffmpeg-${FFMPEG_VERSION} && \
-  patch -p1 < /contrib/ffmpeg-jsonstats.patch && \
+  git apply --whitespace=nowarn /contrib/ffmpeg-jsonstats.patch && \
   patch -p1 < /contrib/ffmpeg-hls.patch && \
   ./configure \
   --extra-version="datarhei-${BUILD_COMMIT}-${BUILD_DATE}" \
@@ -94,7 +94,6 @@ RUN cd /dist/ffmpeg-${FFMPEG_VERSION} && \
   --enable-vaapi \
   --enable-libvpl \
   --enable-vulkan \
-  --enable-libglslang \
   --enable-libv4l2 \
   --enable-libfreetype \
   --enable-libharfbuzz \

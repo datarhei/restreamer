@@ -916,7 +916,7 @@ index 7c708ff0..0fb5d4dd 100644
  #include "ffmpeg_sched.h"
  #include "ffmpeg_utils.h"
  
-@@ -40,127 +41,7 @@
+@@ -41,130 +42,7 @@
  
  #include "libavformat/avformat.h"
  
@@ -948,6 +948,8 @@ index 7c708ff0..0fb5d4dd 100644
 -    int                      autorotate;
 -    int                      apply_cropping;
 -    int                      force_display_matrix;
+-    int                      force_mastering_display;
+-    int                      force_content_light;
 -    int                      drop_changed;
 -
 -
@@ -976,12 +978,6 @@ index 7c708ff0..0fb5d4dd 100644
 -    uint64_t                 nb_packets;
 -    // combined size of all the packets read
 -    uint64_t                 data_size;
--    // latest wallclock time at which packet reading resumed after a stall - used for readrate
--    int64_t                  resume_wc;
--    // timestamp of first packet sent after the latest stall - used for readrate
--    int64_t                  resume_pts;
--    // measure of how far behind packet reading is against spceified readrate
--    int64_t                  lag;
 -} DemuxStream;
 -
 -typedef struct DemuxStreamGroup {
@@ -1023,6 +1019,13 @@ index 7c708ff0..0fb5d4dd 100644
 -    float                 readrate;
 -    double                readrate_initial_burst;
 -    float                 readrate_catchup;
+-
+-    // latest wallclock time at which packet reading resumed after a stall - used for readrate
+-    int64_t               resume_wc;
+-    // relative timestamp of first packet sent after the latest stall - used for readrate
+-    int64_t               resume_progress;
+-    // measure of how far behind packet reading is against spceified readrate
+-    int64_t               lag;
 -
 -    Scheduler            *sch;
 -
@@ -1099,7 +1102,7 @@ new file mode 100644
 index 00000000..34f1dd76
 --- /dev/null
 +++ b/fftools/ffmpeg_demux.h
-@@ -0,0 +1,180 @@
+@@ -0,0 +1,183 @@
 +/*
 + * This file is part of FFmpeg.
 + *
@@ -1172,6 +1175,8 @@ index 00000000..34f1dd76
 +    int                      autorotate;
 +    int                      apply_cropping;
 +    int                      force_display_matrix;
++    int                      force_mastering_display;
++    int                      force_content_light;
 +    int                      drop_changed;
 +
 +
@@ -1200,12 +1205,6 @@ index 00000000..34f1dd76
 +    uint64_t                 nb_packets;
 +    // combined size of all the packets read
 +    uint64_t                 data_size;
-+    // latest wallclock time at which packet reading resumed after a stall - used for readrate
-+    int64_t                  resume_wc;
-+    // timestamp of first packet sent after the latest stall - used for readrate
-+    int64_t                  resume_pts;
-+    // measure of how far behind packet reading is against spceified readrate
-+    int64_t                  lag;
 +
 +    // Added by progress patch
 +    uint64_t nb_keyframes;
@@ -1255,6 +1254,13 @@ index 00000000..34f1dd76
 +    float                 readrate;
 +    double                readrate_initial_burst;
 +    float                 readrate_catchup;
++
++    // latest wallclock time at which packet reading resumed after a stall - used for readrate
++    int64_t               resume_wc;
++    // relative timestamp of first packet sent after the latest stall - used for readrate
++    int64_t               resume_progress;
++    // measure of how far behind packet reading is against spceified readrate
++    int64_t               lag;
 +
 +    Scheduler            *sch;
 +
@@ -2305,11 +2311,7 @@ diff --git a/fftools/ffmpeg_mux.h b/fftools/ffmpeg_mux.h
 index 4ca8ab73..56cf5b97 100644
 --- a/fftools/ffmpeg_mux.h
 +++ b/fftools/ffmpeg_mux.h
-@@ -81,6 +81,18 @@ typedef struct MuxStream {
-     int             copy_initial_nonkeyframes;
-     int             copy_prior_start;
-     int             streamcopy_started;
-+
+@@ -85,1 +85,13 @@ typedef struct MuxStream {
 +    uint64_t        nb_packets;
 +    uint64_t        nb_keyframes;
 +    // number of frames/samples sent to the encoder
@@ -2321,9 +2323,8 @@ index 4ca8ab73..56cf5b97 100644
 +    int64_t         nsamples_average;
 +    double          sum_framerate, min_framerate, max_framerate, avg_framerate;
 +    double          sum_gopsize, min_gopsize, max_gopsize, avg_gopsize;
- #if FFMPEG_OPT_VSYNC_DROP
-     int             ts_drop;
- #endif
++
+     AVRational      frame_rate;
 @@ -122,6 +134,7 @@ typedef struct Muxer {
  } Muxer;
  
@@ -2364,33 +2365,6 @@ index a2566193..8dfa3895 100644
      { "stats_period",        OPT_TYPE_FUNC, OPT_FUNC_ARG | OPT_EXPERT,
          { .func_arg = opt_stats_period },
          "set the period at which ffmpeg updates stats and -progress output", "time" },
-diff --git a/fftools/ffmpeg_sched.c b/fftools/ffmpeg_sched.c
-index 517ff1ea..637bbf17 100644
---- a/fftools/ffmpeg_sched.c
-+++ b/fftools/ffmpeg_sched.c
-@@ -437,7 +437,7 @@ static void task_init(Scheduler *sch, SchTask *task, enum SchedulerNodeType type
- 
- static int64_t trailing_dts(const Scheduler *sch, int count_finished)
- {
--    int64_t min_dts = INT64_MAX;
-+    int64_t max_dts = INT64_MIN;
- 
-     for (unsigned i = 0; i < sch->nb_mux; i++) {
-         const SchMux *mux = &sch->mux[i];
-@@ -450,11 +450,11 @@ static int64_t trailing_dts(const Scheduler *sch, int count_finished)
-             if (ms->last_dts == AV_NOPTS_VALUE)
-                 return AV_NOPTS_VALUE;
- 
--            min_dts = FFMIN(min_dts, ms->last_dts);
-+            max_dts = FFMAX(max_dts, ms->last_dts);
-         }
-     }
- 
--    return min_dts == INT64_MAX ? AV_NOPTS_VALUE : min_dts;
-+    return max_dts == INT64_MIN ? AV_NOPTS_VALUE : max_dts;
- }
- 
- void sch_remove_filtergraph(Scheduler *sch, int idx)
 diff --git a/libavformat/fifo.c b/libavformat/fifo.c
 index e66002b9..f30ba292 100644
 --- a/libavformat/fifo.c
