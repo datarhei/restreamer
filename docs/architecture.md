@@ -39,6 +39,13 @@ buffering profile:
 2. Public web: HLS is allowed to buffer and prioritize resilience through the reverse
    proxy. This path can transcode independently from the LAN feed.
 
+CI exercises four concurrent synthetic H.264 publishers and readers. Each publisher
+uses all-intra frames to isolate relay and read-startup overhead from a camera's GOP,
+and every first decoded RTSP frame must arrive in less than one second. The same test
+also verifies that every named path exposes a WebRTC endpoint. Physical
+glass-to-glass latency remains a deployment acceptance test because camera capture,
+hardware encoding, LAN conditions, and browser rendering are outside the container.
+
 The existing Core accepts RTSP inputs and can publish *to* an RTSP server, but it is
 not itself a general RTSP origin. MediaMTX therefore provides the LAN RTSP/WebRTC
 origin as a separate process. Restreamer publishes named paths to it; Crowsnest,
