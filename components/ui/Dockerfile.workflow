@@ -4,8 +4,6 @@ FROM $CADDY_IMAGE
 COPY build /ui/build
 COPY Caddyfile /ui/Caddyfile
 
-ENV PUBLIC_URL="./"
-
 WORKDIR /ui
 
 EXPOSE 3000

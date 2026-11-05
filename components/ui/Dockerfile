@@ -1,16 +1,14 @@
-ARG NODE_IMAGE=node:21-alpine3.20
+ARG NODE_IMAGE=node:24-alpine3.22
 ARG CADDY_IMAGE=caddy:2.8.4-alpine
 
 FROM $NODE_IMAGE AS builder
-
-ENV PUBLIC_URL="./"
 
 COPY . /ui
 
 WORKDIR /ui
 
 RUN cd /ui && \
-	yarn install && \
+	yarn install --frozen-lockfile && \
 	yarn build
 
 FROM $CADDY_IMAGE

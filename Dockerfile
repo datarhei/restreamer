@@ -7,7 +7,6 @@ ARG YARN_VERSION=1.22.22
 
 FROM --platform=$BUILDPLATFORM ${NODE_IMAGE} AS ui-builder
 ARG YARN_VERSION
-ENV PUBLIC_URL=./
 WORKDIR /src/ui
 COPY components/ui/package.json components/ui/yarn.lock components/ui/.yarnrc.yml ./
 RUN corepack enable && \
