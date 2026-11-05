@@ -53,6 +53,29 @@ for path in / /ui/ /api /api/v3/skills; do
     curl --fail --silent --show-error "http://127.0.0.1:8080${path}" >/dev/null
 done
 
+ui_html=$(curl --fail --silent --show-error http://127.0.0.1:8080/ui/)
+grep -F '<title>Restreamer</title>' <<<"${ui_html}" >/dev/null
+
+while read -r relative_asset; do
+    asset_path="${relative_asset#./}"
+    content_type=$(curl --fail --silent --show-error \
+        --output /dev/null --write-out '%{content_type}' \
+        "http://127.0.0.1:8080/ui/${asset_path}")
+    if [[ "${content_type}" == text/html* ]]; then
+        printf 'UI asset %s resolved to HTML instead of an asset.\n' \
+            "${relative_asset}" >&2
+        exit 1
+    fi
+done < <(
+    grep -oE '(src|href)="\./[^"#]+"' <<<"${ui_html}" \
+        | sed -E 's/^(src|href)="|"$//g' \
+        | awk '!seen[$0]++'
+)
+
+ui_redirect_html=$(curl --fail --location --silent --show-error \
+    http://127.0.0.1:8080/ui)
+grep -F '<title>Restreamer</title>' <<<"${ui_redirect_html}" >/dev/null
+
 docker exec restreamer restreamer-verify-ffmpeg
 
 for camera in $(seq 1 "${camera_count}"); do
