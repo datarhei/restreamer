@@ -15,7 +15,7 @@ function init(initialState) {
 		bitrate: '4096',
 		fps: '25',
 		gop: '2',
-		profile: '77',
+		profile: '0',
 		rc_mode: '1',
 		quality: '-1',
 		...initialState,
@@ -42,6 +42,8 @@ function createMapping(settings, stream, skills) {
 		`${settings.profile}`,
 		'-quality',
 		`${settings.quality}`,
+		'-rc_mode',
+		`${settings.rc_mode}`,
 		'-b:v',
 		`${settings.bitrate}k`,
 		'-maxrate',
@@ -50,8 +52,6 @@ function createMapping(settings, stream, skills) {
 		`${settings.bitrate}k`,
 		'-r',
 		`${settings.fps}`,
-		'-g',
-		`${settings.gop}`,
 	);
 
 	if (settings.gop !== 'auto') {
@@ -89,9 +89,10 @@ RateControl.defaultProps = {
 function Profile(props) {
 	return (
 		<Select label={<Trans>Profile</Trans>} value={props.value} onChange={props.onChange}>
-			<MenuItem value="578">baseline (constrained)</MenuItem>
-			<MenuItem value="77">main</MenuItem>
-			<MenuItem value="100">high</MenuItem>
+			<MenuItem value="0">Profile 0 (8-bit 4:2:0)</MenuItem>
+			<MenuItem value="1">Profile 1 (8-bit 4:2:2/4:4:4)</MenuItem>
+			<MenuItem value="2">Profile 2 (10/12-bit 4:2:0)</MenuItem>
+			<MenuItem value="3">Profile 3 (10/12-bit 4:2:2/4:4:4)</MenuItem>
 		</Select>
 	);
 }
@@ -162,7 +163,7 @@ Coder.defaultProps = {
 };
 
 const coder = 'vp9_vaapi';
-const name = 'VP9 (Intel VAAPI)';
+const name = 'VP9 (VA-API: Intel/AMD)';
 const codec = 'vp9';
 const type = 'video';
 const hwaccel = true;

@@ -15,7 +15,7 @@ function init(initialState) {
 		bitrate: '4096',
 		fps: '25',
 		gop: '2',
-		profile: '77',
+		profile: 'main',
 		rc_mode: '1',
 		quality: '-1',
 		...initialState,
@@ -42,6 +42,8 @@ function createMapping(settings, stream, skills) {
 		`${settings.profile}`,
 		'-quality',
 		`${settings.quality}`,
+		'-rc_mode',
+		`${settings.rc_mode}`,
 		'-b:v',
 		`${settings.bitrate}k`,
 		'-maxrate',
@@ -50,8 +52,6 @@ function createMapping(settings, stream, skills) {
 		`${settings.bitrate}k`,
 		'-r',
 		`${settings.fps}`,
-		'-g',
-		`${settings.gop}`,
 	);
 
 	if (settings.gop !== 'auto') {
@@ -89,9 +89,9 @@ RateControl.defaultProps = {
 function Profile(props) {
 	return (
 		<Select label={<Trans>Profile</Trans>} value={props.value} onChange={props.onChange}>
-			<MenuItem value="578">baseline (constrained)</MenuItem>
-			<MenuItem value="77">main</MenuItem>
-			<MenuItem value="100">high</MenuItem>
+			<MenuItem value="main">main</MenuItem>
+			<MenuItem value="main10">main 10-bit</MenuItem>
+			<MenuItem value="rext">range extensions</MenuItem>
 		</Select>
 	);
 }
@@ -162,7 +162,7 @@ Coder.defaultProps = {
 };
 
 const coder = 'hevc_vaapi';
-const name = 'HEVC (Intel VAAPI)';
+const name = 'HEVC (VA-API: Intel/AMD)';
 const codec = 'hevc';
 const type = 'video';
 const hwaccel = true;

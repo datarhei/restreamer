@@ -42,6 +42,8 @@ function createMapping(settings, stream, skills) {
 		`${settings.profile}`,
 		'-quality',
 		`${settings.quality}`,
+		'-rc_mode',
+		`${settings.rc_mode}`,
 		'-b:v',
 		`${settings.bitrate}k`,
 		'-maxrate',
@@ -160,7 +162,7 @@ Coder.defaultProps = {
 };
 
 const coder = 'h264_vaapi';
-const name = 'H.264 (Intel VAAPI)';
+const name = 'H.264 (VA-API: Intel/AMD)';
 const codec = 'h264';
 const type = 'video';
 const hwaccel = true;
