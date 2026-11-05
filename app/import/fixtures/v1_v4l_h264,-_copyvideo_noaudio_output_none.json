@@ -1,0 +1,72 @@
+{
+    "addresses": {
+        "srcAddress": "rtmp://127.0.0.1:1936/live/stream",
+        "optionalOutputAddress": "",
+        "srcStreams": {
+            "audio": null,
+            "video": {
+                "index": 0,
+                "type": "video",
+                "codec": "h264",
+                "width": 1280,
+                "height": 720,
+                "format": "yuv420p"
+            }
+        }
+    },
+    "options": {
+        "rtspTcp": true,
+        "video": {
+            "codec": "copy",
+            "preset": "ultrafast",
+            "bitrate": "2048",
+            "fps": "25",
+            "profile": "auto",
+            "tune": "zerolatency",
+            "id": 0
+        },
+        "audio": {
+            "codec": "none",
+            "preset": "silence",
+            "bitrate": "64",
+            "channels": "mono",
+            "sampling": "22050",
+            "id": "a"
+        },
+        "player": {
+            "autoplay": false,
+            "mute": false,
+            "statistics": false,
+            "color": "#3daa48",
+            "logo": {
+                "image": "",
+                "position": "bottom-right",
+                "link": ""
+            }
+        },
+        "output": {
+            "type": "rtmp",
+            "rtmp": {},
+            "hls": {
+                "method": "POST",
+                "time": "2",
+                "listSize": "10",
+                "timeout": "10"
+            }
+        }
+    },
+    "userActions": {
+        "repeatToLocalNginx": "stop",
+        "repeatToOptionalOutput": "stop"
+    },
+    "states": {
+        "repeatToLocalNginx": {
+            "type": "disconnected",
+            "message": ""
+        },
+        "repeatToOptionalOutput": {
+            "type": "disconnected",
+            "message": ""
+        }
+    }
+}

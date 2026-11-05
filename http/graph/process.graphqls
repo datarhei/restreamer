@@ -1,0 +1,168 @@
+extend type Query {
+	processes: [Process!]!
+	process(id: ID!): Process
+	probe(id: ID!): Probe!
+}
+
+type ProcessConfigIO {
+	id: String!
+	address: String!
+	options: [String!]!
+}
+
+type ProcessConfigLimits {
+	cpu_usage: Float!
+	memory_bytes: Uint64!
+	waitfor_seconds: Uint64!
+}
+
+type ProcessConfig {
+	id: String!
+	type: String!
+	reference: String!
+	input: [ProcessConfigIO!]!
+	output: [ProcessConfigIO!]!
+	options: [String!]!
+	reconnect: Boolean!
+	reconnect_delay_seconds: Uint64!
+	autostart: Boolean!
+	stale_timeout_seconds: Uint64!
+	limits: ProcessConfigLimits!
+}
+
+type ProcessState {
+	order: String!
+	state: String!
+	runtime_seconds: Uint64!
+	reconnect_seconds: Int!
+	last_logline: String!
+	progress: Progress!
+	memory_bytes: Uint64!
+	cpu_usage: Float!
+	command: [String!]!
+}
+
+type ProcessReportLogEntry {
+	timestamp: Time!
+	data: String!
+}
+
+interface IProcessReportHistoryEntry {
+	created_at: Time!
+	prelude: [String!]!
+	log: [ProcessReportLogEntry!]!
+}
+
+type ProcessReportHistoryEntry implements IProcessReportHistoryEntry {
+	created_at: Time!
+	prelude: [String!]!
+	log: [ProcessReportLogEntry!]!
+}
+
+type ProcessReport implements IProcessReportHistoryEntry {
+	created_at: Time!
+	prelude: [String!]!
+	log: [ProcessReportLogEntry!]!
+	history: [ProcessReportHistoryEntry!]!
+}
+
+type Process {
+	id: String!
+	type: String!
+	reference: String!
+	created_at: Time!
+	config: ProcessConfig!
+	state: ProcessState!
+	report: ProcessReport!
+	metadata: Map
+}
+
+type ProgressIO {
+	id: String!
+	address: String!
+
+	index: Uint64!
+	stream: Uint64!
+	format: String!
+	type: String!
+	codec: String!
+	coder: String!
+	frame: Uint64!
+	fps: Float!
+	packet: Uint64!
+	pps: Float!
+	size_kb: Uint64!
+	bitrate_kbit: Float!
+
+	pixfmt: String!
+	q: Float!
+	width: Uint64!
+	height: Uint64!
+
+	sampling: Uint64!
+	layout: String!
+	channels: Uint64!
+
+	avstream: AVStream
+}
+
+type Progress {
+	input: [ProgressIO!]!
+	output: [ProgressIO!]!
+	frame: Uint64!
+	packet: Uint64!
+	fps: Float!
+	q: Float!
+	size_kb: Uint64!
+	time: Float!
+	bitrate_kbit: Float!
+	speed: Float!
+	drop: Uint64!
+	dup: Uint64!
+}
+
+type AVStreamIO {
+	state: String!
+	packet: Uint64!
+	time: Uint64!
+	size_kb: Uint64!
+}
+
+type AVStream {
+	input: AVStreamIO!
+	output: AVStreamIO!
+	aqueue: Uint64!
+	queue: Uint64!
+	dup: Uint64!
+	drop: Uint64!
+	enc: Uint64!
+	looping: Boolean!
+	duplicating: Boolean!
+	gop: String!
+}
+
+type ProbeIO {
+	url: String!
+	index: Uint64!
+	stream: Uint64!
+	language: String!
+	type: String!
+	codec: String!
+	coder: String!
+	bitrate_kbps: Float!
+	duration_seconds: Float!
+
+	fps: Float!
+	pix_fmt: String!
+	width: Uint64!
+	height: Uint64!
+
+	sampling: Uint64!
+	layout: String!
+	channels: Uint64!
+}
+
+type Probe {
+	streams: [ProbeIO!]!
+	log: [String!]!
+}

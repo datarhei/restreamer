@@ -1,0 +1,25 @@
+type Query {
+	ping: String!
+}
+
+type Mutation {
+	ping: String!
+}
+
+enum Command {
+	START
+	STOP
+	RESTART
+	RELOAD
+}
+
+enum State {
+	RUNNING
+	IDLE
+}
+
+scalar Time
+scalar Any
+scalar Map
+scalar Uint64
+scalar MetricsResponseValue

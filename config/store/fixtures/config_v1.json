@@ -1,0 +1,138 @@
+{
+  "created_at": "2022-11-08T12:01:22.533279+01:00",
+  "version": 1,
+  "id": "c5ea4473-2f84-417c-a0c6-35746bfc9fc9",
+  "name": "cool-breeze-4646",
+  "address": ":8080",
+  "update_check": true,
+  "log": {
+    "level": "info",
+    "topics": [],
+    "max_lines": 1000
+  },
+  "db": {
+    "dir": "./config"
+  },
+  "host": {
+    "name": [],
+    "auto": true
+  },
+  "api": {
+    "read_only": false,
+    "access": {
+      "http": {
+        "allow": [],
+        "block": []
+      },
+      "https": {
+        "allow": [],
+        "block": []
+      }
+    },
+    "auth": {
+      "enable": false,
+      "disable_localhost": false,
+      "username": "",
+      "password": "",
+      "jwt": {
+        "secret": "L(*C[:uuHzL.]Fzpk$q=fa@PO=Z;j;56"
+      },
+      "auth0": {
+        "enable": false,
+        "tenants": []
+      }
+    }
+  },
+  "tls": {
+    "address": ":8181",
+    "enable": false,
+    "auto": false,
+    "cert_file": "",
+    "key_file": ""
+  },
+  "storage": {
+    "disk": {
+      "dir": "./data",
+      "max_size_mbytes": 0,
+      "cache": {
+        "enable": true,
+        "max_size_mbytes": 0,
+        "ttl_seconds": 300,
+        "max_file_size_mbytes": 1,
+        "types": []
+      }
+    },
+    "memory": {
+      "auth": {
+        "enable": true,
+        "username": "admin",
+        "password": "dcFsZVGwVFkv1bE8Rl"
+      },
+      "max_size_mbytes": 0,
+      "purge": false
+    },
+    "cors": {
+      "origins": [
+        "*"
+      ]
+    },
+    "mimetypes_file": "./mime.types"
+  },
+  "ffmpeg": {
+    "binary": "ffmpeg",
+    "max_processes": 0,
+    "access": {
+      "input": {
+        "allow": [],
+        "block": []
+      },
+      "output": {
+        "allow": [],
+        "block": []
+      }
+    },
+    "log": {
+      "max_lines": 50,
+      "max_history": 3
+    }
+  },
+  "playout": {
+    "enable": false,
+    "min_port": 0,
+    "max_port": 0
+  },
+  "debug": {
+    "profiling": false,
+    "force_gc": 0
+  },
+  "metrics": {
+    "enable": false,
+    "enable_prometheus": false,
+    "range_sec": 300,
+    "interval_sec": 2
+  },
+  "sessions": {
+    "enable": true,
+    "ip_ignorelist": [
+      "127.0.0.1/32",
+      "::1/128"
+    ],
+    "session_timeout_sec": 30,
+    "persist": false,
+    "persist_interval_sec": 300,
+    "max_bitrate_mbit": 0,
+    "max_sessions": 0
+  },
+  "service": {
+    "enable": false,
+    "token": "",
+    "url": "https://service.datarhei.com"
+  },
+  "router": {
+    "blocked_prefixes": [
+      "/api"
+    ],
+    "routes": {},
+    "ui_path": ""
+  }
+}

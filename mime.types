@@ -1,0 +1,17 @@
+text/plain                      .txt
+text/html                       .htm .html
+text/javascript                 .js
+text/css                        .css
+application/json                .json
+application/vnd.apple.mpegurl   .m3u8
+application/xml                 .xml
+video/MP2T                      .ts
+video/mp4                       .mp4
+image/jpeg                      .jpg .jpeg
+image/png                       .png
+image/gif                       .gif
+image/svg+xml                   .svg
+image/vnd.microsoft.icon        .ico
+font/ttf                        .ttf
+font/woff                       .woff
+font/woff2                      .woff2

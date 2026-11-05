@@ -1,0 +1,269 @@
+{
+    "version": 4,
+    "process": {
+        "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f": {
+            "id": "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f",
+            "reference": "4186b095-7f0a-4e94-8c3d-f17459ab252f",
+            "config": {
+                "id": "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f",
+                "reference": "4186b095-7f0a-4e94-8c3d-f17459ab252f",
+                "input": [
+                    {
+                        "id": "input_0",
+                        "address": "http://127.0.0.1:8080/memfs/live.stream.m3u8",
+                        "options": [
+                            "-fflags",
+                            "+genpts",
+                            "-thread_queue_size",
+                            "512",
+                            "-analyzeduration",
+                            "20000000",
+                            "-re"
+                        ]
+                    }
+                ],
+                "output": [
+                    {
+                        "id": "output_0",
+                        "address": "{memfs}/4186b095-7f0a-4e94-8c3d-f17459ab252f.m3u8",
+                        "options": [
+                            "-dn",
+                            "-sn",
+                            "-map",
+                            "0:2",
+                            "-codec:v",
+                            "copy",
+                            "-vsync",
+                            "0",
+                            "-copyts",
+                            "-start_at_zero",
+                            "-an",
+                            "-f",
+                            "hls",
+                            "-start_number",
+                            "0",
+                            "-hls_time",
+                            "2",
+                            "-hls_list_size",
+                            "6",
+                            "-hls_flags",
+                            "append_list+delete_segments",
+                            "-hls_segment_filename",
+                            "{memfs}/4186b095-7f0a-4e94-8c3d-f17459ab252f_%04d.ts",
+                            "-y",
+                            "-method",
+                            "PUT"
+                        ]
+                    }
+                ],
+                "options": [
+                    "-err_detect",
+                    "ignore_err"
+                ],
+                "reconnect": true,
+                "reconnect_delay_seconds": 15,
+                "autostart": true,
+                "stale_timeout_seconds": 30
+            },
+            "created_at": 0,
+            "order": "stop"
+        },
+        "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f_snapshot": {
+            "id": "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f_snapshot",
+            "reference": "4186b095-7f0a-4e94-8c3d-f17459ab252f",
+            "config": {
+                "id": "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f_snapshot",
+                "reference": "4186b095-7f0a-4e94-8c3d-f17459ab252f",
+                "input": [
+                    {
+                        "id": "input_0",
+                        "address": "#restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f:output=output_0",
+                        "options": []
+                    }
+                ],
+                "output": [
+                    {
+                        "id": "output_0",
+                        "address": "{memfs}/4186b095-7f0a-4e94-8c3d-f17459ab252f.jpg",
+                        "options": [
+                            "-vframes",
+                            "1",
+                            "-f",
+                            "image2",
+                            "-update",
+                            "1"
+                        ]
+                    }
+                ],
+                "options": [
+                    "-err_detect",
+                    "ignore_err"
+                ],
+                "reconnect": true,
+                "reconnect_delay_seconds": 60,
+                "autostart": true,
+                "stale_timeout_seconds": 30
+            },
+            "created_at": 0,
+            "order": "stop"
+        }
+    },
+    "metadata": {
+        "system": {},
+        "process": {
+            "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f": {
+                "restreamer-ui": {
+                    "control": {
+                        "hls": {
+                            "lhls": false,
+                            "listSize": 6,
+                            "segmentDuration": 2
+                        },
+                        "process": {
+                            "autostart": true,
+                            "delay": 15,
+                            "reconnect": true,
+                            "staleTimeout": 30
+                        },
+                        "snapshot": {
+                            "enable": true,
+                            "interval": 60
+                        }
+                    },
+                    "imported": true,
+                    "license": "CC BY 4.0",
+                    "meta": {
+                        "author": {
+                            "description": "",
+                            "name": ""
+                        },
+                        "description": "Live from earth. Powered by datarhei Restreamer.",
+                        "name": "Livestream"
+                    },
+                    "player": {
+                        "autoplay": false,
+                        "color": {
+                            "buttons": "#3daa48",
+                            "seekbar": "#3daa48"
+                        },
+                        "ga": {
+                            "account": "",
+                            "name": ""
+                        },
+                        "logo": {
+                            "image": "",
+                            "link": "",
+                            "position": "bottom-right"
+                        },
+                        "mute": false,
+                        "statistics": false
+                    },
+                    "profiles": [
+                        {
+                            "audio": {
+                                "decoder": {
+                                    "codec": "",
+                                    "coder": "default",
+                                    "mapping": [],
+                                    "settings": {}
+                                },
+                                "encoder": {
+                                    "codec": "none",
+                                    "coder": "none",
+                                    "mapping": [],
+                                    "settings": {}
+                                },
+                                "source": -1,
+                                "stream": -1
+                            },
+                            "video": {
+                                "decoder": {
+                                    "codec": "",
+                                    "coder": "default",
+                                    "mapping": [],
+                                    "settings": {}
+                                },
+                                "encoder": {
+                                    "codec": "h264",
+                                    "coder": "copy",
+                                    "mapping": [
+                                        "-codec:v",
+                                        "copy",
+                                        "-vsync",
+                                        "0",
+                                        "-copyts",
+                                        "-start_at_zero"
+                                    ],
+                                    "settings": {}
+                                },
+                                "source": 0,
+                                "stream": 2
+                            }
+                        }
+                    ],
+                    "sources": [
+                        {
+                            "inputs": [
+                                {
+                                    "address": "http://127.0.0.1:8080/memfs/live.stream.m3u8",
+                                    "options": [
+                                        "-fflags",
+                                        "+genpts",
+                                        "-thread_queue_size",
+                                        "512",
+                                        "-analyzeduration",
+                                        "20000000",
+                                        "-re"
+                                    ]
+                                }
+                            ],
+                            "settings": {
+                                "address": "http://127.0.0.1:8080/memfs/live.stream.m3u8",
+                                "general": {
+                                    "fflags": [
+                                        "genpts"
+                                    ],
+                                    "thread_queue_size": 512
+                                },
+                                "http": {
+                                    "forceFramerate": false,
+                                    "framerate": 25,
+                                    "readNative": true
+                                },
+                                "mode": "pull",
+                                "rtsp": {
+                                    "stimeout": 5000000,
+                                    "udp": false
+                                }
+                            },
+                            "streams": [
+                                {
+                                    "bitrate_kbps": 0,
+                                    "channels": 0,
+                                    "codec": "h264",
+                                    "coder": "",
+                                    "duration_sec": 0,
+                                    "format": "",
+                                    "fps": 0,
+                                    "height": 720,
+                                    "index": 0,
+                                    "language": "",
+                                    "layout": "",
+                                    "pix_fmt": "yuv420p",
+                                    "sampling_hz": 0,
+                                    "stream": 2,
+                                    "type": "video",
+                                    "url": "http://127.0.0.1:8080/memfs/live.stream.m3u8",
+                                    "width": 1280
+                                }
+                            ],
+                            "type": "network"
+                        }
+                    ],
+                    "version": 1
+                }
+            },
+            "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f_snapshot": null
+        }
+    }
+}

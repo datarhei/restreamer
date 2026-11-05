@@ -1,0 +1,10 @@
+.DS_Store
+.env
+/data/**
+/test/**
+Dockerfile*
+CHANGELOG.md
+README.md
+*.md
+.github/*
+.github_build/*

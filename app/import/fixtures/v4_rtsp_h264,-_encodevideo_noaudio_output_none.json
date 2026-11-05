@@ -1,0 +1,305 @@
+{
+    "version": 4,
+    "process": {
+        "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f": {
+            "id": "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f",
+            "reference": "4186b095-7f0a-4e94-8c3d-f17459ab252f",
+            "config": {
+                "id": "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f",
+                "reference": "4186b095-7f0a-4e94-8c3d-f17459ab252f",
+                "input": [
+                    {
+                        "id": "input_0",
+                        "address": "rtsp://127.0.0.1:8554/live/stream",
+                        "options": [
+                            "-fflags",
+                            "+genpts",
+                            "-thread_queue_size",
+                            "512",
+                            "-stimeout",
+                            "5000000",
+                            "-rtsp_transport",
+                            "tcp"
+                        ]
+                    }
+                ],
+                "output": [
+                    {
+                        "id": "output_0",
+                        "address": "{memfs}/4186b095-7f0a-4e94-8c3d-f17459ab252f.m3u8",
+                        "options": [
+                            "-dn",
+                            "-sn",
+                            "-map",
+                            "0:0",
+                            "-codec:v",
+                            "libx264",
+                            "-preset:v",
+                            "ultrafast",
+                            "-b:v",
+                            "2048k",
+                            "-maxrate:v",
+                            "2048k",
+                            "-bufsize:v",
+                            "2048k",
+                            "-r",
+                            "25",
+                            "-g",
+                            "50",
+                            "-pix_fmt",
+                            "yuv420p",
+                            "-vsync",
+                            "1",
+                            "-tune:v",
+                            "zerolatency",
+                            "-an",
+                            "-f",
+                            "hls",
+                            "-start_number",
+                            "0",
+                            "-hls_time",
+                            "2",
+                            "-hls_list_size",
+                            "6",
+                            "-hls_flags",
+                            "append_list+delete_segments",
+                            "-hls_segment_filename",
+                            "{memfs}/4186b095-7f0a-4e94-8c3d-f17459ab252f_%04d.ts",
+                            "-y",
+                            "-method",
+                            "PUT"
+                        ]
+                    }
+                ],
+                "options": [
+                    "-err_detect",
+                    "ignore_err"
+                ],
+                "reconnect": true,
+                "reconnect_delay_seconds": 15,
+                "autostart": true,
+                "stale_timeout_seconds": 30
+            },
+            "created_at": 0,
+            "order": "stop"
+        },
+        "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f_snapshot": {
+            "id": "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f_snapshot",
+            "reference": "4186b095-7f0a-4e94-8c3d-f17459ab252f",
+            "config": {
+                "id": "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f_snapshot",
+                "reference": "4186b095-7f0a-4e94-8c3d-f17459ab252f",
+                "input": [
+                    {
+                        "id": "input_0",
+                        "address": "#restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f:output=output_0",
+                        "options": []
+                    }
+                ],
+                "output": [
+                    {
+                        "id": "output_0",
+                        "address": "{memfs}/4186b095-7f0a-4e94-8c3d-f17459ab252f.jpg",
+                        "options": [
+                            "-vframes",
+                            "1",
+                            "-f",
+                            "image2",
+                            "-update",
+                            "1"
+                        ]
+                    }
+                ],
+                "options": [
+                    "-err_detect",
+                    "ignore_err"
+                ],
+                "reconnect": true,
+                "reconnect_delay_seconds": 60,
+                "autostart": true,
+                "stale_timeout_seconds": 30
+            },
+            "created_at": 0,
+            "order": "stop"
+        }
+    },
+    "metadata": {
+        "system": {},
+        "process": {
+            "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f": {
+                "restreamer-ui": {
+                    "control": {
+                        "hls": {
+                            "lhls": false,
+                            "listSize": 6,
+                            "segmentDuration": 2
+                        },
+                        "process": {
+                            "autostart": true,
+                            "delay": 15,
+                            "reconnect": true,
+                            "staleTimeout": 30
+                        },
+                        "snapshot": {
+                            "enable": true,
+                            "interval": 60
+                        }
+                    },
+                    "imported": true,
+                    "license": "CC BY 4.0",
+                    "meta": {
+                        "author": {
+                            "description": "",
+                            "name": ""
+                        },
+                        "description": "Live from earth. Powered by datarhei Restreamer.",
+                        "name": "Livestream"
+                    },
+                    "player": {
+                        "autoplay": false,
+                        "color": {
+                            "buttons": "#3daa48",
+                            "seekbar": "#3daa48"
+                        },
+                        "ga": {
+                            "account": "",
+                            "name": ""
+                        },
+                        "logo": {
+                            "image": "",
+                            "link": "",
+                            "position": "bottom-right"
+                        },
+                        "mute": false,
+                        "statistics": false
+                    },
+                    "profiles": [
+                        {
+                            "audio": {
+                                "decoder": {
+                                    "coder": "default",
+                                    "codec": "",
+                                    "mapping": [],
+                                    "settings": {}
+                                },
+                                "encoder": {
+                                    "codec": "none",
+                                    "coder": "none",
+                                    "mapping": [],
+                                    "settings": {}
+                                },
+                                "source": -1,
+                                "stream": -1
+                            },
+                            "video": {
+                                "decoder": {
+                                    "coder": "default",
+                                    "codec": "",
+                                    "mapping": [],
+                                    "settings": {}
+                                },
+                                "encoder": {
+                                    "codec": "h264",
+                                    "coder": "libx264",
+                                    "mapping": [
+                                        "-codec:v",
+                                        "libx264",
+                                        "-preset:v",
+                                        "ultrafast",
+                                        "-b:v",
+                                        "2048k",
+                                        "-maxrate:v",
+                                        "2048k",
+                                        "-bufsize:v",
+                                        "2048k",
+                                        "-r",
+                                        "25",
+                                        "-g",
+                                        "50",
+                                        "-pix_fmt",
+                                        "yuv420p",
+                                        "-vsync",
+                                        "1",
+                                        "-tune:v",
+                                        "zerolatency"
+                                    ],
+                                    "settings": {
+                                        "bitrate": "2048",
+                                        "fps": "25",
+                                        "preset": "ultrafast",
+                                        "profile": "auto",
+                                        "tune": "zerolatency"
+                                    }
+                                },
+                                "source": 0,
+                                "stream": 0
+                            }
+                        }
+                    ],
+                    "sources": [
+                        {
+                            "inputs": [
+                                {
+                                    "address": "rtsp://127.0.0.1:8554/live/stream",
+                                    "options": [
+                                        "-fflags",
+                                        "+genpts",
+                                        "-thread_queue_size",
+                                        "512",
+                                        "-stimeout",
+                                        "5000000",
+                                        "-rtsp_transport",
+                                        "tcp"
+                                    ]
+                                }
+                            ],
+                            "settings": {
+                                "address": "rtsp://127.0.0.1:8554/live/stream",
+                                "general": {
+                                    "fflags": [
+                                        "genpts"
+                                    ],
+                                    "thread_queue_size": 512
+                                },
+                                "http": {
+                                    "forceFramerate": false,
+                                    "framerate": 25,
+                                    "readNative": true
+                                },
+                                "mode": "pull",
+                                "rtsp": {
+                                    "stimeout": 5000000,
+                                    "udp": false
+                                }
+                            },
+                            "streams": [
+                                {
+                                    "bitrate_kbps": 0,
+                                    "channels": 0,
+                                    "codec": "h264",
+                                    "coder": "",
+                                    "duration_sec": 0,
+                                    "format": "",
+                                    "fps": 0,
+                                    "height": 720,
+                                    "index": 0,
+                                    "language": "",
+                                    "layout": "",
+                                    "pix_fmt": "yuv420p",
+                                    "sampling_hz": 0,
+                                    "stream": 0,
+                                    "type": "video",
+                                    "url": "rtsp://127.0.0.1:8554/live/stream",
+                                    "width": 1280
+                                }
+                            ],
+                            "type": "network"
+                        }
+                    ],
+                    "version": 1
+                }
+            },
+            "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f_snapshot": null
+        }
+    }
+}
