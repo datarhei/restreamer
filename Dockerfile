@@ -14,7 +14,7 @@ RUN corepack enable && \
     corepack prepare yarn@${YARN_VERSION} --activate && \
     yarn install --frozen-lockfile
 COPY components/ui/ ./
-RUN yarn build
+RUN yarn test-ci && yarn build
 
 FROM --platform=$BUILDPLATFORM ${GOLANG_IMAGE} AS core-builder
 ARG TARGETOS
@@ -24,7 +24,11 @@ ENV GOOS=${TARGETOS} GOARCH=${TARGETARCH} GOARM=${TARGETVARIANT}
 WORKDIR /src/core
 RUN apk add --no-cache git make
 COPY components/core/ ./
-RUN make release && make import && make ffmigrate
+RUN go test ./... && \
+    go vet ./... && \
+    make release && \
+    make import && \
+    make ffmigrate
 
 FROM ${FFMPEG_IMAGE}
 

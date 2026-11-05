@@ -24,7 +24,7 @@ export default function Router(props) {
 				<Route path="/:channelid/publication" element={<Views.AddService key={channelid} restreamer={props.restreamer} />} />
 				<Route path="/:channelid/publication/player" element={<Views.EditPlayer key={channelid} restreamer={props.restreamer} />} />
 				<Route path="/:channelid/publication/:service/:index" element={<Views.EditService key={channelid} restreamer={props.restreamer} />} />
-				<Route path="*" render={() => <Navigate to="/" replace />} />
+				<Route path="*" element={<Navigate to="/" replace />} />
 			</Routes>
 		</DOMRouter>
 	);

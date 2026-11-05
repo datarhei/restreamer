@@ -139,9 +139,10 @@ RESTREAMER_IMAGE=restreamer:local scripts/smoke-compose.sh
 1. resolves the newest stable FFmpeg source release unless a version is supplied;
 2. builds the redistributable hardware FFmpeg image;
 3. fails if required hardware support or Restreamer patches disappear;
-4. pins the unified build to the FFmpeg image digest;
-5. boots and probes the application before publishing to GitHub Container Registry;
-6. emits provenance and an SBOM for both images.
+4. runs the Core tests and vet checks plus all UI tests;
+5. pins the unified build to the FFmpeg image digest;
+6. boots and probes the application before publishing to GitHub Container Registry;
+7. emits provenance and an SBOM for both images.
 
 An upstream FFmpeg release that no longer accepts the Restreamer patches is expected
 to fail loudly. Silently publishing an unpatched binary would be impressively tidy
