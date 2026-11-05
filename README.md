@@ -157,7 +157,10 @@ photons remain unwilling to participate in GitHub Actions.
 
 ## Releases
 
-`.github/workflows/build-unified.yml` supports manual and scheduled builds. It:
+`.github/workflows/build-unified.yml` supports manual, source-triggered, and daily
+FFmpeg release checks. A scheduled run stops before the expensive image builds when
+the resolved `hardware-VERSION` tag already exists; manual runs and relevant source
+pushes still force a rebuild. It:
 
 1. resolves the newest stable FFmpeg source release unless a version is supplied;
 2. builds the redistributable hardware FFmpeg image;
@@ -168,6 +171,13 @@ photons remain unwilling to participate in GitHub Actions.
 7. pins the unified build to the FFmpeg image digest;
 8. boots and probes the application before publishing to GitHub Container Registry;
 9. emits provenance and an SBOM for both images.
+
+GitHub Container Registry packages are not guaranteed to become public merely
+because their source repository is public. After the first successful publication,
+open each `restreamer` and `restreamer-ffmpeg` package in GitHub, connect it to this
+repository if GitHub has not already done so, and set package visibility to public.
+Otherwise the lovingly automated public image will require authentication, which is
+a rather avant-garde interpretation of “anyone can use it.”
 
 Pull requests run the quality gates without publishing images. The two inherited
 bundle workflows were removed because they built external datarhei components with

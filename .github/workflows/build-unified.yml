@@ -8,7 +8,7 @@ on:
         required: false
         type: string
   schedule:
-    - cron: "23 6 * * 1"
+    - cron: "23 6 * * *"
   push:
     branches:
       - 2.x
@@ -35,7 +35,6 @@ on:
 
 permissions:
   contents: read
-  packages: write
 
 concurrency:
   group: unified-${{ github.ref }}
@@ -92,6 +91,10 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       ffmpeg: ${{ steps.resolve.outputs.ffmpeg }}
+      published: ${{ steps.registry.outputs.published }}
+    permissions:
+      contents: read
+      packages: read
     steps:
       - uses: actions/checkout@v4
 
@@ -105,11 +108,38 @@ jobs:
           version="$(scripts/resolve-ffmpeg-version.sh "${REQUESTED_VERSION}")"
           echo "ffmpeg=${version}" >> "${GITHUB_OUTPUT}"
 
+      - name: Log in to GHCR for release lookup
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check whether this FFmpeg release is already published
+        id: registry
+        env:
+          FFMPEG_VERSION: ${{ steps.resolve.outputs.ffmpeg }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          image="${REGISTRY}/${FFMPEG_IMAGE_NAME}:hardware-${FFMPEG_VERSION}"
+          if docker manifest inspect "${image}" >/dev/null 2>&1; then
+            echo "published=true" >> "${GITHUB_OUTPUT}"
+            echo "${image} already exists; a scheduled run has nothing new to publish."
+          else
+            echo "published=false" >> "${GITHUB_OUTPUT}"
+            echo "${image} is not published yet."
+          fi
+
   ffmpeg:
+    if: github.event_name != 'schedule' || needs.version.outputs.published != 'true'
     needs:
       - quality
       - version
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     outputs:
       digest: ${{ steps.build.outputs.digest }}
     steps:
@@ -154,6 +184,9 @@ jobs:
       - version
       - ffmpeg
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v4
 
