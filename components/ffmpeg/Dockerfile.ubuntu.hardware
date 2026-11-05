@@ -49,7 +49,6 @@ RUN apt-get update -y && \
   libharfbuzz-dev \
   libsrt-openssl-dev \
   libxml2-dev \
-  libfdk-aac-dev \
   libharfbuzz-dev \
   libxml2-dev \
   libxcb1-dev \
@@ -82,15 +81,12 @@ RUN cd /dist/ffmpeg-${FFMPEG_VERSION} && \
   --prefix="${SRC}" \
   --extra-cflags="-I/usr/local/include -I/usr/local/cuda/include" \
   --extra-ldflags=-L/usr/local/cuda/lib64 \
-  --enable-nonfree \
   --enable-gpl \
   --enable-version3 \
   --enable-static \
   --enable-openssl \
   --enable-libxml2 \
   --enable-cuda \
-  --enable-cuda-llvm \
-  --enable-cuda-nvcc \
   --enable-nvdec \
   --enable-nvenc \
   --enable-cuvid \
@@ -108,7 +104,6 @@ RUN cd /dist/ffmpeg-${FFMPEG_VERSION} && \
   --enable-libx265 \
   --enable-libvpx \
   --enable-libmp3lame \
-  --enable-libfdk-aac \
   --enable-libopus \
   --enable-libvorbis \
   --enable-libdav1d \
