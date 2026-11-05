@@ -12,8 +12,10 @@ import BoxText from '../../../misc/BoxText';
 
 import Paper from '../../../misc/Paper';
 import PaperHeader from '../../../misc/PaperHeader';
+import { withDefaults } from '../../../utils/props';
 
-export default function Video(props) {
+export default function Video(inputProps) {
+	const props = withDefaults(inputProps, VideoDefaultProps);
 	return (
 		<Paper xs={12} sm={9} md={6} marginBottom="6em" className="PaperM">
 			<PaperHeader spacing={2} variant="h1" title={<Trans>Video setup</Trans>} onAbort={props.onAbort} onHelp={props.onHelp} />
@@ -76,7 +78,7 @@ export default function Video(props) {
 	);
 }
 
-Video.defaultProps = {
+const VideoDefaultProps = {
 	onAbort: () => {},
 	onHelp: () => {},
 	onBack: () => {},

@@ -11,6 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 import * as M from '../../utils/metadata';
 import Summary from './Summary';
+import { withDefaults } from '../../utils/props';
 
 function IconWizard(props) {
 	return <AutoFixHighIcon {...props} />;
@@ -30,7 +31,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function ProfileSummary(props) {
+export default function ProfileSummary(inputProps) {
+	const props = withDefaults(inputProps, ProfileSummaryDefaultProps);
 	const classes = useStyles();
 
 	const profile = M.initProfile(props.profile);
@@ -97,7 +99,7 @@ export default function ProfileSummary(props) {
 	);
 }
 
-ProfileSummary.defaultProps = {
+const ProfileSummaryDefaultProps = {
 	sources: [],
 	profile: null,
 	onEdit: function (type) {},

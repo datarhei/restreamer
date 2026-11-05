@@ -38,6 +38,7 @@ import SnapshotControl from '../../misc/controls/Snapshot';
 import SRTControl from '../../misc/controls/SRT';
 import TabPanel from '../../misc/TabPanel';
 import TabsVerticalGrid from '../../misc/TabsVerticalGrid';
+import { withDefaults } from '../../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	wizardButtonElement: {
@@ -56,7 +57,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function Edit(props) {
+export default function Edit(inputProps) {
+	const props = withDefaults(inputProps, EditDefaultProps);
 	const classes = useStyles();
 	const { i18n } = useLingui();
 	const navigate = useNavigate();
@@ -684,7 +686,7 @@ export default function Edit(props) {
 	);
 }
 
-Edit.defaultProps = {
+const EditDefaultProps = {
 	restreamer: null,
 };
 

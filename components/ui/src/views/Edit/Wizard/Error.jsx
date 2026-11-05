@@ -9,8 +9,10 @@ import WarningIcon from '@mui/icons-material/Warning';
 import BoxText from '../../../misc/BoxText';
 import Paper from '../../../misc/Paper';
 import PaperHeader from '../../../misc/PaperHeader';
+import { withDefaults } from '../../../utils/props';
 
-export default function Error(props) {
+export default function Error(inputProps) {
+	const props = withDefaults(inputProps, ErrorDefaultProps);
 	return (
 		<Paper xs={12} sm={8} md={6} marginBottom="6em" className="PaperM">
 			<PaperHeader spacing={3} variant="h1" title={<Trans>Error</Trans>} onAbort={props.onAbort} onHelp={props.onHelp} />
@@ -31,7 +33,7 @@ export default function Error(props) {
 	);
 }
 
-Error.defaultProps = {
+const ErrorDefaultProps = {
 	onAbort: () => {},
 	onHelp: () => {},
 	onNext: () => {},

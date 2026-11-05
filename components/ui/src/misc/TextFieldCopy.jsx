@@ -11,6 +11,7 @@ import NotifyContext from '../contexts/Notify';
 import OutlinedInput from '@mui/material/OutlinedInput';
 
 import CopyToClipboard from '../utils/clipboard';
+import { withDefaults } from '../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -20,7 +21,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function Component(props) {
+export default function Component(inputProps) {
+	const props = withDefaults(inputProps, ComponentDefaultProps);
 	const classes = useStyles();
 	const { i18n } = useLingui();
 
@@ -59,7 +61,7 @@ export default function Component(props) {
 	);
 }
 
-Component.defaultProps = {
+const ComponentDefaultProps = {
 	id: null,
 	label: '',
 	value: '',

@@ -8,6 +8,7 @@ import { Trans } from '@lingui/react/macro';
 import Select from '../../../Select';
 import Video from '../../settings/Video';
 import Helper from '../../helper';
+import { withDefaults } from '../../../../utils/props';
 
 function init(initialState) {
 	const state = {
@@ -77,7 +78,8 @@ function createMapping(settings, stream, skills) {
 	return mapping;
 }
 
-function Preset(props) {
+function Preset(inputProps) {
+	const props = withDefaults(inputProps, PresetDefaultProps);
 	return (
 		<Select label={<Trans>Preset</Trans>} value={props.value} onChange={props.onChange}>
 			<MenuItem value="ultrafast">ultrafast</MenuItem>
@@ -93,12 +95,13 @@ function Preset(props) {
 	);
 }
 
-Preset.defaultProps = {
+const PresetDefaultProps = {
 	value: '',
 	onChange: function (event) {},
 };
 
-function Tune(props) {
+function Tune(inputProps) {
+	const props = withDefaults(inputProps, TuneDefaultProps);
 	return (
 		<Select label={<Trans>Tune</Trans>} value={props.value} onChange={props.onChange}>
 			<MenuItem value="none">none</MenuItem>
@@ -112,12 +115,13 @@ function Tune(props) {
 	);
 }
 
-Tune.defaultProps = {
+const TuneDefaultProps = {
 	value: '',
 	onChange: function (event) {},
 };
 
-function Coder(props) {
+function Coder(inputProps) {
+	const props = withDefaults(inputProps, CoderDefaultProps);
 	const settings = init(props.settings);
 	const stream = Helper.InitStream(props.stream);
 	const skills = Helper.InitSkills(props.skills);
@@ -175,7 +179,7 @@ function Coder(props) {
 	);
 }
 
-Coder.defaultProps = {
+const CoderDefaultProps = {
 	stream: {},
 	settings: {},
 	skills: {},

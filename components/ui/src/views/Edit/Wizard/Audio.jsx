@@ -17,8 +17,10 @@ import BoxText from '../../../misc/BoxText';
 import Paper from '../../../misc/Paper';
 import PaperHeader from '../../../misc/PaperHeader';
 import Select from '../../../misc/Select';
+import { withDefaults } from '../../../utils/props';
 
-export default function Audio(props) {
+export default function Audio(inputProps) {
+	const props = withDefaults(inputProps, AudioDefaultProps);
 	const { i18n } = useLingui();
 
 	return (
@@ -120,7 +122,7 @@ export default function Audio(props) {
 	);
 }
 
-Audio.defaultProps = {
+const AudioDefaultProps = {
 	onAbort: () => {},
 	onHelp: () => {},
 	onBack: () => {},

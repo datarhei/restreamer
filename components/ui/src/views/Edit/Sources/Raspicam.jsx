@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import FormInlineButton from '../../../misc/FormInlineButton';
 import SelectCustom from '../../../misc/SelectCustom';
 import Video from '../../../misc/coders/settings/Video';
+import { withDefaults } from '../../../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	gridContainer: {
@@ -55,7 +56,8 @@ const createInputs = (settings) => {
 	return [input];
 };
 
-function Source(props) {
+function Source(inputProps) {
+	const props = withDefaults(inputProps, SourceDefaultProps);
 	const classes = useStyles();
 	const { i18n } = useLingui();
 	const settings = initSettings(props.settings);
@@ -130,7 +132,7 @@ function Source(props) {
 	);
 }
 
-Source.defaultProps = {
+const SourceDefaultProps = {
 	knownDevices: [],
 	settings: {},
 	onChange: function (settings) {},

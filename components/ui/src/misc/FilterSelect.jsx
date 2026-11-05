@@ -9,8 +9,10 @@ import * as Filters from './filters';
 
 // Import all encoders (audio/video)
 import * as Encoders from './coders/Encoders';
+import { withDefaults } from '../utils/props';
 
-export default function FilterSelect(props) {
+export default function FilterSelect(inputProps) {
+	const props = withDefaults(inputProps, FilterSelectDefaultProps);
 	const profile = props.profile;
 
 	// handleFilterChange
@@ -126,7 +128,7 @@ export default function FilterSelect(props) {
 	);
 }
 
-FilterSelect.defaultProps = {
+const FilterSelectDefaultProps = {
 	type: '',
 	profile: {},
 	availableFilters: [],

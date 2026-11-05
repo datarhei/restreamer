@@ -11,8 +11,10 @@ import Stack from '@mui/material/Stack';
 import NotifyContext from '../contexts/Notify';
 import Palette from '../theme/base/palette';
 import TextareaModal from './modals/Textarea';
+import { withDefaults } from '../utils/props';
 
-export default function Component(props) {
+export default function Component(inputProps) {
+	const props = withDefaults(inputProps, ComponentDefaultProps);
 	const { i18n } = useLingui();
 
 	const [$modal, setModal] = React.useState(false);
@@ -195,7 +197,7 @@ export default function Component(props) {
 	);
 }
 
-Component.defaultProps = {
+const ComponentDefaultProps = {
 	title: '',
 	rows: 20,
 	value: '',

@@ -8,6 +8,7 @@ import Grid from '@mui/material/Grid';
 import HelpIcon from '@mui/icons-material/HelpOutline';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import { withDefaults } from '../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -19,7 +20,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Component = function (props) {
+const Component = function (inputProps) {
+	const props = withDefaults(inputProps, ComponentDefaultProps);
 	const classes = useStyles();
 
 	return (
@@ -53,7 +55,7 @@ const Component = function (props) {
 
 export default Component;
 
-Component.defaultProps = {
+const ComponentDefaultProps = {
 	spacing: 0,
 	padding: null,
 	title: '',

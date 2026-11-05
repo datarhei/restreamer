@@ -7,6 +7,7 @@ import Grid from '@mui/material/Grid';
 
 import Checkbox from '../../Checkbox';
 import SelectCustom from '../../SelectCustom';
+import { withDefaults } from '../../../utils/props';
 
 // Framerate Filter
 // http://ffmpeg.org/ffmpeg-all.html#framerate
@@ -33,7 +34,8 @@ function createGraph(settings) {
 	return mapping.join(',');
 }
 
-function Framerate(props) {
+function Framerate(inputProps) {
+	const props = withDefaults(inputProps, FramerateDefaultProps);
 	const { i18n } = useLingui();
 	const sizes = [
 		{ value: '60', label: '60' },
@@ -62,7 +64,7 @@ function Framerate(props) {
 	);
 }
 
-Framerate.defaultProps = {
+const FramerateDefaultProps = {
 	label: <Trans>Framerate</Trans>,
 	customLabel: <Trans>Custom framerate</Trans>,
 	value: '',
@@ -71,7 +73,8 @@ Framerate.defaultProps = {
 	onChange: function (event) {},
 };
 
-function Filter(props) {
+function Filter(inputProps) {
+	const props = withDefaults(inputProps, FilterDefaultProps);
 	const settings = init(props.settings);
 
 	const handleChange = (newSettings) => {
@@ -118,7 +121,7 @@ function Filter(props) {
 	);
 }
 
-Filter.defaultProps = {
+const FilterDefaultProps = {
 	settings: {},
 	onChange: function (settings, mapping) {},
 };

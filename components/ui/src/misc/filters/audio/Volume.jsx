@@ -6,6 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 
 import Select from '../../Select';
+import { withDefaults } from '../../../utils/props';
 
 // Volume Filter
 // http://ffmpeg.org/ffmpeg-all.html#volume
@@ -39,7 +40,8 @@ function createGraph(settings) {
 	return mapping.join(',');
 }
 
-function VolumeLevel(props) {
+function VolumeLevel(inputProps) {
+	const props = withDefaults(inputProps, VolumeLevelDefaultProps);
 	return (
 		<Select label={<Trans>Volume</Trans>} value={props.value} onChange={props.onChange}>
 			<MenuItem value="inherit">
@@ -61,12 +63,13 @@ function VolumeLevel(props) {
 	);
 }
 
-VolumeLevel.defaultProps = {
+const VolumeLevelDefaultProps = {
 	value: '',
 	onChange: function (event) {},
 };
 
-function VolumeDB(props) {
+function VolumeDB(inputProps) {
+	const props = withDefaults(inputProps, VolumeDBDefaultProps);
 	return (
 		<TextField
 			variant="outlined"
@@ -80,13 +83,14 @@ function VolumeDB(props) {
 	);
 }
 
-VolumeDB.defaultProps = {
+const VolumeDBDefaultProps = {
 	value: '',
 	disabled: false,
 	onChange: function (event) {},
 };
 
-function Filter(props) {
+function Filter(inputProps) {
+	const props = withDefaults(inputProps, FilterDefaultProps);
 	const settings = init(props.settings);
 
 	const handleChange = (newSettings) => {
@@ -125,7 +129,7 @@ function Filter(props) {
 	);
 }
 
-Filter.defaultProps = {
+const FilterDefaultProps = {
 	settings: {},
 	onChange: function (settings, graph, automatic) {},
 };

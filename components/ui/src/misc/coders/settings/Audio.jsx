@@ -6,8 +6,10 @@ import { t } from '@lingui/core/macro';
 import Typography from '@mui/material/Typography';
 
 import SelectCustom from '../../../misc/SelectCustom';
+import { withDefaults } from '../../../utils/props';
 
-function Bitrate(props) {
+function Bitrate(inputProps) {
+	const props = withDefaults(inputProps, BitrateDefaultProps);
 	const { i18n } = useLingui();
 	const bitrates = [
 		{ value: '256', label: '256 kbit/s' },
@@ -44,7 +46,7 @@ function Bitrate(props) {
 	);
 }
 
-Bitrate.defaultProps = {
+const BitrateDefaultProps = {
 	allowAuto: false,
 	allowCustom: false,
 	variant: 'outlined',
@@ -53,7 +55,8 @@ Bitrate.defaultProps = {
 	onChange: function (event) {},
 };
 
-function Layout(props) {
+function Layout(inputProps) {
+	const props = withDefaults(inputProps, LayoutDefaultProps);
 	const { i18n } = useLingui();
 	const options = [
 		{ value: 'mono', label: 'mono' },
@@ -130,7 +133,7 @@ function Layout(props) {
 	);
 }
 
-Layout.defaultProps = {
+const LayoutDefaultProps = {
 	variant: 'outlined',
 	allowAuto: false,
 	allowInherit: false,
@@ -140,7 +143,8 @@ Layout.defaultProps = {
 	onChange: function () {},
 };
 
-function Sampling(props) {
+function Sampling(inputProps) {
+	const props = withDefaults(inputProps, SamplingDefaultProps);
 	const { i18n } = useLingui();
 	const options = [
 		{ value: '96000', label: '96000 Hz' },
@@ -181,7 +185,7 @@ function Sampling(props) {
 	);
 }
 
-Sampling.defaultProps = {
+const SamplingDefaultProps = {
 	variant: 'outlined',
 	allowAuto: false,
 	allowInherit: false,

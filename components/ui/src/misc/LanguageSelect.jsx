@@ -4,6 +4,7 @@ import { useLingui } from '@lingui/react';
 import makeStyles from '@mui/styles/makeStyles';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import { withDefaults } from '../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -28,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function LanguageSelect(props) {
+export default function LanguageSelect(inputProps) {
+	const props = withDefaults(inputProps, LanguageSelectDefaultProps);
 	const classes = useStyles();
 	const { i18n } = useLingui();
 
@@ -61,6 +63,6 @@ export default function LanguageSelect(props) {
 	);
 }
 
-LanguageSelect.defaultProps = {
+const LanguageSelectDefaultProps = {
 	onChange: function (lang) {},
 };

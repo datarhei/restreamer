@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 
 import FormInlineButton from '../../../misc/FormInlineButton';
 import Logo from './logos/wettercom.png';
+import { withDefaults } from '../../../utils/props';
 
 const id = 'wettercom';
 const name = 'wetter.com';
@@ -58,7 +59,8 @@ function init(settings) {
 	return initSettings;
 }
 
-function Service(props) {
+function Service(inputProps) {
+	const props = withDefaults(inputProps, ServiceDefaultProps);
 	const settings = init(props.settings);
 
 	const handleChange = (what) => (event) => {
@@ -111,7 +113,7 @@ function Service(props) {
 	);
 }
 
-Service.defaultProps = {
+const ServiceDefaultProps = {
 	settings: {},
 	skills: {},
 	metadata: {},

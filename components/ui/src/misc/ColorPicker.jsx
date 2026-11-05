@@ -3,6 +3,7 @@ import React from 'react';
 // https://github.com/omgovich/react-colorful
 import { RgbaStringColorPicker } from 'react-colorful';
 import TextField from '@mui/material/TextField';
+import { withDefaults } from '../utils/props';
 
 // https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
 function hexToRGBA(value) {
@@ -16,7 +17,8 @@ function hexToRGBA(value) {
 	return result ? `rgba(${parseInt(result[1], 16)},${parseInt(result[2], 16)},${parseInt(result[3], 16)},1)` : value;
 }
 
-export default function ColorPicker(props) {
+export default function ColorPicker(inputProps) {
+	const props = withDefaults(inputProps, ColorPickerDefaultProps);
 	const [$open, setOpen] = React.useState(false);
 
 	const handleOpen = () => {
@@ -59,7 +61,7 @@ export default function ColorPicker(props) {
 	);
 }
 
-ColorPicker.defaultProps = {
+const ColorPickerDefaultProps = {
 	variant: 'default',
 	label: '',
 	fullWidth: false,

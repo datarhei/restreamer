@@ -10,6 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { withDefaults } from '../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	modalHeader: {
@@ -44,7 +45,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Component = React.forwardRef((props, ref) => {
+const Component = React.forwardRef((inputProps, ref) => {
+	const props = withDefaults(inputProps, ComponentDefaultProps);
 	const classes = useStyles();
 
 	const { title, onClose, onHelp, ...other } = props;
@@ -84,7 +86,7 @@ const Component = React.forwardRef((props, ref) => {
 
 export default Component;
 
-Component.defaultProps = {
+const ComponentDefaultProps = {
 	title: '',
 	onClose: null,
 	onHelp: null,

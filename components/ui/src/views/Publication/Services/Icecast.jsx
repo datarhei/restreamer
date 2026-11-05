@@ -12,6 +12,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import Logo from './logos/icecast.svg';
+import { withDefaults } from '../../../utils/props';
 
 const id = 'icecast';
 const name = 'Icecast';
@@ -129,7 +130,8 @@ function createOutputs(settings, skills, metadata, streams) {
 	return [output];
 }
 
-function Service(props) {
+function Service(inputProps) {
+	const props = withDefaults(inputProps, ServiceDefaultProps);
 	const settings = init(props.settings, props.metadata);
 
 	const handleChange = (what) => (event) => {
@@ -251,7 +253,7 @@ function Service(props) {
 	);
 }
 
-Service.defaultProps = {
+const ServiceDefaultProps = {
 	settings: {},
 	skills: {},
 	metadata: {},

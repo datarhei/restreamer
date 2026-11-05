@@ -9,6 +9,7 @@ import PaperContent from '../misc/PaperContent';
 import PaperFooter from '../misc/PaperFooter';
 
 import { Trans } from '@lingui/react/macro';
+import { withDefaults } from '../utils/props';
 
 const isProbablyMixedContent = (address) => {
 	try {
@@ -21,7 +22,8 @@ const isProbablyMixedContent = (address) => {
 	return false;
 };
 
-export default function Invalid(props) {
+export default function Invalid(inputProps) {
+	const props = withDefaults(inputProps, InvalidDefaultProps);
 	const [$mixed] = React.useState(isProbablyMixedContent(props.address));
 
 	return (
@@ -48,6 +50,6 @@ export default function Invalid(props) {
 	);
 }
 
-Invalid.defaultProps = {
+const InvalidDefaultProps = {
 	address: '',
 };

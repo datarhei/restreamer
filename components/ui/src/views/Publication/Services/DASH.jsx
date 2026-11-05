@@ -18,6 +18,7 @@ import Typography from '@mui/material/Typography';
 import Checkbox from '../../../misc/Checkbox';
 import Select from '../../../misc/Select';
 import Password from '../../../misc/Password';
+import { withDefaults } from '../../../utils/props';
 
 const id = 'dash';
 const name = 'DASH';
@@ -108,7 +109,8 @@ function init(settings) {
 	return initSettings;
 }
 
-function Service(props) {
+function Service(inputProps) {
+	const props = withDefaults(inputProps, ServiceDefaultProps);
 	const settings = init(props.settings);
 
 	const handleChange = (what) => (event) => {
@@ -512,7 +514,7 @@ function Service(props) {
 	);
 }
 
-Service.defaultProps = {
+const ServiceDefaultProps = {
 	settings: {},
 	skills: {},
 	metadata: {},

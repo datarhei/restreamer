@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography';
 
 import Checkbox from '../../../misc/Checkbox';
 import Select from '../../../misc/Select';
+import { withDefaults } from '../../../utils/props';
 
 const id = 'image2';
 const name = 'Image2';
@@ -75,7 +76,8 @@ function init(settings) {
 	return initSettings;
 }
 
-function Service(props) {
+function Service(inputProps) {
+	const props = withDefaults(inputProps, ServiceDefaultProps);
 	const settings = init(props.settings);
 
 	const handleChange = (what) => (event) => {
@@ -182,7 +184,7 @@ function Service(props) {
 	);
 }
 
-Service.defaultProps = {
+const ServiceDefaultProps = {
 	settings: {},
 	skills: {},
 	metadata: {},

@@ -6,6 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 
 import Select from '../../Select';
+import { withDefaults } from '../../../utils/props';
 
 // Pan Filter
 // https://ffmpeg.org/ffmpeg-filters.html#pan-1
@@ -39,7 +40,8 @@ function createGraph(settings) {
 }
 
 // filter
-function Pan(props) {
+function Pan(inputProps) {
+	const props = withDefaults(inputProps, PanDefaultProps);
 	return (
 		<React.Fragment>
 			<Select label={<Trans>Pan</Trans>} value={props.value} onChange={props.onChange}>
@@ -60,12 +62,13 @@ function Pan(props) {
 	);
 }
 
-Pan.defaultProps = {
+const PanDefaultProps = {
 	value: '',
 	onChange: function (event) {},
 };
 
-function Filter(props) {
+function Filter(inputProps) {
+	const props = withDefaults(inputProps, FilterDefaultProps);
 	const settings = init(props.settings);
 
 	const handleChange = (newSettings) => {
@@ -102,7 +105,7 @@ function Filter(props) {
 	);
 }
 
-Filter.defaultProps = {
+const FilterDefaultProps = {
 	settings: {},
 	onChange: function (settings, graph, automatic) {},
 };

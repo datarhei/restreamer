@@ -2,8 +2,10 @@ import React from 'react';
 
 import { Trans } from '@lingui/react/macro';
 import Button from '@mui/material/Button';
+import { withDefaults } from '../utils/props';
 
-export default function ActionButton(props) {
+export default function ActionButton(inputProps) {
+	const props = withDefaults(inputProps, ActionButtonDefaultProps);
 	let button = null;
 
 	if (props.state === 'connecting') {
@@ -65,7 +67,7 @@ export default function ActionButton(props) {
 	return button;
 }
 
-ActionButton.defaultProps = {
+const ActionButtonDefaultProps = {
 	order: 'stop',
 	state: 'disconnected',
 	reconnect: -1,

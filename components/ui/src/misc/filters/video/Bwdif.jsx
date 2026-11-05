@@ -6,6 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 
 import Checkbox from '../../Checkbox';
 import Select from '../../Select';
+import { withDefaults } from '../../../utils/props';
 
 // Deinterlace the input video ("bwdif" stands for "Bob Weaver Deinterlacing Filter").
 // http://ffmpeg.org/ffmpeg-all.html#bwdif
@@ -34,7 +35,8 @@ function createGraph(settings) {
 	return mapping.join(',');
 }
 
-function Mode(props) {
+function Mode(inputProps) {
+	const props = withDefaults(inputProps, ModeDefaultProps);
 	return (
 		<Select label={<Trans>Deinterlace mode</Trans>} value={props.value} onChange={props.onChange}>
 			<MenuItem value="0">
@@ -47,12 +49,13 @@ function Mode(props) {
 	);
 }
 
-Mode.defaultProps = {
+const ModeDefaultProps = {
 	value: '',
 	onChange: function (event) {},
 };
 
-function Parity(props) {
+function Parity(inputProps) {
+	const props = withDefaults(inputProps, ParityDefaultProps);
 	return (
 		<Select label={<Trans>Deinterlace parity</Trans>} value={props.value} onChange={props.onChange}>
 			<MenuItem value="0">
@@ -68,12 +71,13 @@ function Parity(props) {
 	);
 }
 
-Parity.defaultProps = {
+const ParityDefaultProps = {
 	value: '',
 	onChange: function (event) {},
 };
 
-function Deint(props) {
+function Deint(inputProps) {
+	const props = withDefaults(inputProps, DeintDefaultProps);
 	return (
 		<Select label={<Trans>Deinterlace deint</Trans>} value={props.value} onChange={props.onChange}>
 			<MenuItem value="0">
@@ -86,12 +90,13 @@ function Deint(props) {
 	);
 }
 
-Deint.defaultProps = {
+const DeintDefaultProps = {
 	value: '',
 	onChange: function (event) {},
 };
 
-function Filter(props) {
+function Filter(inputProps) {
+	const props = withDefaults(inputProps, FilterDefaultProps);
 	const settings = init(props.settings);
 
 	const handleChange = (newSettings) => {
@@ -144,7 +149,7 @@ function Filter(props) {
 	);
 }
 
-Filter.defaultProps = {
+const FilterDefaultProps = {
 	settings: {},
 	onChange: function (settings, mapping) {},
 };

@@ -8,8 +8,10 @@ import 'video.js/dist/video-js.min.css';
 import './video-js-skin-internal.min.css';
 import './video-js-skin-public.min.css';
 import 'videojs-overlay/dist/videojs-overlay.css';
+import { withDefaults } from '../../utils/props';
 
-export default function VideoJS(props) {
+export default function VideoJS(inputProps) {
+	const props = withDefaults(inputProps, VideoJSDefaultProps);
 	const videoRef = React.useRef(null);
 	const playerRef = React.useRef(null);
 	const { options, onReady } = props;
@@ -68,6 +70,6 @@ export default function VideoJS(props) {
 	);
 }
 
-VideoJS.defaultProps = {
+const VideoJSDefaultProps = {
 	type: 'videojs-internal',
 };

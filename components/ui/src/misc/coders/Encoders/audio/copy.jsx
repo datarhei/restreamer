@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Helper from '../../helper';
+import { withDefaults } from '../../../../utils/props';
 
 function createMapping(settings, stream, skills) {
 	stream = Helper.InitStream(stream);
@@ -21,7 +22,8 @@ function createMapping(settings, stream, skills) {
 	return mapping;
 }
 
-function Coder(props) {
+function Coder(inputProps) {
+	const props = withDefaults(inputProps, CoderDefaultProps);
 	const settings = {};
 	const stream = Helper.InitStream(props.stream);
 	const skills = Helper.InitSkills(props.skills);
@@ -44,7 +46,7 @@ function Coder(props) {
 	return null;
 }
 
-Coder.defaultProps = {
+const CoderDefaultProps = {
 	stream: {},
 	settings: {},
 	skills: {},

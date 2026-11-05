@@ -3,8 +3,10 @@ import React from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { withDefaults } from '../utils/props';
 
-export default function Component(props) {
+export default function Component(inputProps) {
+	const props = withDefaults(inputProps, ComponentDefaultProps);
 	return (
 		<FormControl variant={props.variant} fullWidth>
 			<InputLabel>{props.label}</InputLabel>
@@ -15,7 +17,7 @@ export default function Component(props) {
 	);
 }
 
-Component.defaultProps = {
+const ComponentDefaultProps = {
 	variant: 'outlined',
 	label: '',
 	value: '',

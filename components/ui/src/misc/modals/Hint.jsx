@@ -11,8 +11,10 @@ import Dialog from './Dialog';
 import Select from '../Select';
 import Video from '../coders/settings/Video';
 import Audio from '../coders/settings/Audio';
+import { withDefaults } from '../../utils/props';
 
-const Stream = function (props) {
+const Stream = function (inputProps) {
+	const props = withDefaults(inputProps, StreamDefaultProps);
 	const handleChange = (what) => (event) => {
 		const value = event.target.value;
 
@@ -100,12 +102,13 @@ const Stream = function (props) {
 	);
 };
 
-Stream.defaultProps = {
+const StreamDefaultProps = {
 	stream: {},
 	onChange: () => {},
 };
 
-const Streams = function (props) {
+const Streams = function (inputProps) {
+	const props = withDefaults(inputProps, StreamsDefaultProps);
 	const handleChange = (index) => (stream) => {
 		const streams = props.streams.slice();
 
@@ -164,13 +167,14 @@ const Streams = function (props) {
 	);
 };
 
-Streams.defaultProps = {
+const StreamsDefaultProps = {
 	streams: [],
 	type: '',
 	onChange: () => {},
 };
 
-const Component = function (props) {
+const Component = function (inputProps) {
+	const props = withDefaults(inputProps, ComponentDefaultProps);
 	return (
 		<Dialog
 			open={props.open}
@@ -194,7 +198,7 @@ const Component = function (props) {
 
 export default Component;
 
-Component.defaultProps = {
+const ComponentDefaultProps = {
 	open: false,
 	title: '',
 	streams: [],

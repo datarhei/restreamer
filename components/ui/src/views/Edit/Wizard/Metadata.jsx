@@ -10,8 +10,10 @@ import MetadataControl from '../../../misc/controls/Metadata';
 
 import Paper from '../../../misc/Paper';
 import PaperHeader from '../../../misc/PaperHeader';
+import { withDefaults } from '../../../utils/props';
 
-export default function Metadata(props) {
+export default function Metadata(inputProps) {
+	const props = withDefaults(inputProps, MetadataDefaultProps);
 	return (
 		<Paper xs={12} sm={9} md={6} marginBottom="6em" className="PaperM">
 			<PaperHeader spacing={2} variant="h1" title={<Trans>Metadata</Trans>} onAbort={props.onAbort} onHelp={props.onHelp} />
@@ -45,7 +47,7 @@ export default function Metadata(props) {
 	);
 }
 
-Metadata.defaultProps = {
+const MetadataDefaultProps = {
 	onAbort: () => {},
 	onHelp: () => {},
 	onBack: () => {},

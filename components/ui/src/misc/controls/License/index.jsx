@@ -17,6 +17,7 @@ import cc_by_nc_sa from './images/by-nc-sa.svg';
 import cc_by_nd from './images/by-nd.svg';
 import cc_by_nc_nd from './images/by-nc-nd.svg';
 import Select from '../../Select';
+import { withDefaults } from '../../../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	boxGray: {
@@ -29,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function License(props) {
+export default function License(inputProps) {
+	const props = withDefaults(inputProps, LicenseDefaultProps);
 	const classes = useStyles();
 
 	const { i18n } = useLingui();
@@ -144,7 +146,7 @@ export default function License(props) {
 	);
 }
 
-License.defaultProps = {
+const LicenseDefaultProps = {
 	license: 'none',
 	onChange: function (license) {},
 };

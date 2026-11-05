@@ -3,6 +3,7 @@ import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
+import { withDefaults } from '../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	PaperM: {
@@ -18,7 +19,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Component = React.forwardRef((props, ref) => {
+const Component = React.forwardRef((inputProps, ref) => {
+	const props = withDefaults(inputProps, ComponentDefaultProps);
 	const classes = useStyles();
 	let { marginBottom, xs, sm, md, ld, className, elevation, ...other } = props;
 
@@ -37,7 +39,7 @@ const Component = React.forwardRef((props, ref) => {
 
 export default Component;
 
-Component.defaultProps = {
+const ComponentDefaultProps = {
 	marginBottom: '6em',
 	xs: 12,
 	sm: undefined,

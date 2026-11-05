@@ -37,6 +37,7 @@ import Services from './Services';
 import TabContent from './TabContent';
 import TabPanel from '../../misc/TabPanel';
 import TabsVerticalGrid from '../../misc/TabsVerticalGrid';
+import { withDefaults } from '../../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	buttonAbort: {
@@ -51,7 +52,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function Add(props) {
+export default function Add(inputProps) {
+	const props = withDefaults(inputProps, AddDefaultProps);
 	const theme = useTheme();
 	const breakpointUpSm = useMediaQuery(theme.breakpoints.up('sm'));
 	const classes = useStyles();
@@ -579,7 +581,7 @@ export default function Add(props) {
 	);
 }
 
-Add.defaultProps = {
+const AddDefaultProps = {
 	restreamer: null,
 };
 

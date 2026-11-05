@@ -7,8 +7,10 @@ import Button from '@mui/material/Button';
 
 import Paper from '../../../misc/Paper';
 import PaperHeader from '../../../misc/PaperHeader';
+import { withDefaults } from '../../../utils/props';
 
-export default function Abort(props) {
+export default function Abort(inputProps) {
+	const props = withDefaults(inputProps, AbortDefaultProps);
 	return (
 		<Paper xs={12} sm={8} md={6} marginBottom="6em" className="PaperM">
 			<PaperHeader spacing={3} variant="h1" title={<Trans>Abort</Trans>} onHelp={props.onHelp} />
@@ -50,7 +52,7 @@ export default function Abort(props) {
 	);
 }
 
-Abort.defaultProps = {
+const AbortDefaultProps = {
 	onHelp: () => {},
 	onBack: () => {},
 	onNext: () => {},

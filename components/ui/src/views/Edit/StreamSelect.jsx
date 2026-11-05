@@ -7,8 +7,10 @@ import Grid from '@mui/material/Grid';
 import MenuItem from '@mui/material/MenuItem';
 
 import Select from '../../misc/Select';
+import { withDefaults } from '../../utils/props';
 
-export default function StreamSelect(props) {
+export default function StreamSelect(inputProps) {
+	const props = withDefaults(inputProps, StreamSelectDefaultProps);
 	const { i18n } = useLingui();
 	let selected = props.selected;
 
@@ -87,7 +89,7 @@ export default function StreamSelect(props) {
 	);
 }
 
-StreamSelect.defaultProps = {
+const StreamSelectDefaultProps = {
 	type: '',
 	streams: [],
 	selected: -1,

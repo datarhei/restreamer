@@ -1,8 +1,10 @@
 import React from 'react';
 
 import VideoJS from './videojs';
+import { withDefaults } from '../../utils/props';
 
-export default function Player(props) {
+export default function Player(inputProps) {
+	const props = withDefaults(inputProps, PlayerDefaultProps);
 	const type = props.type ? props.type : 'videojs-internal';
 
 	if (type === 'videojs-internal' || type === 'videojs-public') {
@@ -83,7 +85,7 @@ export default function Player(props) {
 	}
 }
 
-Player.defaultProps = {
+const PlayerDefaultProps = {
 	type: 'videojs-internal',
 	source: '',
 	poster: '',

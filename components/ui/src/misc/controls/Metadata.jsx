@@ -8,6 +8,7 @@ import TextField from '@mui/material/TextField';
 
 import TabPanel from '../TabPanel';
 import TabsHorizontal from '../TabsHorizontal';
+import { withDefaults } from '../../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -34,7 +35,8 @@ function init(settings) {
 	return initSettings;
 }
 
-export default function Control(props) {
+export default function Control(inputProps) {
+	const props = withDefaults(inputProps, ControlDefaultProps);
 	const classes = useStyles();
 	const [$tab, setTab] = React.useState('content');
 	const settings = init(props.settings);
@@ -119,7 +121,7 @@ export default function Control(props) {
 	);
 }
 
-Control.defaultProps = {
+const ControlDefaultProps = {
 	settings: {},
 	onChange: function (metadata) {},
 };

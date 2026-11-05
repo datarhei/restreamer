@@ -5,6 +5,7 @@ import Grid from '@mui/material/Grid';
 import MenuItem from '@mui/material/MenuItem';
 
 import Select from '../../Select';
+import { withDefaults } from '../../../utils/props';
 
 // Transpose Filter
 // http://ffmpeg.org/ffmpeg-all.html#transpose-1
@@ -41,7 +42,8 @@ function createGraph(settings) {
 }
 
 // filter
-function Rotate(props) {
+function Rotate(inputProps) {
+	const props = withDefaults(inputProps, RotateDefaultProps);
 	return (
 		<Select label={<Trans>Rotate</Trans>} value={props.value} onChange={props.onChange}>
 			<MenuItem value="none">None</MenuItem>
@@ -52,12 +54,13 @@ function Rotate(props) {
 	);
 }
 
-Rotate.defaultProps = {
+const RotateDefaultProps = {
 	value: '',
 	onChange: function (event) {},
 };
 
-function Filter(props) {
+function Filter(inputProps) {
+	const props = withDefaults(inputProps, FilterDefaultProps);
 	const settings = init(props.settings);
 
 	const handleChange = (newSettings) => {
@@ -91,7 +94,7 @@ function Filter(props) {
 	);
 }
 
-Filter.defaultProps = {
+const FilterDefaultProps = {
 	settings: {},
 	onChange: function (settings, mapping) {},
 };

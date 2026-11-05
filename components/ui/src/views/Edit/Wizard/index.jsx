@@ -28,8 +28,10 @@ import Saving from './Saving';
 import Probe from './Probe';
 import License from './License';
 import Metadata from './Metadata';
+import { withDefaults } from '../../../utils/props';
 
-export default function Wizard(props) {
+export default function Wizard(inputProps) {
+	const props = withDefaults(inputProps, WizardDefaultProps);
 	const { i18n } = useLingui();
 	const navigate = useNavigate();
 	const { channelid: _channelid } = useParams();
@@ -873,6 +875,6 @@ export default function Wizard(props) {
 	return null;
 }
 
-Wizard.defaultProps = {
+const WizardDefaultProps = {
 	restreamer: null,
 };

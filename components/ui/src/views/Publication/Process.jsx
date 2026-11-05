@@ -8,6 +8,7 @@ import ActionButton from '../../misc/ActionButton';
 import BoxText from '../../misc/BoxText';
 import Duration from '../../misc/Duration';
 import Progress from '../../misc/Progress';
+import { withDefaults } from '../../utils/props';
 
 function init(progress) {
 	const initProgress = {
@@ -24,7 +25,8 @@ function init(progress) {
 	return initProgress;
 }
 
-export default function Process(props) {
+export default function Process(inputProps) {
+	const props = withDefaults(inputProps, ProcessDefaultProps);
 	const progress = init(props.progress);
 
 	const handleAction = (action) => () => {
@@ -97,7 +99,7 @@ export default function Process(props) {
 	);
 }
 
-Progress.defaultProps = {
+const ProcessDefaultProps = {
 	progress: {},
 	onAction: function (action) {},
 };

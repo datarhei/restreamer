@@ -2,8 +2,10 @@ import React from 'react';
 import { Route, Navigate, Routes, HashRouter as DOMRouter } from 'react-router-dom';
 
 import Views from './views';
+import { withDefaults } from './utils/props';
 
-export default function Router(props) {
+export default function Router(inputProps) {
+	const props = withDefaults(inputProps, RouterDefaultProps);
 	if (props.restreamer === null) {
 		return null;
 	}
@@ -30,6 +32,6 @@ export default function Router(props) {
 	);
 }
 
-Router.defaultProps = {
+const RouterDefaultProps = {
 	restreamer: null,
 };

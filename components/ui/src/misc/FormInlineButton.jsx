@@ -2,6 +2,7 @@ import React from 'react';
 
 import makeStyles from '@mui/styles/makeStyles';
 import Button from '@mui/material/Button';
+import { withDefaults } from '../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	button: {
@@ -10,7 +11,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function Component(props) {
+export default function Component(inputProps) {
+	const props = withDefaults(inputProps, ComponentDefaultProps);
 	const classes = useStyles();
 
 	return (
@@ -20,4 +22,4 @@ export default function Component(props) {
 	);
 }
 
-Component.defaultProps = {};
+const ComponentDefaultProps = {};

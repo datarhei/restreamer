@@ -6,6 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 
 import Select from '../../Select';
 import Video from '../../coders/settings/Video';
+import { withDefaults } from '../../../utils/props';
 
 // Scale Filter
 // https://ffmpeg.org/ffmpeg-all.html#scale-1
@@ -38,7 +39,8 @@ function createGraph(settings) {
 	return mapping.join(',');
 }
 
-function Mode(props) {
+function Mode(inputProps) {
+	const props = withDefaults(inputProps, ModeDefaultProps);
 	return (
 		<Select label={<Trans>Scale</Trans>} value={props.value} onChange={props.onChange}>
 			<MenuItem value="none">
@@ -57,12 +59,13 @@ function Mode(props) {
 	);
 }
 
-Mode.defaultProps = {
+const ModeDefaultProps = {
 	value: '',
 	onChange: function (event) {},
 };
 
-function Filter(props) {
+function Filter(inputProps) {
+	const props = withDefaults(inputProps, FilterDefaultProps);
 	const settings = init(props.settings);
 
 	const handleChange = (newSettings) => {
@@ -113,7 +116,7 @@ function Filter(props) {
 	);
 }
 
-Filter.defaultProps = {
+const FilterDefaultProps = {
 	settings: {},
 	onChange: function (settings, mapping) {},
 };

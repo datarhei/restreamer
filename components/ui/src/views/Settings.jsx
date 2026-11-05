@@ -40,6 +40,7 @@ import TabsVerticalGrid from '../misc/TabsVerticalGrid';
 import Textarea from '../misc/Textarea';
 import TextField from '../misc/TextField';
 import useInterval from '../hooks/useInterval';
+import { withDefaults } from '../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	inlineEnv: {
@@ -651,7 +652,8 @@ function ErrorTab(props) {
 	return <Tab label={label} {...other} />;
 }
 
-function ErrorBox(props) {
+function ErrorBox(inputProps) {
+	const props = withDefaults(inputProps, ErrorBoxDefaultProps);
 	const messages = props.messages.filter((m) => props.configvalue === '' || m.configvalue === props.configvalue);
 
 	if (messages.length === 0) {
@@ -672,7 +674,7 @@ function ErrorBox(props) {
 	);
 }
 
-ErrorBox.defaultProps = {
+const ErrorBoxDefaultProps = {
 	configvalue: '',
 	messages: [],
 };
@@ -692,7 +694,8 @@ const toInt = (val) => {
 	return val;
 };
 
-export default function Settings(props) {
+export default function Settings(inputProps) {
+	const props = withDefaults(inputProps, SettingsDefaultProps);
 	const classes = useStyles();
 	const { i18n } = useLingui();
 	const navigate = useNavigate();
@@ -2315,7 +2318,7 @@ export default function Settings(props) {
 	);
 }
 
-Settings.defaultProps = {
+const SettingsDefaultProps = {
 	restreamer: null,
 };
 

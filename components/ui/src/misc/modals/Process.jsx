@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import ModalContent from '../ModalContent';
 import Progress from '../Progress';
 import Textarea from '../Textarea';
+import { withDefaults } from '../../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	title: {
@@ -113,7 +114,8 @@ const formatLogline = (entry) => {
 	return line;
 };
 
-const Component = function (props) {
+const Component = function (inputProps) {
+	const props = withDefaults(inputProps, ComponentDefaultProps);
 	const classes = useStyles();
 	const logdata = initLogdata({
 		...props.logdata,
@@ -171,7 +173,7 @@ const Component = function (props) {
 
 export default Component;
 
-Component.defaultProps = {
+const ComponentDefaultProps = {
 	open: false,
 	title: '',
 	progress: {},

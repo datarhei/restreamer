@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 
 import Logo from './logos/datarhei.svg';
 import BoxText from '../../../misc/BoxText';
+import { withDefaults } from '../../../utils/props';
 
 const id = 'datarheicore';
 const name = 'datarhei Core';
@@ -92,7 +93,8 @@ function init(settings) {
 	return initSettings;
 }
 
-function Service(props) {
+function Service(inputProps) {
+	const props = withDefaults(inputProps, ServiceDefaultProps);
 	const settings = init(props.settings);
 
 	const handleChange = (what) => (event) => {
@@ -248,7 +250,7 @@ function Service(props) {
 	);
 }
 
-Service.defaultProps = {
+const ServiceDefaultProps = {
 	settings: {},
 	skills: {},
 	metadata: {},

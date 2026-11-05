@@ -7,6 +7,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
 import SelectCustom from '../../../misc/SelectCustom';
+import { withDefaults } from '../../../utils/props';
 
 // Resample Filter
 // https://ffmpeg.org/ffmpeg-filters.html#toc-aresample-1
@@ -45,7 +46,8 @@ function createGraph(settings) {
 	return 'aresample=' + mapping.join(':');
 }
 
-function Layout(props) {
+function Layout(inputProps) {
+	const props = withDefaults(inputProps, LayoutDefaultProps);
 	const { i18n } = useLingui();
 	const options = [
 		{ value: 'mono', label: 'mono' },
@@ -82,7 +84,7 @@ function Layout(props) {
 	);
 }
 
-Layout.defaultProps = {
+const LayoutDefaultProps = {
 	variant: 'outlined',
 	allowAuto: false,
 	allowInherit: false,
@@ -92,7 +94,8 @@ Layout.defaultProps = {
 	onChange: function () {},
 };
 
-function Sampling(props) {
+function Sampling(inputProps) {
+	const props = withDefaults(inputProps, SamplingDefaultProps);
 	const { i18n } = useLingui();
 	const options = [
 		{ value: '96000', label: '96000 Hz' },
@@ -133,7 +136,7 @@ function Sampling(props) {
 	);
 }
 
-Sampling.defaultProps = {
+const SamplingDefaultProps = {
 	variant: 'outlined',
 	allowAuto: false,
 	allowInherit: false,
@@ -143,7 +146,8 @@ Sampling.defaultProps = {
 	onChange: function () {},
 };
 
-function Filter(props) {
+function Filter(inputProps) {
+	const props = withDefaults(inputProps, FilterDefaultProps);
 	const settings = init(props.settings);
 
 	const handleChange = (newSettings) => {
@@ -201,7 +205,7 @@ function Filter(props) {
 	);
 }
 
-Filter.defaultProps = {
+const FilterDefaultProps = {
 	settings: {},
 	onChange: function (settings, graph, automatic) {},
 };

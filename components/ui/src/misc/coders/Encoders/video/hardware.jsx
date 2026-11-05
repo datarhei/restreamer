@@ -9,6 +9,7 @@ import Select from '../../../Select';
 import TextField from '../../../TextField';
 import Video from '../../settings/Video';
 import Helper from '../../helper';
+import { withDefaults } from '../../../../utils/props';
 
 function createHardwareEncoder(config) {
 	function init(initialState) {
@@ -63,7 +64,8 @@ function createHardwareEncoder(config) {
 		};
 	}
 
-	function Preset(props) {
+	function Preset(inputProps) {
+		const props = withDefaults(inputProps, PresetDefaultProps);
 		return (
 			<Select label={<Trans>Preset</Trans>} value={props.value} onChange={props.onChange}>
 				{config.presets.map((preset) => (
@@ -75,12 +77,13 @@ function createHardwareEncoder(config) {
 		);
 	}
 
-	Preset.defaultProps = {
+	const PresetDefaultProps = {
 		value: '',
 		onChange: function (event) {},
 	};
 
-	function Coder(props) {
+	function Coder(inputProps) {
+		const props = withDefaults(inputProps, CoderDefaultProps);
 		const settings = init(props.settings);
 		const stream = Helper.InitStream(props.stream);
 		const skills = Helper.InitSkills(props.skills);
@@ -135,7 +138,7 @@ function createHardwareEncoder(config) {
 		);
 	}
 
-	Coder.defaultProps = {
+	const CoderDefaultProps = {
 		stream: {},
 		settings: {},
 		skills: {},

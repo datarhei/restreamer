@@ -40,6 +40,7 @@ import Select from '../misc/Select';
 import TabPanel from '../misc/TabPanel';
 import TabsVerticalGrid from '../misc/TabsVerticalGrid';
 import UploadButton from '../misc/UploadButton';
+import { withDefaults } from '../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	buttonOpen: {
@@ -57,7 +58,8 @@ const imageTypes = [
 
 const templateTypes = [{ mimetype: 'text/html', extension: 'html', maxSize: 500 * 1024 }];
 
-function CheckboxList(props) {
+function CheckboxList(inputProps) {
+	const props = withDefaults(inputProps, CheckboxListDefaultProps);
 	const [$checked, setChecked] = React.useState(props.selected);
 
 	const handleToggle = (value) => () => {
@@ -105,14 +107,15 @@ function CheckboxList(props) {
 	);
 }
 
-CheckboxList.defaultProps = {
+const CheckboxListDefaultProps = {
 	disabled: false,
 	selected: [],
 	items: [],
 	onChange: function () {},
 };
 
-export default function Playersite(props) {
+export default function Playersite(inputProps) {
+	const props = withDefaults(inputProps, PlayersiteDefaultProps);
 	const classes = useStyles();
 	const navigate = useNavigate();
 	const { i18n } = useLingui();
@@ -862,6 +865,6 @@ export default function Playersite(props) {
 	);
 }
 
-Playersite.defaultProps = {
+const PlayersiteDefaultProps = {
 	restreamer: null,
 };

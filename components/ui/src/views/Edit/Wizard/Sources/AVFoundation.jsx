@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 
 import * as S from '../../Sources/AVFoundation';
 import Select from '../../../../misc/Select';
+import { withDefaults } from '../../../../utils/props';
 
 function initSettings(initialSettings) {
 	const settings = {
@@ -24,7 +25,8 @@ function initSettings(initialSettings) {
 	return settings;
 }
 
-function Source(props) {
+function Source(inputProps) {
+	const props = withDefaults(inputProps, SourceDefaultProps);
 	const { i18n } = useLingui();
 	const settings = initSettings(props.settings);
 
@@ -142,7 +144,7 @@ function Source(props) {
 	);
 }
 
-Source.defaultProps = {
+const SourceDefaultProps = {
 	knownDevices: [],
 	settings: {},
 	onChange: function (type, settings, inputs, ready) {},

@@ -5,8 +5,10 @@ import { Trans } from '@lingui/react/macro';
 import Paper from '../misc/Paper';
 import PaperHeader from '../misc/PaperHeader';
 import PaperContent from '../misc/PaperContent';
+import { withDefaults } from '../utils/props';
 
-export default function Incompatible(props) {
+export default function Incompatible(inputProps) {
+	const props = withDefaults(inputProps, IncompatibleDefaultProps);
 	let text = <Trans>This version of the UI is compatible.</Trans>;
 
 	if (props.type === 'core') {
@@ -33,7 +35,7 @@ export default function Incompatible(props) {
 	);
 }
 
-Incompatible.defaultProps = {
+const IncompatibleDefaultProps = {
 	type: '',
 	have: '',
 	want: '',

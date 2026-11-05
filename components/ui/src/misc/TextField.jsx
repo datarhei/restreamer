@@ -8,8 +8,10 @@ import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 
 import Env from './Env';
+import { withDefaults } from '../utils/props';
 
-export default function Component(props) {
+export default function Component(inputProps) {
+	const props = withDefaults(inputProps, ComponentDefaultProps);
 	const id = props.id === null ? uuidv4() : props.id;
 	let adornment = null;
 
@@ -39,7 +41,7 @@ export default function Component(props) {
 	);
 }
 
-Component.defaultProps = {
+const ComponentDefaultProps = {
 	id: null,
 	label: '',
 	value: '',

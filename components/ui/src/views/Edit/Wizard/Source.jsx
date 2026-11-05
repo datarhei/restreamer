@@ -8,8 +8,10 @@ import Typography from '@mui/material/Typography';
 
 import Paper from '../../../misc/Paper';
 import PaperHeader from '../../../misc/PaperHeader';
+import { withDefaults } from '../../../utils/props';
 
-export default function Source(props) {
+export default function Source(inputProps) {
+	const props = withDefaults(inputProps, SourceDefaultProps);
 	return (
 		<Paper xs={12} sm={9} md={6} marginBottom="6em" className="PaperM">
 			<PaperHeader spacing={2} variant="h1" title={<Trans>Video setup</Trans>} onAbort={props.Abort} onHelp={props.onHelp} />
@@ -43,7 +45,7 @@ export default function Source(props) {
 	);
 }
 
-Source.defaultProps = {
+const SourceDefaultProps = {
 	onAbort: () => {},
 	onHelp: () => {},
 	onAdvanced: () => {},

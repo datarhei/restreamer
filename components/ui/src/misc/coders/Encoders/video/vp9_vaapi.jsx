@@ -9,6 +9,7 @@ import { Trans } from '@lingui/react/macro';
 import Select from '../../../Select';
 import Video from '../../settings/Video';
 import Helper from '../../helper';
+import { withDefaults } from '../../../../utils/props';
 
 function init(initialState) {
 	const state = {
@@ -67,7 +68,8 @@ function createMapping(settings, stream, skills) {
 	};
 }
 
-function RateControl(props) {
+function RateControl(inputProps) {
+	const props = withDefaults(inputProps, RateControlDefaultProps);
 	return (
 		<Select label={<Trans>Rate control</Trans>} value={props.value} onChange={props.onChange}>
 			<MenuItem value="0">auto</MenuItem>
@@ -81,12 +83,13 @@ function RateControl(props) {
 	);
 }
 
-RateControl.defaultProps = {
+const RateControlDefaultProps = {
 	value: '',
 	onChange: function (event) {},
 };
 
-function Profile(props) {
+function Profile(inputProps) {
+	const props = withDefaults(inputProps, ProfileDefaultProps);
 	return (
 		<Select label={<Trans>Profile</Trans>} value={props.value} onChange={props.onChange}>
 			<MenuItem value="0">Profile 0 (8-bit 4:2:0)</MenuItem>
@@ -97,12 +100,13 @@ function Profile(props) {
 	);
 }
 
-Profile.defaultProps = {
+const ProfileDefaultProps = {
 	value: '',
 	onChange: function (event) {},
 };
 
-function Coder(props) {
+function Coder(inputProps) {
+	const props = withDefaults(inputProps, CoderDefaultProps);
 	const settings = init(props.settings);
 	const stream = Helper.InitStream(props.stream);
 	const skills = Helper.InitSkills(props.skills);
@@ -155,7 +159,7 @@ function Coder(props) {
 	);
 }
 
-Coder.defaultProps = {
+const CoderDefaultProps = {
 	stream: {},
 	settings: {},
 	skills: {},

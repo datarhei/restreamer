@@ -28,6 +28,7 @@ import MultiSelectOption from '../../../misc/MultiSelectOption';
 import Password from '../../../misc/Password';
 import Select from '../../../misc/Select';
 import Textarea from '../../../misc/Textarea';
+import { withDefaults } from '../../../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	gridContainer: {
@@ -827,7 +828,8 @@ function Pull(props) {
 	);
 }
 
-function Push(props) {
+function Push(inputProps) {
+	const props = withDefaults(inputProps, PushDefaultProps);
 	const classes = useStyles();
 	const settings = props.settings;
 
@@ -871,7 +873,7 @@ function Push(props) {
 	);
 }
 
-Push.defaultProps = {
+const PushDefaultProps = {
 	knownDevices: [],
 	settings: {},
 	config: {},
@@ -909,7 +911,8 @@ function PushHLS(props) {
 	);
 }
 
-function PushRTMP(props) {
+function PushRTMP(inputProps) {
+	const props = withDefaults(inputProps, PushRTMPDefaultProps);
 	const { i18n } = useLingui();
 	const classes = useStyles();
 	const navigate = useNavigate();
@@ -993,7 +996,7 @@ function PushRTMP(props) {
 	return form;
 }
 
-PushRTMP.defaultProps = {
+const PushRTMPDefaultProps = {
 	knownDevices: [],
 	settings: {},
 	config: {},
@@ -1003,7 +1006,8 @@ PushRTMP.defaultProps = {
 	onRefresh: function () {},
 };
 
-function PushSRT(props) {
+function PushSRT(inputProps) {
+	const props = withDefaults(inputProps, PushSRTDefaultProps);
 	const { i18n } = useLingui();
 	const classes = useStyles();
 	const navigate = useNavigate();
@@ -1087,7 +1091,7 @@ function PushSRT(props) {
 	return form;
 }
 
-PushSRT.defaultProps = {
+const PushSRTDefaultProps = {
 	knownDevices: [],
 	settings: {},
 	config: {},
@@ -1097,7 +1101,8 @@ PushSRT.defaultProps = {
 	onRefresh: function () {},
 };
 
-function Source(props) {
+function Source(inputProps) {
+	const props = withDefaults(inputProps, SourceDefaultProps);
 	const classes = useStyles();
 	const { i18n } = useLingui();
 	const config = initConfig(props.config);
@@ -1174,7 +1179,7 @@ function Source(props) {
 	);
 }
 
-Source.defaultProps = {
+const SourceDefaultProps = {
 	knownDevices: [],
 	settings: {},
 	config: {},

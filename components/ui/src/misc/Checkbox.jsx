@@ -3,6 +3,7 @@ import React from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import makeStyles from '@mui/styles/makeStyles';
+import { withDefaults } from '../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -18,7 +19,8 @@ const useStyles = makeStyles((theme) => ({
 	disabled: {},
 }));
 
-export default function Component(props) {
+export default function Component(inputProps) {
+	const props = withDefaults(inputProps, ComponentDefaultProps);
 	const classes = useStyles();
 
 	return (
@@ -31,7 +33,7 @@ export default function Component(props) {
 	);
 }
 
-Component.defaultProps = {
+const ComponentDefaultProps = {
 	label: '',
 	checked: false,
 	disabled: false,

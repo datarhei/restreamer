@@ -9,6 +9,7 @@ import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { withDefaults } from '../../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	serviceIcon: {
@@ -21,7 +22,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function TabContent(props) {
+export default function TabContent(inputProps) {
+	const props = withDefaults(inputProps, TabContentDefaultProps);
 	const classes = useStyles();
 
 	return (
@@ -56,7 +58,7 @@ export default function TabContent(props) {
 	);
 }
 
-TabContent.defaultProps = {
+const TabContentDefaultProps = {
 	service: null,
 };
 

@@ -14,6 +14,7 @@ import PaperHeader from '../misc/PaperHeader';
 import PaperContent from '../misc/PaperContent';
 import PaperFooter from '../misc/PaperFooter';
 import TextField from '../misc/TextField';
+import { withDefaults } from '../utils/props';
 
 const generatePassword = (length) => {
 	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -26,7 +27,8 @@ const generatePassword = (length) => {
 	return password;
 };
 
-export default function ResetPassword(props) {
+export default function ResetPassword(inputProps) {
+	const props = withDefaults(inputProps, ResetPasswordDefaultProps);
 	const [$login, setLogin] = React.useState({
 		username: props.username.length === 0 ? 'admin' : props.username,
 		password: props.password.length === 0 ? generatePassword(6) + '-' + generatePassword(6) + '-' + generatePassword(6) : props.password,
@@ -185,7 +187,7 @@ export default function ResetPassword(props) {
 	);
 }
 
-ResetPassword.defaultProps = {
+const ResetPasswordDefaultProps = {
 	onReset: function (username, password) {},
 	username: '',
 	usernameOverride: false,

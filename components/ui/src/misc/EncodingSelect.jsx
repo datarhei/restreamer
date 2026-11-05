@@ -12,8 +12,10 @@ import * as Encoders from './coders/Encoders';
 import * as Decoders from './coders/Decoders';
 import Select from './Select';
 import H from '../utils/help';
+import { withDefaults } from '../utils/props';
 
-export default function EncodingSelect(props) {
+export default function EncodingSelect(inputProps) {
+	const props = withDefaults(inputProps, EncodingSelectDefaultProps);
 	const { i18n } = useLingui();
 
 	const profile = props.profile;
@@ -246,7 +248,7 @@ export default function EncodingSelect(props) {
 	);
 }
 
-EncodingSelect.defaultProps = {
+const EncodingSelectDefaultProps = {
 	type: '',
 	streams: [],
 	profile: {},

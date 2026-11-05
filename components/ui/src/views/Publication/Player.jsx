@@ -28,6 +28,7 @@ import UploadButton from '../../misc/UploadButton';
 import TabPanel from '../../misc/TabPanel';
 import TabsHorizontal from '../../misc/TabsHorizontal';
 import TextFieldCopy from '../../misc/TextFieldCopy';
+import { withDefaults } from '../../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	gridContainer: {
@@ -64,7 +65,8 @@ const posterImageTypes = [
 	{ mimetype: 'image/jpeg', extension: 'jpg', maxSize: 1 * 1024 * 1024 },
 ];
 
-export default function Edit(props) {
+export default function Edit(inputProps) {
+	const props = withDefaults(inputProps, EditDefaultProps);
 	const classes = useStyles();
 	const navigate = useNavigate();
 	const { channelid: _channelid } = useParams();
@@ -575,6 +577,6 @@ export default function Edit(props) {
 	);
 }
 
-Edit.defaultProps = {
+const EditDefaultProps = {
 	restreamer: null,
 };

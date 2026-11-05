@@ -20,8 +20,10 @@ import SourceSelect from './SourceSelect';
 import StreamSelect from './StreamSelect';
 
 import FilterSelect from '../../misc/FilterSelect';
+import { withDefaults } from '../../utils/props';
 
-export default function Profile(props) {
+export default function Profile(inputProps) {
+	const props = withDefaults(inputProps, ProfileDefaultProps);
 	const [$sources, setSources] = React.useState({
 		video: M.initSource('video', props.sources[0]),
 		audio: M.initSource('audio', props.sources[1]),
@@ -789,7 +791,7 @@ export default function Profile(props) {
 	);
 }
 
-Profile.defaultProps = {
+const ProfileDefaultProps = {
 	skills: {},
 	sources: [],
 	profile: {},

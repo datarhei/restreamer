@@ -1,7 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { withDefaults } from '../utils/props';
 
-export default function ChannelSelector(props) {
+export default function ChannelSelector(inputProps) {
+	const props = withDefaults(inputProps, ChannelSelectorDefaultProps);
 	const navigate = useNavigate();
 	const [$channelid, setChannelid] = React.useState('');
 
@@ -21,6 +23,6 @@ export default function ChannelSelector(props) {
 	return null;
 }
 
-ChannelSelector.defaultProps = {
+const ChannelSelectorDefaultProps = {
 	channelid: '',
 };

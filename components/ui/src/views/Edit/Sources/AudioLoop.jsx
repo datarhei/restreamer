@@ -14,6 +14,7 @@ import Dialog from '../../../misc/modals/Dialog';
 import Filesize from '../../../misc/Filesize';
 import FormInlineButton from '../../../misc/FormInlineButton';
 import UploadButton from '../../../misc/UploadButton';
+import { withDefaults } from '../../../utils/props';
 
 const imageTypes = [{ mimetype: 'audio/*', extension: 'audio', maxSize: 25 * 1024 * 1024 }];
 
@@ -50,7 +51,8 @@ const createInputs = (settings) => {
 	return [input];
 };
 
-function Source(props) {
+function Source(inputProps) {
+	const props = withDefaults(inputProps, SourceDefaultProps);
 	const classes = useStyles();
 	const settings = initSettings(props.settings);
 	const [$saving, setSaving] = React.useState(false);
@@ -175,7 +177,7 @@ function Source(props) {
 	);
 }
 
-Source.defaultProps = {
+const SourceDefaultProps = {
 	knownDevices: [],
 	settings: {},
 	onChange: function (settings) {},

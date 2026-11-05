@@ -1,8 +1,10 @@
 import React from 'react';
 
 import FormInlineButton from './FormInlineButton';
+import { withDefaults } from '../utils/props';
 
-export default function UploadButton(props) {
+export default function UploadButton(inputProps) {
+	const props = withDefaults(inputProps, UploadButtonDefaultProps);
 	const { acceptTypes, label, onError, onStart, onUpload, ...other } = props;
 
 	const accept = props.acceptTypes.map((t) => t.mimetype);
@@ -89,7 +91,7 @@ export default function UploadButton(props) {
 	);
 }
 
-UploadButton.defaultProps = {
+const UploadButtonDefaultProps = {
 	label: '',
 	acceptTypes: [],
 	onError: function () {},

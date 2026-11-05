@@ -10,8 +10,10 @@ import LicenseControl from '../../../misc/controls/License';
 
 import Paper from '../../../misc/Paper';
 import PaperHeader from '../../../misc/PaperHeader';
+import { withDefaults } from '../../../utils/props';
 
-export default function License(props) {
+export default function License(inputProps) {
+	const props = withDefaults(inputProps, LicenseDefaultProps);
 	return (
 		<Paper xs={12} sm={9} md={6} marginBottom="6em" className="PaperM">
 			<PaperHeader spacing={2} variant="h1" title={<Trans>License</Trans>} onAbort={props.onAbort} onHelp={props.onHelp} />
@@ -48,7 +50,7 @@ export default function License(props) {
 	);
 }
 
-License.defaultProps = {
+const LicenseDefaultProps = {
 	onAbort: () => {},
 	onHelp: () => {},
 	onBack: () => {},

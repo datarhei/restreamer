@@ -1,6 +1,8 @@
 import React from 'react';
+import { withDefaults } from '../utils/props';
 
-export default function Duration(props) {
+export default function Duration(inputProps) {
+	const props = withDefaults(inputProps, DurationDefaultProps);
 	const fullSeconds = parseInt(Math.floor(props.seconds));
 	const s = fullSeconds % 60;
 	const m = parseInt(fullSeconds / 60) % 60;
@@ -34,6 +36,6 @@ export default function Duration(props) {
 	return <React.Fragment>{duration}</React.Fragment>;
 }
 
-Duration.defaultProps = {
+const DurationDefaultProps = {
 	seconds: 0,
 };

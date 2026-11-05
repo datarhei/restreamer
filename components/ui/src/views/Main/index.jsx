@@ -24,6 +24,7 @@ import Progress from './Progress';
 import Publication from './Publication';
 import ProcessModal from '../../misc/modals/Process';
 import Welcome from '../Welcome';
+import { withDefaults } from '../../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	gridContainerL1: {
@@ -59,7 +60,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function Main(props) {
+export default function Main(inputProps) {
+	const props = withDefaults(inputProps, MainDefaultProps);
 	const classes = useStyles();
 	const navigate = useNavigate();
 	const { channelid: _channelid } = useParams();
@@ -480,6 +482,6 @@ export default function Main(props) {
 	);
 }
 
-Main.defaultProps = {
+const MainDefaultProps = {
 	restreamer: null,
 };

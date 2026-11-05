@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import Modal from '@mui/material/Modal';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import { withDefaults } from '../../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	modalHeader: {
@@ -42,7 +43,8 @@ const useStyles = makeStyles((theme) => ({
 
 // todo: use MuiDialog
 
-const Component = React.forwardRef((props, ref) => {
+const Component = React.forwardRef((inputProps, ref) => {
+	const props = withDefaults(inputProps, ComponentDefaultProps);
 	const classes = useStyles();
 
 	const paperStyle = {};
@@ -85,7 +87,7 @@ const Component = React.forwardRef((props, ref) => {
 
 export default Component;
 
-Component.defaultProps = {
+const ComponentDefaultProps = {
 	open: false,
 	title: '',
 	onClose: null,

@@ -18,6 +18,7 @@ import useInterval from './hooks/useInterval';
 import Duration from './misc/Duration';
 import Logo from './misc/Logo';
 import Number from './misc/Number';
+import { withDefaults } from './utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	footer: {
@@ -67,7 +68,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function Resources(props) {
+function Resources(inputProps) {
+	const props = withDefaults(inputProps, ResourcesDefaultProps);
 	const classes = useStyles();
 	const [$popover, setPopover] = React.useState(null);
 	const [$resources, setResources] = React.useState(null);
@@ -347,7 +349,7 @@ function Resources(props) {
 	);
 }
 
-Resources.defaultProps = {
+const ResourcesDefaultProps = {
 	resources: () => {
 		return null;
 	},
@@ -367,7 +369,8 @@ const initVersion = (initialVersion) => {
 	return version;
 };
 
-export default function Footer(props) {
+export default function Footer(inputProps) {
+	const props = withDefaults(inputProps, FooterDefaultProps);
 	const classes = useStyles();
 	const version = initVersion(props.version);
 
@@ -402,7 +405,7 @@ export default function Footer(props) {
 	}
 }
 
-Footer.defaultProps = {
+const FooterDefaultProps = {
 	expand: false,
 	app: '',
 	name: '',

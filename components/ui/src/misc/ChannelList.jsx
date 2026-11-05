@@ -23,6 +23,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import Dialog from './modals/Dialog';
+import { withDefaults } from '../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	drawerPaper: {
@@ -121,7 +122,8 @@ const ImageBackdrop = styled('span')(({ theme }) => ({
 	border: `2px solid ${theme.palette.primary.dark}`,
 }));
 
-function ChannelButton(props, largeChannelList) {
+function ChannelButton(inputProps, largeChannelList) {
+	const props = withDefaults(inputProps, ChannelButtonDefaultProps);
 	const classes = useStyles();
 	const theme = useTheme();
 
@@ -185,7 +187,7 @@ function ChannelButton(props, largeChannelList) {
 	);
 }
 
-ChannelButton.defaultProps = {
+const ChannelButtonDefaultProps = {
 	url: '',
 	width: 200,
 	title: '',
@@ -209,7 +211,8 @@ const calculateRowsToFit = (windowHeight, thumbnailHeight, otherUIHeight) => {
 	return Math.floor((windowHeight - otherUIHeight) / thumbnailHeight);
 };
 
-export default function ChannelList(props) {
+export default function ChannelList(inputProps) {
+	const props = withDefaults(inputProps, ChannelListDefaultProps);
 	const classes = useStyles();
 	const theme = useTheme();
 	const breakpointSmall = useMediaQuery(theme.breakpoints.up('sm'));
@@ -441,7 +444,7 @@ export default function ChannelList(props) {
 	);
 }
 
-ChannelList.defaultProps = {
+const ChannelListDefaultProps = {
 	open: false,
 	channelid: '',
 	channels: [],

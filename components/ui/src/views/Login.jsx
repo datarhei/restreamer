@@ -16,6 +16,7 @@ import * as auth0 from '../utils/auth0';
 import Paper from '../misc/Paper';
 import Password from '../misc/Password';
 import Select from '../misc/Select';
+import { withDefaults } from '../utils/props';
 
 function hasAuthType(auths, type) {
 	for (let i = 0; i < auths.length; i++) {
@@ -104,7 +105,8 @@ function initAuths(auths) {
 	return auths;
 }
 
-export default function Login(props) {
+export default function Login(inputProps) {
+	const props = withDefaults(inputProps, LoginDefaultProps);
 	const [$auths] = React.useState(initAuths(props.auths));
 	const [$login, setLogin] = React.useState({
 		username: '',
@@ -421,7 +423,7 @@ export default function Login(props) {
 	);
 }
 
-Login.defaultProps = {
+const LoginDefaultProps = {
 	address: '',
 	auths: [],
 	hasService: false,

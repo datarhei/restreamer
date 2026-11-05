@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import * as S from '../../Sources/Network';
 import BoxTextarea from '../../../../misc/BoxTextarea';
 import Textarea from '../../../../misc/Textarea';
+import { withDefaults } from '../../../../utils/props';
 
 const initSettings = (initialSettings, config) => {
 	const settings = {
@@ -20,7 +21,8 @@ const initSettings = (initialSettings, config) => {
 	return settings;
 };
 
-function Source(props) {
+function Source(inputProps) {
+	const props = withDefaults(inputProps, SourceDefaultProps);
 	const config = S.func.initConfig(props.config);
 	const settings = initSettings(props.settings, config);
 	const skills = S.func.initSkills(props.skills);
@@ -57,7 +59,7 @@ function Source(props) {
 	);
 }
 
-Source.defaultProps = {
+const SourceDefaultProps = {
 	settings: {},
 	config: null,
 	skills: null,

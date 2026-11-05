@@ -10,6 +10,7 @@ import { Trans } from '@lingui/react/macro';
 import Select from '../../../Select';
 import Video from '../../settings/Video';
 import Helper from '../../helper';
+import { withDefaults } from '../../../../utils/props';
 
 function init(initialState) {
 	const state = {
@@ -84,7 +85,8 @@ function createMapping(settings, stream, skills) {
 	return mapping;
 }
 
-function Speed(props) {
+function Speed(inputProps) {
+	const props = withDefaults(inputProps, SpeedDefaultProps);
 	return (
 		<React.Fragment>
 			<Select label={<Trans>Speed Preset</Trans>} value={props.value} onChange={props.onChange}>
@@ -108,12 +110,13 @@ function Speed(props) {
 	);
 }
 
-Speed.defaultProps = {
+const SpeedDefaultProps = {
 	value: '-1',
 	onChange: function (event) {},
 };
 
-function Coder(props) {
+function Coder(inputProps) {
+	const props = withDefaults(inputProps, CoderDefaultProps);
 	const settings = init(props.settings);
 	const stream = Helper.InitStream(props.stream);
 	const skills = Helper.InitSkills(props.skills);
@@ -227,7 +230,7 @@ function Coder(props) {
 	);
 }
 
-Coder.defaultProps = {
+const CoderDefaultProps = {
 	stream: {},
 	settings: {},
 	skills: {},

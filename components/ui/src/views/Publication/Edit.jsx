@@ -39,6 +39,7 @@ import SourceControl from '../../misc/controls/Source';
 import TabContent from './TabContent';
 import TabPanel from '../../misc/TabPanel';
 import TabsVerticalGrid from '../../misc/TabsVerticalGrid';
+import { withDefaults } from '../../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	gridContainer: {
@@ -51,7 +52,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function Edit(props) {
+export default function Edit(inputProps) {
+	const props = withDefaults(inputProps, EditDefaultProps);
 	const classes = useStyles();
 	const { i18n } = useLingui();
 	const { channelid: _channelid, service: _service, index: _index } = useParams();
@@ -649,7 +651,7 @@ export default function Edit(props) {
 	);
 }
 
-Edit.defaultProps = {
+const EditDefaultProps = {
 	restreamer: null,
 };
 

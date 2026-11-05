@@ -31,6 +31,7 @@ import LanguageSelect from './misc/LanguageSelect';
 import Logo from './misc/Logo/rsLogo';
 import ModalContent from './misc/ModalContent';
 import PaperThumb from './misc/PaperThumb';
+import { withDefaults } from './utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	header: {
@@ -160,7 +161,8 @@ const StyledMenu = styled((props) => (
 	},
 }));
 
-function AboutModal(props) {
+function AboutModal(inputProps) {
+	const props = withDefaults(inputProps, AboutModalDefaultProps);
 	const classes = useStyles();
 
 	return (
@@ -215,12 +217,13 @@ function AboutModal(props) {
 	);
 }
 
-AboutModal.defaultProps = {
+const AboutModalDefaultProps = {
 	open: false,
 	onClose: () => {},
 };
 
-function HeaderMenu(props) {
+function HeaderMenu(inputProps) {
+	const props = withDefaults(inputProps, HeaderMenuDefaultProps);
 	const classes = useStyles();
 
 	const [$anchorEl, setAnchorEl] = React.useState(null);
@@ -348,7 +351,7 @@ function HeaderMenu(props) {
 	}
 }
 
-HeaderMenu.defaultProps = {
+const HeaderMenuDefaultProps = {
 	onChannel: () => {},
 	onPlayersite: () => {},
 	onSettings: () => {},
@@ -360,7 +363,8 @@ HeaderMenu.defaultProps = {
 	hasService: false,
 };
 
-export default function Header(props) {
+export default function Header(inputProps) {
+	const props = withDefaults(inputProps, HeaderDefaultProps);
 	const classes = useStyles();
 
 	return (
@@ -380,6 +384,6 @@ export default function Header(props) {
 	);
 }
 
-Header.defaultProps = {
+const HeaderDefaultProps = {
 	expand: false,
 };

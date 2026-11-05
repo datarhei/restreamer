@@ -6,6 +6,7 @@ import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 
 import Logo from './logos/cdn77.svg';
+import { withDefaults } from '../../../utils/props';
 
 const id = 'cdn77';
 const name = 'CDN77';
@@ -56,7 +57,8 @@ function init(settings) {
 	return initSettings;
 }
 
-function Service(props) {
+function Service(inputProps) {
+	const props = withDefaults(inputProps, ServiceDefaultProps);
 	const settings = init(props.settings);
 
 	const handleChange = (what) => (event) => {
@@ -120,7 +122,7 @@ function Service(props) {
 	);
 }
 
-Service.defaultProps = {
+const ServiceDefaultProps = {
 	settings: {},
 	skills: {},
 	metadata: {},

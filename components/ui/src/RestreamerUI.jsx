@@ -23,6 +23,7 @@ import Changelog from './misc/Changelog';
 
 import SemverGt from 'semver/functions/gt';
 import SemverValid from 'semver/functions/valid';
+import { withDefaults } from './utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	MainHeader: {
@@ -40,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function RestreamerUI(props) {
+export default function RestreamerUI(inputProps) {
+	const props = withDefaults(inputProps, RestreamerUIDefaultProps);
 	const classes = useStyles();
 
 	const [$state, setState] = React.useState({
@@ -556,6 +558,6 @@ export default function RestreamerUI(props) {
 	);
 }
 
-RestreamerUI.defaultProps = {
+const RestreamerUIDefaultProps = {
 	address: '',
 };

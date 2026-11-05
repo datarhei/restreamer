@@ -11,6 +11,7 @@ import Stack from '@mui/material/Stack';
 import Switch from '@mui/material/Switch';
 import Typography from '@mui/material/Typography';
 import Services from '../Publication/Services';
+import { withDefaults } from '../../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	egressBar: {
@@ -59,7 +60,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function Egress(props) {
+export default function Egress(inputProps) {
+	const props = withDefaults(inputProps, EgressDefaultProps);
 	const classes = useStyles();
 	const [$order, setOrder] = React.useState('stop');
 
@@ -166,7 +168,7 @@ export default function Egress(props) {
 	);
 }
 
-Egress.defaultProps = {
+const EgressDefaultProps = {
 	service: '',
 	name: '',
 	state: 'disconnected',

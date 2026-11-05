@@ -7,6 +7,7 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 
 import Checkbox from '../../../misc/Checkbox';
+import { withDefaults } from '../../../utils/props';
 
 // id is a unique identifier for this service.
 const id = 'dummy';
@@ -253,7 +254,8 @@ function createOutputs(settings, skills, metadata, streams) {
 //
 // 'settings' is the settings object where you store the settings for the
 // service. Its state is managed by the parent React component.
-function Service(props) {
+function Service(inputProps) {
+	const props = withDefaults(inputProps, ServiceDefaultProps);
 	const settings = init(props.settings);
 
 	const handleChange = (what) => (event) => {
@@ -287,7 +289,7 @@ function Service(props) {
 	);
 }
 
-Service.defaultProps = {
+const ServiceDefaultProps = {
 	settings: {},
 	skills: null,
 	metadata: {},

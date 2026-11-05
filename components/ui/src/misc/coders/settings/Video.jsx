@@ -7,8 +7,10 @@ import MenuItem from '@mui/material/MenuItem';
 
 import Select from '../../../misc/Select';
 import SelectCustom from '../../../misc/SelectCustom';
+import { withDefaults } from '../../../utils/props';
 
-function Bitrate(props) {
+function Bitrate(inputProps) {
+	const props = withDefaults(inputProps, BitrateDefaultProps);
 	const { i18n } = useLingui();
 	const bitrates = [
 		{ value: '32768', label: '32768 kbit/s' },
@@ -45,7 +47,7 @@ function Bitrate(props) {
 	);
 }
 
-Bitrate.defaultProps = {
+const BitrateDefaultProps = {
 	allowAuto: false,
 	allowCustom: false,
 	variant: 'outlined',
@@ -54,7 +56,8 @@ Bitrate.defaultProps = {
 	onChange: function (event) {},
 };
 
-function GOP(props) {
+function GOP(inputProps) {
+	const props = withDefaults(inputProps, GOPDefaultProps);
 	const { i18n } = useLingui();
 	const bitrates = [
 		{ value: '1', label: '1' },
@@ -84,7 +87,7 @@ function GOP(props) {
 	);
 }
 
-GOP.defaultProps = {
+const GOPDefaultProps = {
 	allowAuto: false,
 	allowCustom: false,
 	variant: 'outlined',
@@ -93,7 +96,8 @@ GOP.defaultProps = {
 	onChange: function (event) {},
 };
 
-function Framerate(props) {
+function Framerate(inputProps) {
+	const props = withDefaults(inputProps, FramerateDefaultProps);
 	const { i18n } = useLingui();
 	const sizes = [
 		{ value: '60', label: '60' },
@@ -129,7 +133,7 @@ function Framerate(props) {
 	);
 }
 
-Framerate.defaultProps = {
+const FramerateDefaultProps = {
 	allowAuto: false,
 	allowCustom: false,
 	variant: 'outlined',
@@ -138,7 +142,8 @@ Framerate.defaultProps = {
 	onChange: function (event) {},
 };
 
-function Profile(props) {
+function Profile(inputProps) {
+	const props = withDefaults(inputProps, ProfileDefaultProps);
 	return (
 		<Select label={<Trans>Profile</Trans>} value={props.value} onChange={props.onChange}>
 			<MenuItem value="auto">auto</MenuItem>
@@ -149,13 +154,14 @@ function Profile(props) {
 	);
 }
 
-Profile.defaultProps = {
+const ProfileDefaultProps = {
 	value: '',
 	onChange: function (event) {},
 };
 
 // https://en.wikipedia.org/wiki/Graphics_display_resolution
-function Size(props) {
+function Size(inputProps) {
+	const props = withDefaults(inputProps, SizeDefaultProps);
 	const { i18n } = useLingui();
 	const sizes = [
 		{ value: '7680x4320', label: '7680x4320 (8K UHD)' },
@@ -195,7 +201,7 @@ function Size(props) {
 	);
 }
 
-Size.defaultProps = {
+const SizeDefaultProps = {
 	allowAuto: false,
 	allowCustom: false,
 	variant: 'outlined',
@@ -204,7 +210,8 @@ Size.defaultProps = {
 	onChange: function (event) {},
 };
 
-function Height(props) {
+function Height(inputProps) {
+	const props = withDefaults(inputProps, HeightDefaultProps);
 	const { i18n } = useLingui();
 	const height = [
 		{ value: '4320', label: '4320' },
@@ -237,7 +244,7 @@ function Height(props) {
 	);
 }
 
-Height.defaultProps = {
+const HeightDefaultProps = {
 	allowNone: false,
 	allowCustom: false,
 	variant: 'outlined',
@@ -246,7 +253,8 @@ Height.defaultProps = {
 	onChange: function (event) {},
 };
 
-function Width(props) {
+function Width(inputProps) {
+	const props = withDefaults(inputProps, WidthDefaultProps);
 	const { i18n } = useLingui();
 	const width = [
 		{ value: '7680', label: '7680' },
@@ -280,7 +288,7 @@ function Width(props) {
 	);
 }
 
-Width.defaultProps = {
+const WidthDefaultProps = {
 	allowNone: false,
 	allowCustom: false,
 	variant: 'outlined',
@@ -289,7 +297,8 @@ Width.defaultProps = {
 	onChange: function (event) {},
 };
 
-function Format(props) {
+function Format(inputProps) {
+	const props = withDefaults(inputProps, FormatDefaultProps);
 	const { i18n } = useLingui();
 	const sizes = [
 		{ value: 'yuv420p', label: 'yuv420p' },
@@ -319,7 +328,7 @@ function Format(props) {
 	);
 }
 
-Format.defaultProps = {
+const FormatDefaultProps = {
 	allowAuto: false,
 	allowCustom: false,
 	variant: 'outlined',
@@ -328,7 +337,8 @@ Format.defaultProps = {
 	onChange: function (event) {},
 };
 
-function PixFormat(props) {
+function PixFormat(inputProps) {
+	const props = withDefaults(inputProps, PixFormatDefaultProps);
 	const { i18n } = useLingui();
 	const sizes = [
 		{ value: 'yuv420p', label: 'yuv420p' },
@@ -356,7 +366,7 @@ function PixFormat(props) {
 	);
 }
 
-PixFormat.defaultProps = {
+const PixFormatDefaultProps = {
 	allowAuto: false,
 	allowCustom: false,
 	variant: 'outlined',
@@ -365,7 +375,8 @@ PixFormat.defaultProps = {
 	onChange: function (event) {},
 };
 
-function FpsMode(props) {
+function FpsMode(inputProps) {
+	const props = withDefaults(inputProps, FpsModeDefaultProps);
 	return (
 		<Select label={<Trans>Framerate mode</Trans>} value={props.value} onChange={props.onChange}>
 			<MenuItem value="passthrough">
@@ -384,7 +395,7 @@ function FpsMode(props) {
 	);
 }
 
-FpsMode.defaultProps = {
+const FpsModeDefaultProps = {
 	value: '',
 	onChange: function (event) {},
 };

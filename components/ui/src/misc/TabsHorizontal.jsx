@@ -3,6 +3,7 @@ import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
+import { withDefaults } from '../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	box: {
@@ -26,7 +27,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function Component(props) {
+export default function Component(inputProps) {
+	const props = withDefaults(inputProps, ComponentDefaultProps);
 	const classes = useStyles();
 
 	return (
@@ -38,7 +40,7 @@ export default function Component(props) {
 	);
 }
 
-Component.defaultProps = {
+const ComponentDefaultProps = {
 	value: '',
 	children: null,
 	onChange: function (event) {},

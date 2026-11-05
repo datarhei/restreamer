@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 
 import Duration from './Duration';
 import Number from './Number';
+import { withDefaults } from '../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	box: {
@@ -36,7 +37,8 @@ function init(props) {
 	return initProps;
 }
 
-export default function Progress(props) {
+export default function Progress(inputProps) {
+	const props = withDefaults(inputProps, ProgressDefaultProps);
 	const classes = useStyles();
 
 	const progress = init(props);
@@ -161,7 +163,7 @@ export default function Progress(props) {
 	);
 }
 
-Progress.defaultProps = {
+const ProgressDefaultProps = {
 	time: 0,
 	fps: 0,
 	bitrate: 0,

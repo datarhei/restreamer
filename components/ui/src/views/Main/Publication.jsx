@@ -16,6 +16,7 @@ import Number from '../../misc/Number';
 import Paper from '../../misc/Paper';
 import PaperHeader from '../../misc/PaperHeader';
 import Services from '../Publication/Services';
+import { withDefaults } from '../../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	viewerCount: {
@@ -44,7 +45,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function Publication(props) {
+export default function Publication(inputProps) {
+	const props = withDefaults(inputProps, PublicationDefaultProps);
 	const classes = useStyles();
 
 	const navigate = useNavigate();
@@ -192,7 +194,7 @@ export default function Publication(props) {
 	);
 }
 
-Publication.defaultProps = {
+const PublicationDefaultProps = {
 	channelid: '',
 	restreamer: null,
 };

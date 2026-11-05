@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField';
 import Checkbox from '../../../misc/Checkbox';
 import Logo from './logos/dacast.svg';
 import Select from '../../../misc/Select';
+import { withDefaults } from '../../../utils/props';
 
 const id = 'dacast';
 const name = 'DaCast';
@@ -63,7 +64,8 @@ function init(settings) {
 	return initSettings;
 }
 
-function Service(props) {
+function Service(inputProps) {
+	const props = withDefaults(inputProps, ServiceDefaultProps);
 	const settings = init(props.settings);
 
 	const handleChange = (what) => (event) => {
@@ -189,7 +191,7 @@ function Service(props) {
 	);
 }
 
-Service.defaultProps = {
+const ServiceDefaultProps = {
 	settings: {},
 	skills: {},
 	metadata: {},

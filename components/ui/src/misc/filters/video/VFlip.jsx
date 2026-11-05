@@ -4,6 +4,7 @@ import { Trans } from '@lingui/react/macro';
 import Grid from '@mui/material/Grid';
 
 import Checkbox from '../../Checkbox';
+import { withDefaults } from '../../../utils/props';
 
 // VFlip Filter
 // http://ffmpeg.org/ffmpeg-all.html#vflip
@@ -29,7 +30,8 @@ function createGraph(settings) {
 	return mapping.join(',');
 }
 
-function Filter(props) {
+function Filter(inputProps) {
+	const props = withDefaults(inputProps, FilterDefaultProps);
 	const settings = init(props.settings);
 
 	const handleChange = (newSettings) => {
@@ -67,7 +69,7 @@ function Filter(props) {
 	);
 }
 
-Filter.defaultProps = {
+const FilterDefaultProps = {
 	settings: {},
 	onChange: function (settings, graph, automatic) {},
 };

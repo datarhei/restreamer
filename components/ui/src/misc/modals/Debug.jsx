@@ -1,8 +1,10 @@
 import React from 'react';
 
 import TextareaModal from './Textarea';
+import { withDefaults } from '../../utils/props';
 
-const Component = function (props) {
+const Component = function (inputProps) {
+	const props = withDefaults(inputProps, ComponentDefaultProps);
 	return (
 		<TextareaModal
 			open={props.open}
@@ -22,7 +24,7 @@ const Component = function (props) {
 
 export default Component;
 
-Component.defaultProps = {
+const ComponentDefaultProps = {
 	open: false,
 	data: '',
 	title: '',

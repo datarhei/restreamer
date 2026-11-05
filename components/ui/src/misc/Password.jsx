@@ -10,8 +10,10 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import Env from './Env';
+import { withDefaults } from '../utils/props';
 
-export default function Password(props) {
+export default function Password(inputProps) {
+	const props = withDefaults(inputProps, PasswordDefaultProps);
 	const [$visible, setVisible] = React.useState(props.show);
 
 	const handleClickShowPassword = () => {
@@ -61,7 +63,7 @@ export default function Password(props) {
 	);
 }
 
-Password.defaultProps = {
+const PasswordDefaultProps = {
 	id: 'password',
 	label: '',
 	value: '',

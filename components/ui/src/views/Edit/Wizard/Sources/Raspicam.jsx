@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 
 import * as S from '../../Sources/Raspicam';
 import Select from '../../../../misc/Select';
+import { withDefaults } from '../../../../utils/props';
 
 function initSettings(initialSettings, knownDevices) {
 	const settings = {
@@ -48,7 +49,8 @@ function initDevices(initialDevices) {
 	return devices;
 }
 
-function Source(props) {
+function Source(inputProps) {
+	const props = withDefaults(inputProps, SourceDefaultProps);
 	const settings = initSettings(props.settings, props.knownDevices);
 	const devices = initDevices(props.knownDevices);
 
@@ -102,7 +104,7 @@ function Source(props) {
 	);
 }
 
-Source.defaultProps = {
+const SourceDefaultProps = {
 	knownDevices: [],
 	settings: {},
 	onChange: function (type, settings, inputs, ready) {},

@@ -10,8 +10,10 @@ import * as Coders from '../../misc/coders/Encoders';
 import * as Filters from '../../misc/filters';
 import BoxText from '../../misc/BoxText';
 import Sources from './Sources';
+import { withDefaults } from '../../utils/props';
 
-export default function Summary(props) {
+export default function Summary(inputProps) {
+	const props = withDefaults(inputProps, SummaryDefaultProps);
 	const { i18n } = useLingui();
 	const sources = props.sources;
 	const profile = props.profile;
@@ -116,7 +118,7 @@ export default function Summary(props) {
 	);
 }
 
-Summary.defaultProps = {
+const SummaryDefaultProps = {
 	type: '',
 	sources: [],
 	profile: null,

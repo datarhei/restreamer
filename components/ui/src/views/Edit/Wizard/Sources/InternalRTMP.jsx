@@ -15,6 +15,7 @@ import * as S from '../../Sources/Network';
 import BoxTextarea from '../../../../misc/BoxTextarea';
 import Select from '../../../../misc/Select';
 import Textarea from '../../../../misc/Textarea';
+import { withDefaults } from '../../../../utils/props';
 
 const initSettings = (initialSettings, config) => {
 	const settings = {
@@ -27,7 +28,8 @@ const initSettings = (initialSettings, config) => {
 	return settings;
 };
 
-function Source(props) {
+function Source(inputProps) {
+	const props = withDefaults(inputProps, SourceDefaultProps);
 	const { i18n } = useLingui();
 	const navigate = useNavigate();
 	const config = S.func.initConfig(props.config);
@@ -137,7 +139,7 @@ function Source(props) {
 	return form;
 }
 
-Source.defaultProps = {
+const SourceDefaultProps = {
 	knownDevices: [],
 	settings: {},
 	config: null,

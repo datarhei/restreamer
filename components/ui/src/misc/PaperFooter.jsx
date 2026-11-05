@@ -2,6 +2,7 @@ import React from 'react';
 
 import makeStyles from '@mui/styles/makeStyles';
 import Grid from '@mui/material/Grid';
+import { withDefaults } from '../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -19,7 +20,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Component = function (props) {
+const Component = function (inputProps) {
+	const props = withDefaults(inputProps, ComponentDefaultProps);
 	const classes = useStyles();
 
 	return (
@@ -34,7 +36,7 @@ const Component = function (props) {
 
 export default Component;
 
-Component.defaultProps = {
+const ComponentDefaultProps = {
 	buttonsLeft: null,
 	buttonsRight: null,
 };

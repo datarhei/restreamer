@@ -12,6 +12,7 @@ import SemverValid from 'semver/functions/valid';
 
 import BoxText from './BoxText';
 import Dialog from './modals/Dialog';
+import { withDefaults } from '../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	h1: {
@@ -49,7 +50,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function Changelog(props) {
+export default function Changelog(inputProps) {
+	const props = withDefaults(inputProps, ChangelogDefaultProps);
 	const [$data, setData] = React.useState('');
 	const classes = useStyles();
 
@@ -189,7 +191,7 @@ export default function Changelog(props) {
 	);
 }
 
-Changelog.defaultProps = {
+const ChangelogDefaultProps = {
 	open: false,
 	current: '',
 	previous: '',

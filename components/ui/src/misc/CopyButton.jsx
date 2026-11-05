@@ -7,8 +7,10 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 
 import CopyToClipboard from '../utils/clipboard';
 import NotifyContext from '../contexts/Notify';
+import { withDefaults } from '../utils/props';
 
-export default function CopyButton(props) {
+export default function CopyButton(inputProps) {
+	const props = withDefaults(inputProps, CopyButtonDefaultProps);
 	const notify = useContext(NotifyContext);
 	const { i18n } = useLingui();
 	const { children, value, ...other } = props;
@@ -30,6 +32,6 @@ export default function CopyButton(props) {
 	);
 }
 
-CopyButton.defaultProps = {
+const CopyButtonDefaultProps = {
 	value: '',
 };

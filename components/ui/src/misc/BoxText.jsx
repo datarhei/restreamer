@@ -2,6 +2,7 @@ import React from 'react';
 
 import makeStyles from '@mui/styles/makeStyles';
 import Stack from '@mui/material/Stack';
+import { withDefaults } from '../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	light: {
@@ -41,7 +42,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function Component(props) {
+export default function Component(inputProps) {
+	const props = withDefaults(inputProps, ComponentDefaultProps);
 	const classes = useStyles();
 
 	return (
@@ -61,7 +63,7 @@ export default function Component(props) {
 	);
 }
 
-Component.defaultProps = {
+const ComponentDefaultProps = {
 	color: 'light',
 	textAlign: 'left',
 	alignItems: 'center',

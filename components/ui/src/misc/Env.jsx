@@ -5,6 +5,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import withStyles from '@mui/styles/withStyles';
 import Chip from '@mui/material/Chip';
 import Tooltip from '@mui/material/Tooltip';
+import { withDefaults } from '../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -32,7 +33,8 @@ const HtmlTooltip = withStyles((theme) => ({
 	},
 }))(Tooltip);
 
-export default function Component(props) {
+export default function Component(inputProps) {
+	const props = withDefaults(inputProps, ComponentDefaultProps);
 	const classes = useStyles();
 	return (
 		<HtmlTooltip
@@ -49,4 +51,4 @@ export default function Component(props) {
 	);
 }
 
-Component.defaultProps = {};
+const ComponentDefaultProps = {};

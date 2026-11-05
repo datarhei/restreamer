@@ -7,8 +7,10 @@ import Typography from '@mui/material/Typography';
 import Duration from '../../misc/Duration';
 import Number from '../../misc/Number';
 import Palette from '../../theme/base/palette';
+import { withDefaults } from '../../utils/props';
 
-export default function Progress(props) {
+export default function Progress(inputProps) {
+	const props = withDefaults(inputProps, ProgressDefaultProps);
 	const uptime = props.progress.time;
 	const bitrate = props.progress.bitrate;
 	const fps = props.progress.fps;
@@ -82,6 +84,6 @@ export default function Progress(props) {
 	);
 }
 
-Progress.defaultProps = {
+const ProgressDefaultProps = {
 	progress: {},
 };

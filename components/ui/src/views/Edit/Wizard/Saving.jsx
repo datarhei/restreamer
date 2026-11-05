@@ -7,8 +7,10 @@ import Typography from '@mui/material/Typography';
 
 import Paper from '../../../misc/Paper';
 import PaperHeader from '../../../misc/PaperHeader';
+import { withDefaults } from '../../../utils/props';
 
-export default function Saving(props) {
+export default function Saving(inputProps) {
+	const props = withDefaults(inputProps, SavingDefaultProps);
 	return (
 		<Paper xs={12} md={5} marginBottom="6em" className="PaperM">
 			<PaperHeader spacing={2} variant="h1" onAbort={props.onAbort} />
@@ -26,6 +28,6 @@ export default function Saving(props) {
 	);
 }
 
-Saving.defaultProps = {
+const SavingDefaultProps = {
 	onAbort: () => {},
 };

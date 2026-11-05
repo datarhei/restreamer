@@ -7,6 +7,7 @@ import Stack from '@mui/material/Stack';
 
 import ModalContent from '../ModalContent';
 import Textarea from '../Textarea';
+import { withDefaults } from '../../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	box: {
@@ -16,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Component = function (props) {
+const Component = function (inputProps) {
+	const props = withDefaults(inputProps, ComponentDefaultProps);
 	const classes = useStyles();
 
 	const { open, title, onClose, onHelp, ...other } = props;
@@ -38,7 +40,7 @@ const Component = function (props) {
 
 export default Component;
 
-Component.defaultProps = {
+const ComponentDefaultProps = {
 	open: false,
 	title: '',
 	onClose: null,

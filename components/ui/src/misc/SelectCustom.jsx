@@ -6,6 +6,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
+import { withDefaults } from '../utils/props';
 
 function isCustomOption(value, options) {
 	for (let o of options) {
@@ -17,7 +18,8 @@ function isCustomOption(value, options) {
 	return true;
 }
 
-export default function Component(props) {
+export default function Component(inputProps) {
+	const props = withDefaults(inputProps, ComponentDefaultProps);
 	const [$value, setValue] = React.useState({
 		value: props.value,
 		isCustom: isCustomOption(props.value, props.options),
@@ -127,7 +129,7 @@ export default function Component(props) {
 	);
 }
 
-Component.defaultProps = {
+const ComponentDefaultProps = {
 	variant: 'outlined',
 	label: '',
 	value: '',

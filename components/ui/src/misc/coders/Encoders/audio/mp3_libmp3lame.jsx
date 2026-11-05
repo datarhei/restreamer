@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid';
 
 import Audio from '../../settings/Audio';
 import Helper from '../../helper';
+import { withDefaults } from '../../../../utils/props';
 
 function init(initialState) {
 	const state = {
@@ -30,7 +31,8 @@ function createMapping(settings, stream, skills) {
 	return mapping;
 }
 
-function Coder(props) {
+function Coder(inputProps) {
+	const props = withDefaults(inputProps, CoderDefaultProps);
 	const settings = init(props.settings);
 	const stream = Helper.InitStream(props.stream);
 	const skills = Helper.InitSkills(props.skills);
@@ -70,7 +72,7 @@ function Coder(props) {
 	);
 }
 
-Coder.defaultProps = {
+const CoderDefaultProps = {
 	stream: {},
 	settings: {},
 	skills: {},

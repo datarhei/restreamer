@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import { Trans } from '@lingui/react/macro';
 
 import Sources from './Sources';
+import { withDefaults } from '../../utils/props';
 
 function initConfig(initialConfig) {
 	let config = {};
@@ -45,7 +46,8 @@ function reducer(settings, data) {
 	return newSettings;
 }
 
-export default function SourceSelect(props) {
+export default function SourceSelect(inputProps) {
+	const props = withDefaults(inputProps, SourceSelectDefaultProps);
 	// $source holds the currently selected device. It is initialized with the
 	// last stored source.
 	const [$source, setSource] = React.useState(props.source.type);
@@ -125,7 +127,7 @@ export default function SourceSelect(props) {
 	);
 }
 
-SourceSelect.defaultProps = {
+const SourceSelectDefaultProps = {
 	type: '',
 	skills: {},
 	source: {},
@@ -137,7 +139,8 @@ SourceSelect.defaultProps = {
 	onStore: function (name, data) {},
 };
 
-function Select(props) {
+function Select(inputProps) {
+	const props = withDefaults(inputProps, SelectDefaultProps);
 	const handleSource = (source) => () => {
 		props.onSelect(source);
 	};
@@ -191,7 +194,7 @@ function Select(props) {
 	);
 }
 
-Select.defaultProps = {
+const SelectDefaultProps = {
 	type: '',
 	selected: '',
 	ffversion: '0.0.0',

@@ -2,6 +2,7 @@ import React from 'react';
 
 import makeStyles from '@mui/styles/makeStyles';
 import MenuItem from '@mui/material/MenuItem';
+import { withDefaults } from '../utils/props';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -10,7 +11,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Component = React.forwardRef((props, ref) => {
+const Component = React.forwardRef((inputProps, ref) => {
+	const props = withDefaults(inputProps, ComponentDefaultProps);
 	const classes = useStyles();
 
 	const { name, value, selected, ...other } = props;
@@ -24,7 +26,7 @@ const Component = React.forwardRef((props, ref) => {
 
 export default Component;
 
-Component.defaultProps = {
+const ComponentDefaultProps = {
 	name: '',
 	value: '',
 	selected: false,

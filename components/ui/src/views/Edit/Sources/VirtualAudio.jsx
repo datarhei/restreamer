@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import Audio from '../../../misc/coders/settings/Audio';
 import FormInlineButton from '../../../misc/FormInlineButton';
 import Select from '../../../misc/Select';
+import { withDefaults } from '../../../utils/props';
 
 const initSettings = (initialSettings) => {
 	if (!initialSettings) {
@@ -61,7 +62,8 @@ const createInputs = (settings) => {
 	return inputs;
 };
 
-function Source(props) {
+function Source(inputProps) {
+	const props = withDefaults(inputProps, SourceDefaultProps);
 	const { i18n } = useLingui();
 	const settings = initSettings(props.settings);
 
@@ -174,7 +176,7 @@ function Source(props) {
 	);
 }
 
-Source.defaultProps = {
+const SourceDefaultProps = {
 	settings: {},
 	onChange: function (settings) {},
 	onProbe: function (settings, inputs) {},
