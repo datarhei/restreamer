@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Start script for the Restreamer bundle
+# Start the unified Restreamer bundle.
 
 # First run the import program. It will read the db.dir from the config file in order to
 # find an old v1.json. This will be converted to the new db format.
