@@ -1,0 +1,26 @@
+{
+	"Audio Device": {
+		"origin": [["src/views/Edit/Sources/ALSA.js", 85]]
+	},
+	"Select a device:": {
+		"origin": [["src/views/Edit/Sources/ALSA.js", 94]]
+	},
+	"Device": {
+		"origin": [["src/views/Edit/Sources/ALSA.js", 104]]
+	},
+	"Subdevice": {
+		"origin": [["src/views/Edit/Sources/ALSA.js", 107]]
+	},
+	"Sampling": {
+		"origin": [["src/views/Edit/Sources/ALSA.js", 114]]
+	},
+	"Channels": {
+		"origin": [["src/views/Edit/Sources/ALSA.js", 117]]
+	},
+	"Delay (ms)": {
+		"origin": [["src/views/Edit/Sources/ALSA.js", 120]]
+	},
+	"Probe": {
+		"origin": [["src/views/Edit/Sources/ALSA.js", 125]]
+	}
+}

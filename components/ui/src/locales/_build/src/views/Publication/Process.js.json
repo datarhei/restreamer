@@ -1,0 +1,17 @@
+{
+	"Connecting ...": {
+		"origin": [["src/views/Publication/Process.js", 41]]
+	},
+	"Disconnecting ...": {
+		"origin": [["src/views/Publication/Process.js", 48]]
+	},
+	"Connected since <0/>": {
+		"origin": [["src/views/Publication/Process.js", 55]]
+	},
+	"Error": {
+		"origin": [["src/views/Publication/Process.js", 64]]
+	},
+	"Error: {0}": {
+		"origin": [["src/views/Publication/Process.js", 67]]
+	}
+}

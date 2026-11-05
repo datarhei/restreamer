@@ -1,0 +1,32 @@
+{
+	"Enter the URL of your network device:": {
+		"origin": [["src/views/Edit/Sources/Network.js", 188]]
+	},
+	"Address": {
+		"origin": [["src/views/Edit/Sources/Network.js", 191]]
+	},
+	"UDP Transport": {
+		"origin": [["src/views/Edit/Sources/Network.js", 194]]
+	},
+	"Probe": {
+		"origin": [
+			["src/views/Edit/Sources/Network.js", 197],
+			["src/views/Edit/Sources/Network.js", 224]
+		]
+	},
+	"Stream name": {
+		"origin": [["src/views/Edit/Sources/Network.js", 210]]
+	},
+	"Send stream to:": {
+		"origin": [["src/views/Edit/Sources/Network.js", 213]]
+	},
+	"Public:": {
+		"origin": [["src/views/Edit/Sources/Network.js", 216]]
+	},
+	"Local:": {
+		"origin": [["src/views/Edit/Sources/Network.js", 220]]
+	},
+	"Pull or recieve the data:": {
+		"origin": [["src/views/Edit/Sources/Network.js", 234]]
+	}
+}

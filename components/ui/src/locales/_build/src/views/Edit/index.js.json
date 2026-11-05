@@ -1,0 +1,29 @@
+{
+	"Edit": {
+		"origin": [["src/views/Edit/index.js", 540]]
+	},
+	"Sources:": {
+		"origin": [["src/views/Edit/index.js", 547]]
+	},
+	"Add Source": {
+		"origin": [["src/views/Edit/index.js", 551]]
+	},
+	"Profile:": {
+		"origin": [["src/views/Edit/index.js", 554]]
+	},
+	"HLS Settings:": {
+		"origin": [["src/views/Edit/index.js", 560]]
+	},
+	"Control:": {
+		"origin": [["src/views/Edit/index.js", 570]]
+	},
+	"Snapshot:": {
+		"origin": [["src/views/Edit/index.js", 580]]
+	},
+	"Save": {
+		"origin": [["src/views/Edit/index.js", 592]]
+	},
+	"Abort": {
+		"origin": [["src/views/Edit/index.js", 594]]
+	}
+}

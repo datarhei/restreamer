@@ -1,0 +1,53 @@
+{
+	"Self-Hosted / Player Settings": {
+		"origin": [["src/views/Publication/Selfhosted.js", 136]]
+	},
+	"Colors": {
+		"origin": [["src/views/Publication/Selfhosted.js", 143]]
+	},
+	"Seekbar Color": {
+		"origin": [["src/views/Publication/Selfhosted.js", 146]]
+	},
+	"Button Color": {
+		"origin": [["src/views/Publication/Selfhosted.js", 149]]
+	},
+	"Logo:": {
+		"origin": [["src/views/Publication/Selfhosted.js", 152]]
+	},
+	"Image URL": {
+		"origin": [["src/views/Publication/Selfhosted.js", 155]]
+	},
+	"Position": {
+		"origin": [["src/views/Publication/Selfhosted.js", 158]]
+	},
+	"Link": {
+		"origin": [["src/views/Publication/Selfhosted.js", 166]]
+	},
+	"Google Analytics": {
+		"origin": [["src/views/Publication/Selfhosted.js", 169]]
+	},
+	"Google Analytics ID": {
+		"origin": [["src/views/Publication/Selfhosted.js", 172]]
+	},
+	"Statistics": {
+		"origin": [["src/views/Publication/Selfhosted.js", 175]]
+	},
+	"Playback": {
+		"origin": [["src/views/Publication/Selfhosted.js", 178]]
+	},
+	"Autostart": {
+		"origin": [["src/views/Publication/Selfhosted.js", 181]]
+	},
+	"Mute": {
+		"origin": [["src/views/Publication/Selfhosted.js", 184]]
+	},
+	"IFrame Code:": {
+		"origin": [["src/views/Publication/Selfhosted.js", 207]]
+	},
+	"Save": {
+		"origin": [["src/views/Publication/Selfhosted.js", 217]]
+	},
+	"Close": {
+		"origin": [["src/views/Publication/Selfhosted.js", 219]]
+	}
+}

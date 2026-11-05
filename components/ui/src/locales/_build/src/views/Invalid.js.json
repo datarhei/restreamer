@@ -1,0 +1,8 @@
+{
+	"Error": {
+		"origin": [["src/views/Invalid.js", 16]]
+	},
+	"Can't connect to Restreamer-API": {
+		"origin": [["src/views/Invalid.js", 19]]
+	}
+}

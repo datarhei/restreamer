@@ -1,0 +1,17 @@
+{
+	"Uptime": {
+		"origin": [["src/misc/Progress.js", 31]]
+	},
+	"FPS": {
+		"origin": [["src/misc/Progress.js", 38]]
+	},
+	"kbit/s": {
+		"origin": [["src/misc/Progress.js", 45]]
+	},
+	"Quality": {
+		"origin": [["src/misc/Progress.js", 52]]
+	},
+	"Speed": {
+		"origin": [["src/misc/Progress.js", 59]]
+	}
+}

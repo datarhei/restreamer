@@ -1,0 +1,11 @@
+{
+	"Bitrate": {
+		"origin": [["src/views/Edit/Coders/settings/Audio.js", 13]]
+	},
+	"Layout": {
+		"origin": [["src/views/Edit/Coders/settings/Audio.js", 30]]
+	},
+	"Sampling": {
+		"origin": [["src/views/Edit/Coders/settings/Audio.js", 44]]
+	}
+}

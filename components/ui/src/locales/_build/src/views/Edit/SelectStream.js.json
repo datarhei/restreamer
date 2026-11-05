@@ -1,0 +1,11 @@
+{
+	"Codec": {
+		"origin": [
+			["src/views/Edit/SelectStream.js", 139],
+			["src/views/Edit/SelectStream.js", 193]
+		]
+	},
+	"Stream": {
+		"origin": [["src/views/Edit/SelectStream.js", 216]]
+	}
+}

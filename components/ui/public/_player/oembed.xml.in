@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<oembed>
+	<version>1.0</version>
+	<type>video</type>
+	<title>{{title}}</title>
+	<description>{{description}}</description>
+	<author_name>{{author_name}}</author_name>
+	<author_url>{{author_url}}</author_url>
+	<provider_name>datarhei Restreamer</provider_name>
+	<provider_url>https://datarhei.org</provider_url>
+	<license>{{license}}</license>
+	<html>{{iframecode}}</html>
+	<width>{{width}}</width>
+	<height>{{height}}</height>
+	<thumbnail_url>{{poster_url}}</thumbnail_url>
+	<thumbnail_width>{{width}}</thumbnail_width>
+	<thumbnail_height>{{height}}</thumbnail_height>
+</oembed>

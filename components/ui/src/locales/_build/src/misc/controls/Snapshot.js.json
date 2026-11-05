@@ -1,0 +1,8 @@
+{
+	"Enable Snapshots": {
+		"origin": [["src/misc/controls/Snapshot.js", 39]]
+	},
+	"Interval (seconds)": {
+		"origin": [["src/misc/controls/Snapshot.js", 42]]
+	}
+}

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="{{description}}">
+	<meta name="author" content="datarhei restreamer">
+	<title>{{name}}</title>
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+	<link rel="alternate" type="application/json+oembed" href="channels/{{channelid}}/oembed.json" title="{{name}}">
+	<link rel="alternate" type="text/xml+oembed" href="channels/{{channelid}}/oembed.xml" title="{{name}}">
+	<script src="channels/{{channelid}}/config.js"></script>
+	<link href="player/videojs/dist/video-js.min.css" rel="stylesheet">
+	<link href="player/videojs/dist/video-js-skin.min.css" rel="stylesheet">
+	<link href="player/videojs/dist/videojs-overlay.min.css" rel="stylesheet">
+	<link href="player/videojs/dist/videojs-license.min.css" rel="stylesheet">
+	{{#if airplay}}
+	<link href="player/videojs/dist/videojs-airplay.min.css" rel="stylesheet">
+	{{/if}}
+	{{#if chromecast}}
+	<link href="player/videojs/dist/videojs-chromecast.min.css" rel="stylesheet">
+	{{/if}}
+</head>
+<body>
+<div style="position:absolute;top:0;right:0;bottom:0;left:0">
+	<video id="player" class="vjs-public video-js" controls playsinline></video>
+</div>
+<script src="player/videojs/dist/video.min.js"></script>
+<script src="player/videojs/dist/videojs-overlay.min.js"></script>
+<script src="player/videojs/dist/videojs-license.min.js"></script>
+{{#if airplay}}
+<script src='player/videojs/dist/videojs-airplay.min.js'></script>
+{{/if}}
+{{#if chromecast}}
+<script src='player/videojs/dist/videojs-chromecast.min.js'></script>
+<script src='https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1'></script>
+{{/if}}
+<script>
+	function getQueryParam(key, defaultValue) {
+		var query = window.location.search.substring(1);
+		var vars = query.split("&");
+		for(var i = 0; i < vars.length; i++) {
+			var pair = vars[i].split("=");
+			if(pair[0] == key) {
+				return pair[1];
+			}
+		}
+		return defaultValue;
+	}
+
+	function convertBoolParam(key, defaultValue) {
+		var val = getQueryParam(key, defaultValue);
+		return val === true || val === "true" || val === "1" || val === "yes" || val === "on";
+	}
+
+	function convertColorParam(parameter, defaultColor) {
+		var re = new RegExp("^#([0-9a-f]{3}|[0-9a-f]{6})$");
+		var c = getQueryParam(parameter, defaultColor);
+		// decode color as # has to be represented by %23
+		var c = decodeURIComponent(c);
+		// if color was given without leading #, prepend it
+		if (!String(c).startsWith("#")) c = "#" + c;
+
+		if (re.test(c)) {
+			return c;
+		} else {
+			return defaultColor;
+		}
+	}
+
+	var autoplay = convertBoolParam("autoplay", playerConfig.autoplay);
+	var mute = convertBoolParam("mute", playerConfig.mute);
+	var statistics = convertBoolParam("stats", playerConfig.statistics);
+	var color = convertColorParam("color", playerConfig.color.buttons);
+
+	var config = {
+		controls: true,
+		poster: playerConfig.poster + '?t=' + String(new Date().getTime()),
+		autoplay: autoplay ? 'muted' : false,
+		muted: mute,
+		liveui: true,
+		responsive: true,
+		fluid: true,
+		sources: [{ src: window.location.origin + '/' + playerConfig.source, type: 'application/x-mpegURL' }],
+	};
+
+	if (playerConfig.chromecast) {
+		config.techOrder = ["chromecast", "html5"];
+		config.plugins.chromecast = {
+			receiverApplicationId: 'CC1AD845'
+		};
+	}
+
+	if (playerConfig.airplay) {
+		config.plugins.airPlay = {};
+	}
+
+	var player = videojs('player', config);
+	player.ready(function() {
+		if(playerConfig.logo.image.length != 0) {
+			var overlay = null;
+
+			var imgTag = new Image();
+			imgTag.onLoad = function () {
+				imgTag.setAttribute('width', this.width);
+				imgTag.setAttribute('height'.this.height);
+			};
+			imgTag.src = playerConfig.logo.image + '?' + Math.random();
+
+			if (playerConfig.logo.link.length !== 0) {
+				var aTag = document.createElement('a');
+				aTag.setAttribute('href', playerConfig.logo.link);
+				aTag.setAttribute('target', '_blank');
+				aTag.appendChild(imgTag);
+				overlay = aTag.outerHTML;
+			} else {
+				overlay = imgTag.outerHTML;
+			}
+
+			player.overlay({
+				align: playerConfig.logo.position,
+				overlays: [
+					{
+						showBackground: false,
+						content: overlay,
+						start: 'playing',
+						end: 'pause',
+					},
+				],
+			});
+
+			player.license(playerConfig.license);
+		}
+
+		if (autoplay === true) {
+			// https://videojs.com/blog/autoplay-best-practices-with-video-js/
+			player.play();
+		}
+	});
+</script>
+</body>
+</html>

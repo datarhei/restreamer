@@ -1,0 +1,17 @@
+{
+	"Network Device": {
+		"origin": [["src/views/Edit/SourceList.js", 51]]
+	},
+	"Video4Linux": {
+		"origin": [["src/views/Edit/SourceList.js", 54]]
+	},
+	"ALSA": {
+		"origin": [["src/views/Edit/SourceList.js", 57]]
+	},
+	"AVFoundation": {
+		"origin": [["src/views/Edit/SourceList.js", 60]]
+	},
+	"Virtual Device": {
+		"origin": [["src/views/Edit/SourceList.js", 63]]
+	}
+}

@@ -1,0 +1,20 @@
+{
+	"Edit Publication Service": {
+		"origin": [["src/views/Publication/Edit.js", 211]]
+	},
+	"Service Name": {
+		"origin": [["src/views/Publication/Edit.js", 221]]
+	},
+	"Process Details": {
+		"origin": [["src/views/Publication/Edit.js", 238]]
+	},
+	"Close": {
+		"origin": [["src/views/Publication/Edit.js", 244]]
+	},
+	"Save": {
+		"origin": [["src/views/Publication/Edit.js", 245]]
+	},
+	"Delete": {
+		"origin": [["src/views/Publication/Edit.js", 246]]
+	}
+}

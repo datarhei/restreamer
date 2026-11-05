@@ -1,0 +1,59 @@
+{
+	"Error": {
+		"origin": [["src/views/Settings.js", 248]]
+	},
+	"Settings": {
+		"origin": [["src/views/Settings.js", 266]]
+	},
+	"General": {
+		"origin": [["src/views/Settings.js", 277]]
+	},
+	"ID": {
+		"origin": [["src/views/Settings.js", 280]]
+	},
+	"Public Hostnames": {
+		"origin": [["src/views/Settings.js", 283]]
+	},
+	"Enable Automatic Certificate from Let's Encrypt": {
+		"origin": [["src/views/Settings.js", 286]]
+	},
+	"Storage": {
+		"origin": [["src/views/Settings.js", 293]]
+	},
+	"Memory": {
+		"origin": [["src/views/Settings.js", 296]]
+	},
+	"Enable basic auth for PUT, POST, and DELETE requests to /memfs": {
+		"origin": [["src/views/Settings.js", 299]]
+	},
+	"Username": {
+		"origin": [["src/views/Settings.js", 302]]
+	},
+	"Password": {
+		"origin": [["src/views/Settings.js", 307]]
+	},
+	"Enable RTMP Server": {
+		"origin": [["src/views/Settings.js", 317]]
+	},
+	"Address": {
+		"origin": [["src/views/Settings.js", 320]]
+	},
+	"App": {
+		"origin": [["src/views/Settings.js", 323]]
+	},
+	"Token": {
+		"origin": [["src/views/Settings.js", 326]]
+	},
+	"Allow all origins": {
+		"origin": [["src/views/Settings.js", 333]]
+	},
+	"All changes will be applied after restarting the Restreamer-API": {
+		"origin": [["src/views/Settings.js", 357]]
+	},
+	"Save": {
+		"origin": [["src/views/Settings.js", 361]]
+	},
+	"Abort": {
+		"origin": [["src/views/Settings.js", 363]]
+	}
+}

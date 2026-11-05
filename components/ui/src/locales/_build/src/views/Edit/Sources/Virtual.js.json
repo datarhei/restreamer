@@ -1,0 +1,60 @@
+{
+	"Select Audio Source:": {
+		"origin": [["src/views/Edit/Sources/Virtual.js", 162]]
+	},
+	"Source": {
+		"origin": [
+			["src/views/Edit/Sources/Virtual.js", 165],
+			["src/views/Edit/Sources/Virtual.js", 243]
+		]
+	},
+	"Layout": {
+		"origin": [
+			["src/views/Edit/Sources/Virtual.js", 175],
+			["src/views/Edit/Sources/Virtual.js", 193]
+		]
+	},
+	"Sampling": {
+		"origin": [
+			["src/views/Edit/Sources/Virtual.js", 181],
+			["src/views/Edit/Sources/Virtual.js", 199],
+			["src/views/Edit/Sources/Virtual.js", 224]
+		]
+	},
+	"Color": {
+		"origin": [["src/views/Edit/Sources/Virtual.js", 207]]
+	},
+	"Amplitude": {
+		"origin": [["src/views/Edit/Sources/Virtual.js", 217]]
+	},
+	"Frequency": {
+		"origin": [["src/views/Edit/Sources/Virtual.js", 232]]
+	},
+	"Beep Factor": {
+		"origin": [["src/views/Edit/Sources/Virtual.js", 235]]
+	},
+	"Select Video Source:": {
+		"origin": [["src/views/Edit/Sources/Virtual.js", 240]]
+	},
+	"FPS": {
+		"origin": [
+			["src/views/Edit/Sources/Virtual.js", 259],
+			["src/views/Edit/Sources/Virtual.js", 277]
+		]
+	},
+	"Size": {
+		"origin": [
+			["src/views/Edit/Sources/Virtual.js", 270],
+			["src/views/Edit/Sources/Virtual.js", 291]
+		]
+	},
+	"Rule": {
+		"origin": [["src/views/Edit/Sources/Virtual.js", 288]]
+	},
+	"Scale": {
+		"origin": [["src/views/Edit/Sources/Virtual.js", 294]]
+	},
+	"Probe": {
+		"origin": [["src/views/Edit/Sources/Virtual.js", 301]]
+	}
+}

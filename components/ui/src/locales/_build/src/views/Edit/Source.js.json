@@ -1,0 +1,38 @@
+{
+	"Source": {
+		"origin": [["src/views/Edit/Source.js", 237]]
+	},
+	"Select your source:": {
+		"origin": [["src/views/Edit/Source.js", 244]]
+	},
+	"Network Device": {
+		"origin": [["src/views/Edit/Source.js", 253]]
+	},
+	"USB Device": {
+		"origin": [["src/views/Edit/Source.js", 263]]
+	},
+	"ALSA": {
+		"origin": [["src/views/Edit/Source.js", 273]]
+	},
+	"AVFoundation": {
+		"origin": [["src/views/Edit/Source.js", 283]]
+	},
+	"Virtual Device": {
+		"origin": [["src/views/Edit/Source.js", 293]]
+	},
+	"Show probe details": {
+		"origin": [["src/views/Edit/Source.js", 304]]
+	},
+	"Save Source": {
+		"origin": [["src/views/Edit/Source.js", 321]]
+	},
+	"Abort": {
+		"origin": [["src/views/Edit/Source.js", 324]]
+	},
+	"Probe Details": {
+		"origin": [["src/views/Edit/Source.js", 339]]
+	},
+	"Close": {
+		"origin": [["src/views/Edit/Source.js", 351]]
+	}
+}
