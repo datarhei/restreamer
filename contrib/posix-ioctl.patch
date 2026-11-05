@@ -1,0 +1,30 @@
+commit 6408745f54ada32bad44227e6b4173e46641afaa
+Author: q66 <q66@chimera-linux.org>
+Date:   Tue Nov 11 18:12:01 2025 +0100
+
+    fix posix ioctl on musl
+    
+    The libv4l2 is built with posix ioctl but to make it known to
+    the header the macro needs to be defined which is unfortunate.
+    
+    ffmpeg had it work for a while but then it broke when this
+    commit was introduced:
+    
+    https://github.com/FFmpeg/FFmpeg/commit/5fea5e3e11d6ff425db48f44489916399822aece
+    
+    due to the macro previously being accidentally defined
+
+diff --git a/libavdevice/v4l2.c b/libavdevice/v4l2.c
+index c38ecbb..3457b43 100644
+--- a/libavdevice/v4l2.c
++++ b/libavdevice/v4l2.c
+@@ -49,6 +49,9 @@
+ #include <dirent.h>
+ 
+ #if CONFIG_LIBV4L2
++#if HAVE_IOCTL_POSIX
++#define LIBV4L_HAVE_POSIX_IOCTL
++#endif
+ #include <libv4l2.h>
+ #endif
+ 

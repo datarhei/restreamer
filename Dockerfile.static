@@ -1,0 +1,70 @@
+# Filename: Dockerfile.static
+
+FROM alpine:3.15 AS builder
+
+ARG BUILD_DATE=1970-01-01T00:00:00Z
+ARG BUILD_COMMIT=unknown
+ARG FFMPEG_VERSION=6.1
+
+ENV SRC=/usr \
+    PKG_CONFIG_PATH=/usr/lib/pkgconfig \
+    MAKEFLAGS=-j$(nproc)
+
+# Install build dependencies
+RUN apk add --no-cache \
+    autoconf automake bash binutils bzip2 ca-certificates \
+    cmake coreutils curl diffutils g++ gcc libgcc libtool \
+    libssl3 linux-headers make musl-dev nasm openssl-dev \
+    patch tar zlib-dev harfbuzz-dev freetype-dev libxml2-dev \
+    libsrt-dev x264-dev x265-dev libvpx-dev lame-dev opus-dev \
+    libvorbis-dev fdk-aac-dev dav1d-dev rav1e-dev aom-dev \
+    libxcb-dev alsa-lib-dev v4l-utils-dev
+
+WORKDIR /tmp
+
+# FFmpeg Quellen holen
+RUN curl -LO http://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz && \
+    tar -xzf ffmpeg-${FFMPEG_VERSION}.tar.gz && \
+    rm ffmpeg-${FFMPEG_VERSION}.tar.gz
+
+COPY ./contrib /contrib
+
+# Konfigurieren & statisch kompilieren
+RUN cd ffmpeg-${FFMPEG_VERSION} && \
+    patch -p1 < /contrib/ffmpeg-jsonstats.patch && \
+    patch -p1 < /contrib/ffmpeg-hls.patch && \
+    ./configure \
+    --extra-version="datarhei-${BUILD_COMMIT}-${BUILD_DATE}" \
+    --prefix="${SRC}" \
+    --extra-libs="-lpthread -lxml2 -lm -lsupc++ -lstdc++ -lssl -lcrypto -lz -lc -ldl" \
+    --enable-nonfree \
+    --enable-gpl \
+    --enable-version3 \
+    --enable-static \
+    --disable-shared \
+    --disable-ffplay \
+    --disable-debug \
+    --disable-doc \
+    --enable-openssl \
+    --enable-libxml2 \
+    --enable-libv4l2 \
+    --enable-v4l2_m2m \
+    --enable-libfreetype \
+    --enable-alsa \
+    --enable-libsrt \
+    --enable-libx264 \
+    --enable-libx265 \
+    --enable-libvpx \
+    --enable-libmp3lame \
+    --enable-libopus \
+    --enable-libvorbis \
+    --enable-libfdk-aac \
+    --enable-libdav1d \
+    --enable-librav1e \
+    --enable-libaom \
+    --enable-libxcb && \
+    make && make install
+
+# Output stage (nur statische Binarys)
+FROM scratch AS binary
+COPY --from=builder /usr/bin/ffmpeg /bin/ffmpeg
