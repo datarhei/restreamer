@@ -49,8 +49,6 @@ RUN apt-get update -y && \
   libharfbuzz-dev \
   libsrt-openssl-dev \
   libxml2-dev \
-  libharfbuzz-dev \
-  libxml2-dev \
   libxcb1-dev \
   libxcb-xfixes0-dev \
   libxcb-shm0-dev \
@@ -124,6 +122,7 @@ FROM $DEPLOY_IMAGE
 COPY --from=builder /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
 COPY --from=builder /usr/local/bin/ffprobe /usr/local/bin/ffprobe
 COPY --from=builder /ffmpeglibs /ffmpeglibs
+COPY ./verify-hardware-build.sh /usr/local/bin/restreamer-verify-ffmpeg
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -147,7 +146,8 @@ RUN echo "/ffmpeglibs" > /etc/ld.so.conf.d/ffmpeg.conf && \
   mesa-va-drivers \
   mesa-vulkan-drivers && \
   rm -rf /var/lib/apt/lists/* && \
-  ffmpeg -buildconf
+  chmod +x /usr/local/bin/restreamer-verify-ffmpeg && \
+  /usr/local/bin/restreamer-verify-ffmpeg
 
 ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=compute,video,utility

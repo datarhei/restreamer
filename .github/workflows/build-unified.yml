@@ -128,7 +128,54 @@ jobs:
             type=raw,value=ffmpeg-${{ needs.version.outputs.ffmpeg }}
             type=sha
 
-      - name: Build unified image
+      - name: Build unified image for validation
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile
+          platforms: linux/amd64
+          load: true
+          push: false
+          build-args: |
+            FFMPEG_IMAGE=${{ env.REGISTRY }}/${{ env.FFMPEG_IMAGE_NAME }}@${{ needs.ffmpeg.outputs.digest }}
+          tags: restreamer-smoke:local
+          cache-from: type=gha,scope=restreamer-unified
+          cache-to: type=gha,mode=max,scope=restreamer-unified
+
+      - name: Smoke test unified image
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm --detach \
+            --name restreamer-smoke \
+            --publish 127.0.0.1:18080:8080 \
+            --env CORE_HOST_AUTO=false \
+            restreamer-smoke:local
+
+          cleanup() {
+            docker logs --tail 100 restreamer-smoke || true
+            docker stop restreamer-smoke >/dev/null 2>&1 || true
+          }
+          trap cleanup EXIT
+
+          ready=false
+          for _ in $(seq 1 30); do
+            if curl --fail --silent --show-error http://127.0.0.1:18080/api >/dev/null; then
+              ready=true
+              break
+            fi
+            sleep 1
+          done
+          [[ "${ready}" == "true" ]]
+
+          for path in / /ui/ /api /api/v3/skills; do
+            curl --fail --silent --show-error "http://127.0.0.1:18080${path}" >/dev/null
+          done
+
+          docker exec restreamer-smoke /usr/local/bin/restreamer-verify-ffmpeg
+
+      - name: Publish unified image
+        id: build
         uses: docker/build-push-action@v6
         with:
           context: .
