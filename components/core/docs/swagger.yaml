@@ -1,0 +1,3269 @@
+basePath: /
+definitions:
+  api.AVstream:
+    properties:
+      aqueue:
+        format: uint64
+        type: integer
+      drop:
+        format: uint64
+        type: integer
+      dup:
+        format: uint64
+        type: integer
+      duplicating:
+        type: boolean
+      enc:
+        format: uint64
+        type: integer
+      gop:
+        type: string
+      input:
+        $ref: '#/definitions/api.AVstreamIO'
+      looping:
+        type: boolean
+      looping_runtime:
+        format: uint64
+        type: integer
+      output:
+        $ref: '#/definitions/api.AVstreamIO'
+      queue:
+        format: uint64
+        type: integer
+    type: object
+  api.AVstreamIO:
+    properties:
+      packet:
+        format: uint64
+        type: integer
+      size_kb:
+        type: integer
+      state:
+        enum:
+        - running
+        - idle
+        type: string
+      time:
+        type: integer
+    type: object
+  api.About:
+    properties:
+      app:
+        type: string
+      auths:
+        items:
+          type: string
+        type: array
+      created_at:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      uptime_seconds:
+        type: integer
+      version:
+        $ref: '#/definitions/api.Version'
+    type: object
+  api.Command:
+    properties:
+      command:
+        enum:
+        - start
+        - stop
+        - restart
+        - reload
+        type: string
+    required:
+    - command
+    type: object
+  api.ConfigData:
+    properties:
+      address:
+        type: string
+      api:
+        properties:
+          access:
+            properties:
+              http:
+                properties:
+                  allow:
+                    items:
+                      type: string
+                    type: array
+                  block:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              https:
+                properties:
+                  allow:
+                    items:
+                      type: string
+                    type: array
+                  block:
+                    items:
+                      type: string
+                    type: array
+                type: object
+            type: object
+          auth:
+            properties:
+              auth0:
+                properties:
+                  enable:
+                    type: boolean
+                  tenants:
+                    items:
+                      $ref: '#/definitions/value.Auth0Tenant'
+                    type: array
+                type: object
+              disable_localhost:
+                type: boolean
+              enable:
+                type: boolean
+              jwt:
+                properties:
+                  secret:
+                    type: string
+                type: object
+              password:
+                type: string
+              username:
+                type: string
+            type: object
+          read_only:
+            type: boolean
+        type: object
+      created_at:
+        description: When this config has been persisted
+        type: string
+      db:
+        properties:
+          dir:
+            type: string
+        type: object
+      debug:
+        properties:
+          force_gc:
+            format: int
+            type: integer
+          memory_limit_mbytes:
+            format: int64
+            type: integer
+          profiling:
+            type: boolean
+        type: object
+      ffmpeg:
+        properties:
+          access:
+            properties:
+              input:
+                properties:
+                  allow:
+                    items:
+                      type: string
+                    type: array
+                  block:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              output:
+                properties:
+                  allow:
+                    items:
+                      type: string
+                    type: array
+                  block:
+                    items:
+                      type: string
+                    type: array
+                type: object
+            type: object
+          binary:
+            type: string
+          log:
+            properties:
+              max_history:
+                format: int
+                type: integer
+              max_lines:
+                format: int
+                type: integer
+            type: object
+          max_processes:
+            format: int64
+            type: integer
+        type: object
+      host:
+        properties:
+          auto:
+            type: boolean
+          name:
+            items:
+              type: string
+            type: array
+        type: object
+      id:
+        type: string
+      log:
+        properties:
+          level:
+            enum:
+            - debug
+            - info
+            - warn
+            - error
+            - silent
+            type: string
+          max_lines:
+            format: int
+            type: integer
+          topics:
+            items:
+              type: string
+            type: array
+        type: object
+      metrics:
+        properties:
+          enable:
+            type: boolean
+          enable_prometheus:
+            type: boolean
+          interval_sec:
+            description: seconds
+            format: int64
+            type: integer
+          range_sec:
+            description: seconds
+            format: int64
+            type: integer
+        type: object
+      name:
+        type: string
+      playout:
+        properties:
+          enable:
+            type: boolean
+          max_port:
+            format: int
+            type: integer
+          min_port:
+            format: int
+            type: integer
+        type: object
+      router:
+        properties:
+          blocked_prefixes:
+            items:
+              type: string
+            type: array
+          routes:
+            additionalProperties:
+              type: string
+            type: object
+          ui_path:
+            type: string
+        type: object
+      rtmp:
+        properties:
+          address:
+            type: string
+          address_tls:
+            type: string
+          app:
+            type: string
+          enable:
+            type: boolean
+          enable_tls:
+            type: boolean
+          token:
+            type: string
+        type: object
+      service:
+        properties:
+          enable:
+            type: boolean
+          token:
+            type: string
+          url:
+            type: string
+        type: object
+      sessions:
+        properties:
+          enable:
+            type: boolean
+          ip_ignorelist:
+            items:
+              type: string
+            type: array
+          max_bitrate_mbit:
+            format: uint64
+            type: integer
+          max_sessions:
+            format: uint64
+            type: integer
+          persist:
+            type: boolean
+          persist_interval_sec:
+            format: int
+            type: integer
+          session_timeout_sec:
+            format: int
+            type: integer
+        type: object
+      srt:
+        properties:
+          address:
+            type: string
+          enable:
+            type: boolean
+          log:
+            properties:
+              enable:
+                type: boolean
+              topics:
+                items:
+                  type: string
+                type: array
+            type: object
+          passphrase:
+            type: string
+          token:
+            type: string
+        type: object
+      storage:
+        properties:
+          cors:
+            properties:
+              origins:
+                items:
+                  type: string
+                type: array
+            type: object
+          disk:
+            properties:
+              cache:
+                properties:
+                  enable:
+                    type: boolean
+                  max_file_size_mbytes:
+                    format: uint64
+                    type: integer
+                  max_size_mbytes:
+                    format: uint64
+                    type: integer
+                  ttl_seconds:
+                    format: int64
+                    type: integer
+                  types:
+                    properties:
+                      allow:
+                        items:
+                          type: string
+                        type: array
+                      block:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                type: object
+              dir:
+                type: string
+              max_size_mbytes:
+                format: int64
+                type: integer
+            type: object
+          memory:
+            properties:
+              auth:
+                properties:
+                  enable:
+                    type: boolean
+                  password:
+                    type: string
+                  username:
+                    type: string
+                type: object
+              max_size_mbytes:
+                format: int64
+                type: integer
+              purge:
+                type: boolean
+            type: object
+          mimetypes_file:
+            type: string
+          s3:
+            items:
+              $ref: '#/definitions/value.S3Storage'
+            type: array
+        type: object
+      tls:
+        properties:
+          address:
+            type: string
+          auto:
+            type: boolean
+          cert_file:
+            type: string
+          email:
+            type: string
+          enable:
+            type: boolean
+          key_file:
+            type: string
+        type: object
+      update_check:
+        type: boolean
+      version:
+        format: int64
+        type: integer
+    type: object
+  api.ConfigError:
+    additionalProperties:
+      items:
+        type: string
+      type: array
+    type: object
+  api.Error:
+    properties:
+      code:
+        format: int
+        type: integer
+      details:
+        items:
+          type: string
+        type: array
+      message:
+        type: string
+    type: object
+  api.FileInfo:
+    properties:
+      last_modified:
+        format: int64
+        type: integer
+      name:
+        type: string
+      size_bytes:
+        format: int64
+        type: integer
+    type: object
+  api.FilesystemInfo:
+    properties:
+      mount:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+    type: object
+  api.GraphQuery:
+    properties:
+      query:
+        type: string
+      variables: {}
+    type: object
+  api.GraphResponse:
+    properties:
+      data: {}
+      errors:
+        items: {}
+        type: array
+    type: object
+  api.JWT:
+    properties:
+      access_token:
+        type: string
+      refresh_token:
+        type: string
+    type: object
+  api.JWTRefresh:
+    properties:
+      access_token:
+        type: string
+    type: object
+  api.LogEvent:
+    additionalProperties: true
+    type: object
+  api.Login:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  api.MetricsDescription:
+    properties:
+      description:
+        type: string
+      labels:
+        items:
+          type: string
+        type: array
+      name:
+        type: string
+    type: object
+  api.MetricsQuery:
+    properties:
+      interval_sec:
+        format: int64
+        type: integer
+      metrics:
+        items:
+          $ref: '#/definitions/api.MetricsQueryMetric'
+        type: array
+      timerange_sec:
+        format: int64
+        type: integer
+    type: object
+  api.MetricsQueryMetric:
+    properties:
+      labels:
+        additionalProperties:
+          type: string
+        type: object
+      name:
+        type: string
+    type: object
+  api.MetricsResponse:
+    properties:
+      interval_sec:
+        format: int64
+        type: integer
+      metrics:
+        items:
+          $ref: '#/definitions/api.MetricsResponseMetric'
+        type: array
+      timerange_sec:
+        format: int64
+        type: integer
+    type: object
+  api.MetricsResponseMetric:
+    properties:
+      labels:
+        additionalProperties:
+          type: string
+        type: object
+      name:
+        type: string
+      values:
+        items:
+          $ref: '#/definitions/api.MetricsResponseValue'
+        type: array
+    type: object
+  api.MetricsResponseValue:
+    properties:
+      ts:
+        type: string
+      value:
+        type: number
+    type: object
+  api.PlayoutStatus:
+    properties:
+      aqueue:
+        format: uint64
+        type: integer
+      debug: {}
+      drop:
+        format: uint64
+        type: integer
+      dup:
+        format: uint64
+        type: integer
+      duplicating:
+        type: boolean
+      enc:
+        format: uint64
+        type: integer
+      gop:
+        type: string
+      id:
+        type: string
+      input:
+        $ref: '#/definitions/api.PlayoutStatusIO'
+      looping:
+        type: boolean
+      output:
+        $ref: '#/definitions/api.PlayoutStatusIO'
+      queue:
+        format: uint64
+        type: integer
+      stream:
+        format: uint64
+        type: integer
+      swap:
+        $ref: '#/definitions/api.PlayoutStatusSwap'
+      url:
+        type: string
+    type: object
+  api.PlayoutStatusIO:
+    properties:
+      packet:
+        format: uint64
+        type: integer
+      size_kb:
+        format: uint64
+        type: integer
+      state:
+        enum:
+        - running
+        - idle
+        type: string
+      time:
+        format: uint64
+        type: integer
+    type: object
+  api.PlayoutStatusSwap:
+    properties:
+      lasterror:
+        type: string
+      lasturl:
+        type: string
+      status:
+        type: string
+      url:
+        type: string
+    type: object
+  api.Probe:
+    properties:
+      log:
+        items:
+          type: string
+        type: array
+      streams:
+        items:
+          $ref: '#/definitions/api.ProbeIO'
+        type: array
+    type: object
+  api.ProbeIO:
+    properties:
+      bitrate_kbps:
+        type: number
+      channels:
+        format: uint64
+        type: integer
+      codec:
+        type: string
+      coder:
+        type: string
+      duration_sec:
+        type: number
+      format:
+        type: string
+      fps:
+        description: video
+        type: number
+      height:
+        format: uint64
+        type: integer
+      index:
+        format: uint64
+        type: integer
+      language:
+        type: string
+      layout:
+        type: string
+      pix_fmt:
+        type: string
+      sampling_hz:
+        description: audio
+        format: uint64
+        type: integer
+      stream:
+        format: uint64
+        type: integer
+      type:
+        type: string
+      url:
+        description: common
+        type: string
+      width:
+        format: uint64
+        type: integer
+    type: object
+  api.Process:
+    properties:
+      config:
+        $ref: '#/definitions/api.ProcessConfig'
+      created_at:
+        format: int64
+        type: integer
+      id:
+        type: string
+      metadata: {}
+      reference:
+        type: string
+      report:
+        $ref: '#/definitions/api.ProcessReport'
+      state:
+        $ref: '#/definitions/api.ProcessState'
+      type:
+        type: string
+      updated_at:
+        format: int64
+        type: integer
+    type: object
+  api.ProcessConfig:
+    properties:
+      autostart:
+        type: boolean
+      id:
+        type: string
+      input:
+        items:
+          $ref: '#/definitions/api.ProcessConfigIO'
+        type: array
+      limits:
+        $ref: '#/definitions/api.ProcessConfigLimits'
+      options:
+        items:
+          type: string
+        type: array
+      output:
+        items:
+          $ref: '#/definitions/api.ProcessConfigIO'
+        type: array
+      reconnect:
+        type: boolean
+      reconnect_delay_seconds:
+        format: uint64
+        type: integer
+      reference:
+        type: string
+      stale_timeout_seconds:
+        format: uint64
+        type: integer
+      type:
+        enum:
+        - ffmpeg
+        - ""
+        type: string
+    required:
+    - input
+    - output
+    type: object
+  api.ProcessConfigIO:
+    properties:
+      address:
+        type: string
+      cleanup:
+        items:
+          $ref: '#/definitions/api.ProcessConfigIOCleanup'
+        type: array
+      id:
+        type: string
+      options:
+        items:
+          type: string
+        type: array
+    required:
+    - address
+    type: object
+  api.ProcessConfigIOCleanup:
+    properties:
+      max_file_age_seconds:
+        format: uint
+        type: integer
+      max_files:
+        format: uint
+        type: integer
+      pattern:
+        type: string
+      purge_on_delete:
+        type: boolean
+    required:
+    - pattern
+    type: object
+  api.ProcessConfigLimits:
+    properties:
+      cpu_usage:
+        type: number
+      memory_mbytes:
+        format: uint64
+        type: integer
+      waitfor_seconds:
+        format: uint64
+        type: integer
+    type: object
+  api.ProcessReport:
+    properties:
+      created_at:
+        format: int64
+        type: integer
+      history:
+        items:
+          $ref: '#/definitions/api.ProcessReportHistoryEntry'
+        type: array
+      log:
+        items:
+          items:
+            type: string
+          type: array
+        type: array
+      prelude:
+        items:
+          type: string
+        type: array
+    type: object
+  api.ProcessReportHistoryEntry:
+    properties:
+      created_at:
+        format: int64
+        type: integer
+      log:
+        items:
+          items:
+            type: string
+          type: array
+        type: array
+      prelude:
+        items:
+          type: string
+        type: array
+    type: object
+  api.ProcessState:
+    properties:
+      command:
+        items:
+          type: string
+        type: array
+      cpu_usage:
+        type: number
+      exec:
+        type: string
+      last_logline:
+        type: string
+      memory_bytes:
+        format: uint64
+        type: integer
+      order:
+        type: string
+      progress:
+        $ref: '#/definitions/api.Progress'
+      reconnect_seconds:
+        format: int64
+        type: integer
+      runtime_seconds:
+        format: int64
+        type: integer
+    type: object
+  api.Progress:
+    properties:
+      bitrate_kbit:
+        description: kbit/s
+        type: number
+      drop:
+        format: uint64
+        type: integer
+      dup:
+        format: uint64
+        type: integer
+      fps:
+        type: number
+      frame:
+        format: uint64
+        type: integer
+      inputs:
+        items:
+          $ref: '#/definitions/api.ProgressIO'
+        type: array
+      outputs:
+        items:
+          $ref: '#/definitions/api.ProgressIO'
+        type: array
+      packet:
+        format: uint64
+        type: integer
+      q:
+        type: number
+      size_kb:
+        description: kbytes
+        format: uint64
+        type: integer
+      speed:
+        type: number
+      time:
+        type: number
+    type: object
+  api.ProgressIO:
+    properties:
+      address:
+        type: string
+      avstream:
+        allOf:
+        - $ref: '#/definitions/api.AVstream'
+        description: avstream
+      bitrate_kbit:
+        description: kbit/s
+        type: number
+      channels:
+        format: uint64
+        type: integer
+      codec:
+        type: string
+      coder:
+        type: string
+      extradata_size_bytes:
+        description: bytes
+        format: uint64
+        type: integer
+      format:
+        type: string
+      fps:
+        type: number
+      frame:
+        format: uint64
+        type: integer
+      framerate:
+        $ref: '#/definitions/api.ProgressIOFramerate'
+      height:
+        format: uint64
+        type: integer
+      id:
+        type: string
+      index:
+        description: General
+        format: uint64
+        type: integer
+      keyframe:
+        format: uint64
+        type: integer
+      layout:
+        type: string
+      packet:
+        format: uint64
+        type: integer
+      pix_fmt:
+        description: Video
+        type: string
+      pps:
+        type: number
+      q:
+        type: number
+      sampling_hz:
+        description: Audio
+        format: uint64
+        type: integer
+      size_kb:
+        description: kbytes
+        format: uint64
+        type: integer
+      stream:
+        format: uint64
+        type: integer
+      type:
+        type: string
+      width:
+        format: uint64
+        type: integer
+    type: object
+  api.ProgressIOFramerate:
+    properties:
+      avg:
+        type: number
+      max:
+        type: number
+      min:
+        type: number
+    type: object
+  api.RTMPChannel:
+    properties:
+      name:
+        type: string
+    type: object
+  api.SRTChannels:
+    properties:
+      connections:
+        additionalProperties:
+          $ref: '#/definitions/api.SRTConnection'
+        type: object
+      log:
+        additionalProperties:
+          items:
+            $ref: '#/definitions/api.SRTLog'
+          type: array
+        type: object
+      publisher:
+        additionalProperties:
+          type: integer
+        type: object
+      subscriber:
+        additionalProperties:
+          items:
+            type: integer
+          type: array
+        type: object
+    type: object
+  api.SRTConnection:
+    properties:
+      log:
+        additionalProperties:
+          items:
+            $ref: '#/definitions/api.SRTLog'
+          type: array
+        type: object
+      stats:
+        $ref: '#/definitions/api.SRTStatistics'
+    type: object
+  api.SRTLog:
+    properties:
+      msg:
+        items:
+          type: string
+        type: array
+      ts:
+        format: int64
+        type: integer
+    type: object
+  api.SRTStatistics:
+    properties:
+      avail_recv_buf_bytes:
+        description: The available space in the receiver's buffer, in bytes
+        format: uint64
+        type: integer
+      avail_send_buf_bytes:
+        description: The available space in the sender's buffer, in bytes
+        format: uint64
+        type: integer
+      bandwidth_mbit:
+        description: Estimated bandwidth of the network link, in Mbps
+        type: number
+      flight_size_pkt:
+        description: The number of packets in flight
+        format: uint64
+        type: integer
+      flow_window_pkt:
+        description: The maximum number of packets that can be "in flight"
+        format: uint64
+        type: integer
+      max_bandwidth_mbit:
+        description: Transmission bandwidth limit, in Mbps
+        type: number
+      mss_bytes:
+        description: Maximum Segment Size (MSS), in bytes
+        format: uint64
+        type: integer
+      pkt_recv_avg_belated_time_ms:
+        description: Accumulated difference between the current time and the time-to-play
+          of a packet that is received late
+        format: uint64
+        type: integer
+      pkt_send_period_us:
+        description: Current minimum time interval between which consecutive packets
+          are sent, in microseconds
+        type: number
+      recv_ack_pkt:
+        description: The total number of received ACK (Acknowledgement) control packets
+        format: uint64
+        type: integer
+      recv_buf_bytes:
+        description: Instantaneous (current) value of pktRcvBuf, expressed in bytes,
+          including payload and all headers (IP, TCP, SRT)
+        format: uint64
+        type: integer
+      recv_buf_ms:
+        description: The timespan (msec) of acknowledged packets in the receiver's
+          buffer
+        format: uint64
+        type: integer
+      recv_buf_pkt:
+        description: The number of acknowledged packets in receiver's buffer
+        format: uint64
+        type: integer
+      recv_bytes:
+        description: Same as pktRecv, but expressed in bytes, including payload and
+          all the headers (IP, TCP, SRT)
+        format: uint64
+        type: integer
+      recv_drop_bytes:
+        description: Same as pktRcvDrop, but expressed in bytes, including payload
+          and all the headers (IP, TCP, SRT)
+        format: uint64
+        type: integer
+      recv_drop_pkt:
+        description: The total number of dropped by the SRT receiver and, as a result,
+          not delivered to the upstream application DATA packets
+        format: uint64
+        type: integer
+      recv_km_pkt:
+        description: The total number of received KM (Key Material) control packets
+        format: uint64
+        type: integer
+      recv_loss_bytes:
+        description: Same as pktRcvLoss, but expressed in bytes, including payload
+          and all the headers (IP, TCP, SRT), bytes for the presently missing (either
+          reordered or lost) packets' payloads are estimated based on the average
+          packet size
+        format: uint64
+        type: integer
+      recv_loss_pkt:
+        description: The total number of SRT DATA packets detected as presently missing
+          (either reordered or lost) at the receiver side
+        format: uint64
+        type: integer
+      recv_nak_pkt:
+        description: The total number of received NAK (Negative Acknowledgement) control
+          packets
+        format: uint64
+        type: integer
+      recv_pkt:
+        description: The total number of received DATA packets, including retransmitted
+          packets
+        format: uint64
+        type: integer
+      recv_retran_pkts:
+        description: The total number of retransmitted packets registered at the receiver
+          side
+        format: uint64
+        type: integer
+      recv_tsbpd_delay_ms:
+        description: Timestamp-based Packet Delivery Delay value set on the socket
+          via SRTO_RCVLATENCY or SRTO_LATENCY
+        format: uint64
+        type: integer
+      recv_undecrypt_bytes:
+        description: Same as pktRcvUndecrypt, but expressed in bytes, including payload
+          and all the headers (IP, TCP, SRT)
+        format: uint64
+        type: integer
+      recv_undecrypt_pkt:
+        description: The total number of packets that failed to be decrypted at the
+          receiver side
+        format: uint64
+        type: integer
+      recv_unique_bytes:
+        description: Same as pktRecvUnique, but expressed in bytes, including payload
+          and all the headers (IP, TCP, SRT)
+        format: uint64
+        type: integer
+      recv_unique_pkt:
+        description: The total number of unique original, retransmitted or recovered
+          by the packet filter DATA packets received in time, decrypted without errors
+          and, as a result, scheduled for delivery to the upstream application by
+          the SRT receiver.
+        format: uint64
+        type: integer
+      reorder_tolerance_pkt:
+        description: Instant value of the packet reorder tolerance
+        format: uint64
+        type: integer
+      rtt_ms:
+        description: Smoothed round-trip time (SRTT), an exponentially-weighted moving
+          average (EWMA) of an endpoint's RTT samples, in milliseconds
+        type: number
+      send_buf_bytes:
+        description: Instantaneous (current) value of pktSndBuf, but expressed in
+          bytes, including payload and all headers (IP, TCP, SRT)
+        format: uint64
+        type: integer
+      send_buf_ms:
+        description: The timespan (msec) of packets in the sender's buffer (unacknowledged
+          packets)
+        format: uint64
+        type: integer
+      send_buf_pkt:
+        description: The number of packets in the sender's buffer that are already
+          scheduled for sending or even possibly sent, but not yet acknowledged
+        format: uint64
+        type: integer
+      send_drop_bytes:
+        description: Same as pktSndDrop, but expressed in bytes, including payload
+          and all the headers (IP, TCP, SRT)
+        format: uint64
+        type: integer
+      send_drop_pkt:
+        description: The total number of dropped by the SRT sender DATA packets that
+          have no chance to be delivered in time
+        format: uint64
+        type: integer
+      send_duration_us:
+        description: The total accumulated time in microseconds, during which the
+          SRT sender has some data to transmit, including packets that have been sent,
+          but not yet acknowledged
+        format: uint64
+        type: integer
+      send_km_pkt:
+        description: The total number of sent KM (Key Material) control packets
+        format: uint64
+        type: integer
+      send_loss_pkt:
+        description: The total number of data packets considered or reported as lost
+          at the sender side. Does not correspond to the packets detected as lost
+          at the receiver side.
+        format: uint64
+        type: integer
+      send_tsbpd_delay_ms:
+        description: Timestamp-based Packet Delivery Delay value of the peer
+        format: uint64
+        type: integer
+      sent_ack_pkt:
+        description: The total number of sent ACK (Acknowledgement) control packets
+        format: uint64
+        type: integer
+      sent_bytes:
+        description: Same as pktSent, but expressed in bytes, including payload and
+          all the headers (IP, TCP, SRT)
+        format: uint64
+        type: integer
+      sent_nak_pkt:
+        description: The total number of sent NAK (Negative Acknowledgement) control
+          packets
+        format: uint64
+        type: integer
+      sent_pkt:
+        description: The total number of sent DATA packets, including retransmitted
+          packets
+        format: uint64
+        type: integer
+      sent_retrans_bytes:
+        description: Same as pktRetrans, but expressed in bytes, including payload
+          and all the headers (IP, TCP, SRT)
+        format: uint64
+        type: integer
+      sent_retrans_pkt:
+        description: The total number of retransmitted packets sent by the SRT sender
+        format: uint64
+        type: integer
+      sent_unique_bytes:
+        description: Same as pktSentUnique, but expressed in bytes, including payload
+          and all the headers (IP, TCP, SRT)
+        format: uint64
+        type: integer
+      sent_unique_pkt:
+        description: The total number of unique DATA packets sent by the SRT sender
+        format: uint64
+        type: integer
+      timestamp_ms:
+        description: The time elapsed, in milliseconds, since the SRT socket has been
+          created
+        format: uint64
+        type: integer
+    type: object
+  api.Session:
+    properties:
+      bandwidth_rx_kbit:
+        description: kbit/s
+        type: number
+      bandwidth_tx_kbit:
+        description: kbit/s
+        type: number
+      bytes_rx:
+        format: uint64
+        type: integer
+      bytes_tx:
+        format: uint64
+        type: integer
+      created_at:
+        format: int64
+        type: integer
+      extra:
+        type: string
+      id:
+        type: string
+      local:
+        type: string
+      reference:
+        type: string
+      remote:
+        type: string
+    type: object
+  api.SessionPeers:
+    properties:
+      local:
+        additionalProperties:
+          $ref: '#/definitions/api.SessionStats'
+        type: object
+      sessions:
+        format: uint64
+        type: integer
+      traffic_rx_mb:
+        format: uint64
+        type: integer
+      traffic_tx_mb:
+        format: uint64
+        type: integer
+    type: object
+  api.SessionStats:
+    properties:
+      sessions:
+        format: uint64
+        type: integer
+      traffic_rx_mb:
+        format: uint64
+        type: integer
+      traffic_tx_mb:
+        format: uint64
+        type: integer
+    type: object
+  api.SessionSummary:
+    properties:
+      active:
+        $ref: '#/definitions/api.SessionSummaryActive'
+      summary:
+        $ref: '#/definitions/api.SessionSummarySummary'
+    type: object
+  api.SessionSummaryActive:
+    properties:
+      bandwidth_rx_mbit:
+        description: mbit/s
+        type: number
+      bandwidth_tx_mbit:
+        description: mbit/s
+        type: number
+      list:
+        items:
+          $ref: '#/definitions/api.Session'
+        type: array
+      max_bandwidth_rx_mbit:
+        description: mbit/s
+        type: number
+      max_bandwidth_tx_mbit:
+        description: mbit/s
+        type: number
+      max_sessions:
+        format: uint64
+        type: integer
+      sessions:
+        format: uint64
+        type: integer
+    type: object
+  api.SessionSummarySummary:
+    properties:
+      local:
+        additionalProperties:
+          $ref: '#/definitions/api.SessionStats'
+        type: object
+      reference:
+        additionalProperties:
+          $ref: '#/definitions/api.SessionStats'
+        type: object
+      remote:
+        additionalProperties:
+          $ref: '#/definitions/api.SessionPeers'
+        type: object
+      sessions:
+        format: uint64
+        type: integer
+      traffic_rx_mb:
+        format: uint64
+        type: integer
+      traffic_tx_mb:
+        format: uint64
+        type: integer
+    type: object
+  api.SessionsActive:
+    additionalProperties:
+      items:
+        $ref: '#/definitions/api.Session'
+      type: array
+    type: object
+  api.SessionsSummary:
+    additionalProperties:
+      $ref: '#/definitions/api.SessionSummary'
+    type: object
+  api.SetConfig:
+    properties:
+      address:
+        type: string
+      api:
+        properties:
+          access:
+            properties:
+              http:
+                properties:
+                  allow:
+                    items:
+                      type: string
+                    type: array
+                  block:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              https:
+                properties:
+                  allow:
+                    items:
+                      type: string
+                    type: array
+                  block:
+                    items:
+                      type: string
+                    type: array
+                type: object
+            type: object
+          auth:
+            properties:
+              auth0:
+                properties:
+                  enable:
+                    type: boolean
+                  tenants:
+                    items:
+                      $ref: '#/definitions/value.Auth0Tenant'
+                    type: array
+                type: object
+              disable_localhost:
+                type: boolean
+              enable:
+                type: boolean
+              jwt:
+                properties:
+                  secret:
+                    type: string
+                type: object
+              password:
+                type: string
+              username:
+                type: string
+            type: object
+          read_only:
+            type: boolean
+        type: object
+      created_at:
+        description: When this config has been persisted
+        type: string
+      db:
+        properties:
+          dir:
+            type: string
+        type: object
+      debug:
+        properties:
+          force_gc:
+            format: int
+            type: integer
+          memory_limit_mbytes:
+            format: int64
+            type: integer
+          profiling:
+            type: boolean
+        type: object
+      ffmpeg:
+        properties:
+          access:
+            properties:
+              input:
+                properties:
+                  allow:
+                    items:
+                      type: string
+                    type: array
+                  block:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              output:
+                properties:
+                  allow:
+                    items:
+                      type: string
+                    type: array
+                  block:
+                    items:
+                      type: string
+                    type: array
+                type: object
+            type: object
+          binary:
+            type: string
+          log:
+            properties:
+              max_history:
+                format: int
+                type: integer
+              max_lines:
+                format: int
+                type: integer
+            type: object
+          max_processes:
+            format: int64
+            type: integer
+        type: object
+      host:
+        properties:
+          auto:
+            type: boolean
+          name:
+            items:
+              type: string
+            type: array
+        type: object
+      id:
+        type: string
+      log:
+        properties:
+          level:
+            enum:
+            - debug
+            - info
+            - warn
+            - error
+            - silent
+            type: string
+          max_lines:
+            format: int
+            type: integer
+          topics:
+            items:
+              type: string
+            type: array
+        type: object
+      metrics:
+        properties:
+          enable:
+            type: boolean
+          enable_prometheus:
+            type: boolean
+          interval_sec:
+            description: seconds
+            format: int64
+            type: integer
+          range_sec:
+            description: seconds
+            format: int64
+            type: integer
+        type: object
+      name:
+        type: string
+      playout:
+        properties:
+          enable:
+            type: boolean
+          max_port:
+            format: int
+            type: integer
+          min_port:
+            format: int
+            type: integer
+        type: object
+      router:
+        properties:
+          blocked_prefixes:
+            items:
+              type: string
+            type: array
+          routes:
+            additionalProperties:
+              type: string
+            type: object
+          ui_path:
+            type: string
+        type: object
+      rtmp:
+        properties:
+          address:
+            type: string
+          address_tls:
+            type: string
+          app:
+            type: string
+          enable:
+            type: boolean
+          enable_tls:
+            type: boolean
+          token:
+            type: string
+        type: object
+      service:
+        properties:
+          enable:
+            type: boolean
+          token:
+            type: string
+          url:
+            type: string
+        type: object
+      sessions:
+        properties:
+          enable:
+            type: boolean
+          ip_ignorelist:
+            items:
+              type: string
+            type: array
+          max_bitrate_mbit:
+            format: uint64
+            type: integer
+          max_sessions:
+            format: uint64
+            type: integer
+          persist:
+            type: boolean
+          persist_interval_sec:
+            format: int
+            type: integer
+          session_timeout_sec:
+            format: int
+            type: integer
+        type: object
+      srt:
+        properties:
+          address:
+            type: string
+          enable:
+            type: boolean
+          log:
+            properties:
+              enable:
+                type: boolean
+              topics:
+                items:
+                  type: string
+                type: array
+            type: object
+          passphrase:
+            type: string
+          token:
+            type: string
+        type: object
+      storage:
+        properties:
+          cors:
+            properties:
+              origins:
+                items:
+                  type: string
+                type: array
+            type: object
+          disk:
+            properties:
+              cache:
+                properties:
+                  enable:
+                    type: boolean
+                  max_file_size_mbytes:
+                    format: uint64
+                    type: integer
+                  max_size_mbytes:
+                    format: uint64
+                    type: integer
+                  ttl_seconds:
+                    format: int64
+                    type: integer
+                  types:
+                    properties:
+                      allow:
+                        items:
+                          type: string
+                        type: array
+                      block:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                type: object
+              dir:
+                type: string
+              max_size_mbytes:
+                format: int64
+                type: integer
+            type: object
+          memory:
+            properties:
+              auth:
+                properties:
+                  enable:
+                    type: boolean
+                  password:
+                    type: string
+                  username:
+                    type: string
+                type: object
+              max_size_mbytes:
+                format: int64
+                type: integer
+              purge:
+                type: boolean
+            type: object
+          mimetypes_file:
+            type: string
+          s3:
+            items:
+              $ref: '#/definitions/value.S3Storage'
+            type: array
+        type: object
+      tls:
+        properties:
+          address:
+            type: string
+          auto:
+            type: boolean
+          cert_file:
+            type: string
+          email:
+            type: string
+          enable:
+            type: boolean
+          key_file:
+            type: string
+        type: object
+      update_check:
+        type: boolean
+      version:
+        format: int64
+        type: integer
+    type: object
+  api.Skills:
+    properties:
+      codecs:
+        properties:
+          audio:
+            items:
+              $ref: '#/definitions/api.SkillsCodec'
+            type: array
+          subtitle:
+            items:
+              $ref: '#/definitions/api.SkillsCodec'
+            type: array
+          video:
+            items:
+              $ref: '#/definitions/api.SkillsCodec'
+            type: array
+        type: object
+      devices:
+        properties:
+          demuxers:
+            items:
+              $ref: '#/definitions/api.SkillsDevice'
+            type: array
+          muxers:
+            items:
+              $ref: '#/definitions/api.SkillsDevice'
+            type: array
+        type: object
+      ffmpeg:
+        properties:
+          compiler:
+            type: string
+          configuration:
+            type: string
+          libraries:
+            items:
+              $ref: '#/definitions/api.SkillsLibrary'
+            type: array
+          version:
+            type: string
+        type: object
+      filter:
+        items:
+          $ref: '#/definitions/api.SkillsFilter'
+        type: array
+      formats:
+        properties:
+          demuxers:
+            items:
+              $ref: '#/definitions/api.SkillsFormat'
+            type: array
+          muxers:
+            items:
+              $ref: '#/definitions/api.SkillsFormat'
+            type: array
+        type: object
+      hwaccels:
+        items:
+          $ref: '#/definitions/api.SkillsHWAccel'
+        type: array
+      protocols:
+        properties:
+          input:
+            items:
+              $ref: '#/definitions/api.SkillsProtocol'
+            type: array
+          output:
+            items:
+              $ref: '#/definitions/api.SkillsProtocol'
+            type: array
+        type: object
+    type: object
+  api.SkillsCodec:
+    properties:
+      decoders:
+        items:
+          type: string
+        type: array
+      encoders:
+        items:
+          type: string
+        type: array
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  api.SkillsDevice:
+    properties:
+      devices:
+        items:
+          $ref: '#/definitions/api.SkillsHWDevice'
+        type: array
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  api.SkillsFilter:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  api.SkillsFormat:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  api.SkillsHWAccel:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  api.SkillsHWDevice:
+    properties:
+      extra:
+        type: string
+      id:
+        type: string
+      media:
+        type: string
+      name:
+        type: string
+    type: object
+  api.SkillsLibrary:
+    properties:
+      compiled:
+        type: string
+      linked:
+        type: string
+      name:
+        type: string
+    type: object
+  api.SkillsProtocol:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  api.Version:
+    properties:
+      arch:
+        type: string
+      build_date:
+        type: string
+      compiler:
+        type: string
+      number:
+        type: string
+      repository_branch:
+        type: string
+      repository_commit:
+        type: string
+    type: object
+  api.WidgetProcess:
+    properties:
+      current_sessions:
+        format: uint64
+        type: integer
+      total_sessions:
+        format: uint64
+        type: integer
+      uptime:
+        type: integer
+    type: object
+  github_com_datarhei_core_v16_http_api.Config:
+    properties:
+      config:
+        $ref: '#/definitions/api.ConfigData'
+      created_at:
+        type: string
+      loaded_at:
+        type: string
+      overrides:
+        items:
+          type: string
+        type: array
+      updated_at:
+        type: string
+    type: object
+  value.Auth0Tenant:
+    properties:
+      audience:
+        type: string
+      clientid:
+        type: string
+      domain:
+        type: string
+      users:
+        items:
+          type: string
+        type: array
+    type: object
+  value.S3Storage:
+    properties:
+      access_key_id:
+        type: string
+      auth:
+        $ref: '#/definitions/value.S3StorageAuth'
+      bucket:
+        type: string
+      endpoint:
+        type: string
+      mountpoint:
+        type: string
+      name:
+        type: string
+      region:
+        type: string
+      secret_access_key:
+        type: string
+      use_ssl:
+        type: boolean
+    type: object
+  value.S3StorageAuth:
+    properties:
+      enable:
+        type: boolean
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+info:
+  contact:
+    email: hello@datarhei.com
+    name: datarhei Core Support
+    url: https://www.datarhei.com
+  description: Expose REST API for the datarhei Core
+  license:
+    name: Apache 2.0
+    url: https://github.com/datarhei/core/v16/blob/main/LICENSE
+  title: datarhei Core API
+  version: "3.0"
+paths:
+  /api:
+    get:
+      description: API version and build infos in case auth is valid or not required.
+        If auth is required, just the name field is populated.
+      operationId: about
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.About'
+      security:
+      - ApiKeyAuth: []
+      summary: API version and build infos
+  /api/graph:
+    get:
+      description: Load GraphQL playground
+      operationId: graph-playground
+      produces:
+      - text/html
+      responses:
+        "200":
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: Load GraphQL playground
+  /api/graph/query:
+    post:
+      consumes:
+      - application/json
+      description: Query the GraphAPI
+      operationId: graph-query
+      parameters:
+      - description: GraphQL Query
+        in: body
+        name: query
+        required: true
+        schema:
+          $ref: '#/definitions/api.GraphQuery'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.GraphResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.GraphResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Query the GraphAPI
+  /api/login:
+    post:
+      description: Retrieve valid JWT access and refresh tokens to use for accessing
+        the API. Login either by username/password or Auth0 token
+      operationId: jwt-login
+      parameters:
+      - description: Login data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/api.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.JWT'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/api.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - Auth0KeyAuth: []
+      summary: Retrieve an access and a refresh token
+  /api/login/refresh:
+    get:
+      description: Retrieve a new access token by providing the refresh token
+      operationId: jwt-refresh
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.JWTRefresh'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - ApiRefreshKeyAuth: []
+      summary: Retrieve a new access token
+  /api/swagger:
+    get:
+      description: Swagger UI for this API
+      operationId: swagger
+      produces:
+      - text/html
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Swagger UI for this API
+  /api/v3/config:
+    get:
+      description: Retrieve the currently active Restreamer configuration
+      operationId: config-3-get
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_datarhei_core_v16_http_api.Config'
+      security:
+      - ApiKeyAuth: []
+      summary: Retrieve the currently active Restreamer configuration
+      tags:
+      - v16.7.2
+    put:
+      consumes:
+      - application/json
+      description: Update the current Restreamer configuration by providing a complete
+        or partial configuration. Fields that are not provided will not be changed.
+      operationId: config-3-set
+      parameters:
+      - description: Restreamer configuration
+        in: body
+        name: config
+        required: true
+        schema:
+          $ref: '#/definitions/api.SetConfig'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.Error'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/api.ConfigError'
+      security:
+      - ApiKeyAuth: []
+      summary: Update the current Restreamer configuration
+      tags:
+      - v16.7.2
+  /api/v3/config/reload:
+    get:
+      description: Reload the currently active configuration. This will trigger a
+        restart of the Core.
+      operationId: config-3-reload
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Reload the currently active configuration
+      tags:
+      - v16.7.2
+  /api/v3/fs:
+    get:
+      description: Listall registered filesystems
+      operationId: filesystem-3-list
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/api.FilesystemInfo'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: List all registered filesystems
+      tags:
+      - v16.12.0
+  /api/v3/fs/{storage}:
+    get:
+      description: List all files on a filesystem. The listing can be ordered by name,
+        size, or date of last modification in ascending or descending order.
+      operationId: filesystem-3-list-files
+      parameters:
+      - description: Name of the filesystem
+        in: path
+        name: storage
+        required: true
+        type: string
+      - description: glob pattern for file names
+        in: query
+        name: glob
+        type: string
+      - description: none, name, size, lastmod
+        in: query
+        name: sort
+        type: string
+      - description: asc, desc
+        in: query
+        name: order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/api.FileInfo'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: List all files on a filesystem
+      tags:
+      - v16.7.2
+  /api/v3/fs/{storage}/{filepath}:
+    delete:
+      description: Remove a file from a filesystem
+      operationId: filesystem-3-delete-file
+      parameters:
+      - description: Name of the filesystem
+        in: path
+        name: storage
+        required: true
+        type: string
+      - description: Path to file
+        in: path
+        name: filepath
+        required: true
+        type: string
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Remove a file from a filesystem
+      tags:
+      - v16.7.2
+    get:
+      description: Fetch a file from a filesystem
+      operationId: filesystem-3-get-file
+      parameters:
+      - description: Name of the filesystem
+        in: path
+        name: storage
+        required: true
+        type: string
+      - description: Path to file
+        in: path
+        name: filepath
+        required: true
+        type: string
+      produces:
+      - application/data
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: file
+        "301":
+          description: Moved Permanently
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Fetch a file from a filesystem
+      tags:
+      - v16.7.2
+    put:
+      consumes:
+      - application/data
+      description: Writes or overwrites a file on a filesystem
+      operationId: filesystem-3-put-file
+      parameters:
+      - description: Name of the filesystem
+        in: path
+        name: storage
+        required: true
+        type: string
+      - description: Path to file
+        in: path
+        name: filepath
+        required: true
+        type: string
+      - description: File data
+        in: body
+        name: data
+        required: true
+        schema:
+          items:
+            type: integer
+          type: array
+      produces:
+      - text/plain
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "507":
+          description: Insufficient Storage
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Add a file to a filesystem
+      tags:
+      - v16.7.2
+  /api/v3/log:
+    get:
+      description: Get the last log lines of the Restreamer application
+      operationId: log-3
+      parameters:
+      - description: Format of the list of log events (*console, raw)
+        in: query
+        name: format
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: application log
+          schema:
+            items:
+              type: string
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Application log
+      tags:
+      - v16.7.2
+  /api/v3/metadata/{key}:
+    get:
+      description: Retrieve the previously stored JSON metadata under the given key.
+        If the key is empty, all metadata will be returned.
+      operationId: metadata-3-get
+      parameters:
+      - description: Key for data store
+        in: path
+        name: key
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema: {}
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Retrieve JSON metadata from a key
+      tags:
+      - v16.7.2
+    put:
+      description: Add arbitrary JSON metadata under the given key. If the key exists,
+        all already stored metadata with this key will be overwritten. If the key
+        doesn't exist, it will be created.
+      operationId: metadata-3-set
+      parameters:
+      - description: Key for data store
+        in: path
+        name: key
+        required: true
+        type: string
+      - description: Arbitrary JSON data
+        in: body
+        name: data
+        required: true
+        schema: {}
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema: {}
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Add JSON metadata under the given key
+      tags:
+      - v16.7.2
+  /api/v3/metrics:
+    get:
+      description: List all known metrics with their description and labels
+      operationId: metrics-3-describe
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/api.MetricsDescription'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: List all known metrics with their description and labels
+      tags:
+      - v16.10.0
+    post:
+      consumes:
+      - application/json
+      description: Query the collected metrics
+      operationId: metrics-3-metrics
+      parameters:
+      - description: Metrics query
+        in: body
+        name: config
+        required: true
+        schema:
+          $ref: '#/definitions/api.MetricsQuery'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.MetricsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Query the collected metrics
+      tags:
+      - v16.7.2
+  /api/v3/process:
+    get:
+      description: List all known processes. Use the query parameter to filter the
+        listed processes.
+      operationId: process-3-get-all
+      parameters:
+      - description: Comma separated list of fields (config, state, report, metadata)
+          that will be part of the output. If empty, all fields will be part of the
+          output.
+        in: query
+        name: filter
+        type: string
+      - description: Return only these process that have this reference value. If
+          empty, the reference will be ignored.
+        in: query
+        name: reference
+        type: string
+      - description: Comma separated list of process ids to list. Overrides the reference.
+          If empty all IDs will be returned.
+        in: query
+        name: id
+        type: string
+      - description: Glob pattern for process IDs. If empty all IDs will be returned.
+          Intersected with results from refpattern.
+        in: query
+        name: idpattern
+        type: string
+      - description: Glob pattern for process references. If empty all IDs will be
+          returned. Intersected with results from idpattern.
+        in: query
+        name: refpattern
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/api.Process'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: List all known processes
+      tags:
+      - v16.7.2
+    post:
+      consumes:
+      - application/json
+      description: Add a new FFmpeg process
+      operationId: process-3-add
+      parameters:
+      - description: Process config
+        in: body
+        name: config
+        required: true
+        schema:
+          $ref: '#/definitions/api.ProcessConfig'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ProcessConfig'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Add a new process
+      tags:
+      - v16.7.2
+  /api/v3/process/{id}:
+    delete:
+      description: Delete a process by its ID
+      operationId: process-3-delete
+      parameters:
+      - description: Process ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete a process by its ID
+      tags:
+      - v16.7.2
+    get:
+      description: List a process by its ID. Use the filter parameter to specifiy
+        the level of detail of the output.
+      operationId: process-3-get
+      parameters:
+      - description: Process ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Comma separated list of fields (config, state, report, metadata)
+          to be part of the output. If empty, all fields will be part of the output
+        in: query
+        name: filter
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.Process'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: List a process by its ID
+      tags:
+      - v16.7.2
+    put:
+      consumes:
+      - application/json
+      description: Replace an existing process.
+      operationId: process-3-update
+      parameters:
+      - description: Process ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Process config
+        in: body
+        name: config
+        required: true
+        schema:
+          $ref: '#/definitions/api.ProcessConfig'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ProcessConfig'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Replace an existing process
+      tags:
+      - v16.7.2
+  /api/v3/process/{id}/command:
+    put:
+      consumes:
+      - application/json
+      description: 'Issue a command to a process: start, stop, reload, restart'
+      operationId: process-3-command
+      parameters:
+      - description: Process ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Process command
+        in: body
+        name: command
+        required: true
+        schema:
+          $ref: '#/definitions/api.Command'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Issue a command to a process
+      tags:
+      - v16.7.2
+  /api/v3/process/{id}/config:
+    get:
+      description: Get the configuration of a process. This is the configuration as
+        provided by Add or Update.
+      operationId: process-3-get-config
+      parameters:
+      - description: Process ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ProcessConfig'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Get the configuration of a process
+      tags:
+      - v16.7.2
+  /api/v3/process/{id}/metadata/{key}:
+    get:
+      description: Retrieve the previously stored JSON metadata under the given key.
+        If the key is empty, all metadata will be returned.
+      operationId: process-3-get-process-metadata
+      parameters:
+      - description: Process ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Key for data store
+        in: path
+        name: key
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema: {}
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Retrieve JSON metadata stored with a process under a key
+      tags:
+      - v16.7.2
+    put:
+      description: Add arbitrary JSON metadata under the given key. If the key exists,
+        all already stored metadata with this key will be overwritten. If the key
+        doesn't exist, it will be created.
+      operationId: process-3-set-process-metadata
+      parameters:
+      - description: Process ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Key for data store
+        in: path
+        name: key
+        required: true
+        type: string
+      - description: Arbitrary JSON data. The null value will remove the key and its
+          contents
+        in: body
+        name: data
+        required: true
+        schema: {}
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema: {}
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Add JSON metadata with a process under the given key
+      tags:
+      - v16.7.2
+  /api/v3/process/{id}/playout/{inputid}/errorframe/{name}:
+    post:
+      consumes:
+      - application/octet-stream
+      description: Upload an error frame which will be encoded immediately
+      operationId: process-3-playout-errorframe
+      parameters:
+      - description: Process ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Process Input ID
+        in: path
+        name: inputid
+        required: true
+        type: string
+      - description: Any filename with a suitable extension
+        in: path
+        name: name
+        required: true
+        type: string
+      - description: Image to be used a error frame
+        in: body
+        name: image
+        required: true
+        schema:
+          items:
+            type: integer
+          type: array
+      produces:
+      - text/plain
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Upload an error frame
+      tags:
+      - v16.7.2
+  /api/v3/process/{id}/playout/{inputid}/errorframe/encode:
+    get:
+      description: Immediately encode the errorframe (if available and looping)
+      operationId: process-3-playout-errorframencode
+      parameters:
+      - description: Process ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Process Input ID
+        in: path
+        name: inputid
+        required: true
+        type: string
+      produces:
+      - text/plain
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Encode the errorframe
+      tags:
+      - v16.7.2
+  /api/v3/process/{id}/playout/{inputid}/keyframe/{name}:
+    get:
+      description: Get the last keyframe of an input of a process. The extension of
+        the name determines the return type.
+      operationId: process-3-playout-keyframe
+      parameters:
+      - description: Process ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Process Input ID
+        in: path
+        name: inputid
+        required: true
+        type: string
+      - description: Any filename with an extension of .jpg or .png
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - image/jpeg
+      - image/png
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: file
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Get the last keyframe
+      tags:
+      - v16.7.2
+  /api/v3/process/{id}/playout/{inputid}/reopen:
+    get:
+      description: Close the current input stream such that it will be automatically
+        re-opened
+      operationId: process-3-playout-reopen-input
+      parameters:
+      - description: Process ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Process Input ID
+        in: path
+        name: inputid
+        required: true
+        type: string
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Close the current input stream
+      tags:
+      - v16.7.2
+  /api/v3/process/{id}/playout/{inputid}/status:
+    get:
+      description: Get the current playout status of an input of a process
+      operationId: process-3-playout-status
+      parameters:
+      - description: Process ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Process Input ID
+        in: path
+        name: inputid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.PlayoutStatus'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Get the current playout status
+      tags:
+      - v16.7.2
+  /api/v3/process/{id}/playout/{inputid}/stream:
+    put:
+      consumes:
+      - text/plain
+      description: Replace the current stream with the one from the given URL. The
+        switch will only happen if the stream parameters match.
+      operationId: process-3-playout-stream
+      parameters:
+      - description: Process ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Process Input ID
+        in: path
+        name: inputid
+        required: true
+        type: string
+      - description: URL of the new stream
+        in: body
+        name: url
+        required: true
+        schema:
+          type: string
+      produces:
+      - text/plain
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Switch to a new stream
+      tags:
+      - v16.7.2
+  /api/v3/process/{id}/probe:
+    get:
+      description: Probe an existing process to get a detailed stream information
+        on the inputs.
+      operationId: process-3-probe
+      parameters:
+      - description: Process ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.Probe'
+      security:
+      - ApiKeyAuth: []
+      summary: Probe a process
+      tags:
+      - v16.7.2
+  /api/v3/process/{id}/report:
+    get:
+      description: Get the logs and the log history of a process.
+      operationId: process-3-get-report
+      parameters:
+      - description: Process ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ProcessReport'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Get the logs of a process
+      tags:
+      - v16.7.2
+  /api/v3/process/{id}/state:
+    get:
+      description: Get the state and progress data of a process.
+      operationId: process-3-get-state
+      parameters:
+      - description: Process ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ProcessState'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.Error'
+      security:
+      - ApiKeyAuth: []
+      summary: Get the state of a process
+      tags:
+      - v16.7.2
+  /api/v3/rtmp:
+    get:
+      description: List all currently publishing RTMP streams.
+      operationId: rtmp-3-list-channels
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/api.RTMPChannel'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: List all publishing RTMP streams
+      tags:
+      - v16.7.2
+  /api/v3/session:
+    get:
+      description: Get a summary of all active and past sessions of the given collector.
+      operationId: session-3-summary
+      parameters:
+      - description: Comma separated list of collectors
+        in: query
+        name: collectors
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Sessions summary
+          schema:
+            $ref: '#/definitions/api.SessionsSummary'
+      security:
+      - ApiKeyAuth: []
+      summary: Get a summary of all active and past sessions
+      tags:
+      - v16.7.2
+  /api/v3/session/active:
+    get:
+      description: Get a minimal summary of all active sessions (i.e. number of sessions,
+        bandwidth).
+      operationId: session-3-current
+      parameters:
+      - description: Comma separated list of collectors
+        in: query
+        name: collectors
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Active sessions listing
+          schema:
+            $ref: '#/definitions/api.SessionsActive'
+      security:
+      - ApiKeyAuth: []
+      summary: Get a minimal summary of all active sessions
+      tags:
+      - v16.7.2
+  /api/v3/skills:
+    get:
+      description: List all detected FFmpeg capabilities.
+      operationId: skills-3
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.Skills'
+      security:
+      - ApiKeyAuth: []
+      summary: FFmpeg capabilities
+      tags:
+      - v16.7.2
+  /api/v3/skills/reload:
+    get:
+      description: Refresh the available FFmpeg capabilities.
+      operationId: skills-3-reload
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.Skills'
+      security:
+      - ApiKeyAuth: []
+      summary: Refresh FFmpeg capabilities
+      tags:
+      - v16.7.2
+  /api/v3/srt:
+    get:
+      description: List all currently publishing SRT streams. This endpoint is EXPERIMENTAL
+        and may change in future.
+      operationId: srt-3-list-channels
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/api.SRTChannels'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: List all publishing SRT treams
+      tags:
+      - v16.9.0
+  /api/v3/widget/process/{id}:
+    get:
+      description: Fetch minimal statistics about a process, which is not protected
+        by any auth.
+      operationId: widget-3-get
+      parameters:
+      - description: ID of a process
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.WidgetProcess'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.Error'
+      summary: Fetch minimal statistics about a process
+      tags:
+      - v16.7.2
+  /metrics:
+    get:
+      description: Prometheus metrics
+      operationId: metrics
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Prometheus metrics
+  /ping:
+    get:
+      description: Liveliness check
+      operationId: ping
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: pong
+          schema:
+            type: string
+      summary: Liveliness check
+  /profiling:
+    get:
+      description: Retrieve profiling data from the application
+      operationId: profiling
+      produces:
+      - text/html
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Retrieve profiling data from the application
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+  ApiRefreshKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+  Auth0KeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+  BasicAuth:
+    type: basic
+swagger: "2.0"

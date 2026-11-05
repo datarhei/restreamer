@@ -1,0 +1,22 @@
+schema:
+    - http/graph/*.graphqls
+
+exec:
+    filename: http/graph/graph/graph.go
+    package: graph
+
+model:
+    filename: http/graph/models/models_gen.go
+    package: models
+
+models:
+    Uint64:
+        model: github.com/datarhei/core/v16/http/graph/scalars.Uint64
+    MetricsResponseValue:
+        model: github.com/datarhei/core/v16/http/graph/scalars.MetricsResponseValue
+
+resolver:
+    layout: follow-schema
+    dir: http/graph/resolver
+    package: resolver
+    filename_template: "{name}.resolvers.go"

@@ -1,0 +1,4815 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Expose REST API for the datarhei Core",
+        "title": "datarhei Core API",
+        "contact": {
+            "name": "datarhei Core Support",
+            "url": "https://www.datarhei.com",
+            "email": "hello@datarhei.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://github.com/datarhei/core/v16/blob/main/LICENSE"
+        },
+        "version": "3.0"
+    },
+    "basePath": "/",
+    "paths": {
+        "/api": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "API version and build infos in case auth is valid or not required. If auth is required, just the name field is populated.",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "API version and build infos",
+                "operationId": "about",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.About"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/graph": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Load GraphQL playground",
+                "produces": [
+                    "text/html"
+                ],
+                "summary": "Load GraphQL playground",
+                "operationId": "graph-playground",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/graph/query": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Query the GraphAPI",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Query the GraphAPI",
+                "operationId": "graph-query",
+                "parameters": [
+                    {
+                        "description": "GraphQL Query",
+                        "name": "query",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.GraphQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.GraphResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.GraphResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "security": [
+                    {
+                        "Auth0KeyAuth": []
+                    }
+                ],
+                "description": "Retrieve valid JWT access and refresh tokens to use for accessing the API. Login either by username/password or Auth0 token",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Retrieve an access and a refresh token",
+                "operationId": "jwt-login",
+                "parameters": [
+                    {
+                        "description": "Login data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.Login"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.JWT"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/login/refresh": {
+            "get": {
+                "security": [
+                    {
+                        "ApiRefreshKeyAuth": []
+                    }
+                ],
+                "description": "Retrieve a new access token by providing the refresh token",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Retrieve a new access token",
+                "operationId": "jwt-refresh",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.JWTRefresh"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/swagger": {
+            "get": {
+                "description": "Swagger UI for this API",
+                "produces": [
+                    "text/html"
+                ],
+                "summary": "Swagger UI for this API",
+                "operationId": "swagger",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/config": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Retrieve the currently active Restreamer configuration",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Retrieve the currently active Restreamer configuration",
+                "operationId": "config-3-get",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_datarhei_core_v16_http_api.Config"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Update the current Restreamer configuration by providing a complete or partial configuration. Fields that are not provided will not be changed.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Update the current Restreamer configuration",
+                "operationId": "config-3-set",
+                "parameters": [
+                    {
+                        "description": "Restreamer configuration",
+                        "name": "config",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.SetConfig"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/api.ConfigError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/config/reload": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Reload the currently active configuration. This will trigger a restart of the Core.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Reload the currently active configuration",
+                "operationId": "config-3-reload",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/fs": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Listall registered filesystems",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.12.0"
+                ],
+                "summary": "List all registered filesystems",
+                "operationId": "filesystem-3-list",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/api.FilesystemInfo"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/fs/{storage}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "List all files on a filesystem. The listing can be ordered by name, size, or date of last modification in ascending or descending order.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "List all files on a filesystem",
+                "operationId": "filesystem-3-list-files",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Name of the filesystem",
+                        "name": "storage",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "glob pattern for file names",
+                        "name": "glob",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "none, name, size, lastmod",
+                        "name": "sort",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "asc, desc",
+                        "name": "order",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/api.FileInfo"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/fs/{storage}/{filepath}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Fetch a file from a filesystem",
+                "produces": [
+                    "application/data",
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Fetch a file from a filesystem",
+                "operationId": "filesystem-3-get-file",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Name of the filesystem",
+                        "name": "storage",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Path to file",
+                        "name": "filepath",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "301": {
+                        "description": "Moved Permanently",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Writes or overwrites a file on a filesystem",
+                "consumes": [
+                    "application/data"
+                ],
+                "produces": [
+                    "text/plain",
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Add a file to a filesystem",
+                "operationId": "filesystem-3-put-file",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Name of the filesystem",
+                        "name": "storage",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Path to file",
+                        "name": "filepath",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "File data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "507": {
+                        "description": "Insufficient Storage",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Remove a file from a filesystem",
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Remove a file from a filesystem",
+                "operationId": "filesystem-3-delete-file",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Name of the filesystem",
+                        "name": "storage",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Path to file",
+                        "name": "filepath",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/log": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get the last log lines of the Restreamer application",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Application log",
+                "operationId": "log-3",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Format of the list of log events (*console, raw)",
+                        "name": "format",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "application log",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/metadata/{key}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Retrieve the previously stored JSON metadata under the given key. If the key is empty, all metadata will be returned.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Retrieve JSON metadata from a key",
+                "operationId": "metadata-3-get",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Key for data store",
+                        "name": "key",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {}
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Add arbitrary JSON metadata under the given key. If the key exists, all already stored metadata with this key will be overwritten. If the key doesn't exist, it will be created.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Add JSON metadata under the given key",
+                "operationId": "metadata-3-set",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Key for data store",
+                        "name": "key",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Arbitrary JSON data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {}
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {}
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/metrics": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "List all known metrics with their description and labels",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.10.0"
+                ],
+                "summary": "List all known metrics with their description and labels",
+                "operationId": "metrics-3-describe",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/api.MetricsDescription"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Query the collected metrics",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Query the collected metrics",
+                "operationId": "metrics-3-metrics",
+                "parameters": [
+                    {
+                        "description": "Metrics query",
+                        "name": "config",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.MetricsQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.MetricsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/process": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "List all known processes. Use the query parameter to filter the listed processes.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "List all known processes",
+                "operationId": "process-3-get-all",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Comma separated list of fields (config, state, report, metadata) that will be part of the output. If empty, all fields will be part of the output.",
+                        "name": "filter",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Return only these process that have this reference value. If empty, the reference will be ignored.",
+                        "name": "reference",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Comma separated list of process ids to list. Overrides the reference. If empty all IDs will be returned.",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Glob pattern for process IDs. If empty all IDs will be returned. Intersected with results from refpattern.",
+                        "name": "idpattern",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Glob pattern for process references. If empty all IDs will be returned. Intersected with results from idpattern.",
+                        "name": "refpattern",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/api.Process"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Add a new FFmpeg process",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Add a new process",
+                "operationId": "process-3-add",
+                "parameters": [
+                    {
+                        "description": "Process config",
+                        "name": "config",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.ProcessConfig"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.ProcessConfig"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/process/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "List a process by its ID. Use the filter parameter to specifiy the level of detail of the output.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "List a process by its ID",
+                "operationId": "process-3-get",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Comma separated list of fields (config, state, report, metadata) to be part of the output. If empty, all fields will be part of the output",
+                        "name": "filter",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.Process"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Replace an existing process.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Replace an existing process",
+                "operationId": "process-3-update",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Process config",
+                        "name": "config",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.ProcessConfig"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.ProcessConfig"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Delete a process by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Delete a process by its ID",
+                "operationId": "process-3-delete",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/process/{id}/command": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Issue a command to a process: start, stop, reload, restart",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Issue a command to a process",
+                "operationId": "process-3-command",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Process command",
+                        "name": "command",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.Command"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/process/{id}/config": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get the configuration of a process. This is the configuration as provided by Add or Update.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Get the configuration of a process",
+                "operationId": "process-3-get-config",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.ProcessConfig"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/process/{id}/metadata/{key}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Retrieve the previously stored JSON metadata under the given key. If the key is empty, all metadata will be returned.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Retrieve JSON metadata stored with a process under a key",
+                "operationId": "process-3-get-process-metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Key for data store",
+                        "name": "key",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {}
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Add arbitrary JSON metadata under the given key. If the key exists, all already stored metadata with this key will be overwritten. If the key doesn't exist, it will be created.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Add JSON metadata with a process under the given key",
+                "operationId": "process-3-set-process-metadata",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Key for data store",
+                        "name": "key",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Arbitrary JSON data. The null value will remove the key and its contents",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {}
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {}
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/process/{id}/playout/{inputid}/errorframe/encode": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Immediately encode the errorframe (if available and looping)",
+                "produces": [
+                    "text/plain",
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Encode the errorframe",
+                "operationId": "process-3-playout-errorframencode",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Process Input ID",
+                        "name": "inputid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/process/{id}/playout/{inputid}/errorframe/{name}": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Upload an error frame which will be encoded immediately",
+                "consumes": [
+                    "application/octet-stream"
+                ],
+                "produces": [
+                    "text/plain",
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Upload an error frame",
+                "operationId": "process-3-playout-errorframe",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Process Input ID",
+                        "name": "inputid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Any filename with a suitable extension",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Image to be used a error frame",
+                        "name": "image",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/process/{id}/playout/{inputid}/keyframe/{name}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get the last keyframe of an input of a process. The extension of the name determines the return type.",
+                "produces": [
+                    "image/jpeg",
+                    "image/png",
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Get the last keyframe",
+                "operationId": "process-3-playout-keyframe",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Process Input ID",
+                        "name": "inputid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Any filename with an extension of .jpg or .png",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/process/{id}/playout/{inputid}/reopen": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Close the current input stream such that it will be automatically re-opened",
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Close the current input stream",
+                "operationId": "process-3-playout-reopen-input",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Process Input ID",
+                        "name": "inputid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/process/{id}/playout/{inputid}/status": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get the current playout status of an input of a process",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Get the current playout status",
+                "operationId": "process-3-playout-status",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Process Input ID",
+                        "name": "inputid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.PlayoutStatus"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/process/{id}/playout/{inputid}/stream": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Replace the current stream with the one from the given URL. The switch will only happen if the stream parameters match.",
+                "consumes": [
+                    "text/plain"
+                ],
+                "produces": [
+                    "text/plain",
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Switch to a new stream",
+                "operationId": "process-3-playout-stream",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Process Input ID",
+                        "name": "inputid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "URL of the new stream",
+                        "name": "url",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/process/{id}/probe": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Probe an existing process to get a detailed stream information on the inputs.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Probe a process",
+                "operationId": "process-3-probe",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.Probe"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/process/{id}/report": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get the logs and the log history of a process.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Get the logs of a process",
+                "operationId": "process-3-get-report",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.ProcessReport"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/process/{id}/state": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get the state and progress data of a process.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Get the state of a process",
+                "operationId": "process-3-get-state",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.ProcessState"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/rtmp": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "List all currently publishing RTMP streams.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "List all publishing RTMP streams",
+                "operationId": "rtmp-3-list-channels",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/api.RTMPChannel"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/session": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get a summary of all active and past sessions of the given collector.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Get a summary of all active and past sessions",
+                "operationId": "session-3-summary",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Comma separated list of collectors",
+                        "name": "collectors",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sessions summary",
+                        "schema": {
+                            "$ref": "#/definitions/api.SessionsSummary"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/session/active": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get a minimal summary of all active sessions (i.e. number of sessions, bandwidth).",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Get a minimal summary of all active sessions",
+                "operationId": "session-3-current",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Comma separated list of collectors",
+                        "name": "collectors",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Active sessions listing",
+                        "schema": {
+                            "$ref": "#/definitions/api.SessionsActive"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/skills": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "List all detected FFmpeg capabilities.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "FFmpeg capabilities",
+                "operationId": "skills-3",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.Skills"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/skills/reload": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Refresh the available FFmpeg capabilities.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Refresh FFmpeg capabilities",
+                "operationId": "skills-3-reload",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.Skills"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/srt": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "List all currently publishing SRT streams. This endpoint is EXPERIMENTAL and may change in future.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.9.0"
+                ],
+                "summary": "List all publishing SRT treams",
+                "operationId": "srt-3-list-channels",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/api.SRTChannels"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v3/widget/process/{id}": {
+            "get": {
+                "description": "Fetch minimal statistics about a process, which is not protected by any auth.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "v16.7.2"
+                ],
+                "summary": "Fetch minimal statistics about a process",
+                "operationId": "widget-3-get",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID of a process",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.WidgetProcess"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/metrics": {
+            "get": {
+                "description": "Prometheus metrics",
+                "produces": [
+                    "text/plain"
+                ],
+                "summary": "Prometheus metrics",
+                "operationId": "metrics",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/ping": {
+            "get": {
+                "description": "Liveliness check",
+                "produces": [
+                    "text/plain"
+                ],
+                "summary": "Liveliness check",
+                "operationId": "ping",
+                "responses": {
+                    "200": {
+                        "description": "pong",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/profiling": {
+            "get": {
+                "description": "Retrieve profiling data from the application",
+                "produces": [
+                    "text/html"
+                ],
+                "summary": "Retrieve profiling data from the application",
+                "operationId": "profiling",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "api.AVstream": {
+            "type": "object",
+            "properties": {
+                "aqueue": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "drop": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "dup": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "duplicating": {
+                    "type": "boolean"
+                },
+                "enc": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "gop": {
+                    "type": "string"
+                },
+                "input": {
+                    "$ref": "#/definitions/api.AVstreamIO"
+                },
+                "looping": {
+                    "type": "boolean"
+                },
+                "looping_runtime": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "output": {
+                    "$ref": "#/definitions/api.AVstreamIO"
+                },
+                "queue": {
+                    "type": "integer",
+                    "format": "uint64"
+                }
+            }
+        },
+        "api.AVstreamIO": {
+            "type": "object",
+            "properties": {
+                "packet": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "size_kb": {
+                    "type": "integer"
+                },
+                "state": {
+                    "type": "string",
+                    "enum": [
+                        "running",
+                        "idle"
+                    ]
+                },
+                "time": {
+                    "type": "integer"
+                }
+            }
+        },
+        "api.About": {
+            "type": "object",
+            "properties": {
+                "app": {
+                    "type": "string"
+                },
+                "auths": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "uptime_seconds": {
+                    "type": "integer"
+                },
+                "version": {
+                    "$ref": "#/definitions/api.Version"
+                }
+            }
+        },
+        "api.Command": {
+            "type": "object",
+            "required": [
+                "command"
+            ],
+            "properties": {
+                "command": {
+                    "type": "string",
+                    "enum": [
+                        "start",
+                        "stop",
+                        "restart",
+                        "reload"
+                    ]
+                }
+            }
+        },
+        "api.ConfigData": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "api": {
+                    "type": "object",
+                    "properties": {
+                        "access": {
+                            "type": "object",
+                            "properties": {
+                                "http": {
+                                    "type": "object",
+                                    "properties": {
+                                        "allow": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "block": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "https": {
+                                    "type": "object",
+                                    "properties": {
+                                        "allow": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "block": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "auth": {
+                            "type": "object",
+                            "properties": {
+                                "auth0": {
+                                    "type": "object",
+                                    "properties": {
+                                        "enable": {
+                                            "type": "boolean"
+                                        },
+                                        "tenants": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/value.Auth0Tenant"
+                                            }
+                                        }
+                                    }
+                                },
+                                "disable_localhost": {
+                                    "type": "boolean"
+                                },
+                                "enable": {
+                                    "type": "boolean"
+                                },
+                                "jwt": {
+                                    "type": "object",
+                                    "properties": {
+                                        "secret": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "password": {
+                                    "type": "string"
+                                },
+                                "username": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "read_only": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "created_at": {
+                    "description": "When this config has been persisted",
+                    "type": "string"
+                },
+                "db": {
+                    "type": "object",
+                    "properties": {
+                        "dir": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "debug": {
+                    "type": "object",
+                    "properties": {
+                        "force_gc": {
+                            "type": "integer",
+                            "format": "int"
+                        },
+                        "memory_limit_mbytes": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "profiling": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "ffmpeg": {
+                    "type": "object",
+                    "properties": {
+                        "access": {
+                            "type": "object",
+                            "properties": {
+                                "input": {
+                                    "type": "object",
+                                    "properties": {
+                                        "allow": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "block": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "output": {
+                                    "type": "object",
+                                    "properties": {
+                                        "allow": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "block": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "binary": {
+                            "type": "string"
+                        },
+                        "log": {
+                            "type": "object",
+                            "properties": {
+                                "max_history": {
+                                    "type": "integer",
+                                    "format": "int"
+                                },
+                                "max_lines": {
+                                    "type": "integer",
+                                    "format": "int"
+                                }
+                            }
+                        },
+                        "max_processes": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                },
+                "host": {
+                    "type": "object",
+                    "properties": {
+                        "auto": {
+                            "type": "boolean"
+                        },
+                        "name": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "log": {
+                    "type": "object",
+                    "properties": {
+                        "level": {
+                            "type": "string",
+                            "enum": [
+                                "debug",
+                                "info",
+                                "warn",
+                                "error",
+                                "silent"
+                            ]
+                        },
+                        "max_lines": {
+                            "type": "integer",
+                            "format": "int"
+                        },
+                        "topics": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "metrics": {
+                    "type": "object",
+                    "properties": {
+                        "enable": {
+                            "type": "boolean"
+                        },
+                        "enable_prometheus": {
+                            "type": "boolean"
+                        },
+                        "interval_sec": {
+                            "description": "seconds",
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "range_sec": {
+                            "description": "seconds",
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "playout": {
+                    "type": "object",
+                    "properties": {
+                        "enable": {
+                            "type": "boolean"
+                        },
+                        "max_port": {
+                            "type": "integer",
+                            "format": "int"
+                        },
+                        "min_port": {
+                            "type": "integer",
+                            "format": "int"
+                        }
+                    }
+                },
+                "router": {
+                    "type": "object",
+                    "properties": {
+                        "blocked_prefixes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "routes": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        },
+                        "ui_path": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "rtmp": {
+                    "type": "object",
+                    "properties": {
+                        "address": {
+                            "type": "string"
+                        },
+                        "address_tls": {
+                            "type": "string"
+                        },
+                        "app": {
+                            "type": "string"
+                        },
+                        "enable": {
+                            "type": "boolean"
+                        },
+                        "enable_tls": {
+                            "type": "boolean"
+                        },
+                        "token": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "service": {
+                    "type": "object",
+                    "properties": {
+                        "enable": {
+                            "type": "boolean"
+                        },
+                        "token": {
+                            "type": "string"
+                        },
+                        "url": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "sessions": {
+                    "type": "object",
+                    "properties": {
+                        "enable": {
+                            "type": "boolean"
+                        },
+                        "ip_ignorelist": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "max_bitrate_mbit": {
+                            "type": "integer",
+                            "format": "uint64"
+                        },
+                        "max_sessions": {
+                            "type": "integer",
+                            "format": "uint64"
+                        },
+                        "persist": {
+                            "type": "boolean"
+                        },
+                        "persist_interval_sec": {
+                            "type": "integer",
+                            "format": "int"
+                        },
+                        "session_timeout_sec": {
+                            "type": "integer",
+                            "format": "int"
+                        }
+                    }
+                },
+                "srt": {
+                    "type": "object",
+                    "properties": {
+                        "address": {
+                            "type": "string"
+                        },
+                        "enable": {
+                            "type": "boolean"
+                        },
+                        "log": {
+                            "type": "object",
+                            "properties": {
+                                "enable": {
+                                    "type": "boolean"
+                                },
+                                "topics": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "passphrase": {
+                            "type": "string"
+                        },
+                        "token": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "storage": {
+                    "type": "object",
+                    "properties": {
+                        "cors": {
+                            "type": "object",
+                            "properties": {
+                                "origins": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "disk": {
+                            "type": "object",
+                            "properties": {
+                                "cache": {
+                                    "type": "object",
+                                    "properties": {
+                                        "enable": {
+                                            "type": "boolean"
+                                        },
+                                        "max_file_size_mbytes": {
+                                            "type": "integer",
+                                            "format": "uint64"
+                                        },
+                                        "max_size_mbytes": {
+                                            "type": "integer",
+                                            "format": "uint64"
+                                        },
+                                        "ttl_seconds": {
+                                            "type": "integer",
+                                            "format": "int64"
+                                        },
+                                        "types": {
+                                            "type": "object",
+                                            "properties": {
+                                                "allow": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "block": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "dir": {
+                                    "type": "string"
+                                },
+                                "max_size_mbytes": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                }
+                            }
+                        },
+                        "memory": {
+                            "type": "object",
+                            "properties": {
+                                "auth": {
+                                    "type": "object",
+                                    "properties": {
+                                        "enable": {
+                                            "type": "boolean"
+                                        },
+                                        "password": {
+                                            "type": "string"
+                                        },
+                                        "username": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "max_size_mbytes": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                },
+                                "purge": {
+                                    "type": "boolean"
+                                }
+                            }
+                        },
+                        "mimetypes_file": {
+                            "type": "string"
+                        },
+                        "s3": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/value.S3Storage"
+                            }
+                        }
+                    }
+                },
+                "tls": {
+                    "type": "object",
+                    "properties": {
+                        "address": {
+                            "type": "string"
+                        },
+                        "auto": {
+                            "type": "boolean"
+                        },
+                        "cert_file": {
+                            "type": "string"
+                        },
+                        "email": {
+                            "type": "string"
+                        },
+                        "enable": {
+                            "type": "boolean"
+                        },
+                        "key_file": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "update_check": {
+                    "type": "boolean"
+                },
+                "version": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "api.ConfigError": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.Error": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int"
+                },
+                "details": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.FileInfo": {
+            "type": "object",
+            "properties": {
+                "last_modified": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "size_bytes": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "api.FilesystemInfo": {
+            "type": "object",
+            "properties": {
+                "mount": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.GraphQuery": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string"
+                },
+                "variables": {}
+            }
+        },
+        "api.GraphResponse": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "errors": {
+                    "type": "array",
+                    "items": {}
+                }
+            }
+        },
+        "api.JWT": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "refresh_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.JWTRefresh": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.LogEvent": {
+            "type": "object",
+            "additionalProperties": true
+        },
+        "api.Login": {
+            "type": "object",
+            "required": [
+                "password",
+                "username"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.MetricsDescription": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "labels": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.MetricsQuery": {
+            "type": "object",
+            "properties": {
+                "interval_sec": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "metrics": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.MetricsQueryMetric"
+                    }
+                },
+                "timerange_sec": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "api.MetricsQueryMetric": {
+            "type": "object",
+            "properties": {
+                "labels": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.MetricsResponse": {
+            "type": "object",
+            "properties": {
+                "interval_sec": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "metrics": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.MetricsResponseMetric"
+                    }
+                },
+                "timerange_sec": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "api.MetricsResponseMetric": {
+            "type": "object",
+            "properties": {
+                "labels": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "values": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.MetricsResponseValue"
+                    }
+                }
+            }
+        },
+        "api.MetricsResponseValue": {
+            "type": "object",
+            "properties": {
+                "ts": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "number"
+                }
+            }
+        },
+        "api.PlayoutStatus": {
+            "type": "object",
+            "properties": {
+                "aqueue": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "debug": {},
+                "drop": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "dup": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "duplicating": {
+                    "type": "boolean"
+                },
+                "enc": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "gop": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "input": {
+                    "$ref": "#/definitions/api.PlayoutStatusIO"
+                },
+                "looping": {
+                    "type": "boolean"
+                },
+                "output": {
+                    "$ref": "#/definitions/api.PlayoutStatusIO"
+                },
+                "queue": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "stream": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "swap": {
+                    "$ref": "#/definitions/api.PlayoutStatusSwap"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.PlayoutStatusIO": {
+            "type": "object",
+            "properties": {
+                "packet": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "size_kb": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "state": {
+                    "type": "string",
+                    "enum": [
+                        "running",
+                        "idle"
+                    ]
+                },
+                "time": {
+                    "type": "integer",
+                    "format": "uint64"
+                }
+            }
+        },
+        "api.PlayoutStatusSwap": {
+            "type": "object",
+            "properties": {
+                "lasterror": {
+                    "type": "string"
+                },
+                "lasturl": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.Probe": {
+            "type": "object",
+            "properties": {
+                "log": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "streams": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.ProbeIO"
+                    }
+                }
+            }
+        },
+        "api.ProbeIO": {
+            "type": "object",
+            "properties": {
+                "bitrate_kbps": {
+                    "type": "number"
+                },
+                "channels": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "codec": {
+                    "type": "string"
+                },
+                "coder": {
+                    "type": "string"
+                },
+                "duration_sec": {
+                    "type": "number"
+                },
+                "format": {
+                    "type": "string"
+                },
+                "fps": {
+                    "description": "video",
+                    "type": "number"
+                },
+                "height": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "index": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "layout": {
+                    "type": "string"
+                },
+                "pix_fmt": {
+                    "type": "string"
+                },
+                "sampling_hz": {
+                    "description": "audio",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "stream": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "url": {
+                    "description": "common",
+                    "type": "string"
+                },
+                "width": {
+                    "type": "integer",
+                    "format": "uint64"
+                }
+            }
+        },
+        "api.Process": {
+            "type": "object",
+            "properties": {
+                "config": {
+                    "$ref": "#/definitions/api.ProcessConfig"
+                },
+                "created_at": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "metadata": {},
+                "reference": {
+                    "type": "string"
+                },
+                "report": {
+                    "$ref": "#/definitions/api.ProcessReport"
+                },
+                "state": {
+                    "$ref": "#/definitions/api.ProcessState"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "api.ProcessConfig": {
+            "type": "object",
+            "required": [
+                "input",
+                "output"
+            ],
+            "properties": {
+                "autostart": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "input": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.ProcessConfigIO"
+                    }
+                },
+                "limits": {
+                    "$ref": "#/definitions/api.ProcessConfigLimits"
+                },
+                "options": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "output": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.ProcessConfigIO"
+                    }
+                },
+                "reconnect": {
+                    "type": "boolean"
+                },
+                "reconnect_delay_seconds": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "reference": {
+                    "type": "string"
+                },
+                "stale_timeout_seconds": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "ffmpeg",
+                        ""
+                    ]
+                }
+            }
+        },
+        "api.ProcessConfigIO": {
+            "type": "object",
+            "required": [
+                "address"
+            ],
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "cleanup": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.ProcessConfigIOCleanup"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "options": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "api.ProcessConfigIOCleanup": {
+            "type": "object",
+            "required": [
+                "pattern"
+            ],
+            "properties": {
+                "max_file_age_seconds": {
+                    "type": "integer",
+                    "format": "uint"
+                },
+                "max_files": {
+                    "type": "integer",
+                    "format": "uint"
+                },
+                "pattern": {
+                    "type": "string"
+                },
+                "purge_on_delete": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "api.ProcessConfigLimits": {
+            "type": "object",
+            "properties": {
+                "cpu_usage": {
+                    "type": "number"
+                },
+                "memory_mbytes": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "waitfor_seconds": {
+                    "type": "integer",
+                    "format": "uint64"
+                }
+            }
+        },
+        "api.ProcessReport": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "history": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.ProcessReportHistoryEntry"
+                    }
+                },
+                "log": {
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "prelude": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "api.ProcessReportHistoryEntry": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "log": {
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "prelude": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "api.ProcessState": {
+            "type": "object",
+            "properties": {
+                "command": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "cpu_usage": {
+                    "type": "number"
+                },
+                "exec": {
+                    "type": "string"
+                },
+                "last_logline": {
+                    "type": "string"
+                },
+                "memory_bytes": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "order": {
+                    "type": "string"
+                },
+                "progress": {
+                    "$ref": "#/definitions/api.Progress"
+                },
+                "reconnect_seconds": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "runtime_seconds": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "api.Progress": {
+            "type": "object",
+            "properties": {
+                "bitrate_kbit": {
+                    "description": "kbit/s",
+                    "type": "number"
+                },
+                "drop": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "dup": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "fps": {
+                    "type": "number"
+                },
+                "frame": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "inputs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.ProgressIO"
+                    }
+                },
+                "outputs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.ProgressIO"
+                    }
+                },
+                "packet": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "q": {
+                    "type": "number"
+                },
+                "size_kb": {
+                    "description": "kbytes",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "speed": {
+                    "type": "number"
+                },
+                "time": {
+                    "type": "number"
+                }
+            }
+        },
+        "api.ProgressIO": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "avstream": {
+                    "description": "avstream",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/api.AVstream"
+                        }
+                    ]
+                },
+                "bitrate_kbit": {
+                    "description": "kbit/s",
+                    "type": "number"
+                },
+                "channels": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "codec": {
+                    "type": "string"
+                },
+                "coder": {
+                    "type": "string"
+                },
+                "extradata_size_bytes": {
+                    "description": "bytes",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "format": {
+                    "type": "string"
+                },
+                "fps": {
+                    "type": "number"
+                },
+                "frame": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "framerate": {
+                    "$ref": "#/definitions/api.ProgressIOFramerate"
+                },
+                "height": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "index": {
+                    "description": "General",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "keyframe": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "layout": {
+                    "type": "string"
+                },
+                "packet": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "pix_fmt": {
+                    "description": "Video",
+                    "type": "string"
+                },
+                "pps": {
+                    "type": "number"
+                },
+                "q": {
+                    "type": "number"
+                },
+                "sampling_hz": {
+                    "description": "Audio",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "size_kb": {
+                    "description": "kbytes",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "stream": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "width": {
+                    "type": "integer",
+                    "format": "uint64"
+                }
+            }
+        },
+        "api.ProgressIOFramerate": {
+            "type": "object",
+            "properties": {
+                "avg": {
+                    "type": "number"
+                },
+                "max": {
+                    "type": "number"
+                },
+                "min": {
+                    "type": "number"
+                }
+            }
+        },
+        "api.RTMPChannel": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.SRTChannels": {
+            "type": "object",
+            "properties": {
+                "connections": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/api.SRTConnection"
+                    }
+                },
+                "log": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/definitions/api.SRTLog"
+                        }
+                    }
+                },
+                "publisher": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "integer"
+                    }
+                },
+                "subscriber": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    }
+                }
+            }
+        },
+        "api.SRTConnection": {
+            "type": "object",
+            "properties": {
+                "log": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/definitions/api.SRTLog"
+                        }
+                    }
+                },
+                "stats": {
+                    "$ref": "#/definitions/api.SRTStatistics"
+                }
+            }
+        },
+        "api.SRTLog": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "ts": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "api.SRTStatistics": {
+            "type": "object",
+            "properties": {
+                "avail_recv_buf_bytes": {
+                    "description": "The available space in the receiver's buffer, in bytes",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "avail_send_buf_bytes": {
+                    "description": "The available space in the sender's buffer, in bytes",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "bandwidth_mbit": {
+                    "description": "Estimated bandwidth of the network link, in Mbps",
+                    "type": "number"
+                },
+                "flight_size_pkt": {
+                    "description": "The number of packets in flight",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "flow_window_pkt": {
+                    "description": "The maximum number of packets that can be \"in flight\"",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "max_bandwidth_mbit": {
+                    "description": "Transmission bandwidth limit, in Mbps",
+                    "type": "number"
+                },
+                "mss_bytes": {
+                    "description": "Maximum Segment Size (MSS), in bytes",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "pkt_recv_avg_belated_time_ms": {
+                    "description": "Accumulated difference between the current time and the time-to-play of a packet that is received late",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "pkt_send_period_us": {
+                    "description": "Current minimum time interval between which consecutive packets are sent, in microseconds",
+                    "type": "number"
+                },
+                "recv_ack_pkt": {
+                    "description": "The total number of received ACK (Acknowledgement) control packets",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "recv_buf_bytes": {
+                    "description": "Instantaneous (current) value of pktRcvBuf, expressed in bytes, including payload and all headers (IP, TCP, SRT)",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "recv_buf_ms": {
+                    "description": "The timespan (msec) of acknowledged packets in the receiver's buffer",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "recv_buf_pkt": {
+                    "description": "The number of acknowledged packets in receiver's buffer",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "recv_bytes": {
+                    "description": "Same as pktRecv, but expressed in bytes, including payload and all the headers (IP, TCP, SRT)",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "recv_drop_bytes": {
+                    "description": "Same as pktRcvDrop, but expressed in bytes, including payload and all the headers (IP, TCP, SRT)",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "recv_drop_pkt": {
+                    "description": "The total number of dropped by the SRT receiver and, as a result, not delivered to the upstream application DATA packets",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "recv_km_pkt": {
+                    "description": "The total number of received KM (Key Material) control packets",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "recv_loss_bytes": {
+                    "description": "Same as pktRcvLoss, but expressed in bytes, including payload and all the headers (IP, TCP, SRT), bytes for the presently missing (either reordered or lost) packets' payloads are estimated based on the average packet size",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "recv_loss_pkt": {
+                    "description": "The total number of SRT DATA packets detected as presently missing (either reordered or lost) at the receiver side",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "recv_nak_pkt": {
+                    "description": "The total number of received NAK (Negative Acknowledgement) control packets",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "recv_pkt": {
+                    "description": "The total number of received DATA packets, including retransmitted packets",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "recv_retran_pkts": {
+                    "description": "The total number of retransmitted packets registered at the receiver side",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "recv_tsbpd_delay_ms": {
+                    "description": "Timestamp-based Packet Delivery Delay value set on the socket via SRTO_RCVLATENCY or SRTO_LATENCY",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "recv_undecrypt_bytes": {
+                    "description": "Same as pktRcvUndecrypt, but expressed in bytes, including payload and all the headers (IP, TCP, SRT)",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "recv_undecrypt_pkt": {
+                    "description": "The total number of packets that failed to be decrypted at the receiver side",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "recv_unique_bytes": {
+                    "description": "Same as pktRecvUnique, but expressed in bytes, including payload and all the headers (IP, TCP, SRT)",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "recv_unique_pkt": {
+                    "description": "The total number of unique original, retransmitted or recovered by the packet filter DATA packets received in time, decrypted without errors and, as a result, scheduled for delivery to the upstream application by the SRT receiver.",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "reorder_tolerance_pkt": {
+                    "description": "Instant value of the packet reorder tolerance",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "rtt_ms": {
+                    "description": "Smoothed round-trip time (SRTT), an exponentially-weighted moving average (EWMA) of an endpoint's RTT samples, in milliseconds",
+                    "type": "number"
+                },
+                "send_buf_bytes": {
+                    "description": "Instantaneous (current) value of pktSndBuf, but expressed in bytes, including payload and all headers (IP, TCP, SRT)",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "send_buf_ms": {
+                    "description": "The timespan (msec) of packets in the sender's buffer (unacknowledged packets)",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "send_buf_pkt": {
+                    "description": "The number of packets in the sender's buffer that are already scheduled for sending or even possibly sent, but not yet acknowledged",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "send_drop_bytes": {
+                    "description": "Same as pktSndDrop, but expressed in bytes, including payload and all the headers (IP, TCP, SRT)",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "send_drop_pkt": {
+                    "description": "The total number of dropped by the SRT sender DATA packets that have no chance to be delivered in time",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "send_duration_us": {
+                    "description": "The total accumulated time in microseconds, during which the SRT sender has some data to transmit, including packets that have been sent, but not yet acknowledged",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "send_km_pkt": {
+                    "description": "The total number of sent KM (Key Material) control packets",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "send_loss_pkt": {
+                    "description": "The total number of data packets considered or reported as lost at the sender side. Does not correspond to the packets detected as lost at the receiver side.",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "send_tsbpd_delay_ms": {
+                    "description": "Timestamp-based Packet Delivery Delay value of the peer",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "sent_ack_pkt": {
+                    "description": "The total number of sent ACK (Acknowledgement) control packets",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "sent_bytes": {
+                    "description": "Same as pktSent, but expressed in bytes, including payload and all the headers (IP, TCP, SRT)",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "sent_nak_pkt": {
+                    "description": "The total number of sent NAK (Negative Acknowledgement) control packets",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "sent_pkt": {
+                    "description": "The total number of sent DATA packets, including retransmitted packets",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "sent_retrans_bytes": {
+                    "description": "Same as pktRetrans, but expressed in bytes, including payload and all the headers (IP, TCP, SRT)",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "sent_retrans_pkt": {
+                    "description": "The total number of retransmitted packets sent by the SRT sender",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "sent_unique_bytes": {
+                    "description": "Same as pktSentUnique, but expressed in bytes, including payload and all the headers (IP, TCP, SRT)",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "sent_unique_pkt": {
+                    "description": "The total number of unique DATA packets sent by the SRT sender",
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "timestamp_ms": {
+                    "description": "The time elapsed, in milliseconds, since the SRT socket has been created",
+                    "type": "integer",
+                    "format": "uint64"
+                }
+            }
+        },
+        "api.Session": {
+            "type": "object",
+            "properties": {
+                "bandwidth_rx_kbit": {
+                    "description": "kbit/s",
+                    "type": "number"
+                },
+                "bandwidth_tx_kbit": {
+                    "description": "kbit/s",
+                    "type": "number"
+                },
+                "bytes_rx": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "bytes_tx": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "created_at": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "extra": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "local": {
+                    "type": "string"
+                },
+                "reference": {
+                    "type": "string"
+                },
+                "remote": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.SessionPeers": {
+            "type": "object",
+            "properties": {
+                "local": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/api.SessionStats"
+                    }
+                },
+                "sessions": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "traffic_rx_mb": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "traffic_tx_mb": {
+                    "type": "integer",
+                    "format": "uint64"
+                }
+            }
+        },
+        "api.SessionStats": {
+            "type": "object",
+            "properties": {
+                "sessions": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "traffic_rx_mb": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "traffic_tx_mb": {
+                    "type": "integer",
+                    "format": "uint64"
+                }
+            }
+        },
+        "api.SessionSummary": {
+            "type": "object",
+            "properties": {
+                "active": {
+                    "$ref": "#/definitions/api.SessionSummaryActive"
+                },
+                "summary": {
+                    "$ref": "#/definitions/api.SessionSummarySummary"
+                }
+            }
+        },
+        "api.SessionSummaryActive": {
+            "type": "object",
+            "properties": {
+                "bandwidth_rx_mbit": {
+                    "description": "mbit/s",
+                    "type": "number"
+                },
+                "bandwidth_tx_mbit": {
+                    "description": "mbit/s",
+                    "type": "number"
+                },
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.Session"
+                    }
+                },
+                "max_bandwidth_rx_mbit": {
+                    "description": "mbit/s",
+                    "type": "number"
+                },
+                "max_bandwidth_tx_mbit": {
+                    "description": "mbit/s",
+                    "type": "number"
+                },
+                "max_sessions": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "sessions": {
+                    "type": "integer",
+                    "format": "uint64"
+                }
+            }
+        },
+        "api.SessionSummarySummary": {
+            "type": "object",
+            "properties": {
+                "local": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/api.SessionStats"
+                    }
+                },
+                "reference": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/api.SessionStats"
+                    }
+                },
+                "remote": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/api.SessionPeers"
+                    }
+                },
+                "sessions": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "traffic_rx_mb": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "traffic_tx_mb": {
+                    "type": "integer",
+                    "format": "uint64"
+                }
+            }
+        },
+        "api.SessionsActive": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/api.Session"
+                }
+            }
+        },
+        "api.SessionsSummary": {
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/definitions/api.SessionSummary"
+            }
+        },
+        "api.SetConfig": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "api": {
+                    "type": "object",
+                    "properties": {
+                        "access": {
+                            "type": "object",
+                            "properties": {
+                                "http": {
+                                    "type": "object",
+                                    "properties": {
+                                        "allow": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "block": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "https": {
+                                    "type": "object",
+                                    "properties": {
+                                        "allow": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "block": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "auth": {
+                            "type": "object",
+                            "properties": {
+                                "auth0": {
+                                    "type": "object",
+                                    "properties": {
+                                        "enable": {
+                                            "type": "boolean"
+                                        },
+                                        "tenants": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/value.Auth0Tenant"
+                                            }
+                                        }
+                                    }
+                                },
+                                "disable_localhost": {
+                                    "type": "boolean"
+                                },
+                                "enable": {
+                                    "type": "boolean"
+                                },
+                                "jwt": {
+                                    "type": "object",
+                                    "properties": {
+                                        "secret": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "password": {
+                                    "type": "string"
+                                },
+                                "username": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "read_only": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "created_at": {
+                    "description": "When this config has been persisted",
+                    "type": "string"
+                },
+                "db": {
+                    "type": "object",
+                    "properties": {
+                        "dir": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "debug": {
+                    "type": "object",
+                    "properties": {
+                        "force_gc": {
+                            "type": "integer",
+                            "format": "int"
+                        },
+                        "memory_limit_mbytes": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "profiling": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "ffmpeg": {
+                    "type": "object",
+                    "properties": {
+                        "access": {
+                            "type": "object",
+                            "properties": {
+                                "input": {
+                                    "type": "object",
+                                    "properties": {
+                                        "allow": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "block": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "output": {
+                                    "type": "object",
+                                    "properties": {
+                                        "allow": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "block": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "binary": {
+                            "type": "string"
+                        },
+                        "log": {
+                            "type": "object",
+                            "properties": {
+                                "max_history": {
+                                    "type": "integer",
+                                    "format": "int"
+                                },
+                                "max_lines": {
+                                    "type": "integer",
+                                    "format": "int"
+                                }
+                            }
+                        },
+                        "max_processes": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                },
+                "host": {
+                    "type": "object",
+                    "properties": {
+                        "auto": {
+                            "type": "boolean"
+                        },
+                        "name": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "log": {
+                    "type": "object",
+                    "properties": {
+                        "level": {
+                            "type": "string",
+                            "enum": [
+                                "debug",
+                                "info",
+                                "warn",
+                                "error",
+                                "silent"
+                            ]
+                        },
+                        "max_lines": {
+                            "type": "integer",
+                            "format": "int"
+                        },
+                        "topics": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "metrics": {
+                    "type": "object",
+                    "properties": {
+                        "enable": {
+                            "type": "boolean"
+                        },
+                        "enable_prometheus": {
+                            "type": "boolean"
+                        },
+                        "interval_sec": {
+                            "description": "seconds",
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "range_sec": {
+                            "description": "seconds",
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "playout": {
+                    "type": "object",
+                    "properties": {
+                        "enable": {
+                            "type": "boolean"
+                        },
+                        "max_port": {
+                            "type": "integer",
+                            "format": "int"
+                        },
+                        "min_port": {
+                            "type": "integer",
+                            "format": "int"
+                        }
+                    }
+                },
+                "router": {
+                    "type": "object",
+                    "properties": {
+                        "blocked_prefixes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "routes": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        },
+                        "ui_path": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "rtmp": {
+                    "type": "object",
+                    "properties": {
+                        "address": {
+                            "type": "string"
+                        },
+                        "address_tls": {
+                            "type": "string"
+                        },
+                        "app": {
+                            "type": "string"
+                        },
+                        "enable": {
+                            "type": "boolean"
+                        },
+                        "enable_tls": {
+                            "type": "boolean"
+                        },
+                        "token": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "service": {
+                    "type": "object",
+                    "properties": {
+                        "enable": {
+                            "type": "boolean"
+                        },
+                        "token": {
+                            "type": "string"
+                        },
+                        "url": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "sessions": {
+                    "type": "object",
+                    "properties": {
+                        "enable": {
+                            "type": "boolean"
+                        },
+                        "ip_ignorelist": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "max_bitrate_mbit": {
+                            "type": "integer",
+                            "format": "uint64"
+                        },
+                        "max_sessions": {
+                            "type": "integer",
+                            "format": "uint64"
+                        },
+                        "persist": {
+                            "type": "boolean"
+                        },
+                        "persist_interval_sec": {
+                            "type": "integer",
+                            "format": "int"
+                        },
+                        "session_timeout_sec": {
+                            "type": "integer",
+                            "format": "int"
+                        }
+                    }
+                },
+                "srt": {
+                    "type": "object",
+                    "properties": {
+                        "address": {
+                            "type": "string"
+                        },
+                        "enable": {
+                            "type": "boolean"
+                        },
+                        "log": {
+                            "type": "object",
+                            "properties": {
+                                "enable": {
+                                    "type": "boolean"
+                                },
+                                "topics": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "passphrase": {
+                            "type": "string"
+                        },
+                        "token": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "storage": {
+                    "type": "object",
+                    "properties": {
+                        "cors": {
+                            "type": "object",
+                            "properties": {
+                                "origins": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "disk": {
+                            "type": "object",
+                            "properties": {
+                                "cache": {
+                                    "type": "object",
+                                    "properties": {
+                                        "enable": {
+                                            "type": "boolean"
+                                        },
+                                        "max_file_size_mbytes": {
+                                            "type": "integer",
+                                            "format": "uint64"
+                                        },
+                                        "max_size_mbytes": {
+                                            "type": "integer",
+                                            "format": "uint64"
+                                        },
+                                        "ttl_seconds": {
+                                            "type": "integer",
+                                            "format": "int64"
+                                        },
+                                        "types": {
+                                            "type": "object",
+                                            "properties": {
+                                                "allow": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "block": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "dir": {
+                                    "type": "string"
+                                },
+                                "max_size_mbytes": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                }
+                            }
+                        },
+                        "memory": {
+                            "type": "object",
+                            "properties": {
+                                "auth": {
+                                    "type": "object",
+                                    "properties": {
+                                        "enable": {
+                                            "type": "boolean"
+                                        },
+                                        "password": {
+                                            "type": "string"
+                                        },
+                                        "username": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "max_size_mbytes": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                },
+                                "purge": {
+                                    "type": "boolean"
+                                }
+                            }
+                        },
+                        "mimetypes_file": {
+                            "type": "string"
+                        },
+                        "s3": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/value.S3Storage"
+                            }
+                        }
+                    }
+                },
+                "tls": {
+                    "type": "object",
+                    "properties": {
+                        "address": {
+                            "type": "string"
+                        },
+                        "auto": {
+                            "type": "boolean"
+                        },
+                        "cert_file": {
+                            "type": "string"
+                        },
+                        "email": {
+                            "type": "string"
+                        },
+                        "enable": {
+                            "type": "boolean"
+                        },
+                        "key_file": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "update_check": {
+                    "type": "boolean"
+                },
+                "version": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "api.Skills": {
+            "type": "object",
+            "properties": {
+                "codecs": {
+                    "type": "object",
+                    "properties": {
+                        "audio": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/api.SkillsCodec"
+                            }
+                        },
+                        "subtitle": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/api.SkillsCodec"
+                            }
+                        },
+                        "video": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/api.SkillsCodec"
+                            }
+                        }
+                    }
+                },
+                "devices": {
+                    "type": "object",
+                    "properties": {
+                        "demuxers": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/api.SkillsDevice"
+                            }
+                        },
+                        "muxers": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/api.SkillsDevice"
+                            }
+                        }
+                    }
+                },
+                "ffmpeg": {
+                    "type": "object",
+                    "properties": {
+                        "compiler": {
+                            "type": "string"
+                        },
+                        "configuration": {
+                            "type": "string"
+                        },
+                        "libraries": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/api.SkillsLibrary"
+                            }
+                        },
+                        "version": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "filter": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.SkillsFilter"
+                    }
+                },
+                "formats": {
+                    "type": "object",
+                    "properties": {
+                        "demuxers": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/api.SkillsFormat"
+                            }
+                        },
+                        "muxers": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/api.SkillsFormat"
+                            }
+                        }
+                    }
+                },
+                "hwaccels": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.SkillsHWAccel"
+                    }
+                },
+                "protocols": {
+                    "type": "object",
+                    "properties": {
+                        "input": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/api.SkillsProtocol"
+                            }
+                        },
+                        "output": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/api.SkillsProtocol"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "api.SkillsCodec": {
+            "type": "object",
+            "properties": {
+                "decoders": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "encoders": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.SkillsDevice": {
+            "type": "object",
+            "properties": {
+                "devices": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.SkillsHWDevice"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.SkillsFilter": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.SkillsFormat": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.SkillsHWAccel": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.SkillsHWDevice": {
+            "type": "object",
+            "properties": {
+                "extra": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "media": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.SkillsLibrary": {
+            "type": "object",
+            "properties": {
+                "compiled": {
+                    "type": "string"
+                },
+                "linked": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.SkillsProtocol": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.Version": {
+            "type": "object",
+            "properties": {
+                "arch": {
+                    "type": "string"
+                },
+                "build_date": {
+                    "type": "string"
+                },
+                "compiler": {
+                    "type": "string"
+                },
+                "number": {
+                    "type": "string"
+                },
+                "repository_branch": {
+                    "type": "string"
+                },
+                "repository_commit": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.WidgetProcess": {
+            "type": "object",
+            "properties": {
+                "current_sessions": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "total_sessions": {
+                    "type": "integer",
+                    "format": "uint64"
+                },
+                "uptime": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github_com_datarhei_core_v16_http_api.Config": {
+            "type": "object",
+            "properties": {
+                "config": {
+                    "$ref": "#/definitions/api.ConfigData"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "loaded_at": {
+                    "type": "string"
+                },
+                "overrides": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "value.Auth0Tenant": {
+            "type": "object",
+            "properties": {
+                "audience": {
+                    "type": "string"
+                },
+                "clientid": {
+                    "type": "string"
+                },
+                "domain": {
+                    "type": "string"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "value.S3Storage": {
+            "type": "object",
+            "properties": {
+                "access_key_id": {
+                    "type": "string"
+                },
+                "auth": {
+                    "$ref": "#/definitions/value.S3StorageAuth"
+                },
+                "bucket": {
+                    "type": "string"
+                },
+                "endpoint": {
+                    "type": "string"
+                },
+                "mountpoint": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "region": {
+                    "type": "string"
+                },
+                "secret_access_key": {
+                    "type": "string"
+                },
+                "use_ssl": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "value.S3StorageAuth": {
+            "type": "object",
+            "properties": {
+                "enable": {
+                    "type": "boolean"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        },
+        "ApiRefreshKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        },
+        "Auth0KeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        },
+        "BasicAuth": {
+            "type": "basic"
+        }
+    }
+}

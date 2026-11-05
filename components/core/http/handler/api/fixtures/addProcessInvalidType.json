@@ -1,0 +1,32 @@
+{
+	"id": "test",
+	"type": "foobar",
+	"options": [],
+	"input": [
+		{
+			"address": "testsrc=size=1280x720:rate=25",
+			"id": "video",
+			"options": [
+				"-f",
+				"lavfi",
+				"-re"
+			]
+		}
+	],
+	"output": [
+		{
+			"address": "-",
+			"id": "null",
+			"options": [
+				"-codec:v",
+				"copy",
+				"-f",
+				"null"
+			]
+		}
+	],
+	"autostart": false,
+	"reconnect": true,
+	"reconnect_delay_seconds": 10,
+	"stale_timeout_seconds": 10
+}

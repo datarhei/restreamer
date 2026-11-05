@@ -1,0 +1,28 @@
+language: go
+
+go:
+  - 1.9
+  - master
+
+# Skip the install step. Don't `go get` dependencies. Only build with the
+# code in vendor/
+install: true
+
+matrix:
+  # It's ok if our code fails on unstable development versions of Go.
+  allow_failures:
+    - go: master
+  # Don't wait for tip tests to finish. Mark the test run green if the
+  # tests pass on the stable versions of Go.
+  fast_finish: true
+
+notifications:
+  email: false
+
+before_script:
+  - GO_FILES=$(find . -iname '*.go' -type f | grep -v /vendor/)
+
+script:
+  - test -z $(gofmt -s -l $GO_FILES)
+  - go tool vet .
+  - go test -v -race ./...

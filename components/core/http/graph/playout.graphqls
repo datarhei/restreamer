@@ -1,0 +1,35 @@
+extend type Query {
+	playoutStatus(id: ID!, input: ID!): RawAVstream
+}
+
+type RawAVstreamIO {
+	state: State!
+	packet: Uint64!
+	time: Uint64!
+	size_kb: Uint64!
+}
+
+type RawAVstreamSwap {
+	url: String!
+	status: String!
+	lasturl: String!
+	lasterror: String!
+}
+
+type RawAVstream {
+	id: String!
+	url: String!
+	stream: Uint64!
+	queue: Uint64!
+	aqueue: Uint64!
+	dup: Uint64!
+	drop: Uint64!
+	enc: Uint64!
+	looping: Boolean!
+	duplicating: Boolean!
+	gop: String!
+	debug: Any
+	input: RawAVstreamIO!
+	output: RawAVstreamIO!
+	swap: RawAVstreamSwap!
+}

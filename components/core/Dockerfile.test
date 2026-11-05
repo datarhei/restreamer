@@ -1,0 +1,8 @@
+FROM golang:1.20-alpine3.16
+
+RUN apk add alpine-sdk
+
+COPY . /dist/core
+
+RUN cd /dist/core && \
+    go test -coverprofile=coverage.out -covermode=atomic -v ./...

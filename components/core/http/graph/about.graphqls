@@ -1,0 +1,21 @@
+extend type Query {
+	about: About
+}
+
+type About {
+	app: String!
+	id: ID!
+	name: String!
+	created_at: Time!
+	uptime_seconds: Uint64!
+	version: AboutVersion!
+}
+
+type AboutVersion {
+	number: String!
+	repository_commit: String!
+	repository_branch: String!
+	build_date: String!
+	arch: String!
+	compiler: String!
+}

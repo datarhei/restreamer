@@ -1,0 +1,26 @@
+extend type Query {
+	metrics(query: MetricsInput!): Metrics!
+}
+
+input MetricsInput {
+	timerange_seconds: Int
+	interval_seconds: Int
+	metrics: [MetricInput!]!
+}
+
+input MetricInput {
+	name: String!
+	labels: Map
+}
+
+type Metrics {
+	timerange_seconds: Int
+	interval_seconds: Int
+	metrics: [Metric!]!
+}
+
+type Metric {
+	name: String!
+	labels: Map
+	values: [MetricsResponseValue!]!
+}

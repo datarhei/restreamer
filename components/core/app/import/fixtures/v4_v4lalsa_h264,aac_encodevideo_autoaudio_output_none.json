@@ -1,0 +1,381 @@
+{
+    "version": 4,
+    "process": {
+        "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f": {
+            "id": "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f",
+            "reference": "4186b095-7f0a-4e94-8c3d-f17459ab252f",
+            "config": {
+                "id": "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f",
+                "reference": "4186b095-7f0a-4e94-8c3d-f17459ab252f",
+                "input": [
+                    {
+                        "id": "input_0",
+                        "address": "/dev/video",
+                        "options": [
+                            "-thread_queue_size",
+                            "512",
+                            "-f",
+                            "v4l2",
+                            "-framerate",
+                            "25",
+                            "-video_size",
+                            "1280x720",
+                            "-input_format",
+                            "nv12"
+                        ]
+                    },
+                    {
+                        "id": "input_1",
+                        "address": "hw:1,0",
+                        "options": [
+                            "-thread_queue_size",
+                            "512",
+                            "-f",
+                            "alsa",
+                            "-ac",
+                            "2",
+                            "-ar",
+                            "11000"
+                        ]
+                    }
+                ],
+                "output": [
+                    {
+                        "id": "output_0",
+                        "address": "{memfs}/4186b095-7f0a-4e94-8c3d-f17459ab252f.m3u8",
+                        "options": [
+                            "-dn",
+                            "-sn",
+                            "-map",
+                            "0:0",
+                            "-codec:v",
+                            "libx264",
+                            "-preset:v",
+                            "slow",
+                            "-b:v",
+                            "4096k",
+                            "-maxrate:v",
+                            "4096k",
+                            "-bufsize:v",
+                            "4096k",
+                            "-r",
+                            "30",
+                            "-g",
+                            "60",
+                            "-pix_fmt",
+                            "yuv420p",
+                            "-vsync",
+                            "1",
+                            "-profile:v",
+                            "high",
+                            "-tune:v",
+                            "grain",
+                            "-map",
+                            "1:0",
+                            "-codec:a",
+                            "aac",
+                            "-b:a",
+                            "28k",
+                            "-shortest",
+                            "-af",
+                            "aresample=osr=11000:ocl=stereo",
+                            "-f",
+                            "hls",
+                            "-start_number",
+                            "0",
+                            "-hls_time",
+                            "2",
+                            "-hls_list_size",
+                            "6",
+                            "-hls_flags",
+                            "append_list+delete_segments",
+                            "-hls_segment_filename",
+                            "{memfs}/4186b095-7f0a-4e94-8c3d-f17459ab252f_%04d.ts",
+                            "-y",
+                            "-method",
+                            "PUT"
+                        ]
+                    }
+                ],
+                "options": [
+                    "-err_detect",
+                    "ignore_err"
+                ],
+                "reconnect": true,
+                "reconnect_delay_seconds": 15,
+                "autostart": true,
+                "stale_timeout_seconds": 30
+            },
+            "created_at": 0,
+            "order": "stop"
+        },
+        "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f_snapshot": {
+            "id": "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f_snapshot",
+            "reference": "4186b095-7f0a-4e94-8c3d-f17459ab252f",
+            "config": {
+                "id": "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f_snapshot",
+                "reference": "4186b095-7f0a-4e94-8c3d-f17459ab252f",
+                "input": [
+                    {
+                        "id": "input_0",
+                        "address": "#restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f:output=output_0",
+                        "options": []
+                    }
+                ],
+                "output": [
+                    {
+                        "id": "output_0",
+                        "address": "{memfs}/4186b095-7f0a-4e94-8c3d-f17459ab252f.jpg",
+                        "options": [
+                            "-vframes",
+                            "1",
+                            "-f",
+                            "image2",
+                            "-update",
+                            "1"
+                        ]
+                    }
+                ],
+                "options": [
+                    "-err_detect",
+                    "ignore_err"
+                ],
+                "reconnect": true,
+                "reconnect_delay_seconds": 60,
+                "autostart": true,
+                "stale_timeout_seconds": 30
+            },
+            "created_at": 0,
+            "order": "stop"
+        }
+    },
+    "metadata": {
+        "system": {},
+        "process": {
+            "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f": {
+                "restreamer-ui": {
+                    "control": {
+                        "hls": {
+                            "lhls": false,
+                            "listSize": 6,
+                            "segmentDuration": 2
+                        },
+                        "process": {
+                            "autostart": true,
+                            "delay": 15,
+                            "reconnect": true,
+                            "staleTimeout": 30
+                        },
+                        "snapshot": {
+                            "enable": true,
+                            "interval": 60
+                        }
+                    },
+                    "imported": true,
+                    "license": "CC BY 4.0",
+                    "meta": {
+                        "author": {
+                            "description": "",
+                            "name": ""
+                        },
+                        "description": "Live from earth. Powered by datarhei Restreamer.",
+                        "name": "Livestream"
+                    },
+                    "player": {
+                        "autoplay": false,
+                        "color": {
+                            "buttons": "#3daa48",
+                            "seekbar": "#3daa48"
+                        },
+                        "ga": {
+                            "account": "",
+                            "name": ""
+                        },
+                        "logo": {
+                            "image": "",
+                            "link": "",
+                            "position": "bottom-right"
+                        },
+                        "mute": false,
+                        "statistics": false
+                    },
+                    "profiles": [
+                        {
+                            "audio": {
+                                "decoder": {
+                                    "coder": "default",
+                                    "codec": "",
+                                    "mapping": [],
+                                    "settings": {}
+                                },
+                                "encoder": {
+                                    "codec": "aac",
+                                    "coder": "aac",
+                                    "mapping": [
+                                        "-codec:a",
+                                        "aac",
+                                        "-b:a",
+                                        "28k",
+                                        "-shortest",
+                                        "-af",
+                                        "aresample=osr=11000:ocl=stereo"
+                                    ],
+                                    "settings": {
+                                        "bitrate": "28",
+                                        "channels": "2",
+                                        "layout": "stereo",
+                                        "sampling": "11000"
+                                    }
+                                },
+                                "source": 1,
+                                "stream": 0
+                            },
+                            "video": {
+                                "decoder": {
+                                    "coder": "default",
+                                    "codec": "",
+                                    "mapping": [],
+                                    "settings": {}
+                                },
+                                "encoder": {
+                                    "codec": "h264",
+                                    "coder": "libx264",
+                                    "mapping": [
+                                        "-codec:v",
+                                        "libx264",
+                                        "-preset:v",
+                                        "slow",
+                                        "-b:v",
+                                        "4096k",
+                                        "-maxrate:v",
+                                        "4096k",
+                                        "-bufsize:v",
+                                        "4096k",
+                                        "-r",
+                                        "30",
+                                        "-g",
+                                        "60",
+                                        "-pix_fmt",
+                                        "yuv420p",
+                                        "-vsync",
+                                        "1",
+                                        "-profile:v",
+                                        "high",
+                                        "-tune:v",
+                                        "grain"
+                                    ],
+                                    "settings": {
+                                        "bitrate": "4096",
+                                        "fps": "30",
+                                        "preset": "slow",
+                                        "profile": "high",
+                                        "tune": "grain"
+                                    }
+                                },
+                                "source": 0,
+                                "stream": 0
+                            }
+                        }
+                    ],
+                    "sources": [
+                        {
+                            "inputs": [
+                                {
+                                    "address": "/dev/video",
+                                    "options": [
+                                        "-thread_queue_size",
+                                        "512",
+                                        "-f",
+                                        "v4l2",
+                                        "-framerate",
+                                        "25",
+                                        "-video_size",
+                                        "1280x720",
+                                        "-input_format",
+                                        "nv12"
+                                    ]
+                                }
+                            ],
+                            "settings": {
+                                "device": "/dev/video",
+                                "format": "nv12",
+                                "framerate": 25,
+                                "size": "1280x720"
+                            },
+                            "streams": [
+                                {
+                                    "bitrate_kbps": 0,
+                                    "channels": 0,
+                                    "codec": "rawvideo",
+                                    "coder": "",
+                                    "duration_sec": 0,
+                                    "format": "",
+                                    "fps": 0,
+                                    "height": 720,
+                                    "index": 0,
+                                    "language": "",
+                                    "layout": "",
+                                    "pix_fmt": "nv12",
+                                    "sampling_hz": 0,
+                                    "stream": 0,
+                                    "type": "video",
+                                    "url": "/dev/video",
+                                    "width": 1280
+                                }
+                            ],
+                            "type": "video4linux2"
+                        },
+                        {
+                            "inputs": [
+                                {
+                                    "address": "hw:1,0",
+                                    "options": [
+                                        "-thread_queue_size",
+                                        "512",
+                                        "-f",
+                                        "alsa",
+                                        "-ac",
+                                        "2",
+                                        "-ar",
+                                        "11000"
+                                    ]
+                                }
+                            ],
+                            "settings": {
+                                "address": "hw:1,0",
+                                "device": "1,0",
+                                "channels": 2,
+                                "sampling": 11000,
+                                "delay": 0
+                            },
+                            "streams": [
+                                {
+                                    "bitrate_kbps": 0,
+                                    "channels": 2,
+                                    "codec": "pcm_u8",
+                                    "coder": "",
+                                    "duration_sec": 0,
+                                    "format": "alsa",
+                                    "fps": 0,
+                                    "height": 0,
+                                    "index": 0,
+                                    "language": "",
+                                    "layout": "stereo",
+                                    "pix_fmt": "",
+                                    "sampling_hz": 11000,
+                                    "stream": 0,
+                                    "type": "audio",
+                                    "url": "hw:1,0",
+                                    "width": 0
+                                }
+                            ],
+                            "type": "alsa"
+                        }
+                    ],
+                    "version": 1
+                }
+            },
+            "restreamer-ui:ingest:4186b095-7f0a-4e94-8c3d-f17459ab252f_snapshot": null
+        }
+    }
+}

@@ -1,0 +1,90 @@
+name: "Build dev bundles"
+
+on:
+    workflow_dispatch:
+    workflow_call:
+    push:
+        branches-ignore:
+            - "**"
+
+jobs:
+    docker:
+        runs-on: [self-hosted]
+        strategy:
+            matrix:
+                include:
+                    - core_os: alpine3.23
+                      ffmpeg: "8.1.1"
+                      ffmpeg_os: alpine3.23
+                      platforms: linux/amd64,linux/arm64,linux/arm/v7
+                      branch: dev
+                      prefix:
+                      latest: yes
+                    - core_os: alpine3.23
+                      ffmpeg: "8.1.1-rpi"
+                      ffmpeg_os: alpine3.23
+                      platforms: linux/arm64,linux/arm/v7
+                      branch: dev
+                      prefix: rpi-
+                      latest: yes
+                    - core_os: ubuntu24.04
+                      ffmpeg: "8.1.1-vaapi"
+                      ffmpeg_os: ubuntu24.04
+                      platforms: linux/amd64
+                      branch: dev
+                      prefix: vaapi-
+                      latest: yes
+                    - core_os: ubuntu24.04
+                      ffmpeg: "8.1.1-cuda"
+                      ffmpeg_os: ubuntu24.04
+                      ffmpeg_tags: "-cuda12.9.1"
+                      platforms: linux/amd64
+                      branch: dev
+                      prefix: cuda-
+                      latest: yes
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v7
+              with:
+                  ref: ${{ matrix.branch }}
+
+            - name: Docker meta
+              id: meta
+              uses: docker/metadata-action@v6
+              with:
+                  images: |
+                      datarhei/core
+                  tags: |
+                      type=raw,value=${{ matrix.branch }}-ffmpeg${{ matrix.ffmpeg }}${{ matrix.ffmpeg_tags }}-${{ matrix.core_os }}
+                      type=raw,value=${{ matrix.prefix }}${{ matrix.branch }},enable=${{ matrix.latest == 'yes' }}
+
+            - name: Set up QEMU
+              uses: docker/setup-qemu-action@master
+              with:
+                  platforms: all
+
+            - name: Set up Docker Buildx
+              id: buildx
+              uses: docker/setup-buildx-action@master
+
+            - name: Login to DockerHub
+              if: github.event_name != 'pull_request'
+              uses: docker/login-action@v3
+              with:
+                  username: ${{ secrets.DOCKER_USERNAME }}
+                  password: ${{ secrets.DOCKER_PASSWORD }}
+
+            - name: Build Multi-Arch
+              uses: docker/build-push-action@v7
+              with:
+                  builder: ${{ steps.buildx.outputs.name }}
+                  context: .
+                  file: ./Dockerfile.bundle
+                  build-args: |
+                      CORE_IMAGE=datarhei/base:core-${{ matrix.branch }}-${{ matrix.core_os }}
+                      FFMPEG_IMAGE=datarhei/base:ffmpeg${{ matrix.ffmpeg }}-${{ matrix.ffmpeg_os}}${{ matrix.ffmpeg_tags }}
+                  platforms: ${{ matrix.platforms }}
+                  push: true
+                  tags: ${{ steps.meta.outputs.tags }}
+                  labels: ${{ steps.meta.outputs.labels }}
