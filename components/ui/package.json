@@ -26,12 +26,12 @@
 		"react-colorful": "^5.6.1",
 		"react-device-detect": "^2.2.3",
 		"react-dom": "^18.3.1",
-		"react-markdown": "^9.0.1",
-		"react-router-dom": "^6.30.6",
+		"react-markdown": "^10.1.0",
+		"react-router-dom": "^7.18.5",
 		"semver": "^7.6.3",
 		"url-parse": "^1.5.10",
 		"util": "^0.12.5",
-		"uuid": "^10.0.0",
+		"uuid": "^14.0.3",
 		"video.js": "8.24.1",
 		"videojs-overlay": "^3.1.0"
 	},
@@ -65,7 +65,11 @@
 		"vitest": "^5.1.0"
 	},
 	"resolutions": {
+		"@babel/runtime": "7.29.13",
 		"@xmldom/xmldom": "0.8.15",
+		"mdast-util-to-hast": "13.2.1",
+		"min-document": "2.19.2",
+		"yaml": "1.10.3",
 		"video.js": "8.24.1"
 	}
 }

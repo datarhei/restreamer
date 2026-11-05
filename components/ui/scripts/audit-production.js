@@ -10,7 +10,7 @@ if (audit.error) {
 	process.exit(2);
 }
 
-const summary = audit.stdout
+const entries = audit.stdout
 	.split(/\r?\n/)
 	.filter(Boolean)
 	.map((line) => {
@@ -19,8 +19,9 @@ const summary = audit.stdout
 		} catch {
 			return undefined;
 		}
-	})
-	.findLast((entry) => entry?.type === 'auditSummary');
+	});
+
+const summary = entries.findLast((entry) => entry?.type === 'auditSummary');
 
 if (!summary) {
 	if (audit.stderr) {
@@ -37,7 +38,27 @@ console.log(
 		`${vulnerabilities.low} low`,
 );
 
-if (vulnerabilities.critical > 0 || vulnerabilities.high > 0) {
-	console.error('Production dependencies contain high or critical vulnerabilities.');
+const advisories = new Map();
+for (const entry of entries) {
+	const advisory = entry?.type === 'auditAdvisory' ? entry.data?.advisory : undefined;
+	if (!advisory) {
+		continue;
+	}
+
+	const id = advisory.github_advisory_id ?? `${advisory.module_name}:${advisory.title}`;
+	advisories.set(id, advisory);
+}
+
+for (const advisory of [...advisories.values()].sort((left, right) =>
+	left.module_name.localeCompare(right.module_name),
+)) {
+	console.log(
+		`- ${advisory.severity}: ${advisory.module_name}: ${advisory.title} ` +
+			`(${advisory.github_advisory_id ?? 'no GHSA'}; patched ${advisory.patched_versions})`,
+	);
+}
+
+if (vulnerabilities.critical > 0 || vulnerabilities.high > 0 || vulnerabilities.moderate > 0) {
+	console.error('Production dependencies contain moderate, high, or critical vulnerabilities.');
 	process.exit(1);
 }
