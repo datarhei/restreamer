@@ -1,0 +1,11 @@
+{
+	"Protocol": {
+		"origin": [["src/views/Publication/Services/SRT.js", 54]]
+	},
+	"Address": {
+		"origin": [["src/views/Publication/Services/SRT.js", 57]]
+	},
+	"SRT": {
+		"origin": [["src/views/Publication/Services/SRT.js", 77]]
+	}
+}

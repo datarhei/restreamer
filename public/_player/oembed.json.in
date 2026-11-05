@@ -1,0 +1,17 @@
+{
+	"version": "1.0",
+	"type": "video",
+	"title": {{{name}}},
+	"description": {{{description}}},
+	"author_name": {{{author_name}}},
+	"author_url": {{{author_url}}},
+	"provider_name": "datarhei Restreamer",
+	"provider_url": "https://datarhei.org",
+	"license": {{{license}}},
+	"html": {{{iframecode}}},
+	"width": {{width}},
+	"height": {{height}},
+	"thumbnail_url": {{{poster_url}}},
+	"thumbnail_width": {{width}},
+	"thumbnail_height": {{height}}
+}

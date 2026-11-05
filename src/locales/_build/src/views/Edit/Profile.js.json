@@ -1,0 +1,8 @@
+{
+	"Video:": {
+		"origin": [["src/views/Edit/Profile.js", 40]]
+	},
+	"Audio:": {
+		"origin": [["src/views/Edit/Profile.js", 44]]
+	}
+}

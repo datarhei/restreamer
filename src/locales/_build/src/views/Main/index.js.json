@@ -1,0 +1,41 @@
+{
+	"Loading": {
+		"origin": [["src/views/Main/index.js", 150]]
+	},
+	"Retrieving stream data ...": {
+		"origin": [["src/views/Main/index.js", 153]]
+	},
+	"No channel defined": {
+		"origin": [["src/views/Main/index.js", 166]]
+	},
+	"Main channel": {
+		"origin": [["src/views/Main/index.js", 182]]
+	},
+	"No Video": {
+		"origin": [["src/views/Main/index.js", 192]]
+	},
+	"Connecting ...": {
+		"origin": [["src/views/Main/index.js", 202]]
+	},
+	"Uptime": {
+		"origin": [["src/views/Main/index.js", 237]]
+	},
+	"kbit/s": {
+		"origin": [["src/views/Main/index.js", 243]]
+	},
+	"FPS": {
+		"origin": [["src/views/Main/index.js", 249]]
+	},
+	"Process Details": {
+		"origin": [
+			["src/views/Main/index.js", 257],
+			["src/views/Main/index.js", 263]
+		]
+	},
+	"Process Debug": {
+		"origin": [
+			["src/views/Main/index.js", 258],
+			["src/views/Main/index.js", 264]
+		]
+	}
+}

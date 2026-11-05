@@ -1,0 +1,26 @@
+{
+	"Video device": {
+		"origin": [["src/views/Edit/Sources/V4L.js", 77]]
+	},
+	"Select a device:": {
+		"origin": [["src/views/Edit/Sources/V4L.js", 86]]
+	},
+	"Device": {
+		"origin": [["src/views/Edit/Sources/V4L.js", 95]]
+	},
+	"Format": {
+		"origin": [["src/views/Edit/Sources/V4L.js", 101]]
+	},
+	"Framerate": {
+		"origin": [["src/views/Edit/Sources/V4L.js", 104]]
+	},
+	"Width": {
+		"origin": [["src/views/Edit/Sources/V4L.js", 107]]
+	},
+	"Height": {
+		"origin": [["src/views/Edit/Sources/V4L.js", 110]]
+	},
+	"Probe": {
+		"origin": [["src/views/Edit/Sources/V4L.js", 115]]
+	}
+}

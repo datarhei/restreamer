@@ -1,0 +1,14 @@
+dist/video.min.js
+dist/video-js.min.css
+dist/videojs-overlay.min.js
+dist/videojs-overlay.min.css
+dist/video-js-skin.min.css
+dist/videojs-license.min.js
+dist/videojs-license.min.css
+dist/videojs-chromecast.min.js
+dist/videojs-chromecast.min.css
+dist/ic_cast_connected_white_24dp.png
+dist/ic_cast_white_24dp.png
+dist/videojs-airplay.min.js
+dist/videojs-airplay.min.css
+dist/ic_airplay_white_24px.svg

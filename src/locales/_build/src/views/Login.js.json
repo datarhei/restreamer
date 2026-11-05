@@ -1,0 +1,20 @@
+{
+	"Login": {
+		"origin": [
+			["src/views/Login.js", 49],
+			["src/views/Login.js", 68]
+		]
+	},
+	"Username": {
+		"origin": [["src/views/Login.js", 55]]
+	},
+	"Password": {
+		"origin": [["src/views/Login.js", 58]]
+	},
+	"Reset": {
+		"origin": [["src/views/Login.js", 67]]
+	},
+	"News": {
+		"origin": [["src/views/Login.js", 77]]
+	}
+}

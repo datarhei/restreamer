@@ -1,0 +1,14 @@
+{
+	"Reconnect Delay (seconds)": {
+		"origin": [["src/misc/controls/Process.js", 41]]
+	},
+	"Stale Timeout (seconds)": {
+		"origin": [["src/misc/controls/Process.js", 44]]
+	},
+	"Autostart": {
+		"origin": [["src/misc/controls/Process.js", 47]]
+	},
+	"Reconnect": {
+		"origin": [["src/misc/controls/Process.js", 50]]
+	}
+}

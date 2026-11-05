@@ -1,0 +1,20 @@
+{
+	"Preset": {
+		"origin": [["src/views/Edit/Coders/settings/Video.js", 13]]
+	},
+	"Bitrate": {
+		"origin": [["src/views/Edit/Coders/settings/Video.js", 33]]
+	},
+	"FPS": {
+		"origin": [["src/views/Edit/Coders/settings/Video.js", 55]]
+	},
+	"Profile": {
+		"origin": [["src/views/Edit/Coders/settings/Video.js", 73]]
+	},
+	"Tune": {
+		"origin": [["src/views/Edit/Coders/settings/Video.js", 88]]
+	},
+	"Entropy Coder": {
+		"origin": [["src/views/Edit/Coders/settings/Video.js", 106]]
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"Connecting ...": {
+		"origin": [["src/misc/ActionButton.js", 11]]
+	},
+	"Disconnecting ...": {
+		"origin": [["src/misc/ActionButton.js", 14]]
+	},
+	"Disconnect": {
+		"origin": [["src/misc/ActionButton.js", 17]]
+	},
+	"Connect": {
+		"origin": [["src/misc/ActionButton.js", 20]]
+	},
+	"Reconnect": {
+		"origin": [["src/misc/ActionButton.js", 23]]
+	}
+}

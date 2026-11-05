@@ -1,0 +1,35 @@
+{
+	"Video device": {
+		"origin": [["src/views/Edit/Sources/AVFoundation.js", 104]]
+	},
+	"Audio device": {
+		"origin": [["src/views/Edit/Sources/AVFoundation.js", 121]]
+	},
+	"Select a device:": {
+		"origin": [["src/views/Edit/Sources/AVFoundation.js", 130]]
+	},
+	"Custom audio index": {
+		"origin": [["src/views/Edit/Sources/AVFoundation.js", 139]]
+	},
+	"Custom video index": {
+		"origin": [["src/views/Edit/Sources/AVFoundation.js", 151]]
+	},
+	"Format": {
+		"origin": [["src/views/Edit/Sources/AVFoundation.js", 157]]
+	},
+	"Framerate": {
+		"origin": [["src/views/Edit/Sources/AVFoundation.js", 160]]
+	},
+	"Size": {
+		"origin": [["src/views/Edit/Sources/AVFoundation.js", 163]]
+	},
+	"Capture cursor": {
+		"origin": [["src/views/Edit/Sources/AVFoundation.js", 166]]
+	},
+	"Capture clicks": {
+		"origin": [["src/views/Edit/Sources/AVFoundation.js", 169]]
+	},
+	"Probe": {
+		"origin": [["src/views/Edit/Sources/AVFoundation.js", 174]]
+	}
+}

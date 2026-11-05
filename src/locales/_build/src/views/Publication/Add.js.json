@@ -1,0 +1,20 @@
+{
+	"Add Publication Service": {
+		"origin": [["src/views/Publication/Add.js", 124]]
+	},
+	"Abort": {
+		"origin": [["src/views/Publication/Add.js", 136]]
+	},
+	"Service Name": {
+		"origin": [["src/views/Publication/Add.js", 147]]
+	},
+	"Back": {
+		"origin": [["src/views/Publication/Add.js", 158]]
+	},
+	"Close": {
+		"origin": [["src/views/Publication/Add.js", 159]]
+	},
+	"Save": {
+		"origin": [["src/views/Publication/Add.js", 160]]
+	}
+}

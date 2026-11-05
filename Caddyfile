@@ -1,0 +1,6 @@
+:3000
+
+encode zstd gzip
+file_server {
+	root ./build
+}

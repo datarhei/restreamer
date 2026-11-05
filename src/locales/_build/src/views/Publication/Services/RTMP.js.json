@@ -1,0 +1,11 @@
+{
+	"Protocol": {
+		"origin": [["src/views/Publication/Services/RTMP.js", 54]]
+	},
+	"Address": {
+		"origin": [["src/views/Publication/Services/RTMP.js", 57]]
+	},
+	"Custom RTMP": {
+		"origin": [["src/views/Publication/Services/RTMP.js", 77]]
+	}
+}

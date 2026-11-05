@@ -1,0 +1,11 @@
+{
+	"Publication Services": {
+		"origin": [["src/views/Main/Publication.js", 152]]
+	},
+	"Viewer": {
+		"origin": [["src/views/Main/Publication.js", 167]]
+	},
+	"kbit/s": {
+		"origin": [["src/views/Main/Publication.js", 180]]
+	}
+}
