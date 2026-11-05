@@ -8,3 +8,10 @@ Dockerfile* text eol=lf
 *.patch text eol=lf
 *.md text eol=lf
 .env* text eol=lf
+
+# Keep imported dependency and compiler output out of GitHub's language totals
+# and collapse it in reviews. The files remain versioned for reproducible builds.
+components/core/vendor/** linguist-vendored linguist-generated
+components/ui/public/_player/videojs/dist/** linguist-vendored linguist-generated
+components/ui/src/locales/_build/** linguist-generated
+components/ui/src/locales/*/messages.js linguist-generated
