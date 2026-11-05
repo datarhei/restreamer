@@ -1,8 +1,15 @@
 # Container deployment
 
-Start the CPU-only container:
+Start the unified container without passing through a GPU:
 
 ```sh
+docker compose -f deploy/compose.yaml up -d
+```
+
+To test an image built locally as `restreamer:local`:
+
+```sh
+RESTREAMER_IMAGE=restreamer:local \
 docker compose -f deploy/compose.yaml up -d
 ```
 
@@ -25,6 +32,14 @@ Copy `compose.camera-example.yaml`, enumerate every required `/dev/videoN` devic
 and include the copy as another Compose override. Device numbers may change after a
 reboot; persistent udev symlinks are recommended for more than one USB camera.
 
+If WebRTC clients receive an unreachable Docker address, advertise the host's LAN IP
+or DNS name to MediaMTX:
+
+```sh
+RESTREAMER_WEBRTC_HOSTS="192.168.1.20,restreamer.lan" \
+docker compose -f deploy/compose.yaml up -d
+```
+
 After startup, inspect what the container can actually use:
 
 ```sh
@@ -37,6 +52,23 @@ runtime reached the container. Those are separate facts, despite decades of GPU
 software trying to make them feel like one exciting mystery.
 
 ## LAN RTSP and WebRTC
+
+### Ingest from Crowsnest or an IP camera
+
+Crowsnest does not consume an arbitrary RTSP stream. In `camera-streamer` mode it can
+*produce* one when `enable_rtsp: true` is supported by that Crowsnest release. The
+usual source URL is:
+
+```text
+rtsp://PRINTER_LAN_IP:8554/stream.h264
+```
+
+Add that URL—or the equivalent URL from a standalone IP camera—as a Restreamer
+network source. Crowsnest v5 removed its RTSP options after upstream build failures,
+so treat this source path as version-dependent. A printer that only exposes MJPEG
+can still be ingested through its direct HTTP stream URL.
+
+### Publish back to the printer dashboard
 
 The deployment includes MediaMTX as the LAN-facing real-time origin. In Restreamer,
 add an RTSP publication for each camera and use a unique destination such as:
@@ -69,9 +101,10 @@ snapshot_url:
 target_fps: 25
 ```
 
-Moonraker identifies `webrtc-mediamtx` as a supported Mainsail webcam service. The
-printer does not need Crowsnest to ingest this remote stream; Crowsnest can continue
-handling locally attached cameras while Moonraker/Mainsail displays either source.
+Moonraker identifies `webrtc-mediamtx` as a supported Mainsail webcam service.
+Moonraker stores the URL and Mainsail consumes it; neither Moonraker nor Crowsnest
+proxies the video. Crowsnest can continue handling locally attached cameras while
+Mainsail displays either source.
 
 The RTSP, RTP, RTCP, WebRTC HTTP, and WebRTC ICE ports are intended for the trusted
 LAN. Do not publish them through the public reverse proxy without authentication and

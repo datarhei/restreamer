@@ -1,6 +1,6 @@
 services:
   restreamer:
-    image: ghcr.io/kaibsora/restreamer:latest
+    image: "${RESTREAMER_IMAGE:-ghcr.io/kaibsora/restreamer:latest}"
     container_name: restreamer
     restart: unless-stopped
     ports:
@@ -18,6 +18,10 @@ services:
     container_name: restreamer-mediamtx
     restart: unless-stopped
     command: /mediamtx.yml
+    environment:
+      # Set RESTREAMER_WEBRTC_HOSTS to a comma-separated LAN IP / DNS list when
+      # clients cannot reach the address discovered inside the container.
+      MTX_WEBRTCADDITIONALHOSTS: "${RESTREAMER_WEBRTC_HOSTS:-}"
     ports:
       - "8554:8554/tcp"
       - "8000:8000/udp"

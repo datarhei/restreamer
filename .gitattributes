@@ -1,7 +1,10 @@
 * text=auto
+.gitattributes text eol=lf
 *.sh text eol=lf
 Dockerfile* text eol=lf
 .dockerignore text eol=lf
 *.yml text eol=lf
 *.yaml text eol=lf
 *.patch text eol=lf
+*.md text eol=lf
+.env* text eol=lf

@@ -111,6 +111,22 @@ jobs:
 
       - uses: docker/setup-buildx-action@v3
 
+      - name: Validate deployment configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker compose \
+            --env-file deploy/.env.example \
+            --file deploy/compose.yaml \
+            --file deploy/compose.dri.yaml \
+            --file deploy/compose.nvidia.yaml \
+            --file deploy/compose.camera-example.yaml \
+            config >/dev/null
+          docker run --rm \
+            --volume "${PWD}/deploy/mediamtx.yml:/mediamtx.yml:ro" \
+            bluenviron/mediamtx:1.21.3 \
+            --validate-conf=/mediamtx.yml
+
       - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
@@ -142,37 +158,12 @@ jobs:
           cache-from: type=gha,scope=restreamer-unified
           cache-to: type=gha,mode=max,scope=restreamer-unified
 
-      - name: Smoke test unified image
+      - name: Smoke test unified camera stack
         shell: bash
+        env:
+          RESTREAMER_IMAGE: restreamer-smoke:local
         run: |
-          set -euo pipefail
-          docker run --rm --detach \
-            --name restreamer-smoke \
-            --publish 127.0.0.1:18080:8080 \
-            --env CORE_HOST_AUTO=false \
-            restreamer-smoke:local
-
-          cleanup() {
-            docker logs --tail 100 restreamer-smoke || true
-            docker stop restreamer-smoke >/dev/null 2>&1 || true
-          }
-          trap cleanup EXIT
-
-          ready=false
-          for _ in $(seq 1 30); do
-            if curl --fail --silent --show-error http://127.0.0.1:18080/api >/dev/null; then
-              ready=true
-              break
-            fi
-            sleep 1
-          done
-          [[ "${ready}" == "true" ]]
-
-          for path in / /ui/ /api /api/v3/skills; do
-            curl --fail --silent --show-error "http://127.0.0.1:18080${path}" >/dev/null
-          done
-
-          docker exec restreamer-smoke /usr/local/bin/restreamer-verify-ffmpeg
+          scripts/smoke-compose.sh
 
       - name: Publish unified image
         id: build
