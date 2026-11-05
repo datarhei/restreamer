@@ -37,7 +37,7 @@
 	},
 	"scripts": {
 		"start": "vite --host 0.0.0.0",
-		"build": "vite build",
+		"build": "vite build && node scripts/validate-build.js",
 		"start-build": "vite preview --host 0.0.0.0",
 		"test": "vitest",
 		"test-ci": "vitest run --testTimeout=50000",

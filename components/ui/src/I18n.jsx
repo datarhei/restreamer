@@ -4,39 +4,28 @@ import { I18nProvider } from '@lingui/react';
 import { i18n } from '@lingui/core';
 
 import { messages as EN } from './locales/en/messages.js';
-import { messages as DA } from './locales/da/messages.js';
-import { messages as DE } from './locales/de/messages.js';
-import { messages as EL } from './locales/el/messages.js';
-import { messages as ES } from './locales/es/messages.js';
-import { messages as FR } from './locales/fr/messages.js';
-import { messages as IT } from './locales/it/messages.js';
-import { messages as KO } from './locales/ko/messages.js';
-import { messages as PL } from './locales/pl/messages.js';
-import { messages as PT } from './locales/pt-br/messages.js';
-import { messages as RU } from './locales/ru/messages.js';
-import { messages as SL } from './locales/sl/messages.js';
-import { messages as TR } from './locales/tr/messages.js';
-import { messages as UK } from './locales/uk/messages.js';
-import { messages as ZH } from './locales/zh-hans/messages.js';
 import * as Storage from './utils/storage';
 
-i18n.load({
-	en: EN,
-	da: DA,
-	de: DE,
-	el: EL,
-	es: ES,
-	fr: FR,
-	it: IT,
-	ko: KO,
-	pl: PL,
-	'pt-br': PT,
-	ru: RU,
-	sl: SL,
-	tr: TR,
-	uk: UK,
-	'zh-hans': ZH,
-});
+const catalogLoaders = {
+	da: () => import('./locales/da/messages.js'),
+	de: () => import('./locales/de/messages.js'),
+	el: () => import('./locales/el/messages.js'),
+	es: () => import('./locales/es/messages.js'),
+	fr: () => import('./locales/fr/messages.js'),
+	it: () => import('./locales/it/messages.js'),
+	ko: () => import('./locales/ko/messages.js'),
+	pl: () => import('./locales/pl/messages.js'),
+	'pt-br': () => import('./locales/pt-br/messages.js'),
+	ru: () => import('./locales/ru/messages.js'),
+	sl: () => import('./locales/sl/messages.js'),
+	tr: () => import('./locales/tr/messages.js'),
+	uk: () => import('./locales/uk/messages.js'),
+	'zh-hans': () => import('./locales/zh-hans/messages.js'),
+};
+
+const supportedLanguages = ['en', ...Object.keys(catalogLoaders)];
+
+i18n.loadAndActivate({ locale: 'en', messages: EN });
 
 const aliases = {
 	pt: 'pt-br',
@@ -77,8 +66,57 @@ const getBrowserLanguage = (defaultLanguage) => {
 	return match[0].toLowerCase();
 };
 
-i18n.activate(getLanguage('en', ['en', 'da', 'de', 'el', 'es', 'fr', 'it', 'ko', 'pl', 'pt-br', 'ru', 'sl', 'tr', 'uk', 'zh-hans']));
+let activationSequence = 0;
+
+export async function activateLanguage(language) {
+	const sequence = ++activationSequence;
+	let locale = supportedLanguages.includes(language) ? language : 'en';
+	let messages = EN;
+
+	if (locale !== 'en') {
+		try {
+			({ messages } = await catalogLoaders[locale]());
+		} catch {
+			locale = 'en';
+			messages = EN;
+		}
+	}
+
+	if (sequence !== activationSequence) {
+		return i18n.locale;
+	}
+
+	i18n.loadAndActivate({ locale, messages });
+	return locale;
+}
+
+const initialLanguage = getLanguage('en', supportedLanguages);
+const initialActivation = initialLanguage === 'en' ? Promise.resolve('en') : activateLanguage(initialLanguage);
 
 export default function Provider(props) {
+	const [ready, setReady] = React.useState(initialLanguage === 'en');
+
+	React.useEffect(() => {
+		if (ready) {
+			return undefined;
+		}
+
+		let mounted = true;
+		initialActivation.then((locale) => {
+			if (mounted) {
+				Storage.Set('language', locale);
+				setReady(true);
+			}
+		});
+
+		return () => {
+			mounted = false;
+		};
+	}, [ready]);
+
+	if (!ready) {
+		return null;
+	}
+
 	return <I18nProvider i18n={i18n}>{props.children}</I18nProvider>;
 }

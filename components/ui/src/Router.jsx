@@ -1,8 +1,25 @@
 import React from 'react';
 import { Route, Navigate, Routes, HashRouter as DOMRouter } from 'react-router-dom';
 
-import Views from './views';
 import { withDefaults } from './utils/props';
+
+const AddService = React.lazy(() => import('./views/Publication/Add'));
+const ChannelSelect = React.lazy(() => import('./views/ChannelSelect'));
+const Edit = React.lazy(() => import('./views/Edit'));
+const EditPlayer = React.lazy(() => import('./views/Publication/Player'));
+const EditService = React.lazy(() => import('./views/Publication/Edit'));
+const Main = React.lazy(() => import('./views/Main'));
+const Playersite = React.lazy(() => import('./views/Playersite'));
+const Settings = React.lazy(() => import('./views/Settings'));
+const Wizard = React.lazy(() => import('./views/Edit/Wizard'));
+
+function LoadingRoute() {
+	return (
+		<div role="status" aria-live="polite">
+			Loading…
+		</div>
+	);
+}
 
 export default function Router(inputProps) {
 	const props = withDefaults(inputProps, RouterDefaultProps);
@@ -14,20 +31,22 @@ export default function Router(inputProps) {
 
 	return (
 		<DOMRouter>
-			<Routes>
-				<Route path="/" element={<Views.ChannelSelect channelid={channelid} />} />
-				<Route path="/playersite" element={<Views.Playersite restreamer={props.restreamer} />} />
-				<Route path="/settings" element={<Views.Settings restreamer={props.restreamer} />} />
-				<Route path="/settings/:tab" element={<Views.Settings restreamer={props.restreamer} />} />
-				<Route path="/:channelid" element={<Views.Main key={channelid} restreamer={props.restreamer} />} />
-				<Route path="/:channelid/edit" element={<Views.Edit key={channelid} restreamer={props.restreamer} />} />
-				<Route path="/:channelid/edit/wizard" element={<Views.Wizard key={channelid} restreamer={props.restreamer} />} />
-				<Route path="/:channelid/edit/:tab" element={<Views.Edit key={channelid} restreamer={props.restreamer} />} />
-				<Route path="/:channelid/publication" element={<Views.AddService key={channelid} restreamer={props.restreamer} />} />
-				<Route path="/:channelid/publication/player" element={<Views.EditPlayer key={channelid} restreamer={props.restreamer} />} />
-				<Route path="/:channelid/publication/:service/:index" element={<Views.EditService key={channelid} restreamer={props.restreamer} />} />
-				<Route path="*" element={<Navigate to="/" replace />} />
-			</Routes>
+			<React.Suspense fallback={<LoadingRoute />}>
+				<Routes>
+					<Route path="/" element={<ChannelSelect channelid={channelid} />} />
+					<Route path="/playersite" element={<Playersite restreamer={props.restreamer} />} />
+					<Route path="/settings" element={<Settings restreamer={props.restreamer} />} />
+					<Route path="/settings/:tab" element={<Settings restreamer={props.restreamer} />} />
+					<Route path="/:channelid" element={<Main key={channelid} restreamer={props.restreamer} />} />
+					<Route path="/:channelid/edit" element={<Edit key={channelid} restreamer={props.restreamer} />} />
+					<Route path="/:channelid/edit/wizard" element={<Wizard key={channelid} restreamer={props.restreamer} />} />
+					<Route path="/:channelid/edit/:tab" element={<Edit key={channelid} restreamer={props.restreamer} />} />
+					<Route path="/:channelid/publication" element={<AddService key={channelid} restreamer={props.restreamer} />} />
+					<Route path="/:channelid/publication/player" element={<EditPlayer key={channelid} restreamer={props.restreamer} />} />
+					<Route path="/:channelid/publication/:service/:index" element={<EditService key={channelid} restreamer={props.restreamer} />} />
+					<Route path="*" element={<Navigate to="/" replace />} />
+				</Routes>
+			</React.Suspense>
 		</DOMRouter>
 	);
 }

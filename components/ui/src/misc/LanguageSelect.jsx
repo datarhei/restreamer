@@ -5,6 +5,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { withDefaults } from '../utils/props';
+import { activateLanguage } from '../I18n';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -34,12 +35,10 @@ export default function LanguageSelect(inputProps) {
 	const classes = useStyles();
 	const { i18n } = useLingui();
 
-	const handleChange = (event) => {
+	const handleChange = async (event) => {
 		const language = event.target.value;
 
-		i18n.activate(language);
-
-		props.onChange(language);
+		props.onChange(await activateLanguage(language));
 	};
 
 	return (

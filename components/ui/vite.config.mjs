@@ -8,6 +8,9 @@ export default defineConfig({
 	build: {
 		outDir: 'build',
 		emptyOutDir: true,
+		// The largest chunk is the lazily loaded video.js player (about 708 kB raw,
+		// 208 kB gzip). Route and locale chunks remain independently loadable.
+		chunkSizeWarningLimit: 750,
 	},
 	test: {
 		environment: 'jsdom',

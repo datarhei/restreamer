@@ -17,7 +17,11 @@ import Header from './Header';
 import * as M from './utils/metadata';
 import Restreamer from './utils/restreamer';
 import Router from './Router';
-import Views from './views';
+import Incompatible from './views/Incompatible';
+import Initializing from './views/Initializing';
+import Invalid from './views/Invalid';
+import Login from './views/Login';
+import Password from './views/Password';
 import { UI as Version } from './version';
 import Changelog from './misc/Changelog';
 
@@ -460,13 +464,13 @@ export default function RestreamerUI(inputProps) {
 
 	let view = null;
 	if ($state.initialized === false) {
-		view = <Views.Initializing />;
+		view = <Initializing />;
 	} else {
 		if ($state.valid === false) {
-			view = <Views.Invalid address={restreamer.current.Address()} />;
+			view = <Invalid address={restreamer.current.Address()} />;
 		} else if ($state.connected === false) {
 			view = (
-				<Views.Login
+				<Login
 					onLogin={handleLogin}
 					auths={restreamer.current.Auths()}
 					hasService={$state.service}
@@ -476,13 +480,13 @@ export default function RestreamerUI(inputProps) {
 			);
 		} else if ($state.compatibility.compatible === false) {
 			if ($state.compatibility.core.compatible === false) {
-				view = <Views.Incompatible type="core" have={$state.compatibility.core.have} want={$state.compatibility.core.want} />;
+				view = <Incompatible type="core" have={$state.compatibility.core.have} want={$state.compatibility.core.want} />;
 			} else if ($state.compatibility.ffmpeg.compatible === false) {
-				view = <Views.Incompatible type="ffmpeg" have={$state.compatibility.ffmpeg.have} want={$state.compatibility.ffmpeg.want} />;
+				view = <Incompatible type="ffmpeg" have={$state.compatibility.ffmpeg.have} want={$state.compatibility.ffmpeg.want} />;
 			}
 		} else if ($state.password === true) {
 			view = (
-				<Views.Password
+				<Password
 					onReset={handlePasswordReset}
 					username={restreamer.current.ConfigValue('api.auth.username')}
 					usernameOverride={restreamer.current.ConfigOverrides('api.auth.username')}
