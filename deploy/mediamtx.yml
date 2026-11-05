@@ -1,0 +1,38 @@
+logLevel: info
+logDestinations: [stdout]
+
+api: true
+apiAddress: :9997
+metrics: true
+metricsAddress: :9998
+playback: false
+
+rtsp: true
+rtspTransports: [udp, tcp]
+rtspAddress: :8554
+rtpAddress: :8000
+rtcpAddress: :8001
+rtmp: false
+hls: false
+srt: false
+moq: false
+
+webrtc: true
+webrtcAddress: :8889
+webrtcEncryption: false
+webrtcAllowOrigins: ["*"]
+webrtcLocalUDPAddress: :8189
+webrtcLocalTCPAddress: ""
+webrtcIPsFromInterfaces: true
+
+pathDefaults:
+  source: publisher
+  sourceOnDemand: false
+
+paths:
+  all_others:
+
+  # An IP camera can be relayed without a Restreamer process:
+  # printer-one:
+  #   source: rtsp://user:password@camera.lan:554/stream
+  #   sourceOnDemand: true

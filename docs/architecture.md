@@ -40,9 +40,10 @@ buffering profile:
    proxy. This path can transcode independently from the LAN feed.
 
 The existing Core accepts RTSP inputs and can publish *to* an RTSP server, but it is
-not itself a general RTSP origin. A small RTSP/WebRTC origin will therefore be added
-as an internal service rather than pretending an RTMP port becomes RTSP if we stare
-at it sternly enough.
+not itself a general RTSP origin. MediaMTX therefore provides the LAN RTSP/WebRTC
+origin as a separate process. Restreamer publishes named paths to it; Crowsnest,
+Moonraker/Mainsail, VLC, and other clients can consume those paths without involving
+the buffered public HLS delivery plane.
 
 ## Release policy
 

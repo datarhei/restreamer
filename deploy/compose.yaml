@@ -13,6 +13,22 @@ services:
       - restreamer-config:/core/config
       - restreamer-data:/core/data
 
+  mediamtx:
+    image: bluenviron/mediamtx:1.21.3
+    container_name: restreamer-mediamtx
+    restart: unless-stopped
+    command: /mediamtx.yml
+    ports:
+      - "8554:8554/tcp"
+      - "8000:8000/udp"
+      - "8001:8001/udp"
+      - "8889:8889/tcp"
+      - "8189:8189/udp"
+    volumes:
+      - ./mediamtx.yml:/mediamtx.yml:ro
+    security_opt:
+      - no-new-privileges:true
+
 volumes:
   restreamer-config:
   restreamer-data:
